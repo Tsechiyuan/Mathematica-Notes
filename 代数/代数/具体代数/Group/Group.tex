@@ -1,0 +1,631 @@
+\documentclass[UTF8]{ctexart}[a4paper,10pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{quiver}
+
+%声明环境
+\newtheorem{example}{例}[section]              
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[section]            
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+{
+    \theoremheaderfont{\sffamily}
+    \newtheorem*{remark}{注解} 
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+%外测度
+\def\outmQ{m_*(Q)}
+
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{Algebra:Chapter 0:Group}
+\author{颜成子游}
+\begin{document}
+\maketitle
+
+\tableofcontents
+ \section{群的定义}
+ \subsection{群与群胚}
+ \begin{definition}
+    群是只有一个元素的群胚。
+ \end{definition}
+   这与我们平常对群的定义并不一致。但是这是自然的。我们会注意到，群胚可能有多个元素。在群胚的态射集中，并非所有态射都能复合。但是如果群胚只有一个元素，情况就完全不同了：这时所有的态射都是：
+   $$
+   Hom_G(*,*)
+   $$
+   这些态射都能相互作用。在这种情况下，态射作为元素就构成了群。也就是说群是单元素群胚的态射集。
+
+   群的一般定义不再此处赘述：可逆的半幺集合
+
+   群的例子将在之后一起给出。
+   \subsection{群的基础性质}
+   \begin{proposition}
+    群的幺元是唯一的。
+   \end{proposition}
+   \begin{proposition}
+    群每个元素的逆元都是唯一的。
+   \end{proposition}
+   \begin{proposition}
+    设$G$是一个群。对于$\forall a,g h \in G$，则有：
+    $$
+    ga=ha \Rightarrow g=h
+    $$
+    同理，左消去律也是成立的。
+   \end{proposition}
+   \begin{proposition}
+    交换群$G$是一个$\Z-$模。
+   \end{proposition}
+   \begin{proof}
+    直接使用模的定义即可。只需要定义$(n,a)\mapsto na$。
+   \end{proof}
+   \begin{proposition}
+    有限群的元素的阶是有限的。另一方面，设$g$的阶是$n$。若$g^N=e$，则$n|N$.
+   \end{proposition}
+   \begin{proposition}
+    设$g$是群$G$的有限阶元。那么对于任何$m$，$g^m$的阶为：
+    $$
+    |g^m|=\frac{|g|}{\gcd(m,|g|)}
+    $$
+   \end{proposition}
+   \begin{proposition}
+    若$gh=hg$，那么$|gh|$整除$\text{lcm}(|g|,|h|)$
+   \end{proposition}
+   \begin{proof}
+    $(gh)^n$可以写$g^nh^n$。因为$g,h$交换。我们只用$gh$的$\text{lcm}(|g|,|h|)$次幂为$e$。这是显然的。
+   \end{proof}
+   \section{群的例子}
+   \begin{example}
+    平凡群：$\{e\}$。是最简单的群。
+   \end{example}
+   \begin{example}
+    $Gl(n,\R)$表示所有可逆$n$阶矩阵。考虑乘法，其构成群。
+   \end{example}
+   \subsection{对称群}
+   \begin{definition}
+      设$A$是一个集合。那么$A$的自双射群:
+      $$
+      Aut_{Set}(A)
+      $$
+      构成一个群。我们用$S_A$来表示该群，并且称之为对称群。如果$A$是有限集合，元素个数为$n$,那么$S_A$也记为$S_n$。
+   \end{definition}
+   \begin{example}
+      考率集合元素个数为3的集合的对称群：$S_3$。容易得到$S_3$的结构为：
+      $$
+      e,x,y,y^2,xy,xy^2
+      $$
+      其中$x=(12)$,$y=(132)$.可以验证$x$阶2，$y$阶3.并且$yx=xy^2$。
+
+      我们也说$\{x,y\}$生成了$S_3$.生成的定义之后给出。
+   \end{example}
+   \subsection{二面体群}
+   \begin{definition}
+      对于平面上的正$n$面体，$D_{2n}$表示其所有的对称变换所构成的集合，其是一个群。并且可以证明，$D_{2n}$的阶为$2n$。其中包含$n$个对称旋转和$n$个绕某顶点的镜面反射。
+   \end{definition}
+   \begin{example}
+      观察$D_6$.这是一个典型的$6$元素群。之后会讲到，$6$元素的集合有两类。对于$D_6$，可以证明与$S_3$同构。证明方法如下：
+   \end{example}
+   \begin{proof}
+      给三角形的三个顶点标号为$1,2,3$。那么$D_6$中的任何一个元素都把$1,2,3$进行了一个置换，即存在映射：
+      $$
+      \sigma: D_6 \to S_3
+      $$
+      这是群的同态。我们只需要说明其为单射。这是明显的，因为一旦确定了点的映射关系，这样的对称变换就确定了。
+   \end{proof}
+   \begin{corollary}
+      对于$D_{2n}$，同样存在一个单同态$\sigma:D_{2n} \to S_n$。但不是满的。可以想象$n=4$的时候。此时如果交换的只有领边的两个点，那么实际上已经改变了正方形的结构，这对应不了一种变换。同理，如果取的是三个点，也改变了结构，于是不能对应。正好有4+12+8个即24个。
+   \end{corollary}
+   \subsection{循环群}
+   \begin{definition}
+      形如$\{e,a,a^2,\dots,a^{n-1}\}$的群被称为循环群。循环群的阶$n$唯一确定了循环群。
+   \end{definition}
+   关于循环群，有以下结论：
+   \begin{proposition}
+      $a^m$的阶是：
+      $$
+      \frac{n}{\gcd(m,n)}
+      $$ 
+   \end{proposition}
+   \begin{corollary}
+      $a^m$生成循环群，当且仅当$\gcd(m,n)=1$
+   \end{corollary}
+   \begin{proposition}
+      考虑$n$阶循环群，去除$e$后构成的集合：
+      $$
+      \{a,a^2.\dots,a^{n-1}\}
+      $$
+      定义运算:$a^m \cdot a^n=a^{m\times  n}$。则该集合构成群。
+   \end{proposition}
+   \begin{proof}
+      先验证运算的合理性。考虑:
+      $$
+      m=kn+m'        e=jn+e'
+      $$
+
+      则$me$与$m'e'$同余。
+
+      现在验证可逆元。只需要验证对$\forall m \in \N$,都存在$n$使得$mn$与$1$同余。这是比较显然的。
+   \end{proof}
+   \section{群范畴}
+   根据我们粗浅的范畴论知识，可以把所有的群看为范畴论中“群范畴”的对象。而他们之间的态射则是我们熟知的“群同态”。
+   \subsection{群同态}
+   \begin{definition}
+      集合函数$\varphi:G \to H$定义了一个群同态若下列交换图成立：
+    
+      \begin{tikzcd}
+         {G \times G} && {H\times H} \\
+         \\
+         G && H
+         \arrow["{\varphi \times \varphi}", from=1-1, to=1-3]
+         \arrow["{m_G}"', from=1-1, to=3-1]
+         \arrow["{m_H}", from=1-3, to=3-3]
+         \arrow["\varphi"', from=3-1, to=3-3]
+      \end{tikzcd}
+  
+   \end{definition}
+   同样这和我们通常关于同态的定义略有不同。但实际仔细比对就会发现他们是一样。只是用交换图更加适应之后的学习。
+
+   使用交换图的好处是，我们可以显而易见的得到同态的复合还是同态的结论：
+   \begin{proposition}
+      群同态的复合还是群同态.
+   \end{proposition}
+   \begin{proof}
+      \begin{tikzcd}
+      {G \times G} && {H\times H} && {K \times K} \\
+      \\
+      G && H && K
+      \arrow["{\varphi \times \varphi}", from=1-1, to=1-3]
+      \arrow["{m_G}"', from=1-1, to=3-1]
+      \arrow["{m_H}", from=1-3, to=3-3]
+      \arrow["\varphi"', from=3-1, to=3-3]
+      \arrow["{\phi \times \phi}", from=1-3, to=1-5]
+      \arrow["{m_K}", from=1-5, to=3-5]
+      \arrow["\phi"', from=3-3, to=3-5]
+      \arrow["{(\varphi \circ \phi)\times(\varphi \circ \phi)}", curve={height=-24pt}, from=1-1, to=1-5]
+      \arrow["{\varphi \circ \phi}"', curve={height=24pt}, from=3-1, to=3-5]
+   \end{tikzcd}  
+   \end{proof}
+   \begin{proposition}
+      群同态把幺元映射到幺元，把逆元映射到逆元.
+   \end{proposition}
+   \subsection{群同态的例子}
+   对于任意两个群$G,H$,其同态集合:
+   $$
+   Hom_{Grp}(G,H)
+   $$
+   显然不可能是空集.因为至少有:
+   $$
+   G \to \{*\} \to H
+   $$
+   因为$\{*\}$是群范畴的终始对象.我们把这样的同态称为平凡同态.
+
+   \begin{example}
+      群作用:群$G$作用在一个对象$A$上,意味着存在一个同态:
+      $$
+      G \to Aut_{C}(A)
+      $$
+      如果$C$是集合范畴,那么$G$的元素就可以对应集合$A$的一个排列.
+
+      例如$D_{2n}\to S_n$.这就是典型的群作用.$D_{2n}$作用在$1,2,\dots,n$上进行重排.这还是一个单同态.
+   \end{example}
+   \begin{example}
+      下列同态也是比较自然的:
+      $$
+      \epsilon_g:Z \to G ,a\mapsto g^a
+      $$
+
+   \end{example}
+   \begin{example}
+      对于循环群$\Z /n\Z$,定义$\pi_n$:
+      $$
+      a \mapsto a[1]_n
+      $$
+      这是满射,意味着$[1]_n$可以生成$\Z/n\Z$.
+
+      假设$m|n$(这是必要的),那么就存在同态$\pi_m^n$:
+      $$
+      \pi_m^n([a]_n)=[a_m]
+      $$
+      这个同态需要验证其定义的合理性.这是容易的.
+
+      结合$\pi_m,\pi_n$,我们还有交换图:
+
+      \begin{tikzcd}
+         {\mathbb{Z}} \\
+         \\
+         {\mathbb{Z}/n\mathbb{Z}} && {\mathbb{Z}/m\mathbb{Z}}
+         \arrow["{\pi_n}"', from=1-1, to=3-1]
+         \arrow["{\pi_m}", from=1-1, to=3-3]
+         \arrow["{\pi_m^n}"', from=3-1, to=3-3]
+      \end{tikzcd}
+
+   \end{example}
+   \begin{example}
+      如果$m_1,m_2$都是$n$的因子,那么就有:
+      $$
+      \Z/n\Z \to \Z/m_1 \Z \times \Z/m_2 \Z
+      $$
+      的同态.有时候这样的同态能得到相当好的结果:
+      $$
+      \Z/6\Z \to \Z/2 \Z \times \Z/3 \Z
+      $$
+      验证这是一个双射即可.
+   \end{example}
+   \subsection{同态和阶}
+   本节的主要结果为:
+   \begin{proposition}
+      设$\varphi:G \to H$是一个群同态,$g$是有限阶元素.那么$|\varphi(g)|$整除$|g|$.
+   \end{proposition}
+   用这个结果可以很容易判断一些非平凡的同态的不存在性.比如不存在从$\Z/7\Z$到$\Z/4\Z$的非平凡同态.因为前者元素的阶都是7.后者元素的阶都不整除7.
+   \subsection{同构}
+   \begin{definition}
+      群范畴里的同构就是群的同构.
+   \end{definition}
+   \begin{example}
+      之前我们说循环群时,$G=\{e,a,\dots,a^{n-1}\}$.不同的$a$带来的群是不一样的.但是只要做映射:
+      $$
+      \varphi: a\mapsto b
+      $$
+      就可以验证,所有同阶的循环群都是同构的,同构于$\Z/n\Z$.
+
+      从而$C_2 \times C_3$是6阶循环群,因为其同构于$C_6$.一般的,如果$m,n$互素,那么$C_m \times C_n$也是循环群. 
+   \end{example}
+   \begin{proof}
+      只需要证明其中有一个$mn$阶元.事实上,$([1]_m,[1]_n)$就是$mn$阶元.
+   \end{proof}
+   下面这个结论不给出证明,证明留到之后来说.
+   \begin{proposition}
+      $(\Z/p\Z)*$是循环群.
+   \end{proposition}
+   同构的群群结构完全一致.因此:
+   
+   (1)交换群的同构是交换的.
+
+   (2)对应元素的阶相同.
+
+   下面这个定理也是比较出人意料的:
+   \begin{theorem}
+      两个有限的交换群同构,当且仅当对于任何的整数$m$,他们都有相同个数的元素的阶是$m$.
+   \end{theorem}
+   这个玩意儿现在也没法证,记住就好.
+
+   并且不交换的反例也是有的.
+  
+   \subsection{Abel群的同态}
+    \begin{proposition}
+      设$G,H$是群,且$H$是交换群.那么同态集合:
+      $$
+      Hom_{Grp}(G,H)
+      $$
+      是一个群.
+    \end{proposition}
+    \subsection{群范畴}
+    我们把两个群之间的同态看为态射.群本身看为对象.由此我们得到了群范畴:$Grp$.
+    
+    群范畴有如下命题:
+    \begin{proposition}
+      平凡群是终,始对象.
+    \end{proposition}
+    \begin{proof}
+      终对象是显然的.对于始对象,由于群同态保持幺元,则$\varphi(*)=e$.
+    \end{proof}
+    \begin{proposition}
+      群范畴中的积是两个群的直积.
+    \end{proposition}
+    \begin{proof}
+      对交换图进行验证即可.
+    \end{proof}   
+    余积也是有的.但是涉及到代数拓扑,这里就不讨论了.
+
+    对于Abel群,也形成了Abel范畴.在Abel范畴下,余积和积恰好重合.但是就算$G,H$都交换,也不能说明其$G\times H$是群范畴下的余积.
+    \section{自由群}
+    \subsection{动机}
+    自由群的动机是什么?什么是自由?在物理世界里面,纯粹的自由是没有任何物理规律的自由.同样,在群里面,自由是没有任何外加等式的自由.
+    
+    给定一个普通集合$A$,它所构造的自由群是里面的元素自由组合的结构.
+   
+    \subsection{Universal property}
+    \begin{definition}
+      给定集合$A$,$A$的自由群$F(A)$是$\mathcal{F}^A$范畴中的始对象.其中$\mathcal{F}^A$的对象为有序对$(j,G)$.其中$j$是从$A$到$G$的映射,$G$是一个群.
+
+      对象之间态射是从$G_1\to G_2$的同态,且满足下列交换图:
+
+      \begin{tikzcd}
+         A \\
+         \\
+         {G_1} && {G_2}
+         \arrow["{j_1}"', from=1-1, to=3-1]
+         \arrow["{j_2}", from=1-1, to=3-3]
+         \arrow["\varphi"', from=3-1, to=3-3]
+      \end{tikzcd}
+    \end{definition}
+    根据定义,很容易推得自由群的唯一性(同态).但是存在性呢?
+
+    存在性不在此赘述.其构造本身没有太大意义.有意义还是自由群的抽象含义和具体含义.
+    \subsection{自由Abel群}
+    我们也可以用同样的方式给出自由Abel群的定义.
+
+    对于自由Abel群的存在性,问题显得简单得多.
+    \begin{proposition}
+      对于元素个数为$n$的有限集合$A$,其对应的自由Abel群为:
+      $$
+      \Z^{\oplus n}
+      $$
+    \end{proposition}
+    \begin{proposition}
+      假设$A$是任意给定的集合.我们已经知道,$H^A$(从$A$到$H$的所有映射)是一个自然的Abel群,如果$H$是一个Abel群.
+
+      我们定义$H^A$的子集:
+      $$
+      H^{\oplus A}=\{\alpha:A \to H|\alpha(a)\neq e_H \text{for only finitely many elements\quad} a\in A\}
+      $$
+
+      则$F^{ab}(A)$存在,且一种构造方法是$\Z^{\oplus A}$
+    \end{proposition}
+    \begin{proof}
+      注意到$\Z^{\oplus A}$中的任何一个元素都可以写为:
+      $$
+      \sum_{a \in A}m_aj_a
+      $$
+      且其中的$m_a$只有有限个不为零.(因为目前代数只能处理有限和).
+
+      对于任何一个$H$为Abel群,$k:A \to H$是伴随的映射.我们定义映射$\varphi: \Z^{\oplus A} \to H$:
+      $$
+      \varphi( \sum_{a \in A}m_aj_a)=\sum_{a \in A}m_a k(a)
+      $$
+      容易验证这是一个同态.
+
+      为了说明这个同态是唯一的,我们可以考虑:
+      $$
+      \varphi(j_a)=k(a)
+      $$
+      为了满足交换图,这是必须的.而为了满足同态,就必须按照上述方式定义所有的元素像.从而该同态唯一.
+    \end{proof}
+    \section{子群}
+    \subsection{定义,判定}
+    \begin{definition}
+      称$(H,*)$是$(G,\cdot)$的子群,若映入映射$i:H \to G$是群同态.
+    \end{definition}
+    \begin{proposition}
+      $G$是一个群.其子集$H$是其的子群,当且仅当$\forall a,b \in H,ab^{-1}\in H$.
+    \end{proposition}
+    \begin{proposition}
+      子群的任意交还是子群.
+    \end{proposition}
+    \begin{proof}
+      交都包含$e$,非空.根据上面命题可得.
+    \end{proof}
+    \begin{proposition}
+      设$\varphi:G \to G'$是群同态,$H'$是$G'$的子群,那么$\varphi^{-1}(H')$是$G$的子群.
+    \end{proposition}
+    \begin{proof}
+      只需验证即可.
+    \end{proof}
+    \subsection{核与像}
+    \subsubsection{定义}
+    每个同态都能生成两个子群:
+    \begin{definition}
+      $\varphi:G \to G'$的核定义为:
+      $$
+      ker \varphi:=\{g \in G|\varphi(g)=e_{G'}\}=\varphi^{-1}(e_{G'})
+      $$
+    \end{definition}
+    由于子群的原像也是子群.因此同态的核也是子群.
+    \begin{proposition}
+      群同态如上定义.则$G$的任何子群的像都是$G'$的子群.
+    \end{proposition}
+    \begin{proof}
+      取$\varphi(a),\varphi(b) \in G'$,则$\varphi(a)\varphi(b^{-1})=\varphi(ab^{-1})\in \varphi(H)$
+    \end{proof}
+    从上述命题知,同态的像也是子群.
+
+    对于核和像,下面的性质是重要的:
+    \begin{theorem}
+      设$\varphi:G \to G'$是同态.则映入映射$i:ker \varphi \hookrightarrow G$是范畴C:
+      
+      对象:所有使得$\varphi \circ \alpha$是平凡同态的群同态:$\alpha: K \to G$;
+
+      态射:$K_1,K_2$之间的同态$\phi$,并且使得:$\alpha_2 \circ \phi$与$\alpha_1$在$K_1$上相同.
+      
+      的终对象.
+    \end{theorem}
+    我们用下列交换图来表示这个范畴:
+
+    \begin{tikzcd}
+      &&&& {} \\
+      \\
+      {K_1} && G && {G'} \\
+      \\
+      {K_2}
+      \arrow["{\alpha_1}", from=3-1, to=3-3]
+      \arrow["{\alpha_2}"', from=5-1, to=3-3]
+      \arrow["\varphi", from=3-3, to=3-5]
+      \arrow["0"{description}, curve={height=-24pt}, from=3-1, to=3-5]
+      \arrow["0"{description}, curve={height=12pt}, from=5-1, to=3-5]
+      \arrow["\phi"', from=3-1, to=5-1]
+   \end{tikzcd}
+
+   \begin{proof}
+      要证明的是下列交换图:
+
+      \begin{tikzcd}
+         &&&& {} \\
+         \\
+         {ker \varphi} && G && {G'} \\
+         \\
+         K
+         \arrow["i", hook, from=3-1, to=3-3]
+         \arrow["\alpha"', from=5-1, to=3-3]
+         \arrow["\varphi", from=3-3, to=3-5]
+         \arrow["0"{description}, curve={height=-24pt}, from=3-1, to=3-5]
+         \arrow["0"{description}, curve={height=12pt}, from=5-1, to=3-5]
+         \arrow["{\exists ! \overline{\alpha}}"', from=5-1, to=3-1]
+      \end{tikzcd}\
+
+      对于$\overline{\alpha}$,由于$\alpha(K)\subset \ker G$,所以其与$\alpha$没有本质的差别.从而存在性显然.而对于唯一性,考虑到交换图成立,因此$\overline{\alpha}(k)=\alpha(k)$.因此这也是其唯一的定义方式.
+   \end{proof}
+    
+   这个定理展示了如何在极度抽象的情况下定义核.或者对于其他的代数结构,能否定义核.
+
+   任何一个集合函数$\alpha:K \to G$使得$\varphi \circ \alpha$是平凡同态,作为集合函数必须通过$\ker \varphi$分解.
+
+   \subsection{子群的例子}
+   \section{共轭作用}
+   群其中一个“闪耀”的点在于其可以产生群作用，使其与非群的集合也能产生联系。虽然其本质是从$G$到$S$的对称群的群同态。
+
+   由于任何一个可递的作用都可以被看成是对群中某子群左陪集集合的左乘作用。其中子群是任何一个$a \in S$的稳定子：$Stab_G(a)$。
+
+   如果我们就此研究特殊的群作用——共轭作用，会得到什么样的结果呢？
+
+   为了简便，我们记$G_a$是$a \in S$的稳定子。
+   $$
+   Z=\{a \in S|\forall g \in G,ga=a\}
+   $$
+   为所有固定点的集合。如果$a \in Z$,那么其稳定子是整个群。如果$a \in Z$,那么其轨道也是平凡的。
+   \subsection{稳定子定理}
+   \begin{proposition}
+      设$S$是一个有限集合，$G$作用在$S$上。那么：
+      $$
+      |S|=|Z|+\sum_{a \in A}[G:G_a]
+      $$
+   \end{proposition}
+   \begin{proof}
+      我们注意到轨道是$S$上的一个等价关系。$S$上的点分为平凡轨道和一些非平凡的轨道。平凡轨道的个数$|Z|$。每个非平凡的轨道的元素个数为$[G:G_a]$。因此$A$表示所有轨道中代表元的集合。
+   \end{proof}
+   这个公式在我们已知$G$的阶数，尤其是素数或者素数的方后变得很有用。
+   \begin{definition}
+      称$G$是一个$p$群，如果其的阶是$p$的某次方。$p$是素数。
+   \end{definition}
+   \begin{proposition}
+      条件与上述命题相同，$G$是$p$群。则$S$与$Z$关于$p$同余。
+   \end{proposition}
+   从而我们可以借此证明$|Z|$的一些情况。比如如果$S$不是$p$的倍数，那么$Z$不是空集。
+   \subsection{中心子，共轭类}
+   我们现在考虑群$G$到自身的作用——共轭作用。即：
+   $$
+   (g,h) \mapsto ghg^{-1}
+   $$
+   共轭作用的固定点集合，即$G$中在任何$g$作用下都保持不变：
+   $$
+   ghg^{-1}=h \Rightarrow gh=hg
+   $$
+   \begin{definition}
+      $G$的中心子$Z(G)$被定义为共轭作用中的$G$的固定点集合。同时其也是$\sigma:G \to S_G$的核。$Z(G)$的元素与群的任何元素都交换。
+   \end{definition}
+   作为核，中心子天然是正规子群，这也很容易手动验证。交换群的中心子是其本身。此时共轭作用$\sigma$变为平凡同态。
+   \begin{lemma}
+      有限群$G$。若$G/Z(G)$是循环群，那么$G$是交换群。
+   \end{lemma}
+   \begin{proof}
+      考虑$G$中的元素都可以写为$g^{m}h$.$h$是中心的元素。于是：
+      $$
+      g^{n}h_1g^{m}h_2=g^{m+n}h_2h_1=g^{m}h_2g^{n}h_1
+      $$
+   \end{proof}
+   现在考虑单个元素的稳定子：
+   \begin{definition}
+      $Z_G(a)$表示共轭作用下$a$的稳定子。其包含所有与$a$交换的元素。其个数大于$a$的阶。
+   \end{definition}
+   \begin{definition}
+      $a$在共轭作用下的轨道称为$a$的共轭类。我们记为$[a]$。$a$的共轭类是$a$本身，如果其属于$Z(G)$。
+   \end{definition}
+   \subsection{Class Formula}
+   我们把群$G$和共轭作用带入稳定子定理：
+   \begin{proposition}
+      设$G$是有限群。则:
+      $$
+      |G|=|Z(G)|+\sum_{a \in A}[G:Z(a)]
+      $$
+   \end{proposition}
+   于是我们可以得到以下关于$|G|$的推论：
+   \begin{corollary}
+      $G$是非平凡$p$群。那么$G$有非平凡的中心。
+   \end{corollary}
+   \begin{corollary}
+      若$G$的阶是$p^2$，那么其是交换群。
+      \end{corollary}
+      \begin{proof}
+         中心不可能平凡，则只可能为$p$或者$p^2$个。因为中心是正规子群。若为$p$,则$G/Z(G)$是$p$阶群，为循环群，从而$G$是交换群，与$p$矛盾。
+      \end{proof}
+      使用这个公式我们还可以得到$6$阶非循环群的性质。实际上其只可能与$S_3$同构。
+      \begin{proposition}
+         $6$阶非交换群只可能为$S_3$
+      \end{proposition}
+      \begin{proof}
+         首先考虑其class formula的写法。由于非交换，则中心只能是$1$.那么剩下只能写为$2+3：6=1+2+3$.
+
+         其次，我们断言群中一定有3阶元。若不然，则除幺元外都是2阶元：
+         $$
+         ab=a^{-1}b^{-1}=(ba)^{-1}=ba
+         $$
+         矛盾。
+
+         设$y$为3阶元。我们考虑其所在的共轭类。显然$y$的中心子至少有3个。因此其只能在$2$中，$y^2$也是如此。
+
+         对于$1+2+3$，我们断言$3$中有2阶元。这很容易说明。设$x$是一个$2$阶元。于是$xy,xy^2,yx,y^2x$表示了最后两个元。显然$xy\neq yx$，因为$y$的中心子只有$e,y,y^2$。于是剩下两个元为$xy,xy^2$且：
+         $$
+         yx=xy^2
+         $$
+         这正好是$S_3$的结构。
+      \end{proof}
+      \subsection{子集和子群的共轭类}
+      \begin{definition}
+         $A$的正规化子$N_G(A)$是其在共轭作用下的稳定子。即：
+         $$
+         N_G(A)=\{g \in G|gAg^{-1}=A\}
+         $$
+         $A$的中心子$Z_G(A)$是保持$A$中每个元素在共轭作用下都不变的子群。显然$Z_G(A)\subset N_G(A)$.
+      \end{definition}
+      显然$A \subset N_G(A)$，若$A$是子群。下列关系式是常用的：
+      $$
+      [G:A]=[G:N_G(A)][N_G(A):A]
+      $$
+      $N_G(A)$是一个正规子群。这一点可以很容易验证。
+      \begin{proposition}
+         $H$作为子群的共轭类个数等于$[G:N_G(H)]$的个数。
+      \end{proposition}
+      从而可以看到$H$的共轭类个数是要小于左陪集个数的。
+      
+   \end{document}

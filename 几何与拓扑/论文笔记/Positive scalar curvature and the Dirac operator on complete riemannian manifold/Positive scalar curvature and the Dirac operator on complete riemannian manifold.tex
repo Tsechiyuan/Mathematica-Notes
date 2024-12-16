@@ -1,0 +1,62 @@
+\documentclass[UTF8]{article}[a4paper,12pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{quiver}
+\setcounter{section}{-1}
+
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+\newenvironment{singlenumber}{\align\renewcommand{\\}{\nonumber \newline}}{\endalign}
+
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{Positive scalar curvature and the Dirac operator on complete riemannian manifold}
+\author{Notes Author:Tsechi/Tseyu}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{Some prerequisites of this note}
+\subsection{Schwartz kernel}
+
+\section{Generalized Dirac Operators on a Complete Manifold}
+
+Let $\mathrm{Cl}(X)$ denote the \textbf{Clifford bundle} of X. This is the bundle over $X$ whose fiber at a point $x \in X$ is the Clifford algebra $\mathrm{Cl}(T_x X)$.For the definition of Clifford algebra, we recommand the  \href{https://en.wikipedia.org/wiki/Clifford_algebra}{website}.
+
+Furthermore, the riemannian metric and connection extend to $\mathrm{Cl}(X)$ with the properties that:covariant differentiation $\nabla$ perserves the metric, and:
+\begin{equation}
+    \nabla(\varphi \cdot \psi)=(\nabla \varphi)\cdot \psi+\varphi \cdot (\nabla \psi)
+\end{equation}
+for all sections $\varphi,\psi \in \Gamma(\mathrm{Cl}(X))$.
+
+\begin{singlenumber}
+    x + y &= 10 
+    2x - y &= 5 
+\end{singlenumber}
+\end{document}

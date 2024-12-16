@@ -1,0 +1,1548 @@
+\ifx\allfiles\undefined
+
+	% 如果有这一部分另外的package，在这里加上
+	% 没有的话不需要
+	
+	\begin{document}
+\else
+\fi
+
+\chapter{范畴论基础}
+\section{函子范畴与泛性质}
+\subsection{函子范畴}
+首先我们介绍积范畴和余积范畴的概念。这是集合中乘积和不交并的自然推广。
+\begin{definition}{}[积范畴，余积范畴]
+    设$I$是小集合，$\{\cC_i:i \in I\}$是一族范畴。
+
+    1.定义积范畴如下：
+    $$
+    \text{Ob}(\prod_{i \in I}\cC_i):=\prod_{i \in I}\text{Ob}(\cC_i)
+    $$
+    $$
+    \text{Hom}_{\prod_{i \in I}\cC_i}((X_i)_i,(Y_i)_i):=\prod_{i \in I}Hom_{\cC_i}(X_i,Y_i)
+    $$
+
+    态射的合成显然是逐项合成的。
+
+    2.对偶定义余积范畴：
+    $$
+    \text{Ob}(\coprod_{i \in I}\cC_i):=\coprod_{i \in I}\text{Ob}(\cC_i)
+    $$
+    $$
+    \text{Hom}_{\coprod_{i \in I}\cC_i}(X_j,X_j):=\text{Hom}_{\cC_i}(X_j,X_k), \text{if} X_j,X_k \in \cC_i.
+    $$
+
+    态射的合成是在各个$\cC_i$中个别定义的。
+
+    从而我们可以得到投影函子和包含函子。即：
+    $$
+    pr_j:\prod_{i \in I}\cC_i \to C_j
+    $$
+
+    $$
+    \iota_j: \cC_j \to \coprod_{i \in I}\cC_i 
+    $$
+    
+    特别的，取有限集可以得到有限积和有限余积。
+\end{definition}
+\begin{definition}{}
+    形如$F:\cC_1 \times \cC_2 \to \cC$的函子称为二元函子。
+\end{definition}
+    二元函子在之后可以应用于计算极限。可以证明二元函子意义下的极限换序.
+\begin{example}{}[Hom函子]
+    给定范畴$\cC$，则$\text{Hom}(\dot,\dot):\cC^{\text{op}} \times \cC \to \text{Set}$,$(X,Y) \mapsto \text{Hom}_{\cC}(X,Y)$.定义了二元函子。
+
+    态射的定义是自然的。只需要在原有的$f:X\to Y$两边连接上$X' \to  X$和$Y \to Y'$。
+\end{example}
+接下来介绍函子范畴。函子范畴的对象和态射都是我们所熟知的东西了。
+\begin{definition}{}[函子范畴]
+    设$\cC_1,\cC_2$是范畴。定义$\text{Fct}(\cC_1,\cC_2)$：对象是$\cC_1$到$\cC_2$的函子。态射是两个函子间的自然变换。态射的合成是两个自然变换的纵合成。
+\end{definition}
+
+在之后我们要经常处理对偶空间，这里就自然变换$\varphi:F \to G$给出对偶的一些说明。
+
+对于$F,G:\cC_1 \to \cC_2$，在相应的有：$F^{op},G^{op}:\cC_1^{op} \to \cC_2^{op}$。从而自然变换被倒转为:
+$$
+\varphi^{op}:G^{op}\to F^{op}
+$$
+并且$(\varphi^{op})^{op}=\varphi$。这是因为取对偶并没有改变对象，只是改变了态射的方向。上面的公式都是显而易见的。
+
+\begin{proposition}{}
+    存在自然同构:
+    $$
+    \varphi:\text{Fct}(\cC_1,\cC_2)^{op} \to \text{Fct}(\cC_1^{op},\cC_2^{op})
+    $$
+    
+    它将$\varphi$映射到$\varphi^{op}$。
+ \end{proposition}
+ \begin{example}{}
+    考虑离散范畴$\mathcal{I}$。则范畴同构：
+    $$
+    \cC^{\mathcal{I}} \cong \prod_{i \in I}\cC
+    $$
+    这是因为$\text{Fct}(\mathcal{I},\cC)$中的对象由$\cC$中的若干$|I|$个对象决定，这与$\prod_{i \in I}\cC$中的对象一致。左边范畴的态射是两个函子的自然变换。如图：
+    \[
+    \centering
+    \begin{tikzcd}
+            {F(i)} && {F(j)=F(i)} \\
+            \\
+            {G(i)} && {G(j)=G(i)}
+            \arrow["{\lambda_i}", from=1-1, to=3-1]
+            \arrow["{\text{id}}"', from=3-1, to=3-3]
+            \arrow["{\text{id}}", from=1-1, to=1-3]
+            \arrow["{\lambda_j}"', from=1-3, to=3-3]
+    \end{tikzcd}
+   \]
+    这个图中$j=i$，因为不同的$i,j$之间没有态射。由此我们知道对于每个$i$，$\lambda_i$都是可以随意指定的。
+
+    对于$\prod_{i\in I}\cC$，我们知道其态射实际上也是任意指定的。这里可以仔细推敲一下态射集合。容易验证两个范畴同构了。
+ \end{example}
+ \begin{definition}{}
+    一个范畴的中心定义为$Z(\cC):=\text{End}(\text{id}_{\cC})$。一个范畴的中心定义为$Z(\cC):=\text{End}(\text{id}_{\cC})$。
+ \end{definition}{}
+  我们根据上述条件画出交换图：
+    \begin{tikzcd}
+        X && Y \\
+        \\
+        X && Y
+        \arrow["f", from=1-1, to=1-3]
+        \arrow["{\varphi_X}", from=1-1, to=3-1]
+        \arrow["f"', from=3-1, to=3-3]
+        \arrow["{\varphi_Y}"', from=1-3, to=3-3]
+    \end{tikzcd}
+  因此中心是一族这样的态射族。中心也意味着一种交换性。在交换图里一览无余。
+  \begin{proposition}{}
+    中心对于态射的合成是交换的。
+  \end{proposition}
+  \begin{proof}
+    取$\theta,\psi$是同态。我们取态射$f$是$\psi_X$,$Y=X$.于是：$\theta_X \psi_X=\psi_X \theta_X$。
+  \end{proof}
+  \begin{proposition}{}
+    范畴等价诱导中心的同构。即若$F:\cC_1 \to \cC_2$是范畴之间的等价，则$Z(\cC_1)\backsimeq Z(\cC_2)$
+  \end{proposition}
+  \begin{proof}
+    范畴的等价意味着其骨架是同构的。我们不妨研究骨架性的东西。
+
+    设$\theta$是$\cC_1$的骨架。其给出了一族态射。这组态射加上$F$可以诱导$\cC_2$中每个对象的态射。从而同构显然。
+  \end{proof}
+  \subsection{泛性质}
+  终，始对象加逗号范畴描述了范畴论中数学结构的泛性质。极限，完备性等等都是范畴论的基础。
+
+  \begin{definition}{}
+    范畴中的对象$X$称为始对象，若对于任何对象$Y$使得$\text{Hom}_{\cC}(X,Y)$都只有一个元素；称$X$是终对象，如果对于所有$Y$，$\text{Hom}_{\cC}(Y,X)$都只有一个元素。若$X$既是始对象又是终对象，称之为零对象。
+  \end{definition}
+
+  定义显然是对偶的。于是$\cC$的始对象是$\cC^{op}$的终对象。
+
+   始对象和终对象到处存在。下面给出的断言说明其同构意义下的唯一性。
+   \begin{proposition}{}
+    设$X,X'$是$\cC$的始对象，则存在唯一的同构$X\overset{\backsim}{\rightarrow}X'$.同样的性质对于终对象也成立。
+   \end{proposition}
+   
+   证明略去。因为过于显然。
+
+   \begin{definition}{}
+    设$\cC$有零对象，记作$0$。则对于任意$X,Y$定义零态射$0:X \to Y$：
+    $$
+    X \to 0 \to Y
+    $$
+    任何零态射的左右复合都是零态射。
+   \end{definition}
+   考虑群范畴，则$X \to Y$的零态射就是平凡同态。
+
+   定义有一个问题需要考量：选取不同的零对象，零态射是否一样？这由下面的交换图保证:
+   \[
+    \centering
+    \begin{tikzcd}
+        & 0 \\
+        X && Y \\
+        & 0'
+        \arrow[from=2-1, to=1-2]
+        \arrow[from=1-2, to=2-3]
+        \arrow[from=2-1, to=3-2]
+        \arrow[from=3-2, to=2-3]
+        \arrow["{\overset{\backsim}{\rightarrow}}"{description}, from=1-2, to=3-2]
+    \end{tikzcd}
+   \]
+
+   该图的交换性来源于态射的唯一性。
+   \begin{example}{}
+    集合范畴中，空集是始对象，单元集是终对象。
+
+    带基点的范畴中，零对象是单元集。
+
+    群范畴中，平凡群是零对象。
+
+    域$k$上的向量空间范畴Vect$(k)$中，零空间是零对象，
+   \end{example}
+    
+   泛性质常常用始对象和终对象来描述。但实际上极限囊括了这些内容。我们将只讲极限。而极限需要使用逗号范畴这一语言进行描述。
+
+   \begin{definition}{}[逗号范畴]
+    对于函子$S:\mathcal{A} \to \mathcal{C}$,$T:\mathcal{B} \to \mathcal{C}$，定义逗号范畴$(S/T)$如下：
+    
+    对象：形如$(A,B,f)$,其中$A,B$分别是$\mathcal{A}$和$\mathcal{B}$的对象.$f$是$SA$到$TB$的态射。
+
+    态射：形如$(g,h)$，其中$g$是$\mathcal{A}$中的态射，$h$是$\mathcal{B}$中的态射。对于两个对象$(A,B,f)$和$(A',B',f')$，$(g,h)$必须满足：
+    \[
+        \centering
+        \begin{tikzcd}
+            SA && {SA'} \\
+            \\
+            TB && {TB'}
+            \arrow["f", from=1-1, to=3-1]
+            \arrow["{f'}", from=1-3, to=3-3]
+            \arrow["{Sg}", from=1-1, to=1-3]
+            \arrow["Th"', from=3-1, to=3-3]
+        \end{tikzcd}
+    \]
+
+    态射的合成显然是$(g_1,h_1)(g_2,h_2)=(g_1g_2,h_1h_2)$。容易验证这样定义合成是合理的。恒等态射为$(id_A,id_B)$
+   \end{definition}
+
+   逗号范畴的意义是明显的。其描述了$T,S$作为函子之间的关系。如果$T$是小范畴，就可以描述极限的存在。我们将在极限和完备化节介绍应用。
+
+   我们举一个例子。设$T=id=S$.该逗号范畴中的对象是$f:X \to Y$。态射是交换图表：
+   \begin{tikzcd}
+	X && Y \\
+	\\
+	{X'} && {Y'}
+	\arrow[from=1-1, to=3-1]
+	\arrow["{f'}", from=3-1, to=3-3]
+	\arrow["f", from=1-1, to=1-3]
+	\arrow[from=1-3, to=3-3]
+   \end{tikzcd}
+   这个逗号范畴也叫\textbf{箭头范畴}。
+
+\section{可表函子}
+\subsection{四个函子和米田引理}
+我们研究下面两个范畴：
+$$
+\cC^{\wedge}:=\text{Fct}(\cC^{op},\text{Set})
+$$
+$$
+\cC^{\vee }:=\text{Fct}(\cC^{op},\text{Set}^{op})=\text{Fct}(\cC,\text{Set})^{op}
+$$
+\begin{proposition}{}
+    记号如上描述。则：
+    $$
+    (\cC^{\vee})^{op}=(\cC^{op})^{\wedge}
+    $$
+\end{proposition}
+
+我们重点关注的是一类典型的函子。为此，我们研究$\text{Hom}_{\cC}$的函子性。如果我们固定一个对象$S \in \cC$,就能得到:
+$$
+h_{\cC}:\cC \to \cC^{\wedge}
+$$
+    
+其中$h_{\cC}(S)=\text{Hom}_{\cC}(\cdot,S)$。为了说明是函子，我们还需要对态射进行研究。我们可以发现，$\cC$中的态射$f:S \to T$诱导($g:N \to M$)：
+\[
+    \centering
+    \begin{tikzcd}
+        {\text{Hom}(M,S)} && {\text{Hom}(N,S)} \\
+        \\
+        {\text{Hom}(M,T)} && {\text{Hom}(N,T)}
+        \arrow["{(a:M \to S) \mapsto f\circ a}"', from=1-1, to=3-1]
+        \arrow["{(b:M \to S) \mapsto g\circ b}"', from=1-1, to=1-3]
+        \arrow["{(a:N \to S) \mapsto f\circ a}", from=1-3, to=3-3]
+        \arrow["{(b:M \to T) \mapsto g\circ b}", from=3-1, to=3-3]
+    \end{tikzcd}
+    \]
+    一个自然同态。
+
+    因此这是一个从$\cC$到$\cC^{\wedge}$的函子。我们之后会说明这个函子有着非常好的性质。如果$\cC$中有极限，意味着$\cC^{\wedge}$中对应的极限\textbf{可表}。
+
+    另外，由于$\cC^{\wedge}$的定义，我们可以想到，给定一个范畴$\cC^{op}$和$\cC^{\wedge}$，自然可以得到一个集合和集合之间的映射，因而我们有求值函子：
+    $$
+    \text{ev}^{\wedge}:\cC^{op}\times \cC^{\wedge} \to \text{Set}, \quad \quad \qquad \text{ev}^{\wedge}(S,A)=A(S)
+    $$
+    同样需要验证态射。由于左边是乘积范畴,设$f:S' \to S$,$\lambda:A \to A'$,则我们要定义从$A(S)$到$A'(S')$的态射。因此我们考虑如下交换图：
+    \[
+        \centering
+        \begin{tikzcd}
+            && {A(S')} \\
+            {A(S)} &&&& {A'(S')} \\
+            && {A'(S)}
+            \arrow["{A(f)}", from=2-1, to=1-3]
+            \arrow["{\lambda_{S'}}", from=1-3, to=2-5]
+            \arrow["{\lambda_{S}}"', from=2-1, to=3-3]
+            \arrow["{A'(f)}"', from=3-3, to=2-5]
+            \arrow[from=2-1, to=2-5]
+        \end{tikzcd}
+    \]
+
+    同理也有函子：
+    $$
+    k_c: \cC  \to \cC^{\vee} \quad \quad \qquad k_c(S)=\text{Hom}_{\cC}(S,\cdot)
+    $$
+    $$
+    \text{ev}^{\vee}:(\cC^{\vee})^{op}\times \cC \to \text{Set}, \quad \quad \qquad \text{ev}^{\vee}(B,S)=B(S)
+    $$
+    和解释态射的交换图：
+    \[
+        \centering
+        \begin{tikzcd}
+            {\text{Hom}(S,M)} &&& {\text{Hom}(S,N)} \\
+            \\
+            {\text{Hom}(T,M)} &&& {\text{Hom}(T,N)}
+            \arrow[from=1-1, to=1-4]
+            \arrow[from=3-1, to=3-4]
+            \arrow[from=3-1, to=1-1]
+            \arrow[from=3-4, to=1-4]
+        \end{tikzcd}
+        \begin{tikzcd}
+            && {B(S')} \\
+            {B(S)} &&&& {B'(S')} \\
+            && {B'(S)}
+            \arrow["{B(f)}", from=2-1, to=1-3]
+            \arrow["{\lambda_{S'}}", from=1-3, to=2-5]
+            \arrow["{\lambda_{S}}"', from=2-1, to=3-3]
+            \arrow["{B'(f)}"', from=3-3, to=2-5]
+            \arrow[from=2-1, to=2-5]
+        \end{tikzcd}
+    \]
+
+    观察四个函子，注意到存在很多对偶。在具体研究的时候，对偶意味着新范畴中的态射反向，对象不变。有时候函子作为对象，其本身可能是从$\cC$出发的。尽管取了对偶，这样的函子也不会改变其本身从$\cC$的属性。
+
+    请着重看$(\text{ev}^{\vee})^{op}$与$\text{ev}^{\wedge}$的对偶方式。
+
+    接下来引出的米田引理给出了$h_{\cC}$和$k_{\cC}$的良好性质。
+    \begin{theorem}{}[米田信夫]
+        对于$S\in \text{Ob}(\cC)$和$A \in \cC^{\wedge}$，映射$\varphi:\text{Hom}_{\cC^{\wedge}}(h_{\cC}(S),A)\to A(S)$
+        $$
+        [\mathrm{Hom}_{\cC}(\cdot,S)\stackrel{\varphi}{\longrightarrow}A(\cdot)] \mapsto \varphi_S(\text{id}_S)
+        $$
+        是集合之间的双射；它给出了函子间的同构$\mathrm{Hom}_{\cC^{\wedge}}(h_{\cC}(\cdot),\cdot) \overset{\backsim}{\to} \text{ev}^{\wedge}$;
+        
+        并且函子$h_{\cC}$是全忠实的。
+
+        同理，存在自然的函子同构$\mathrm{Hom}_{\cC^{\vee}}(\cdot,k_{\cC}(\cdot)) \overset{\backsim}{\to} \text{ev}^{\vee}$;
+    \end{theorem}
+    由于这个引理的存在，我们把函子$h_{\cC}$和$k_{\cC}$称为米田嵌入。
+    \begin{proof}
+        证明的技巧在于交换图。我们仅证明$k_{\cC}$的部分，因为$h_{\cC}$在参考书已经写明了。
+
+        我们首先研究$k_{\cC}$的同构性。为此，需要先考虑$\text{Hom}_{\cC^{\vee}}(\cdot,k_{\cC}(\cdot))$之间的态射.设$\lambda: B \to B'$,$f:S \to S'$。
+        \[
+            \centering
+            \begin{tikzcd}
+                B && {k_{\mathcal{C}}(S)} \\
+                \\
+                {B'} && {k_{\mathcal{C}}(S')}
+                \arrow["\lambda"', from=3-1, to=1-1]
+                \arrow[from=1-1, to=1-3]
+                \arrow["{f_*}"', from=1-3, to=3-3]
+                \arrow[dashed, from=3-1, to=3-3]
+            \end{tikzcd}
+        \]
+        
+        上图中出现了反向。是因为我们考虑的$\text{Hom}$是在对偶$\cC^{\vee}$中的。正常的自然变换都要反向。
+
+        则如果要验证同构，我们要验证下图的交换性:
+
+        \[
+            \centering
+            \begin{tikzcd}
+                {\text{Hom}_{\mathcal{C}^{\vee}}(B,k_{\mathcal{C}}(S))} &&&& {\text{Hom}_{\mathcal{C}^{\vee}}(B',k_{\mathcal{C}}(S'))} \\
+                \\
+                {B(S)} &&&& {B'(S')} \\
+                && {B'(S)} \\
+                && {B(S')}
+                \arrow[from=1-1, to=1-5]
+                \arrow["{\phi_{B,S}}", tail reversed, from=1-1, to=3-1]
+                \arrow["{\lambda_S}", from=3-1, to=4-3]
+                \arrow["{B(f)}"', from=3-1, to=5-3]
+                \arrow["{B'(f)}", from=4-3, to=3-5]
+                \arrow["{\lambda_{S'}}"', from=5-3, to=3-5]
+                \arrow[from=1-5, to=3-5]
+                \arrow["{\phi_{B',S'}}", tail reversed, from=1-5, to=3-5]
+            \end{tikzcd}
+        \]
+
+        目前，图中只有$\phi$尚不清楚含义。我们要做的是确定$\phi$作为集合之间的映射怎么映射。
+
+        取$\sigma$是$\text{Hom}_{\mathcal{C}^{\vee}}(B,k_{\mathcal{C}}(S))$里面的元素。则下面的交换图成立：
+        \[
+            \centering
+            \begin{tikzcd}
+                {B(T)} && {B(T')} \\
+                \\
+                {\text{Hom}_{\mathcal{C}}(S,T)} && {\text{Hom}_{\mathcal{C}}(S,T')}
+                \arrow["{\sigma_T}"', from=3-1, to=1-1]
+                \arrow["{\sigma_{T'}}"', from=3-3, to=1-3]
+                \arrow["{B(g)}", from=1-1, to=1-3]
+                \arrow[from=3-1, to=3-3]
+            \end{tikzcd}
+        \]
+
+        我们想要得到$B(S)$里面的元素，不妨把其中的$T$换成$S$。则我们断言映射$\phi_{B,S}(\sigma)=\sigma_S(\text{id}_S)$.
+
+        从而观察大的交换图。我们遍历两边。先走右再走下：
+        $$
+        \sigma \mapsto f_* \circ \sigma \circ \lambda \mapsto  (f_* \circ \sigma \circ \lambda)_{S'}(\text{id}_{S'})
+        $$
+
+        先走下再走右：
+        $$
+        \sigma \mapsto \sigma_S(\text{id}_S) \mapsto \lambda_{S'}(B(f)(\sigma_S(\text{id}_S)))
+        $$
+        
+        因此关键是研究先右后下的表达式。请记住，函子之间的自然变换一开始就是对偶的，因此具体到对象，我们必须颠倒回来以研究真实的情况。我们给出交换图：
+        \[
+            \centering
+            \begin{tikzcd}
+                {B(S'):\sigma_{S'}(f)} && {\text{Hom}_{\mathcal{C}}(S,S'):f} \\
+                \\
+                {B'(S'):\lambda_{S'}(\sigma_{S'}(f))} && {\text{Hom}_{\mathcal{C}}(S',S'):(\text{id}_{S'})}
+                \arrow[from=3-3, to=3-1]
+                \arrow["{\lambda_{S'}}"', from=1-1, to=3-1]
+                \arrow["{\sigma_{S'}}"', from=1-3, to=1-1]
+                \arrow["{{f_*}_{S'}}"{description}, from=3-3, to=1-3]
+            \end{tikzcd}
+        \]
+        
+        两个结果的相等由下面的图保证：
+        \[
+            \centering
+            \begin{tikzcd}
+                {\text{Hom}(S,S):\text{id}_S} && {\text{Hom}(S,S'):f} \\
+                \\
+                {B(S):\sigma_S(\text{id}_S)} && {B(S')}
+                \arrow["{\sigma_S}"', from=1-1, to=3-1]
+                \arrow["{B(f)}"', from=3-1, to=3-3]
+                \arrow[from=1-1, to=1-3]
+                \arrow["{\sigma_{S'}}", from=1-3, to=3-3]
+            \end{tikzcd}
+        \]
+
+        同构性的保证还需要验证$\phi$是双射且逆映射也满足上述交换图。我们只说明是双射，逆映射的交换性略去。
+
+        我们无非是要根据$B(S)$中的元素给出一个自然同态。自然同态示意图已经给出了。考虑$h:S \to T'$，我们定义$\sigma_T'(h)=B(h)(\sigma_S(\text{id}_S))$。即自然同态的示意图中$T$被换为$S$.则自然$\text{id}_S$向右被映射到$h$。
+
+        需要验证这样的定义满足自然同态交换图。考虑$q:T \to T'$，实际上我们要验证:$B(g)(B(h)(\sigma_S(\text{id}_S))=B(g \circ h)(\sigma_S(\text{id}_S))$.这实际上就是函子必须保态射的定义。
+
+        逆映射意味着我们需要验证转一下回到原来的元素。这里显然符合。
+
+        因此我们就给出了这样的逆映射。一个映射如果存在逆映射，显然是双射。
+
+        最后我们要说明函子$k_{\cC}$是全忠实的。回忆全忠实的定义，即原有的态射集合与函子作用后的态射集合基数相同。
+
+        由于我们已经说明了一个双射。我们把条件中的$B$换为$k_{\cC}(T)$。从而$\text{Hom}_{\cC}(T,S)$集合和两个函子间的自然变换集合有双射。我们考虑这个双射的逆映射。即对于$f:T \to S$，若给定$h:S \to T'$,定义$\sigma_{T'}(h)=h \circ f \in \text{Hom}(T,T')$。与我们预料中$\text{Hom}(S,\cdot)$到$\text{Hom}(T,\cdot)$由$f$诱导的自然变换一致。因此给出的双射的一方与$k_{\cC}$定义的态射映射法则一致。
+
+        因此函子$k_{\cC}$全忠实。米田引理证毕。
+    \end{proof}
+    
+    \section{可表函子}
+    现在我们介绍可表函子。因为我们证明了米田引理，因此我们可以说${\cC}^{\wedge}$里面某些对象被$\cC$进行了一个非常好的嵌入。这部分对象完全可以由$\cC$来表示。如果有的对象不是这里面的对象，但是和他们同构，我们也认为这样的函子是性质很好的。这样的函子就被称为可表函子。
+    \begin{definition}{}
+        称$A: \cC^{op} \to \mathrm{Set}$是可表函子，如果存在$X \in \mathrm{Ob}(\cC)$以及同构$\varphi:h_{\cC}(X) \overset{\backsim}{\to} A$。并称$(X,\varphi)$是其代表元。类似的，可以用$k_{\cC}$定义函子$B:\cC \to \mathrm{Set}$的可表性和代表元。
+    \end{definition}
+
+    我们可以看到，若存在同构，意味着有一个$\varphi$。这个$\varphi_X$作用在$\mathrm{id}_X$上就得到$A(X)$中的元素。
+
+    如果给一个函子$A$,并给出$(X,u)$,$u$是$A(X)$中的元素。那么我们就能得到从$h_{\cC}(X)$到$A$的自然同态。这样的自然同态限制在$Y$上，把$f: Y \to X$映射到$A(Y)$中的元素：$A(f)(u)$.
+
+    \begin{lemma}{}
+        若函子$A: \cC^{op}\to \mathrm{Set}$可表，则代表元$(X,\varphi:h_{\cC}(X) \overset{\backsim}{\to} A)$在至多相差一个同构的意义下是唯一的。对函子$B: \cC^{op} \to \mathrm{Set}$也有类似的性质。
+    \end{lemma}
+
+    引理说明可表函子如果可以由多个对象和自然同态表示，那么这些对象同构。因此有一种良定在其中。
+
+    \begin{proof}
+        我们尝试使用逗号范畴来解决这个问题。考虑$\cC \overset{h_{\cC}}{\to} \cC^{\wedge} \overset{j_A}{\leftarrow} 1$这样一个逗号范畴。
+
+        这个逗号范畴的对象是$(X,\varphi:h_{\cC}(X) \to A)$。态射是如下交换图：
+        \[
+            \centering
+            \begin{tikzcd}
+                {h_{\mathcal{C}}(X)} \\
+                && A \\
+                {h_{\mathcal{C}}(X')}
+                \arrow["{f_*}"', from=1-1, to=3-1]
+                \arrow["\varphi", from=1-1, to=2-3]
+                \arrow["{\varphi'}"', from=3-1, to=2-3]
+            \end{tikzcd}
+        \]
+        
+        其中$f_*$是$f:X \to X'$诱导的函子间自然变换。即${f_*}_{Y}(p)=f\circ p$.并且要满足交换图：
+        \[
+            \centering
+            \begin{tikzcd}
+                {\mathrm{Hom}(Y,X):h} \\
+                && {A(Y)} \\
+                {\mathrm{Hom}(Y,X'):f\circ h}
+                \arrow["{f_*}"', from=1-1, to=3-1]
+                \arrow["{\varphi_Y}", from=1-1, to=2-3]
+                \arrow["{\varphi'_Y}"', from=3-1, to=2-3]
+            \end{tikzcd}
+        \]
+
+        现在我们研究与$A$同构的$h_{\cC}(X)$。我们发现$(X,\varphi)$是终对象。遂有唯一性。
+    \end{proof}
+    
+    我们给出几个例子：
+    \begin{example}{}
+        设函子$V:\mathrm{Set} \to \mathrm{Vect}(k)$。其泛性质给出了：
+        $$
+        \mathrm{Hom}_{\mathrm{Set}}(X,U(\cdot)) \overset{\backsim}{\to} \mathrm{Hom}_{\mathrm{Vect}(k)}(V(X),\cdot)
+        $$
+
+        因此$V(X)$连同上述同构表示了函子$\mathrm{Hom}_{\mathrm{Set}}(X,U(\cdot))$。
+    \end{example}
+    \begin{example}{}
+        考虑$P:\mathrm{Set}^{op} \to \mathrm{Set}$。将$\mathrm{Set}$的对象$S$映射至$P(S)$，将态射$f:S \to T$映射到$T \supset A \mapsto f^{-1}(A) \subset S$.
+
+        这个函子可以用$\Omega:=\{0,1\},u:=\{1\} \in P(\Omega)$。则$(\Omega,u)$给出了同构$\varphi:\mathrm{Hom}_{\cC}(\cdot,\Omega) \overset{\backsim}{\to}P$。从而$P$是可表函子。
+    \end{example}
+\section{伴随函子}
+伴随对在范畴论中无处不在。我们引入伴随函子的概念，并且讨论伴随等价。
+
+\begin{definition}{}[伴随对]
+    伴随对指下述资料：$(F,G,\varphi)$，其中$F：\cC_1 \to \cC_2$,$G:\cC_2 \to \cC_1$。$\varphi$是函子间的同构：
+    $$
+    \varphi:\mathrm{Hom}_{\cC_2}(F(\cdot),\cdot) \overset{\backsim}{\to} \mathrm{Hom}_{\cC_1}(\cdot,G(\cdot))
+    $$
+    称$F$是$G$的左伴随，$G$是$F$的右伴随。
+\end{definition}
+    注意这是作为两个集合的同构，意味着$\varphi$是一个双射。另外，我们也要关注$F,G$的位置。伴随对中函子在左右，意味着该函子是左伴随还是右伴随。
+\begin{example}{}
+    选定域$k$。我们可以定义对偶函子$D:\mathrm{Vect}(k)^{op} \to \mathrm{Vect}(k)$。即把$V$映射到$V$的对偶线性空间$V^{\vee}$。
+
+    存在自然的同构：
+    $$
+    \varphi_{V,W}:\mathrm{Hom}_k(V,W^{\vee}) \to \mathrm{Hom}_k(W,V^{\vee}) \qquad \qquad f \mapsto [w\mapsto[v \mapsto f(v)(w)]]
+    $$
+    
+    事实上，两边都同构于双线性函数$B:V \times W \to k$构成的空间。
+    
+    把同构重写为：
+    $$
+    \varphi_{V,W}:\mathrm{Hom}_{\mathrm{Vect}(k)}(V,DW) \to \mathrm{Hom}_{\mathrm{Vect}(k)^{op}}(D^{op}V,W)
+    $$
+    从而我们得到伴随对$(D^{op},D,\varphi)$。
+\end{example}
+    这个例子需要关注的是$D$和$D^{op}$的使用。更多是逻辑上推导的结果。
+
+    对于伴随对而言，我们可以定义两个自然变换，以更好的表示伴随对。
+    \begin{definition}{}
+        对于$(F,G,\varphi)$这样的伴随对。定义自然变换：
+        $$
+        \eta=(\eta_X)_{X \in \mathrm{Ob}(\cC_1)}:\mathrm{id}_{\cC_1} \to GF
+        $$
+        其中$\eta_X$由不同$\mathrm{Hom}$集合间的同构得到：
+        $$
+        \mathrm{Hom}_{\cC_2}(FX,FX) \overset{\varphi}{\to}\mathrm{Hom}_{\cC_1}(X,GFX) \qquad \qquad \mathrm{id}_{FX} \mapsto \eta_X
+        $$
+        同理可以得到$\epsilon=(\epsilon_X)_X:FG \to \mathrm{id}_{\cC_2}$。我们称$\eta$是伴随对的单位，$\epsilon$是余单位。
+    \end{definition}{}
+
+    但是我们的定义并没有验证$\eta$的确是自然变换。由于参考书证明了$\eta$是自然变换，因此我们只说明$\epsilon$是自然变换。设$f:X \to Y$是态射，则我们要验证的交换图如下：
+    \[
+        \centering
+        \begin{tikzcd}
+            {\varphi_{GX,X}:\mathrm{Hom}_{\mathcal{C}_1}(GX,GX)} && {\mathrm{Hom}_{\mathcal{C}_2}(FGX,X)} \\
+            FGX && FGY \\
+            \\
+            X && Y
+            \arrow["{\epsilon_X=\varphi_{GX,X}(\mathrm{id}_{GX})}"', from=2-1, to=4-1]
+            \arrow["{\epsilon_Y=\varphi_{GY,Y}(\mathrm{id}_{GY})}", from=2-3, to=4-3]
+            \arrow["{FG(f)}", from=2-1, to=2-3]
+            \arrow["f"', from=4-1, to=4-3]
+            \arrow[from=1-1, to=1-3]
+        \end{tikzcd}
+    \]
+    
+    从交换图中我们很直接看出要使用$\varphi$本身是函子间同构的特点。因此我们可以画出如下交换图：
+    \[
+        \centering
+        \begin{tikzcd}
+            {\mathrm{Hom}_{\mathcal{C}_1}(GX,GX):\mathrm{id}_{GX}} && {\mathrm{Hom}_{\mathcal{C}_1}(GX,GY):G(f)} && {\mathrm{Hom}_{\mathcal{C}_1}(GY,GY):\mathrm{id}_{GY}} \\
+            \\
+            {\mathrm{Hom}_{\mathcal{C}_2}(FGX,X):\epsilon_X} && {f\circ \epsilon_X:\mathrm{Hom}_{\mathcal{C}_2}(FGX,Y):\epsilon_Y\circ FG(f)} && {\mathrm{Hom}_{\mathcal{C}_2}(FGY,Y):\epsilon_Y}
+            \arrow[from=1-1, to=1-3]
+            \arrow["{\varphi_{GX,X}}"', from=1-1, to=3-1]
+            \arrow["{\varphi_{GX,Y}}"{description}, from=1-3, to=3-3]
+            \arrow[from=3-1, to=3-3]
+            \arrow[from=3-5, to=3-3]
+            \arrow[from=1-5, to=1-3]
+            \arrow["{\varphi_{GY,Y}}"', from=1-5, to=3-5]
+        \end{tikzcd}
+    \]
+
+    从而$\epsilon$也是一个自然变换。
+
+    给定$(F,G,\eta,\epsilon)$，我们同样可以构造出$\varphi$。比如，考虑$f:F(X) \to Y$，我们要确定$\varphi(f):X \to G(Y)$的表达。
+
+    此时做法是考虑交换图：
+    \[
+        \centering
+        \begin{tikzcd}
+            {\mathrm{Hom}(FX,FX):\mathrm{id}_{FX}} & {\mathrm{Hom}(X,GFX):\eta_X} \\
+            {\mathrm{Hom}(FX,Y):f} & {\mathrm{
+                Hom}(X,GY):\varphi(f)=G(f)\circ\eta_X}
+            \arrow[from=1-1, to=1-2]
+            \arrow[from=1-1, to=2-1]
+            \arrow[from=1-2, to=2-2]
+            \arrow[from=2-1, to=2-2]
+        \end{tikzcd}
+    \]
+
+    同理，给定$g:X \to GY$,$\varphi^{-1}(g)=\epsilon_Y \circ F(g):F(X) \to Y$
+    
+    给出$\eta:\mathrm{id}_{\cC_1} \to GF$和$\epsilon:FG \to \mathrm{id}_{\cC_2}$。什么时候能够断言$F$和$G$是伴随函子呢？下面给出的必要条件正好是充分的。
+    \begin{lemma}{}
+        伴随对和单位，余单位记号如上。则我们有自然变换的等式：
+        $$
+        [G \overset{\eta G}{\to} GFG \overset{G\epsilon}{\to} G]=\mathrm{id}_G
+        $$
+        $$
+        [F \overset{F \eta}{\to} FGF \overset{\epsilon F}{\to}F]=\mathrm{id}_F
+        $$
+    \end{lemma}
+    \begin{proof}
+        对于任意的$Y \in \mathrm{Ob}(\cC_2)$,我们要验证的无非下面等式：
+        $$
+        G(\epsilon_Y)\circ \eta_{GY}=\mathrm{id}_{GY}
+        $$
+        因为：
+        $$
+        GX \overset{\eta_{GX}}{\longrightarrow} GFGX \overset{G(\epsilon_X)}{\longrightarrow} GX
+        $$
+
+        我们发现左式的$\epsilon_Y:FGY \to Y$可以看作$F(G(Y)) \to Y$的映射。那么这个表达式正好是$\epsilon_Y$在$\varphi$作用下的结果。于是该态射复合得到的结果是单位态射。
+    \end{proof}
+    下面的命题说明了这个条件正好也能得到伴随对。
+    \begin{proposition}{}
+        满足上式的$\eta,\epsilon$生成的$\varphi$得到了$(F,G,\varphi)$伴随对。并且该伴随对生成的单位和余单位也正好是$\eta$和$\epsilon$。
+     \end{proposition}
+     \begin{proof}
+        由于命题的证明冗长的，并且本身的重要性远大于证明的重要性（证明本身就是写出表达式，对不一样的地方尝试构造交换图）。因此我们不给出证明。在写笔记的时候已经在平板上做了验证。
+     \end{proof}
+
+     我们简单叙述了伴随函子和单位，余单位的定义和关系。现在我们再来看一些例子。
+     \begin{example}{}
+        遗忘函子$\mathrm{Grp} \to \mathrm{Set}$的左伴随函子是自由群函子$F:X \mapsto F(X)$。我们很容易提出这样的问题：伴随函子是否是唯一的？
+
+        这个问题将在之后做出解答。
+     \end{example}
+     \begin{example}{}
+        遗忘函子$\mathrm{Top} \to \mathrm{Set}$兼有左伴随和右伴随。左伴随函子是把集合赋予离散拓扑，有伴随函子则是赋予集合平凡拓扑。
+     \end{example}
+     \begin{example}{}
+        包含函子$\mathrm{Ab} \to \mathrm{Grp}$的左伴随是\rm{Abel}化函子$F$:$G \mapsto G/G_{\mathrm{der}}$，其单位是商同态:$G \to G/G_{\mathrm{der}}$
+     \end{example}
+     \begin{proof}
+        首先说明伴随关系。我们需要验证下面两个函子的同构：
+        $$
+        \varphi:\mathrm{Hom}_{\mathrm{Ab}}(F(\cdot),\cdot) \overset{\backsim}{\to} \mathrm{Hom}_{\mathrm{Grp}}(\cdot,\cdot)
+        $$
+        
+        其中第二点只能带入一个交换群。因此该命题实际上是在说对于一个交换群$G$,任何$H$到$G$的同态都能诱导$H$交换化后的群$\widehat{H}$到$G$的同态。这是明显的，因为$H$的换位子群在同态的核中。
+        
+        另一方面，如果给出了一个从$\widehat{H}$到$G$的同态，我们自然的定义$H$到$G$的同态即可。
+
+        但函子的同构并非只用验证对象之间的同构。我们还需要验证刚才所说的对象间同构是自然变换。这一点不再笔记中阐述，已经在平板草稿上做了验证。
+
+        我们再计算单位和余单位。不难验算得到单位是商同态，余单位是平凡同态。
+     \end{proof}
+
+     以下结果表明函子有伴随等价于某种可表性。
+     \begin{proposition}{}
+        函子$F:\cC_1 \to \cC_2$有右伴随等价于$A_Y:=\mathrm{Hom}_{\cC_2}(F(\cdot),Y)\in \cC_1^{\wedge}$皆可表；类似的，$G:\cC_2 \to \cC_1$有左伴随等价于$\mathrm{Hom}_{\cC_1}(X,G(\cdot))$对每个$X$都可表。
+     \end{proposition}
+     \begin{proof}
+        这明显是个必要条件。因为伴随的定义就说明了这个问题。关键是$A_Y$作为一族可表函子，其最后构成的大的函子是不是能给出一个同构。
+
+        假设对于每个$Y$存在对象$GY$和同构$\psi_Y:h_{\cC_1}(GY)\overset{\backsim}{\to} A_Y:=\mathrm{Hom}(F(\cdot),Y)$。在同构意义下，我们可以说$GY$是唯一确定的。
+
+        我们对每个$Y$都选定一个$GY$.我们给出$G$是一个函子的定义，即定义其对态射的映射。我们注意到如下交换图：
+
+        \[
+            \centering
+            \begin{tikzcd}
+                {A_Y:=\mathrm{Hom}_{\mathcal{C}_2}(F(\cdot),Y)} && {\mathrm{Hom}_{\mathcal{C}_1}(\cdot,GY)} \\
+                \\
+                {A_{Y'}:=\mathrm{Hom}_{\mathcal{C}_2}(F(\cdot),Y')} && {\mathrm{Hom}_{\mathcal{C}_1}(\cdot,GY')}
+                \arrow["{\psi_Y}"', from=1-3, to=1-1]
+                \arrow[from=1-1, to=3-1]
+                \arrow["{\psi_{Y'}^{-1}}"', from=3-1, to=3-3]
+                \arrow[from=1-3, to=3-3]
+            \end{tikzcd}
+        \]
+
+        由此我们给出了两个函子的自然变换。注意到这个自然变换自然诱导出$GY$到$GY'$的态射。只要将未知的$\cdot$换为$GY$,则我们可以得到$\mathrm{id}_{GY}$的像.这个像所诱导的函子间自然变换和原自然变换时一个自然变换。（只需要考虑原本的自然变换所构成的一个基本交换图即可）。
+
+        因此我们可以看到$Y$和$Y'$之间的态射$f$完全可以诱导$GY$到$GY'$的态射$Gf$。但我们还要验证这样的诱导保证了交换图。
+
+        这样的验证是容易的。因为$A_Y$之间的自然同态本身就是保证了交换图。
+
+        我们定义了函子$G$。接下来要做的是验证函子同构：
+        $$
+        \varphi:\mathrm{Hom}_{\cC_2}(F(\cdot),\cdot) \overset{\backsim}{\to} \mathrm{Hom}_{\cC_1}(\cdot,G(\cdot))
+        $$
+
+        无非是下图的交换性：
+        \[
+            \centering
+            \begin{tikzcd}
+                {\mathrm{Hom}_{\mathcal{C}_2}(F(X),Y)} && {\mathrm{Hom}_{\mathcal{C}_1}(X,GY)} \\
+                \\
+                {\mathrm{Hom}_{\mathcal{C}_2}(F(X),Y')} && {\mathrm{Hom}_{\mathcal{C}_1}(X,GY')} \\
+                \\
+                {\mathrm{Hom}_{\mathcal{C}_2}(F(X'),Y')} && {\mathrm{Hom}_{\mathcal{C}_1}(X',GY')}
+                \arrow["{(\psi_Y)_X}"', from=1-3, to=1-1]
+                \arrow[from=1-1, to=3-1]
+                \arrow["{(\psi_{Y'})_{X}}", from=3-3, to=3-1]
+                \arrow[from=1-3, to=3-3]
+                \arrow[from=3-1, to=5-1]
+                \arrow["{(\psi_{Y'})_{X'}}"', from=5-3, to=5-1]
+                \arrow[from=3-3, to=5-3]
+                \arrow[curve={height=30pt}, from=1-1, to=5-1]
+                \arrow[curve={height=-30pt}, from=1-3, to=5-3]
+            \end{tikzcd}
+        \]
+
+        可以在纸上直接验证这件事，不再赘述。上述灯笼状的交换图，第一层利用了多个函子间的自然同态的交换图。第二层只是一个函子与另一个函子同构的交换图。
+     \end{proof}
+
+     在上面的证明中，我们注意到$G$的构造并不唯一。但是对于每个$Y$，考虑可表函子的唯一性，可以知道$GY$的可选对象都是一些同构的对象。这实际上可以得到下面的结论：
+     \begin{proposition}{}
+        若函子$F :\cC_1 \to \cC_2$有右伴随函子$G$，则该函子在下述意义下唯一：若$(F,G,\varphi)$和$(F,G',\varphi')$都是伴随对，那么存在唯一的函子同构$\psi: G \overset{\backsim}{\to} G'$使得对于每个$Y \in \mathrm{Ob}(\cC_1)$，下图交换：
+        \[
+            \centering
+            \begin{tikzcd}
+                {h_{\mathcal{C}_1}(GY)} && {h_{\mathcal{C}_1}(G'Y)} \\
+                & {A_Y}
+                \arrow["{h_{\mathcal{C}_1}(\psi_Y)}", from=1-1, to=1-3]
+                \arrow["{\varphi_Y}"', from=1-1, to=2-2]
+                \arrow["{\varphi_{Y'}}", from=1-3, to=2-2]
+            \end{tikzcd}
+        \]
+    
+     \end{proposition}
+     \begin{proof}
+        首先对每个$Y$都制造同构$\psi_Y:GY \overset{\backsim}{\to} G'Y$.得到了一族同构。接着是验证这样的同构是自然变换的一族。
+        
+        要验证的是对象之间态射的复合交换。但是我们可以转化为$h_{\cC_1}$之间的复合交换。因为这是全忠实函子。而这样的交换显然是用终对象的唯一性来保证的。即$GY$和$G'Y$都是逗号范畴$(h_{\cC_1}/A_Y)$的终对象，因此他们之间的态射只有一个同构自然变换。而尚未成立的交换图会给出两个自然变换，因而必然相同，所以交换图成立。
+     \end{proof}
+
+     伴随对之间可以做合成，也就是三个范畴之间：
+     \[
+        \centering
+        \begin{tikzcd}
+            {\mathcal{C}_1} && {\mathcal{C}_2} && {\mathcal{C}_3}
+            \arrow["F", curve={height=-6pt}, from=1-1, to=1-3]
+            \arrow["{G'}", curve={height=-6pt}, from=1-5, to=1-3]
+            \arrow["G", curve={height=-6pt}, from=1-3, to=1-1]
+            \arrow["{F'}", curve={height=-6pt}, from=1-3, to=1-5]
+        \end{tikzcd}
+     \]
+
+     这样的态射做横合成后仍然互为伴随函子。因为同构可以一溜的写过去。我们关注单位和余单位的关系。
+     \begin{proposition}{}
+        记号如上所示。设$(\eta,\epsilon)$和$(\eta',\epsilon')$是两个伴随队对应的单位和余单位，那么合成伴随对的单位是$(G\eta'F \circ \eta)$，余单位是$(\epsilon' \circ F'\epsilon G')$.$\circ$表示纵合成。
+     \end{proposition}
+     \begin{proof}
+        直接计算就可以得到。注意复习纵合成的定义（是函子到函子的自然变换的复合）。而$\eta$本身就是函子到函子之间的自然变换。另一方面，$G\eta' F$表示从函子$GF$到$GG'F'F$的一个函子。这是一种记号商的简便。其对于对象$X$而言，自然变换诱导的态射为：
+        $$
+        G(f):GFX \to GG'F'FX, \qquad \qquad f:FX \to G'F'FX. 
+        $$
+        
+        其中$f$是$\eta'$诱导的态射。
+     \end{proof}
+
+     我们回忆一下范畴等价的定义。
+     \begin{definition}{}
+        记号和伴随对定义时候的记号相同。称两个范畴$\cC_1$和$\cC_2$是范畴等价的，如果有$\mathrm{id}_{\cC_1}$与$GF$同构，$\mathrm{id}_{\cC_2}$与$FG$同构.则称这是两个等价的范畴。
+     \end{definition}{}
+
+     下面这个定理由于在李文威书中，由于不会直接使用，所以就不展开证明了。
+     \begin{theorem}{}[伴随等价]
+        考虑互为拟逆的函子$F,G$，并且给定同构$\eta:\mathrm{id} \overset{\backsim}{\to}GF$和$\epsilon:\mathrm{id}\overset{\backsim}{\to} FG$。那么可以存在唯一的$\epsilon'$使得$(F,G,\eta,\epsilon')$和$(G,F,\epsilon'^{-1},\eta^{-1})$皆成伴随对。
+     \end{theorem}
+    \section{极限与完备化}
+    极限和伴随对的关系极其密切。极限在某种意义上，意思是找到满足给定特征中最纯粹的对象。从而极限与有这些特征的对象都有直接的关系。
+
+    为了描述极限，我们采用逗号范畴的方式。用该方式的优点是简洁，缺点是理解难度较高。
+
+    \begin{definition}{}
+        设$I$和$\cC$都是范畴。定义对角函子$\Delta:\cC \to \cC^{I}:=\mathrm{Fct}(I,\cC)$如下(仅描述对象映射$\Delta(X)$)：
+        \begin{enumerate}
+            \item 对象:\qquad \qquad $\forall i \in I, \Delta(X)(i)=X$
+            \item 态射:\qquad \qquad $\forall [i \to j],[i \to j]\mapsto [\mathrm{id}_X:X \to X]$
+        \end{enumerate}
+
+        考虑态射$f:X \to Y$，其诱导函子间自然同态：对每个$i \in I$,赋予$\Delta(X)(i)=X$到$\Delta(Y)(i)=Y$的态射$f$.
+
+        同理定义$\Delta: \cC \to \cC^{I^{\mathrm{op}}}:=\mathrm{Fct}(I^{\mathrm{op}},\cC)$。这里的对偶并没有给出什么太大的区别，因为就算态射转向，恒等映射也不会转向。
+    \end{definition}
+    定义这样一个函子的目的是为了更好的说明极限。我们实质上是把$\cC$嵌入到了$\cC^{I}$.
+
+    对于函子$I \overset{\alpha}{\rightarrow} \cC \overset{\beta}{\leftarrow} I^{\mathrm{op}}$,我们构造两个逗号范畴：
+    $$
+    \left[ 1 \overset{j_\alpha}{\rightarrow} \cC^{I} \overset{\Delta}{\leftarrow} \cC\right]:=(\alpha/\Delta)
+    $$
+    $$
+     \left[\cC \overset{\Delta}{\rightarrow} \cC^{I^{\mathrm{op}}} \overset{j_\beta}{\leftarrow} 1\right]:=(\Delta/\beta)
+    $$
+    接下来是万众瞩目的极限的定义：
+    \begin{definition}{}
+        设$I$和$\cC$是范畴，考虑函子$\alpha:I \to \cC$和$\beta: I^{\mathrm{op}} \to \cC$.
+        \begin{enumerate}{}
+            \item 逗号范畴$(\alpha/\Delta)$中若存在始对象则记作$\Colim \alpha$,称为$\alpha$的归纳极限，正向极限，余极限.
+            \item 逗号范畴$(\Delta/\beta)$中若存在终对象则记作$\Lim \beta$,称为$\beta$的投射极限，正逆向限，极限.
+        \end{enumerate}
+    \end{definition}{}
+
+    这么说实际上谁也搞不明白极限是个什么东西（李文威血罪大恶极）。我们按照逗号范畴和终始对象的定义画出一些交换图表，以此描述极限的交换图表示。
+
+    首先我们考虑余极限。由此考虑的是范畴$(\alpha/\Delta)$。
+    \begin{enumerate}
+        \item 对象:$(L,(\alpha(i)\overset{f_i}{\to}L)_{i \in \mathrm{Ob}(I)}) \qquad \qquad \forall [i \overset{\phi}{\to} j]$,
+        \begin{tikzcd}
+            {\alpha(i)} & {\alpha(j)} \\
+            {\Delta(L)(i)=L} & {\Delta(L)(j)=L}
+            \arrow["{\mathrm{id}_L}"', from=2-1, to=2-2]
+            \arrow["{f_i}"', from=1-1, to=2-1]
+            \arrow["{\alpha(\phi)}", from=1-1, to=1-2]
+            \arrow["{f_j}", from=1-2, to=2-2]
+        \end{tikzcd}
+        \item 态射: $[\varphi:(L,(f_i)_i) \to (L',(f_i')_i)]=\forall i,$
+        \begin{tikzcd}
+            {\alpha(i)} & {\Delta(L)(i)=L} \\
+            & {\Delta(L')(i)=L'}
+            \arrow["\varphi", from=1-2, to=2-2]
+            \arrow["{f_i}", from=1-1, to=1-2]
+            \arrow["{f'_i}"', from=1-1, to=2-2]
+        \end{tikzcd}
+    \end{enumerate}
+    
+    然后我们考虑极限，此时考虑的范畴是$(\Delta/\beta)$.
+    \begin{enumerate}{}
+        \item 对象:$(L,(L\overset{g_i}{\to}\beta(i))_{i \in \mathrm{Ob}(I)}) \qquad \qquad \forall [i \overset{\phi}{\to} j]$,
+        \begin{tikzcd}
+            {\beta(i)} & {\beta(j)} \\
+            {\Delta(L)(i)=L} & {\Delta(L)(j)=L}
+            \arrow[from=2-2, to=2-1]
+            \arrow[from=1-2, to=1-1]
+            \arrow["{g_i}"', from=2-1, to=1-1]
+            \arrow["{g_j}", from=2-2, to=1-2]
+        \end{tikzcd}
+        \item 态射: $[\varphi:(L,(g_i)_i) \to (L',(g_i')_i)]=\forall i,$
+        \begin{tikzcd}
+            {\beta(i)} & {\Delta(L)(i)=L} \\
+            & {\Delta(L')(i)=L'}
+            \arrow[from=1-2, to=2-2]
+            \arrow["{g_i}"', from=1-2, to=1-1]
+            \arrow["{g'_i}", from=2-2, to=1-1]
+        \end{tikzcd}
+    \end{enumerate}
+
+    于是第一个范畴的始对象和第二个范畴的终对象分别是：
+    \[
+        \centering
+        \begin{minipage}{0.49\linewidth}
+            \centering
+            \begin{tikzcd}
+            {\alpha(i)} && {\alpha(j)} \\
+            & {\Colim \alpha} \\
+            \\
+            & L
+            \arrow["{\alpha(\phi)}", from=1-1, to=1-3]
+            \arrow["{\iota_i}", from=1-1, to=2-2]
+            \arrow["{\iota_j}"', from=1-3, to=2-2]
+            \arrow[from=1-1, to=4-2]
+            \arrow[from=1-3, to=4-2]
+            \arrow["{\exists !}", dashed, from=2-2, to=4-2]
+        \end{tikzcd}
+        \end{minipage}
+        \begin{minipage}{0.49\linewidth}
+            \centering
+            \begin{tikzcd}
+            {\beta(i)} && {\beta(j)} \\
+            & {\Lim \beta} \\
+            \\
+            & L
+            \arrow["{\beta(\phi)}"', from=1-3, to=1-1]
+            \arrow["{p_i}"', from=2-2, to=1-1]
+            \arrow["{p_j}", from=2-2, to=1-3]
+            \arrow[from=4-2, to=1-1]
+            \arrow[from=4-2, to=1-3]
+            \arrow["{\exists !}"{description}, dashed, from=4-2, to=2-2]
+        \end{tikzcd}
+        \end{minipage}
+    \]
+
+
+    下面的命题比较显然。
+    \begin{proposition}{}
+        $\alpha:I \to \cC$的余极限$\Colim \alpha$等于$\alpha^{\mathrm{op}}: I^{\mathrm{op}} \to \cC^{\mathrm{op}}$的极限$\Lim \alpha^{\mathrm{op}}$.
+    \end{proposition}
+
+    极限和原本的态射息息相关。下面这个命题，讲道理，是比较容易理解的：
+    \begin{lemma}{}
+        设$\psi:\alpha \to \alpha'$是函子范畴$\cC^{I}$中的态射。假定两个函子都存在极限，则该自然变换诱导唯一的能使下面交换图对所有$i$都成立的态射$\Colim \psi:\Colim \alpha \to \Colim \alpha'$:
+        \begin{tikzcd}
+            {\alpha(i)} && {\Colim \alpha} \\
+            \\
+            {\alpha'(i)} && {\Colim \alpha'}
+            \arrow[from=1-1, to=1-3]
+            \arrow["{\Colim \psi}"{description}, from=1-3, to=3-3]
+            \arrow["{\psi(i)}", from=1-1, to=3-1]
+            \arrow[from=3-1, to=3-3]
+        \end{tikzcd}
+        并且这样诱导的态射满足复合。即若$\alpha \overset{\psi_1}{\to} \alpha' \overset{\psi_2}{\to} \alpha''$,则$\Colim (\psi_2\psi_1)=\Colim \psi_2 \Colim \psi_1$.
+
+        对于极限$\beta$也有类似的结果。即$\psi:\beta \to \beta'$自然诱导$\Lim \psi:\Lim \beta \to \Lim \beta'$。
+    \end{lemma}
+    \begin{proof}
+        到了极限，我们常常是用交换图来说明某个态射的存在和唯一性。因为存在唯一正好可以来自于终始对象的泛性质。我们这里对极限进行证明（书上证明的是余极限）。
+
+        极限使用的是终对象。因为为了说明命题要求的态射的存在性，我们考虑$\Lim \beta$到$\beta'(i)$有没有态射能满足交换图。
+        \[
+            \centering
+            \begin{tikzcd}
+                {\beta'(i)} && {\beta'(j)} \\
+                & {\Lim \beta'} \\
+                \\
+                & {\Lim \beta} \\
+                {\beta(i)} && {\beta(j)}
+                \arrow["{\exists !}"{description}, dashed, from=4-2, to=2-2]
+                \arrow[from=2-2, to=1-3]
+                \arrow[from=2-2, to=1-1]
+                \arrow["{\beta'(\psi)}"', from=1-3, to=1-1]
+                \arrow[from=4-2, to=5-1]
+                \arrow[from=4-2, to=5-3]
+                \arrow["{\beta(\psi)}", from=5-3, to=5-1]
+                \arrow[from=5-1, to=1-1]
+                \arrow[from=5-3, to=1-3]
+            \end{tikzcd}
+        \]
+        
+        上述交换图之所以成立，靠的是外面的长方形交换图来自于自然同态的定义。再加上极限的定义，两个三角形交换图也成立。拼接在一起后就得到了$\Lim \beta$到$\beta'(i)$的态射，并且构成一个$(\Delta,\beta')$中的对象。根据终对象的性质，态射是唯一存在的。
+
+        该交换图的左右两个梯形正好是命题中所要求的交换图。反之，如果命题所要求的交换图成立，那么这个大的交换图也成立。由于使得该交换图成立的态射$\Lim \psi$具有唯一性，所以该态射是满足要求的唯一映射。
+
+        我们接着考虑复合问题。这是明显的，因为那个大的交换图显然可以继续画，把$\beta'$的位置看成是$\beta$即可。画好后，根据终对象的性质，从$\Lim\beta$到$\Lim\beta''$有两个态射都满足题意的交换图。一个是自然变换的复合诱导的态射，一个是自然变换诱导的态射的复合。根据终对象的泛性质，他们必然相等。
+    \end{proof}
+    \subsection{极限和函子的可表性}
+    极限的存在性是值得考虑的问题。对于单个极限，有接下来要阐述的定理进行描述。对于整个范畴$\cC$，如果（余）极限都存在，那么我们称这样的范畴是（余）完备范畴。完备性问题将在下下节讨论。
+
+    在此之前，我们首先研究一个具体的范畴的例子，即集合范畴$\mathrm{Set}$的极限。我们只研究$I$是小范畴意义下的极限，因为大小确实会给问题带来差异，并且目前来说小范畴$I$已经足够使用了。
+
+    \begin{example}{}
+        设范畴$\cC$是集合范畴$\mathrm{Set}$，并且设$I$是小范畴。定义$\beta:I^{\mathrm{op}} \to \cC$是函子，我们构造$\beta$的极限。
+
+        由于讨论的问题都是集合，并且集合范畴的态射都是集合间的映射。如果我们观察极限的交换图表示，会发现无非是要有一个点点的对应。结合乘积集合，我们定义：
+        $$
+        \Lim \beta :=\left\{(x_i)_{i \in \mathrm{Ob}(I)}\in \prod_i \beta(i):\forall \sigma \in \mathrm{Hom}_I(i,j),\beta(\sigma)(x_j)=x_i\right\}
+        $$
+        不难验证上面这个集合结合态射$(p_j)_{j \in I}$，$p_j((x_i))=x_j$是满足要求的极限。
+
+        接着定义$\alpha: I \to \mathrm{Set}$.我们想要得到$\Colim \alpha$，同理结合集合的不交并，定义：
+        $$
+        \Colim \alpha:=\left \{\bigsqcup_{i \in \mathrm{Ob}(I)}\alpha(i)/\backsim \right \}
+        $$
+        其中$\backsim$是一个等价关系。遗憾的是，该等价关系不能直接写出来，我们只能说该等价关系是由下面的关系生成的：
+        $$
+        x \backsim \alpha(\sigma)(x),\qquad \qquad \sigma: i \to j, \quad x \in \alpha(i)
+        $$
+
+        定义映射$\iota_i:\alpha(i)\to \Colim \alpha$，$\iota(x)=[x]$。容易验证$(\iota_i)_{i \in I}$加上$\Colim \alpha$确实是$\alpha$的极限。
+    \end{example}
+    例子同时也说明，在集合范畴中极限总是存在的。而我们常常可以把一般的范畴嵌入到函子范畴$\cC^{\wedge}$中，用以描述。因而我们也许可以思考函子范畴$\cC^{\wedge}$中极限的存在性问题。不过在这之前，让我们对上面的例子做一点小小的补充。
+
+    \begin{definition}{}
+        设非空范畴$I$满足以下条件，则称其为\textbf{滤过}范畴：
+        \begin{enumerate}
+            \item 对于任何的$i,j \in \mathrm{Ob}(I)$,存在$k \in \mathrm{Ob}(I)$和态射$i \to k,j \to k$.
+            \item 对于任何箭头$f,g: i \to j$，存在$ k \in \mathrm{Ob}(I)$和$h : j \to k$使得$hf=hg$.
+        \end{enumerate}
+    \end{definition}
+    这个定义显然来源于我们熟知的滤过（偏序）集的定义。那里，由于两个点之间的态射只有一个，因此第二条要求自动满足。
+
+    我们将说明在$I$是滤过范畴的条件下，$\alpha$的极限可以有更好的描述。
+
+    我们在不交并$\bigsqcup_{i \in \mathrm{Ob}(I)}\alpha(i)$定义关系如下：对于任何的$i,j \in \mathrm{Ob}(I)$,以及$x_i \in \alpha(i),x_j \in \alpha(j)$,若存在$k$和$f:i \to k$,$g:j \to k$，并且使得$\alpha(f)(x_i)=\alpha(g)(x_j) \in \alpha(k)$，则定义$x_i \backsim x_j$。
+
+    显然我们之前构造的等价关系是比这个关系更大一些。如果我们能说明这是一个等价关系，则由生成定义知这个关系就是符号要求的。
+
+    反身性和对称性实属显然。关键是证明该关系传递。设$x_i \backsim x_j$和$x_j \backsim x_k$都成立，我们用下面的图来说明传递性。
+    \[
+        \centering
+        \begin{tikzcd}
+            {i:x_i} && {j:x_j} && {k:x_k} \\
+            & {l:x_l} && {l':x_{l'}} \\
+            && g \\
+            && {g'}
+            \arrow[from=1-1, to=2-2]
+            \arrow[from=1-3, to=2-2]
+            \arrow[from=1-3, to=2-4]
+            \arrow[from=1-5, to=2-4]
+            \arrow[from=2-2, to=3-3]
+            \arrow[from=2-4, to=3-3]
+            \arrow[from=3-3, to=4-3]
+            \arrow[curve={height=-18pt}, from=1-3, to=4-3]
+            \arrow[curve={height=18pt}, from=1-3, to=4-3]
+        \end{tikzcd}
+    \]
+    这个图的解读方式如下：我们先写出$x_i \backsim x_j$定义，以及$x_j \backsim x_k$的定义。此时根据滤过极限定义的第一个要求就得到了$g$.但是$j \to l \to g$和$j \to l' \to g$并不一定相同。利用第二条性质得到$g'$使得相同。此时$g'$就成为表征$x_i \backsim x_k$的对象。
+
+    \begin{example}{}
+        容易验证刚才的两个极限在赋予商拓扑，乘积拓扑，子集拓扑的情况下就成为范畴$\mathrm{Top}$的极限。
+    \end{example}
+    
+    我们进入正题。我们分两步阐释极限存在性和函子可表性的关系。第一步是证明，任何范畴$\cC$的函子范畴$\cC^\wedge$能确保极限全部存在。第二步是证明，$\cC$中极限的存在性等价于$\cC^{\wedge}$中所算出极限的可表性。
+    \begin{theorem}{}
+        设$I$是小范畴，函子$\alpha:I \to \cC^{\wedge}$的极限由如下定义的对象：$"\Lim"\alpha$（这样的记号是为了强调极限是$\cC^\wedge$中的对象，即从$\cC^{\mathrm{op}} \to \mathrm{Set}$的函子。）
+        \begin{enumerate}
+            \item 对象：$S\in \mathrm{Ob}(\cC) \mapsto \Colim(\alpha(S))$，其中$\alpha(S):I \to \mathrm{Set},\alpha(S)(i)=\alpha(i)(S),\alpha(S)(\sigma:i \to j)=\alpha(\sigma)(S)$
+            \item 态射：$[f:T \to S]$可以诱导$\alpha(S)$到$\alpha(T)$的自然同态，对于每个$i$，定义$\alpha(S)(i)\to \alpha(T)(i)$的态射是$\alpha(i)$作用在$f$上得到的结果。根据前面的引理，函子的自然同态诱导极限的态射，从而定义$\Colim \alpha(S)$到$\Colim \alpha(T)$的态射。因此函子对态射的作用也定义完毕。
+        \end{enumerate}
+        我们需要验证这样的定义是不是构成函子。为此，需要验证函子对态射的作用是否满足合成和恒等不变。由于$\cC^{op}$中态射诱导的$\alpha(S)$到$\alpha(T)$的自然同态显然是满足符合的，因此再根据自然同态的复合诱导极限态射的复合知该定义确保了合成不变。而恒等态射显然是被保持的。
+
+        类似的，我们也可以写出$\beta: I^{\mathrm{op}} \to \cC^{\wedge}$的极限。该极限把每个$S$映射到$\Lim \beta(S)$,而态射也可以自然的诱导。
+
+        考虑函子范畴$\cC^{\vee}$。我们也要关注极限的存在问题。这里都是存在的，考虑:
+        $$
+        \Colim \alpha:S \mapsto \Lim (\alpha(S))
+        $$
+        和
+        $$
+        \Lim \beta :S \mapsto \Colim (\beta(S))
+        $$
+    \end{theorem}
+    \begin{proof}
+        理解上述对象的意义就已经比较困难了。然而接下来我们还要说明这确实是极限！（喘气，害怕，发抖）可以想象李文威居然说这是显然的行为多么邪恶的！（指控）
+
+        为了说明是极限，我们画出交换图。这张图表明了具体的我们要验证的工作。
+        \[
+            \centering
+            \begin{tikzcd}
+                {\alpha(i)(S)} && {\alpha(j)(S)} \\
+                & {\Colim \alpha(S)} \\
+                & {L(S)} \\
+                & {L(T)} \\
+                & {\Colim \alpha(T)} \\
+                {\alpha(i)(T)} && {\alpha(j)(T)}
+                \arrow[from=1-1, to=1-3]
+                \arrow[from=1-1, to=2-2]
+                \arrow[from=1-3, to=2-2]
+                \arrow[from=1-1, to=3-2]
+                \arrow[from=1-3, to=3-2]
+                \arrow[dashed, from=2-2, to=3-2]
+                \arrow[color={rgb,255:red,255;green,51;blue,68}, from=3-2, to=4-2]
+                \arrow[dashed, from=5-2, to=4-2]
+                \arrow[from=6-1, to=5-2]
+                \arrow[from=6-3, to=5-2]
+                \arrow[from=6-1, to=4-2]
+                \arrow[from=6-3, to=4-2]
+                \arrow[color={rgb,255:red,255;green,51;blue,68}, from=1-1, to=6-1]
+                \arrow[color={rgb,255:red,255;green,51;blue,68}, from=1-3, to=6-3]
+                \arrow[from=6-1, to=6-3]
+                \arrow[color={rgb,255:red,255;green,51;blue,68}, curve={height=18pt}, from=2-2, to=5-2]
+            \end{tikzcd}
+        \]
+        
+        看到这样的图千万不要怂。实际上，里面很多模块的交换性是我们已经有的。根据已知的$\Colim \alpha$的定义，我们知道$\Colim \alpha(S)$是$\alpha(S)$的极限。这反映在图上意味着图的上半锥和下半锥都是已然交换的。
+
+        因此我们要验证的是连接两个锥的部分是交换的。也就是图中红色的线。
+        
+        首先是左边两条线，画出来：
+        \[
+            \centering
+            \begin{tikzcd}
+                {\alpha(i)(S)=\alpha(S)(i)} & {\Colim \alpha(S)} \\
+                \\
+                {\alpha(i)(T)=\alpha(T)(i)} & {\Colim \alpha(T)}
+                \arrow[color={rgb,255:red,255;green,58;blue,51}, from=1-1, to=3-1]
+                \arrow[color={rgb,255:red,255;green,58;blue,51}, from=1-2, to=3-2]
+                \arrow[from=1-1, to=1-2]
+                \arrow[from=3-1, to=3-2]
+            \end{tikzcd}
+        \]
+
+        这正好是自然变换诱导极限间态射的要求。因而必然交换。（需要验证这里面的各个态射确实是自然变换诱导极限间态射的意思）
+
+        同理大图中弯曲的红线和最右边的红线也是交换的。现在我们只用说明中间两条红线是交换的。
+
+        注意到事实：考虑常值函子$\Delta(L(S)):I \to \mathrm{Set}$,则这个函子的极限是其本身。因此中间两条红线的交换性实际上要求的是：
+        \[
+            \centering
+            \begin{tikzcd}
+                {\alpha(i)(S)} && {\alpha(i)(T)} && {\Colim\alpha(S)} && {\Colim\alpha(T)} \\
+                &&& \longrightarrow \\
+                {L(S)} && {L(T)} && {L(S)} && {L(T)}
+                \arrow[from=1-1, to=1-3]
+                \arrow[from=1-1, to=3-1]
+                \arrow[from=3-1, to=3-3]
+                \arrow[from=1-3, to=3-3]
+                \arrow[from=1-5, to=3-5]
+                \arrow[from=3-5, to=3-7]
+                \arrow[from=1-7, to=3-7]
+                \arrow[from=1-5, to=1-7]
+            \end{tikzcd}
+        \]
+
+        即：自然变换的交换图诱导极限之间态射的交换图。这个可以由之前的引理轻松得到。因为我们证明了自然变换的合成诱导态射的复合。
+    \end{proof}
+
+    这个定理说明在函子范畴里，任何函子的极限都是存在的。我们当然可以把$\cC$嵌入到$\cC^{\wedge}$，使用全忠实的$h_{\cC}$函子即可。那么任何从$I$到$\cC$的函子$\alpha$就可以诱导$I$d到$\cC^\wedge$的函子，因此我们不妨说，可以在$\cC^\wedge$中找到$\alpha$的极限。可是，这样的极限能够重新回到$\cC$中吗？
+
+    自然的猜测是，如果能回到$\cC$中，等价于那个极限作为$\cC^\wedge$的对象可表。从而这样一来，极限的存在性就归结于函子的可表性。
+    \begin{theorem}{}
+        设$I$是小范畴。我们把$\alpha:I \to \cC$看作从$I$到$\cC^{\vee}$的函子。把$\beta:I^{\mathrm{op}} \to \cC$看作是$I^{\mathrm{op}}$到$\cC^{\wedge}$的函子。那么我们有：
+        \begin{enumerate}
+            \item $\alpha$极限存在当且仅当$"\Colim" \alpha$可表。
+            \item $\beta$极限存在当且仅当$"\Lim" \beta$可表。
+        \end{enumerate}
+        注意，这里的嵌入并不能随意交换。即$\alpha$不能嵌入到$\cC^\wedge$
+
+        极限的性质遂可以简洁写为：
+        $$
+        \mathrm{Hom}(\Colim \alpha,\cdot)\overset{\backsim}{\to} \Lim_{i}\mathrm{Hom}_{\cC}(\alpha(i),\cdot)="\Colim" \alpha
+        $$
+        $$
+        \mathrm{Hom}(\cdot,\Lim \beta)\overset{\backsim}{\to} \Lim_{i}\mathrm{Hom}_{\cC}(\cdot,\beta(i))="\Lim" \beta
+        $$
+    \end{theorem}
+    \begin{proof}
+        这个定理看起来其实很不对称。对于正向极限（归纳极限），我们只能把$\cC$通过函子$k_{\cC}$嵌入到$\cC^{\vee}$；对于逆向极限，我们只能把$\cC$通过$h_{\cC}$嵌入到$\cC^{\wedge}$。
+
+        我们还是只证明一半。因为书上已经证了一半了，就写另外一半的证明。
+
+        我们要证明的是$\cC^{\vee}$上的同构。为此，需要构造一个函子间的态射。由于是同构，倒不需要关心对偶的事情。定义：
+        $$
+        \varphi:\mathrm{Hom}(\cdot,\Lim \beta)\overset{\backsim}{\to} \Lim_{i}\mathrm{Hom}_{\cC}(\cdot,\beta(i))="\Lim" \beta
+        $$
+        给定$S \in \mathrm{Ob}(\cC)$,我们先给出对象之间的同构：$f : S \to \Lim \beta$，则自然诱导出$\iota_i^*: S \to \beta(i), \iota_i^*=\iota_i \circ f,i \in \mathrm{Ob}(I)$。这样的$\iota_i$满足交换图：
+        \[
+            \centering
+            \begin{tikzcd}
+                {\mathrm{Hom}(S,\beta(i)):\iota_i\circ f=\beta(\sigma)\circ \iota_j\circ f} && {\mathrm{Hom}(S,\beta(j)):\iota_j\circ f} \\
+                & {\Lim_i \mathrm{Hom}(S,\beta(i)):(\iota_i^*)_i=(\iota_i\circ f)_i}
+                \arrow[from=2-2, to=1-1]
+                \arrow[from=2-2, to=1-3]
+                \arrow["{\beta(\sigma)}"', from=1-3, to=1-1]
+            \end{tikzcd}
+        \]
+        
+        因此，结合集合范畴中极限的定义，我们得到$(\iota_i^*)_i$是是极限$\Lim_i \mathrm{Hom}_{\cC}(S ,\beta(i))$中的元素。令$\varphi_S(f)=(\iota_i^*)_i$。
+    
+        如果给定了$(\iota_i^*)_i$，我们要给出$S$到$\Lim \beta$的态射。这太容易不过了，因为$\Lim \beta$是终对象，而上述一族映射，加上集合范畴极限要求，自然满足了逗号范畴中对象的要求，因此态射立马构造。从这个构造的态射出发，按照前面的方式，又得到$(\iota_i^*)_i$，因此我们可以说明，当给定$S$，确实存在集合间的同构。
+
+        接下来就是验证自然变换的性质了。这类验证几乎没有什么技术性可言，就不在这里做了。
+    \end{proof}
+    为什么不能取对偶的嵌入呢？例如，对于归纳极限$\alpha$，我们嵌入到$\cC^{\wedge}$。此时尴尬的局面是，$\Colim_i \mathrm{Hom}_{\cC}(\cdot,\alpha(i))$没法被诱导出来。因为归纳极限要求的是$\alpha(i)$为起点的态射族。
+
+    我们简要介绍一下这个命题的运用：
+    \begin{lemma}{}[极限换序]
+        设$I$和$J$都是小范畴。假设$\cC$中对于$I$和$J$到$\cC$的任何函子都有正向极限。考虑函子$\alpha: I \times J \to \cC$，则我们可以定义两个新的函子：
+        $$
+        \alpha(\cdot,j):I \to \cC \qquad \qquad \alpha(i,\cdot):J \to \cC
+        $$
+        
+        需要指出的是，$\sigma:i \to i'$被映射到态射$\alpha(\sigma,\mathrm{id}_j):\alpha(i,j) \to \alpha(i',j)$。
+
+        那么，我们有典范的同构：
+        $$
+        \Colim_j(\Colim \alpha(\cdot,j)) \simeq \Colim \alpha \simeq \Colim_i(\Colim \alpha(i,\cdot))
+        $$ 
+        投射极限$\Lim \beta$的情况类似
+    \end{lemma}
+    \begin{proof}
+        我们只证明左边。
+
+        这个式子有一些地方还需要解释。比如，$\Colim \alpha(\cdot,j)$是不是一个从$J$到$\cC$的函子？答案是肯定的，因为函子$\alpha(\cdot,j)$到$\alpha(\cdot,j')$存在由$j \to j'$诱导的自然变换，从而诱导$\Colim \alpha(\cdot,j)$到$\Colim \alpha(\cdot,j')$的态射。诱导前后保复合和恒等态射。所以这是一个函子。因而左边的极限是有意义的。
+
+        我们想要证明同构，可以尝试使用极限存在性和函子可表的关系。考虑:
+        $$
+        \mathrm{Hom}_{\cC}(\Colim_j(\Colim \alpha(\cdot,j)),\cdot) \simeq \Colim_j \mathrm{Hom}_{\cC}(\Colim \alpha(\cdot,j),\cdot) \simeq \Colim_j \Colim_i \mathrm{Hom}_{\cC}(\alpha(i,j),\cdot)
+        $$
+        
+        观察最右边的式子。我们固定对象$S$，则显然有：
+        $$
+        \mathrm{Hom}_{\cC}(\Colim_j(\Colim \alpha(\cdot,j)),S) \simeq \Colim_j \mathrm{Hom}_{\cC}(\Colim \alpha(\cdot,j),S) \simeq \Colim_j \Colim_i \mathrm{Hom}_{\cC}(\alpha(i,j),S) 
+        $$
+        由于这是严格的集合范畴上的极限！所以我们不难验证：
+        $$
+        \Colim_j \Colim_i \mathrm{Hom}_{\cC}(\alpha(i,j),S)  \simeq \Colim_i \Colim_j \mathrm{Hom}_{\cC}(\alpha(i,j),S) \simeq \Colim_{i,j} \mathrm{Hom}_{\cC}(\alpha(i,j),S)
+        $$
+
+        因此典范的同构至少对于每个$S$都已经有了一个同构。接下来证明这些同构相互协调。
+
+        注意到固定$S$得到的同构实际上可以看成恒等！则交换图全部啪的一下成立完了。（奈斯！）
+        $$
+        \Colim_j \Colim_i \mathrm{Hom}_{\cC}(\alpha(i,j),S)  = \Colim_i \Colim_j \mathrm{Hom}_{\cC}(\alpha(i,j),S) = \Colim_{i,j} \mathrm{Hom}_{\cC}(\alpha(i,j),S)
+        $$
+
+        因此有典范的同构：
+        $$
+        \mathrm{Hom}_{\cC}(\Colim_j(\Colim \alpha(\cdot,j)),\cdot)  \simeq \mathrm{Hom}_{\cC}(\Colim_i(\Colim \alpha(i,\cdot)),\cdot) \simeq  \mathrm{Hom}_{\cC}(\Colim \alpha(i,j),\cdot)
+        $$
+        
+        因此：
+        $$
+        \Colim_j(\Colim \alpha(\cdot,j)) \simeq \Colim \alpha \simeq \Colim_i(\Colim \alpha(i,\cdot))
+        $$ 
+    \end{proof}
+    \subsection{常用的极限}
+     首先，我们要注意到大多数极限都是在有限的$I$下描述的。因此我们定义概念：
+     \begin{definition}{}
+        如果范畴$I$的对象和态射都是有限集合，则相应的极限称为\textbf{有限极限}。此时我们常用一些没有符号的图来表示$I$的构造。
+     \end{definition}
+     
+     接下来介绍的两种特殊极限之所以重要，是因为完备化相关的定理就依靠这两类极限的存在性。或者说，一般的图标事实上可以用这两类极限的$I$来进行一个组合，拼接。
+     \begin{example}{}[余积]
+        设$I$是离散范畴。不妨把$I$与对象集$\mathrm{Ob}(I)$等同。此时余极限$\Colim \alpha$称为对象$X_i:=\alpha(i)$的余积，写作$\bigsqcup_{ i \in I}X_i$。
+     \end{example}
+     \begin{example}{}[积]
+        条件如上。由于$I$是离散范畴，所以$I$与$I^{\mathrm{op}}$实际相等。此时$\beta: I \to \cC$的极限$\Lim \beta$称为对象$Y_i:=\beta(i)$的积$\prod_{i \in I}Y_i$.
+     \end{example}
+     交换图倒不用画了。因为确实很简单。在集合范畴和拓扑范畴种，积就是乘积集合/空间，余积就是不交并/不交并与弱拓扑。
+     \begin{example}{}[余等化子和等化子]
+        取$I$为图表：\begin{tikzcd}
+            \bullet & \bullet
+            \arrow[shift left=1, from=1-1, to=1-2]
+            \arrow[shift right=1, from=1-1, to=1-2]
+        \end{tikzcd}
+        给出的范畴（两个对象，两个非$\mathrm{id}$的态射）。显然$I$的对偶与$I$相同。那么函子$\alpha: I \to \cC$或者$\beta:I^{\mathrm{op}}\to \cC$可以理解为交换图标：\begin{tikzcd}
+            X & Y
+            \arrow["f", shift left=1, from=1-1, to=1-2]
+            \arrow["g"', shift right=1, from=1-1, to=1-2]
+        \end{tikzcd};
+
+        相应的，极限记为$\mathrm{coker}(f,g):=\Colim \alpha$(称为余等化子)，$\mathrm{ker}(f,g)=\Lim \beta $(称为等化子或者差核)
+     \end{example}
+     为了熟悉起见，我们画出等化子和余等化子的交换图：
+     \[
+        \centering
+        \begin{tikzcd}
+            && L &&&&&&&& L \\
+            \\
+            {\mathrm{ker}(f,g)} && X && Y &&&& X && Y && {\mathrm{coker}(f,g)} \\
+            \\
+            &&&&&& {}
+            \arrow["g"', shift right=2, from=3-9, to=3-11]
+            \arrow["f", shift left=2, from=3-9, to=3-11]
+            \arrow[from=3-11, to=3-13]
+            \arrow["g"', shift right=2, from=3-3, to=3-5]
+            \arrow["f", shift left=2, from=3-3, to=3-5]
+            \arrow[from=1-3, to=3-3]
+            \arrow[from=1-3, to=3-5]
+            \arrow["{\exists !}", dashed, from=1-3, to=3-1]
+            \arrow[from=3-1, to=3-3]
+            \arrow[from=3-9, to=1-11]
+            \arrow[from=3-11, to=1-11]
+            \arrow["{\exists !}"', dashed, from=3-13, to=1-11]
+        \end{tikzcd}
+     \]
+
+      当集合范畴时，等化子是$\{x \in X:f(x)=g(x)\}$，余等化子是$Y/\backsim$,其中$\backsim$由$f(x)\backsim g(x)$生成。拓扑范畴则只需赋予子空间拓扑和商拓扑即可。
+
+      在集合范畴中我们已经知道，求极限的顺序可以随意交换而不改变结果。上述结果可以推广到一般的范畴。集合的乘积和不交并还满足：1.先对不同部分的集合做乘积和不交并，然后再对这些部分得到的结果做乘积和不交并，等于直接做乘积和不交并（一种结合律）  \quad 2.改变集合的顺序（即对集合的指标做置换）不改变结果。
+
+      上述结论可以推广到一般范畴中。由于叙述定义麻烦，我们不再赘述。可查阅李文威66页。
+
+      证明办法和极限换序的方法一模一样。唯一的区别是此时确实不能认为固定$S$后有一样的极限。因此验证自然同构是必要的。但是这类验证几乎没有悬念。
+
+      最后给一个引理，这个引理是关于等化子和余等化子的。引理很符合我们的期待。
+      \begin{lemma}{}
+        \qquad
+
+        如果等化子对于\begin{tikzcd}
+            X & Y
+            \arrow["f", shift left=1, from=1-1, to=1-2]
+            \arrow["g"', shift right=1, from=1-1, to=1-2]
+        \end{tikzcd}存在，那么$\mathrm{ker}(f,g)$到$X$有自然的一个态射。这是一个单态射。
+
+        如果余等化子对于\begin{tikzcd}
+            X & Y
+            \arrow["f", shift left=1, from=1-1, to=1-2]
+            \arrow["g"', shift right=1, from=1-1, to=1-2]
+        \end{tikzcd}存在，那么$Y$到$\mathrm{coker}(f,g)$有自然的一个态射。这是一个满态射。
+      \end{lemma}
+      \begin{proof}
+        交换图标道尽一切。图中红线代表复合得到的结果。
+        \[
+            \centering
+            \begin{tikzcd}
+                L \\
+                \\
+                {\mathrm{ker}(f,g)} && X && Y
+                \arrow[from=3-1, to=3-3]
+                \arrow["f", shift left=2, from=3-3, to=3-5]
+                \arrow["g"', shift right=2, from=3-3, to=3-5]
+                \arrow["h", shift left=1, from=1-1, to=3-1]
+                \arrow["l"', shift right=1, from=1-1, to=3-1]
+                \arrow[color={rgb,255:red,255;green,58;blue,51}, from=1-1, to=3-3]
+            \end{tikzcd}
+        \]
+
+        从而$l,h$必须是唯一的，意味着$l=h$.
+      \end{proof}
+      \subsection{完备性}
+      之后的工作更多不是偏向具体的极限，而是一个范畴的极限存在与否问题。因为从范畴整体来研究极限问题是必要的。于是完备性的概念就自然出现了。
+      \begin{definition}{}
+        对于范畴$\cC$, 若对有所有小范畴$I$, 所有以$I$为指标的$\Lim$都存在, 则称之为完备的; 若所有以$I$为指标的$\Colim$都存在, 则称之为余完备的.
+      \end{definition}
+      虽然我一直有意回避小范畴，小集合之类的概念。但是这里不得不提了。因为小的范畴的完备性的确让人意外。以后考虑完备性的时候，我们总认为$\cC$是比$I$来的足够大的。什么是足够大呢？详见李文威第一章对于集合论有关叙述。
+
+      我们对完备性的认识只需要考虑一个问题：什么样的条件可以得到完备性？很幸运，下面的定理告诉我们只需要确保积，余积，等化子，余等化子的存在性就可以了。
+      
+      \begin{theorem}{}
+        设$I$是小范畴，$\cC$是范畴。
+        \begin{enumerate}
+            \item 若对所有子集$J \subset \mathrm{Ob}(I)$和$\cC$中的对象族$(X_j)_{j \in J}$都存在$\prod_{ j \in J}X_j$，而且对于所有$f,g:X \to Y$都存在$\mathrm{ker}(f,g)$，则$\cC$有所有以$I$为指标的$\Lim$。
+            \item 若对所有子集$J \subset \mathrm{I}$和$(X_j)_{j \in J}$都存在$\bigsqcup_{j \in J}X_j$，而且对于所有的$f,g:X \to Y$都有$\mathrm{coker}(f,g)$，则$\cC$有所有以$I$为指标的$\Colim$。
+        \end{enumerate}
+      \end{theorem}
+      \begin{proof}
+        两个断言是对偶的。我们证明正向极限的情况（余极限）。
+
+        我们的目标是构造一个$\mathrm{coker}$,使得其恰好是$I$的余极限。设有一个$\alpha: I \to \cC$是函子。
+        
+        联想到集合论中对余极限的构造，我们先给出两个余积:$\bigsqcup_{i \in \mathrm{Ob}(I)}\alpha(i)$和$\bigsqcup_{\sigma \in \mathrm{Mor}(I)}\alpha(s(\sigma))$.
+
+        回忆$s$和$t$的定义。$s$意为得到态射$\sigma$的源头(source),$t$意为得到态射$\sigma$的目标（target）。
+
+        这里我们要说明$\bigsqcup_{\sigma \in \mathrm{Mor}(I)}\alpha(s(\sigma))$的存在性。$(s(\sigma))_{\sigma \in \mathrm{Mor}(I)}$作为指标集合虽然不一定在$I$的对象集中，但是其去掉重复的指标后就可以。而重复的指标当然不影响积的存在性（同样的对象用同样的态射匹配就行）。
+
+        对于每个$\sigma \in \mathrm{Mor}(I)$，我们都可以定义：
+        \[
+            \centering   
+            \begin{tikzcd}
+            {\alpha(s(\sigma))} &&&& {\bigsqcup_{i \in \mathrm{Ob}(I)} \alpha(i)} \\
+            && {\alpha(t(\sigma))}
+            \arrow["{\iota_{s(\sigma)}}", from=1-1, to=1-5]
+            \arrow["{\alpha(\sigma)}"', from=1-1, to=2-3]
+            \arrow["{\iota_{t(\sigma)}}"', from=2-3, to=1-5]
+        \end{tikzcd}
+        \]
+     
+        注意，这不是交换图，只是定义了$\alpha(s(\sigma))$到$\bigsqcup_{i \in \mathrm{Ob}(I)} \alpha(i)$的两个态射。根据余积的定义，自然就有：\begin{tikzcd}
+            {\bigsqcup_{\sigma \in \mathrm{Mor}(I)}\alpha(s(\sigma))} && {\bigsqcup_{i \in \mathrm{Ob}(I)} \alpha(i)}
+            \arrow["g"', shift right=1, from=1-1, to=1-3]
+            \arrow["f", shift left=1, from=1-1, to=1-3]
+        \end{tikzcd}
+        
+        我们断言，$f,g$的余等化子$\mathrm{coker}(f,g)$连同映射族$\alpha(i) \to \bigsqcup_{i \in \mathrm{Ob}(I)} \alpha(i) \to \mathrm{coker}(f,g)$就是$\alpha$的极限。
+
+        如何证明？我们联想到了集合论。这个断言在集合论中是成立的，因为我们知道所谓余等化子就是$\bigsqcup_{ i \in \mathrm{Ob}(I)} \alpha(i)$的商集合，等价关系是$f(x)\backsim g(x)$。而对于上述$f,g$，意味着$x_{s(\sigma)}\backsim x_{t(\sigma)}$。这就是集合中的余极限。态射也是满足的。
+
+        老样子，我们用函子来说明对象的同构。极限$"\Colim "\alpha$等于：
+        $$
+        \Lim_{i}\mathrm{Hom}_{\cC}(\alpha(i),\cdot)
+        $$
+        固定$S$，我们得到了集合上的极限。$\mathrm{Hom}(\alpha(\cdot),S)$是从$I^{\mathrm{op}}$到$\mathrm{Set}$的函子。 
+        $$
+        \Lim_{i}\mathrm{Hom}_{\cC}(\alpha(i),S)=\mathrm{ker}\left[
+            \begin{tikzcd}
+            {\prod_{\sigma \in \mathrm{Mor}(I)}\mathrm{Hom}(\alpha(s(\sigma)),S))} & {\prod_{i \in \mathrm{Ob}(I)}\mathrm{Hom}( \alpha(i),S)}
+            \arrow[shift right=2, from=1-1, to=1-2]
+            \arrow[shift left=2, from=1-1, to=1-2]
+        \end{tikzcd}\right] =\mathrm{Hom}_{\cC}(\mathrm{coker}(f,g),S)
+        $$
+
+        这个连等式的第一个等号来自于教材上已经给出的，集合范畴上的关系：($\beta:I^{\mathrm{op}}\to \mathrm{Set}$)
+        $$
+        \Lim \beta=\mathrm{ker}\left[\prod_{\sigma \in \mathrm{Mor}(I)}\beta(s(\sigma)) \overset{\rightarrow}{\to}\prod_{i \in \mathrm{Ob}(I)}\beta(i)\right]
+        $$
+        
+        第二个等号则是直接的在集合范畴下，结合余等化子泛性质的计算。这里就略去了。计算时首先要搞清楚中间两个态射的含义，然后利用各种诱导关系。
+  
+        固定$S$我们已经得到了一系列同构。考虑到$S$从头至尾都是目标，因此可以料想态射的验证几乎没有悬念。我们也略去了。因此存在一个同构：
+        $$
+        \Lim_{i}\mathrm{Hom}_{\cC}(\alpha(i),\cdot)\simeq \mathrm{Hom}_{\cC}(\mathrm{coker}(f,g),\cdot)
+        $$
+        
+        从而$"\Colim" \alpha$可表,因此$\alpha$的极限存在并且可以用$\mathrm{coker}(f,g)$来表示。接下来验证态射族。回到函子范畴。我们知道态射族也可以被嵌入到$\cC^{\vee}$中。即$a:X \to Y$被嵌入为$\hat{a}:\mathrm{Hom}_{\cC}(X,\cdot) \to \mathrm{Hom}_{\cC}(Y,\cdot)$。注意这里的态射实际上被“颠倒了”。(op的存在)
+
+        我们把态射族$\alpha(i) \to \bigsqcup_{i \in \mathrm{Ob}(I)} \alpha(i) \to \mathrm{coker}(f,g)$嵌入到$\cC^{\vee}$中。如果对第二个等号进行过计算，比如再次固定$S$,就会发现这样的嵌入就是计算极限过程中所得到的从$\mathrm{Hom}_{\cC}(\alpha(i),S)$到$\mathrm{Hom}_{\cC}(\mathrm{coker}(f,g),S)$的映射。因此态射族也OK。
+
+        综上，证明的关键是对第二个等号的计算。请读者自行完成。
+      \end{proof}
+
+      证明的定理立马给我们一个非常好的推论，也是完备性的核心：
+      \begin{theorem}{}
+        范畴$\cC$完备当且仅当它所有的等化子和积都存在。余完备当且仅当余等化子和余积都存在。
+
+        范畴$\cC$有所有的有限极限当且仅当它有终对象，所有等化子和所有的$X \times Y$。有所有的有限余极限当且仅当当它有始对象，所有的余等化子和所有的$X \sqcup Y$。 
+      \end{theorem}
+      结合定理，我们可以得出下面的范畴都是完备+余完备的。
+      \begin{example}{}
+            1.集合范畴$\mathrm{Set}$
+
+            2.拓扑范畴$\mathrm{Top}$
+
+            3.群范畴$\mathrm{Grp}$。积：群的直积；余积：群的自由积；等化子：与集合范畴定义的相同。余等化子：设$f,g:G \to H$。$N$是由子集$\{f(x)g(y):x,y \in G,xy=1\}$生成的正规子群。余等化子是$H/N$。
+            \item 阿贝尔范畴$\mathrm{Ab}$。积：直积。和：直和。等化子：$\ker(f-g)$。余等化子：$H/(f-g)(G)$。
+
+      \end{example}
+
+      李文威先生还介绍了拉回，推出。由于这是代数拓扑里面最基础的定义，我们就不介绍了。
+      \subsection{极限与函子之间的关系}
+      极限的存在性归结于函子的可表性。函子的可表性如果拼接在一起，则意味着一种伴随。我们可以猜测伴随和极限有很好的关系。
+
+      设$F:\cC_1 \to \cC_2$是函子，$I$是小范畴。根据我们得到的结果，以$I$为指标的极限存在性归结于函子$"Colim"\alpha \in \mathrm{Ob}(\cC_i^\vee)$和函子$"\Lim" \beta \in \mathrm{Ob}(\cC_i^{\wedge})$的可表性。现在我们研究$\cC_1$中的极限在$F$下的像。
+
+      值得思考的问题是，该像是不是$\cC_2$中的极限呢？譬如假定$\alpha:I \to \cC_1$且有余极限。那么$F(\alpha):I \to \cC_2$是否有余极限？如果有，和$F(\Colim \alpha)$的关系是什么？
+
+      \textbf{注意：}接下来我们提出的命题都是完全对偶的。由于我们只会给出一半的证明，因此不妨先做如下的声明：所有的极限都研究的是余极限，所有的函子范畴都是$\cC^\vee$,嵌入函子是$k_{\cC}$。
+
+      我们当然会想到先考虑函子范畴，因为里面的余极限总是存在的.
+
+      设函子为$\alpha:I \to \cC_1$.假设$\alpha$有极限，考虑函子$F(\alpha):I \to \cC_2$嵌入到$\cC_2^{\vee}$的极限：$"\Colim" F\alpha$。根据泛性质画出交换图：
+      \[
+        \centering
+        \begin{tikzcd}
+            && {F\alpha(i)} && {F\alpha(j)} \\
+            {[i \overset{\phi}{\to} j] \in \mathrm{Mor}(I)} & \Longrightarrow && {"\Colim" F(\alpha)} \\
+            &&& {F\Colim \alpha}
+            \arrow["{F(\alpha(\phi))}", from=1-3, to=1-5]
+            \arrow[from=1-3, to=2-4]
+            \arrow[from=1-5, to=2-4]
+            \arrow["{F(\alpha(i)\to \Colim \alpha)}"', from=1-3, to=3-4]
+            \arrow["{F(\alpha(j)\to \Colim \alpha)}", from=1-5, to=3-4]
+            \arrow["{\exists !}"{description}, dashed, from=2-4, to=3-4]
+        \end{tikzcd}
+      \]
+
+      由此，我们至少能得到$Colim F\alpha$和$F(\Colim \alpha)$的一点点关系。然而没法得到更多了，因此我们必须要对$F$做出限制，提出要求。
+
+      \begin{definition}{}
+        设$F$，$\alpha$如上。$\beta$是从$I^{\mathrm{op}}$到$\cC$的函子。假设$\alpha$和$\beta$的极限都存在。
+        \begin{enumerate}
+            \item 称$F$保$\Colim \alpha$，若$"\Colim "F\alpha \overset{\backsim}{\to} F(\Colim \alpha)$；
+            \item 称$F$保$\Lim \beta$，若若$F(\Lim \beta)  \overset{\backsim}{\to} "\Colim" (F\beta)$；
+        \end{enumerate}
+        
+      \end{definition}
+      这里符号反着写的原因是，对于极限，我们恰巧是从$F(\Lim \beta)$出发得到的态射。因为是终对象嘛。
+
+      保极限的函子作用在一个函子上显然能得到一个存在极限的新函子。
+
+      显然，我们之前所做的关于完备性的证明在这里发光发热了。按照一模一样的逻辑，我们只需要说明检验$F$是否保余积和余等化子。
+
+      在此之前，我们再看一个简单的例子。
+      \begin{example}{}
+        忘却函子$\mathrm{Top}\to \mathrm{Set}$保所有的极限和余极限。因为拓扑范畴的极限的集合基础都是集合范畴中的极限。
+
+        相对的，$\mathrm{Ab} \to \mathrm{Grp}$的忘却函子保极限但不保余极限。举例，$\mathrm{Ab}$中的余积是交换群的直和，但群范畴中自由群。二者完全不同。
+      \end{example}
+  
+      接下来我们研究什么样的函子能够保余极限和极限。首先，我们在之前的笔记中已经发现了一些端详。比如:
+      $$
+        \mathrm{Hom}(\Colim \alpha,\cdot)\overset{\backsim}{\to} \Lim_{i}\mathrm{Hom}_{\cC}(\alpha(i),\cdot)="\Colim" \alpha
+      $$
+      
+      也就是说$k_{\cC}$作为函子，其保余极限。$k_{\cC}(\alpha)$的余极限正好是$k_{\cC}(\Lim \alpha)$.
+      
+      我们用一个命题来归纳：
+      \begin{proposition}{}
+        设$I$是小范畴，$X$是$\cC$中的对象。
+        \begin{enumerate}
+            \item 函子$\mathrm{Hom}_{\cC}(X,\cdot):\cC \to \mathrm{Set}$保以$I$为指标的极限。
+            \item 函子$\mathrm{Hom}_{\cC}(\cdot,X):\cC^{\mathrm{op}} \to \mathrm{Set}$保以$I$为指标的极限。
+        \end{enumerate}
+
+        注意到$\cC^{\mathrm{op}}$中的极限无非是$\cC$中余极限。
+      \end{proposition}
+      问题是有大量的函子不是上述函子，却仍然保极限。下面的命题杀死了怎么判定函子保不保极限的比赛。
+
+      \begin{theorem}{}
+        考虑伴随对$(F,G,\varphi)$，其中$F:\cC_1 \to \cC_2$,$G:\cC_2 \to \cC_1$。则$F$作为左伴随保正向极限(余极限)，$G$作为右伴随保极限。这里面假设极限存在，并且是小极限。
+      \end{theorem}
+      \begin{proof}
+        我们验证$F$保余极限。考虑函子$\alpha:I \to \cC$并且假设余极限存在。我们说明$\mathrm{Hom}_{\cC_2}(F(\Colim \alpha),\cdot)$就是$"\Colim" F\alpha=\Lim \mathrm{Hom}_{\cC_2}(F\alpha(i),\cdot)$。(至少同构)
+
+        根据伴随函子的定义：
+        $$
+        \mathrm{Hom}_{\cC_2}(F(\Colim \alpha),\cdot) \overset{\backsim}{\to} \mathrm{Hom}_{\cC_1}(\Colim \alpha,G(\cdot))=\Lim_i \mathrm{Hom}_{\cC_1}(\alpha(i),G(\cdot))\overset{\backsim}{\to} \Lim_i \mathrm{Hom}_{\cC_2}(F(\alpha(i)),\cdot)
+        $$
+
+        这样基本就完成了证明。我们说明了对象层面的同构。但是余留的问题是，我们知道$"\Lim F\alpha$到$F(\Lim \alpha)$是有自然诱导的映射的。这两个对象之间的同构能否来自于这个自然的映射呢？
+
+        答案是肯定的。证明繁琐，相信大家也不想看了，我们就略去。自然已经在平板的草稿纸上做了验证。
+      \end{proof}
+
+      从而运用定理，我们发现拓扑范畴到集合范畴的遗忘函子既有左伴随又有右伴随，自然保极限与余极限。而阿贝尔范畴到群范畴的遗忘函子只是右伴随，故只能保证逆向极限即极限。从其不保证余积，我们又可以知道这个函子没有右伴随（其自身不能作为左伴随）。
+
+      
+      \section{基础范畴论补充}
+      本章之所以独立存在，是因为笔者由于时间原因，没办法做详细的记录。我们针对代数学方法第二卷的范畴论拾遗做相应的笔记整理。
+      \subsection{子商}
+      首先回顾：
+      \begin{proposition}{}
+        单态射$f:X \to Y$等价于$f_*:\Hom(T,X) \to \Hom(T,Y)$是集合的单射。满态射$f:X \to Y$等价于$f^*:\Hom(Y,T) \to \Hom(X,T)$是集合的单射。
+      \end{proposition}
+      \begin{proof}
+        单态射的定义是:$f\circ g=f\circ h\Rightarrow g=h,g,h:T \to X$。满态射的定义是:$g \circ f=h \circ f \Rightarrow g=h;g,h: Y \to T$。
+      \end{proof}
+      注意，在一般的范畴下，即有$\ker(f,g) \to X$和$Y \to \mathrm{coker}(f,g)$是单态射和满态射。这是泛性质自然给出的。尚未出现其他更深的结构。另外，若存在零对象，则$X \to 0$和$0 \to X$自然是满态射和单态射。
+
+     \begin{proposition}{}
+        考虑$X \to Y \to Z$，其中$a:X \to Y$和$b:Y \to Z$。假设$a$满或者$b$单。则$ba$是$X$到$Z$的同构当且仅当$a,b$都是同构。
+     \end{proposition}
+     \begin{proof}
+        若$ba$是同构且$b$单。考虑$c:=a(ba)^{-1}:Z \to Y$。则$bc=ba(ba)^{-1}=\mathrm{id}$。又$bcb=b=b(cb) \Rightarrow b=\mathrm{id}$。从而$Y,Z$同构。$a$亦然.$a$满的情况在对偶范畴操作即可。
+     \end{proof}
+
+     有了单态射，自然的想法是定义子对象。这一推广需要等价关系。
+     
+     对于单态射$f_i:S_i \to X$，若$g:S_1 \to S_2$满足$f_2g=f_1$，则记$(S_1,f_1)\subset (S_2,f_2)$。此时根据$f_1,f_2$单态射可知$g$存在则唯一,并且是单态射。因此若还有$S_2\subset S_1$则有$S_2$与$S_1$同构且同构态射满足$f_2g=f_1$。
+
+     在这种等价意义下定义偏序，则有:
+     \begin{definition}{}
+        取定范畴$\C$和对象$X$。形如$S \hookrightarrow X$的单态射对上述等价关系构成的等价类称为$X$的子对象。同理，商对象也是一般的定义。其中$\mathrm{id}:X \to X$是这些等价类偏序关系中的唯一的极大元。
+     \end{definition}
+     值得注意的是，$\C$中的子对象和$\C^{\mathrm{op}}$中的商对象是一回事情。其关系是完全的对偶。因而为了方便，我们只讨论子对象的情况。
+
+     对于子对象$S \rightarrow X$，显然$f_*:\Hom(\cdot,S)\to \Hom(\cdot,X)$是单射。从而我们可以把$\Hom(T,S)$看作$\Hom(T,X)$的子集。
+     \begin{lemma}{}
+        对于$X$的子对象$S_1,S_2$，有:
+        \begin{align*}
+            S_1\subset S_2 \Leftrightarrow \Hom(T,S_1)\subset \Hom(T,S_2)
+        \end{align*}
+     \end{lemma}
+     \begin{proof}
+        我们只用说明右推导左。取$T=S_1$并考虑$\mathrm{id}_{S_1}$在$\Hom(S_1,S_2)$中的像。此即$g:S_1 \to S_2$。
+     \end{proof}
+     下面的引理描述了单态射在经过拉回后也是单态射。
+     \begin{lemma}{}
+        设$X \to Z$是单态射，则它沿着$Y \to Z$的拉回$X \times_Z Y\to Y$（假设存在）也是单。同理满态射的推出是满态射
+     \end{lemma}
+     \begin{proof}
+        下面的交换图标可以帮助理解证明。
+        \[
+            \centering
+            \begin{tikzcd}
+	T \\
+	\\
+	{X \times_Z Y} && X \\
+	\\
+	Y && Z
+	\arrow[from=3-3, to=5-3]
+	\arrow[from=5-1, to=5-3]
+	\arrow[from=3-1, to=5-1]
+	\arrow[from=3-1, to=3-3]
+	\arrow[shift left=1, from=1-1, to=3-1]
+	\arrow[shift right=1, from=1-1, to=3-1]
+	\arrow[dashed, from=1-1, to=3-3]
+	\arrow[curve={height=18pt}, dashed, from=1-1, to=5-1]
+\end{tikzcd}
+\]
+     \end{proof}
+\ifx\allfiles\undefined
+	
+	% 如果有这一部分的参考文献的话，在这里加上
+	% 没有的话不需要
+	% 因此各个部分的参考文献可以分开放置
+	% 也可以统一放在主文件末尾。
+	
+	%  bibfile.bib是放置参考文献的文件，可以用zotero导出。
+	% \bibliography{bibfile}
+	
+	end{document}
+	\else
+	\fi

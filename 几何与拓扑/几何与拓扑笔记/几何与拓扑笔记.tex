@@ -1,0 +1,156 @@
+\def\allfiles{}
+\documentclass[lang=cn,newtx,10pt,scheme=chinese]{elegantbook}
+
+\title{几何与拓扑笔记}
+\subtitle{主体:微分几何与代数拓扑}
+
+\author{夏目凉}
+\institute{陈省身数学研究所 Chern Institute of Mathematica}
+\date{\today}
+\version{1.0}
+\bioinfo{Bio}{Information}
+
+\extrainfo{\textcolor{red}{黑格尔在某个地方说过，一切伟大的世界历史事变和人物，可以说都出现两次。他忘记补充一点：第一次是作为悲剧出现，第二次是作为笑剧出现。}
+}
+\setcounter{tocdepth}{3}
+
+\logo{logo-blue.png}
+\cover{cover.jpg}
+%记号命名
+\newcommand\til[1]{\tilde{#1}}
+\def\g{\mathfrak{g}}
+\newcommand{\II}{\mathrm{II}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\Ext}{\mathrm{Ext}}
+\newcommand{\Tor}{\mathrm{Tor}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\HdR}[1]{H_{\mathrm{dR}}^#1}
+\newcommand{\ii}{\sqrt{-1}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\pa}[3][]{
+	\frac{\partial^{#1} #2}{\partial {#3}^{#1}}
+	}
+\newcommand{\bpa}{\bar{\partial}}
+\newcommand{\npa}{\partial}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+%调用图表包
+\usepackage{quiver}
+
+%极限、余极限与滤过余极限的实现
+\makeatletter
+\newcommand{\Colim@}[2]{
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font lim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\Colim}{%
+  \mathop{\mathpalette\Colim@{\rightarrowfill@\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+\makeatletter
+\newcommand{\Lim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font lim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\Lim}{%
+  \mathop{\mathpalette\Lim@{\leftarrowfill@\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+
+\makeatletter
+\newcommand{\colim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font oli~$\hfil \cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\colim}{%
+  \mathop{\mathrm{c}\mathpalette\colim@{\rightarrowfill@\scriptscriptstyle}\mathrm{\!\!m}}\nmlimits@
+}
+\makeatother
+
+\makeatletter
+\newcommand{\cone@}[1]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font cone$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\cone}{%
+  \mathop{\mathpalette\cone@{\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+
+
+% 修改标题页的橙色带
+\definecolor{customcolor}{RGB}{32,178,170}
+\colorlet{coverlinecolor}{customcolor}
+\usepackage{cprotect}
+
+\addbibresource[location=local]{reference.bib} % 参考文献，不要删除
+
+%编译顺序
+%\includeonly{title,1,2,3}
+
+\begin{document}
+
+\maketitle
+
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+\include{part/Riemann Geometry/Riemann geometry.tex}
+\include{part/Lie Group/Lie Group}
+\include{part/Complex Geometry and Riemann Surface/Complex Geometry and Riemannian Surface.tex}
+\include{part/Morse Theory/Morse Theory.tex}
+\include{part/AT/Algebra Topoplogy}
+\include{part/Differential Forms in AT/Differential Topology}
+\include{part/Index Theory/Index Theory}
+
+
+\nocite{en2,en3}
+
+\printbibliography[heading=bibintoc, title=\ebibname]
+\appendix
+
+
+\chapter{示性类与拓扑K理论}
+
+This appendix covers some of the basic property of characteristic classes used in this note.We discuss these conceptions in a pure topological viewpoint.
+
+\section{Grassmannians流形的上同调环}
+
+\textbf{Summation Operator} is an abbreviation used to express the summation of numbers, it plays an important role in statistics and econometrics analysis. If $\{x_i: i=1, 2, \ldots, n\}$ is a sequence of $n$ numbers, the summation of the $n$ numbers is:
+
+\begin{equation}
+\sum_{i=1}^n x_i \equiv x_1 + x_2 +\cdots + x_n
+\end{equation}
+\chapter{Principal G-bundle}
+
+\end{document}
+
+\end{document}

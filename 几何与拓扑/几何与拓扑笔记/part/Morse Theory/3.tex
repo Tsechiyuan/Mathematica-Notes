@@ -1,0 +1,406 @@
+\chapter{Morse不等式的解析证明}
+本节我们讨论Witten在上个世纪80年代关于Morse不等式给出的解析证明。
+\section{Witten形变与Hodge定理}
+设$M$是紧流形.对于$0\leq  i\leq n$的任意整数$i$,令$\beta_i$表示$M$的第$i$个Betti数$\dim (\HdR{1}(M;\R))$。下面的De rham定理说明我们可以用$\beta_i$表示Morse不等式。
+\begin{theorem}[De rham定理]
+	光滑流形$M$的Derham上同调和$\R$奇异上同调存在自然的同构。
+\end{theorem}
+该定理的思路是通过微分形式$\omega$在复形$\Delta^k$上的积分,给出$\R$系数奇异上同调类,在说明这是一个同构。具体的证明，参见82.
+
+这个定理表明我们可以解析地研究流形的拓扑。其关键是研究$\Omega^k(M)$在不同复形下的性质。
+
+\subsection{Witten形变}
+给定$M$上的Morse函数$f$,对外微分算子$d$做出如下的形变:
+\begin{align}
+	d_{Tf}=e^{-Tf}d e^{Tf}
+\end{align}
+
+考虑$d^2=0$,于是:
+\begin{align*}
+	(d_{Tf})^2=e^{-Tf}d^2 e^{Tf}=0
+\end{align*}
+
+因此一般的de Rham复形可以变形为$(\Omega^*(M),d_{Tf})$.从而我们可以定义起上同调群:
+\begin{align*}
+	H_{Tf,dR}^*(M,\R)=\frac{\ker(d_{Tf})}{\mathrm{Im}(d_{Tf})}
+\end{align*}
+其$\Z$分次结构为:
+\begin{align*}
+	H_{Tf,dR}^*(M,\R)=\bigoplus_{i=0}^n H_{Tf,dR}^i(M,\R)=\bigoplus_{i=0}^n \frac{\ker(d_{Tf}|_{\Omega^i(M)})}{\mathrm{Im}(d_{Tf})|_{\Omega^{i-1}(M)}}
+\end{align*}
+
+之所以考虑这样的形变，是因为我们发现形变后得到的上同调群与原来的上同调群维数一致:
+\begin{proposition}
+	对于$0 \leq i \leq n$的任意整数$i$,有:
+	\begin{align*}
+		\mathrm{dim}(H^i_{Tf,dR}(M,\R))=\mathrm{dim}(H^i_{dR}(M,\R))
+	\end{align*}
+\end{proposition}
+\begin{proof}
+	对于形式$\alpha$,定义映射$i:\alpha \mapsto e^{-Tf}\alpha$.若$\alpha$是闭形式,则$i(\alpha)$满足$d_{Tf}(i(\alpha))=0$.另外,若$\alpha=d \beta$,则$d_{Tf}(e^{-Tf}\beta)=e^{-Tf}\alpha$.从而$d_{Tf}(i(\beta))=i(\alpha)$.
+
+	因此$i$诱导了上同调的映射$i^*:\mathrm{dim}(H^i_{dR}(M,\R))=\mathrm{dim}(H^i_{Tf,dR}(M,\R))$.显然这是一个同构。
+
+\end{proof}
+\subsection{Hodge定理}
+设$g^{TM}$是$M$的一个黎曼度量。我们给出DeRham复形上的Hodge定理。
+\begin{theorem}[Hodge]
+	
+\end{theorem}
+对于任意的$\alpha,\beta \in \Omega^*(M)$,形式的有:
+\begin{align*}
+	\langle d_{Tf}\alpha,\beta\rangle=\langle e^{-Tf}de^{Tf}\alpha,\beta\rangle=\langle \alpha,e^{Tf}d^*e^{-Tf}\beta
+\end{align*}
+于是$d_{Tf}$的形式伴随可写为:
+\begin{align}
+	d_{Tf}^*=e^{Tf}d^*e^{-Tf}
+\end{align}
+仿照Hodge分解，定义:
+\begin{align}
+	D_{Tf}&=d_{Tf}+d^*_{Tf}\\
+	\square_{Tf}&=D_{Tf}^2=d_{Tf}d^*_{Tf}+d_{Tf}^*d_{Tf}
+\end{align}
+从而可知$\square_Tf$保持$\Omega^i(M)$的次数。因为这样的操作并没有改变Hodge定理的关键部分，所以我们可以给出形变后的Hodge定理:
+\begin{align}
+	\mathrm{dim}(\ker(\square_{Tf}|_{\Omega^i(M)}))=\mathrm{dim}(H^i_{Tf,dR}(M,\R))=\mathrm{dim}(H^i_{dR}(M,\R))
+\end{align}
+上式说明,为了考量$\beta_i$的信息,可以研究$\square_{Tf}$的行为。因为$T$值本身不改变上述结果,从而可以考虑$T$值趋近于无穷的情况。
+\section{算子在临界点的分析}
+不失一般性，假设$f$在临界点$x \in M$的开邻域$U_x$上有坐标$(y^i)$满足Morse引理,并且:
+\begin{align}
+	g^{TM}=(dy^1)^2+\dots+(dy^n)^2
+\end{align}
+\begin{proposition}
+   在上述假设下，可以计算$d_{Tf}$和$d_{Tf}^*$.
+    \begin{align}
+	d_{Tf}=d+Tdf\wedge, \quad d_{Tf}^*=d^*+Ti_{(df)^*}
+    \end{align}
+其中$(df)^*$是$df$作为微分形式在度量$g^{TM}$的对偶。
+\end{proposition}
+\begin{proof}
+	设$\omega \in \Omega^*(M)$.则:
+	\begin{align}
+		d_{Tf}(\omega)=e^{-Tf}(e^{Tf}d\omega+Te^{Tf}df\wedge \omega)=d\omega+Tdf\wedge \omega
+	\end{align}
+	由于$df\wedge$的形式伴随是$i_{(df)^*}$,于是$d_{Tf}^*$的表达式如上。
+\end{proof}
+于是可以给出:
+\begin{align}
+	D_{Tf}=D+T\hat{c}(df),\hat{c}(df)=df\wedge+i_{(df)*} \text{是}df\text{的Dirac算子}
+\end{align}
+根据Morse引理,在每个$U_x$上都有:
+\begin{align}
+	df(x)=-y^1dy^1-\dots-y^{n_f(x)}dy^{n_f(x)}+y^{n_f(x)+1}dy^{n_f(x)+1}+\dots+y^ndy^n
+\end{align}
+其中$n_f(x)$是$f$在$p$处的指数。设$e_i=\frac{\partial}{\partial y^i}$是$TU_x$的定向标准正交基础,则在$U_x$上,有：
+\begin{align}
+\begin{split}
+	\square_{Tf}&=-\sum_{i=1}^n (\frac{\partial}{\partial y^i})^2-nT+T^2\|y\|^2+T\sum_{i=1}^{n_f(x)}(1-c(e_i)\hat{c}(e_i))+T\sum_{i=n_f(x)+1}^n(1+c(e_i)\hat{c}(e_i))\\&=-\sum_{i=1}^n (\frac{\partial}{\partial y^i})^2-nT+T^2\|y\|^2+2T(\sum_{i=1}^{n_f(x)}i_{e_i}e_i^*\wedge+\sum_{i=1}^{n_f(x)+1}e_i^*\wedge i_{e_i})
+\end{split}	
+\end{align}
+
+不难发现算子:
+\begin{align*}
+	\sum_{i=1}^{n_f(x)}i_{e_i}e_i^*\wedge+\sum_{i=1}^{n_f(x)+1}e_i^*\wedge i_{e_i}
+\end{align*}
+非负,且具有由下述形式生成的一维核空间:
+\begin{align*}
+	dy^1\wedge \dots \wedge dy^{n_f(x)}
+\end{align*}
+
+因此总结如下:
+\begin{proposition}
+	对于任意$T>0$,算子$\square_{Tf}$作用在$\Gamma(\bigwedge^*(E_n^*))$上非负,其由下述形式生成:
+	\begin{align}
+		\exp(\frac{-T\|y\|^2}{2})dy^1\wedge \dots \wedge dy^{n_f(x)}
+	\end{align}
+	进而对于某个固定的常数$C>0$,该算子所有的非零特征值大于$CT$.
+\end{proposition}
+\section{Morse不等式的证明}
+\subsection{一个命题}
+我们先不加证明的指出下面命题，并借此证明Morse不等式。
+\begin{proposition}\label{property3.3}
+	对于任意$c>0$,存在$T_0>0$使得当$T\geq T_0$时,$\square_{Tf}|_{\Omega^i(M)}$的落在区间$[0,c]$的特征值的个数（计重数）为$m_i,0 \leq i \leq n$.
+\end{proposition}
+
+
+对于$0 \leq i \leq n$的任意整数$i$,设：
+\begin{align*}
+	F_{Tf,i}^{[0,c]}\subset \Omega^i(M)
+\end{align*}
+是$\square_{Tf}|_{\Omega^i(M)}$在$[0,c]$中的特征值对应的特征向量所生成的向量空间。根据上述命题\ref{property3.3},这个向量空间是$m_i$维的。
+
+通过简单的计算，可以注意到下面的事实:
+\begin{align*}
+	[d_{Tf},\square_{Tf}]=[d^*_{Tf},\square_{Tf}]=0
+\end{align*}
+所以$d_{Tf}$和$d_{Tf}^*$对于$F_{Tf,i}^{[0,c]}$而言都是封闭的。($d_{Tf}$把$F_{Tf,i}^{[0,c]}$映射到$F_{Tf,i+1}^{[0,c]}$,$d^*_{Tf}$把$F_{Tf,i}^{[0,c]}$映射到$F_{Tf,i-1}^{[0,c]}$)
+
+因此我们构造了$(\Omega^*(M),d_{Tf})$有限维的子复形:
+\begin{align}
+	(F_{Tf}^{[0,c]},d_{Tf}):0 \longrightarrow F_{Tf,0}^{[0,c]} \longrightarrow F_{Tf,1}^{[0,c]} \longrightarrow \dots F_{Tf,n}^{[0,c]} \longrightarrow 0
+\end{align}
+
+将$\Omega^*(M)$的Hodge分解限制在该有限维复形上,可以给出:
+\begin{align}
+	\beta_{Tf,i}^{[0,c]}:=\dim (\frac{\ker(d_{Tf}|_{F_{Tf,i}^{[0,c]}})}{\mathrm{Im}(d_{Tf}|_{F_{Tf,{i-1}}^{[0,c]}})})
+\end{align}
+就等于$\mathrm{dim}(\ker(\square_{Tf}|_{\Omega^i(M)}))$,从而等于$\beta_i$.由于$\beta_{Tf,i}^{[0,c]}$总是小于$m_i$的，因此弱Morse不等式证毕。
+
+下面我们说明强Morse不等式。具体写出$F_{Tf,i}^{[0,c]}$的分解:
+\begin{align}
+\begin{split}	\dim(F_{Tf,n}^{[0,c]})&=\dim(\ker(d_{Tf}|_{F_{Tf,i}^{[0,c]}}))+\dim(\mathrm{Im}(d_{Tf}|_{F_{Tf,i}^{[0,c]}}))\\&=\dim(\frac{\ker(d_{Tf}|_{F_{Tf,i}^{[0,c]}})}{\mathrm{Im}(d_{Tf}|_{{F_{Tf,i-1}}^{[0,c]}})})+\dim(\mathrm{Im}(d_{Tf}|_{F_{Tf,i-1}^{[0,c]}}))+\dim(\mathrm{Im}(d_{Tf}|_{F_{Tf,i}^{[0,c]}}))
+\end{split}
+\end{align}
+结合上述分解和命题\ref{property3.3},可以得到:
+    \begin{align}
+	\begin{split}
+		&\sum_{j=0}^i (-1)^j m_{i-j}\\
+   =&\sum_{j=0}^i(\beta_{i-j}+\dim(\mathrm{Im}(d_{Tf}|_{F_{Tf,i-j-1}^{[0,c]}}))+\dim(\mathrm{Im}(d_{Tf}|_{F_{Tf,i-j}^{[0,c]}})))\\
+   =& \sum_{j=0}^i (-1)^j \beta_{i-j}+\dim(\mathrm{Im}(d_{Tf}|_{F_{Tf,i}^{[0,c]}}))
+	\end{split}
+   \end{align}
+
+可见这就是强Morse不等式。若$i=n$,可知上式的最右边一项为$0$,于是给出取等条件。
+\subsection{Witten形变算子}
+解析证明的灵魂是命题\ref{property3.3}.为了说明这个命题，我们需要用到不少解析的技巧。
+
+首先做两个记号.对于$T>0$和$f$的临界点$x \in M$,定义
+\begin{align*}
+    \alpha_{x,T}=\int_{U_x}\gamma(|y|^2)\exp(-T|y|^2)dy^1\wedge \dots \wedge dy^n\\
+	\rho_{x,T}=\frac{\gamma(|y|)}{\sqrt{\alpha_{x,T}}}\exp(\frac{-T|y|^2}{2})dy^1\wedge \dots \wedge dy^{n_f(x)}
+\end{align*}
+
+其中$\gamma$是选定的一个光滑函数$\gamma:\R \to \R$。满足$\gamma(x)=1,|x|\leq a,\gamma(x)=0,|x|\geq 2a$.这样的光滑函数的存在性是基础的。
+
+于是在上述记号下，$\rho_{x,T}$是在Hodge范数下的单位向量,且拥有在$U_x$里面的紧支撑集。
+
+固定$T$,从而每个临界点$x$处都存在一个$\rho_{x,T}$.用$E_T$表示这些$\rho_{x,T}$生成的有限维向量空间。(因为$x$的个数是有限的)这个向量空间是Sobolev空间$\mathbb{H}^0(M)$的子空间。其中,$\mathbb{H}^0$是$\Omega^*(M)$结合Hodge内积给出的Hilbert空间.
+
+因此可以考虑正交补$E_T^{\perp}$.
+\begin{align*}
+	\mathbb{H}^0(M)=E_T \oplus E_T^{\perp}
+\end{align*}
+
+再设$p_T$和$p_T^{\perp}$是对应的正交投影。
+
+\begin{definition}[Witten形变算子]
+	定义如下四个算子。
+	\begin{align}
+		D_{T,1}:=p_T D_{Tf}p_T,D_{T,2}:=p_T D_{Tf} p_T^{\perp},D_{T,3}:=p_T^{\perp} D_{Tf}p_T,D_{T,4}:=p_T^{\perp} D_{Tf}p_T^{\perp}
+	\end{align}
+	
+\end{definition}
+
+这四个算子有非常好的估计式:
+\begin{proposition}
+	对于任意$T>0$,$D_{T,1}=0$.
+\end{proposition}
+\begin{proof}
+	设$f$的临界点集合为$\mathrm{zero}(df)$.则对于任何$s \in \mathbb{H}^0(M)$：
+	\begin{align*}
+		p_T s=\sum_{x \in \mathrm{zero}(df)}\langle \rho_{x,T},s\rangle\rho_{x,T}
+	\end{align*}
+	我们代入$D_{Tf}$计算:
+	\begin{align}
+		D_{Tf}(\langle \rho_{x,T},s\rangle\rho_{x,T}) \in \Omega^{n_f(x)-1}(M)\oplus \Omega^{n_f(x)+1}(M)
+	\end{align}
+
+	因为上述结果在$U_x$外全为$0$,因此$D_{Tf}(\langle \rho_{x,T},s\rangle\rho_{x,T})$与$\rho_{y,T}$在$x\neq y$的时候做内积显然为$0$.其次,若$x \neq y$,则根据形式的阶数不相同，也得到内积为$0$.综上:
+	\begin{align}
+		p_T D_{Tf}(\langle \rho_{x,T},s\rangle\rho_{x,T})=0
+	\end{align}
+\end{proof}
+\begin{proposition}
+	存在常数$T_1>0$,使得对于任意的$s \in (E_T)^{\perp} \cap \mathbb{H}^1(M)$,$s' \in E_T$和$T \geq T_1$,有:
+	\begin{align}
+		\|D_{T,2}s\|_0\leq 
+	\frac{\|s\|_0}{T},\|D_{T,3}s'\|_0\leq \frac{\|s'\|_0}{T}
+	\end{align}
+\end{proposition}
+\begin{proof}
+	容易验证$D_3$是$D_2$的形式伴随。
+    \begin{align}
+	\begin{split}
+		\langle D_2s,s'\rangle &=\langle p_TD_{Tf}p_T^{\perp}s,s'\rangle \\
+	 &=\langle p_T^{\perp}s,D_{Tf}p_Ts'\rangle\\
+	 &=\langle s,p_T^{\perp}D_{Tf}p_Ts'\rangle=\langle s,D_{T,3}s'\rangle
+	\end{split}
+	\end{align}
+	因此只需要验证第一个不等式。直接计算有
+    \begin{align}
+		D_{T,2}s=\sum_{x \in \mathrm{zero}(df)}\langle \rho_{x,T},D_{Tf}s\rangle\rho_{x,T}=\sum_{x \in \mathrm{zero}(df)}\langle D_{Tf}\rho_{x,T},s\rangle\rho_{x,T}=\sum_{x\in \mathrm{zero}(df)}\int_{U_x}D_{Tf}\rho_{x,t} \wedge (*s) dv_p \rho_{x,T}
+	\end{align}
+	
+	根据$\rho_{x,T}$的构造,我们不难发现上述积分只在$|y|\in [a,2a]$的区间上有意义。($\ker D_{Tf}=\ker D_{Tf}^2$.)而此时上述积分的值就取决于$\|s\|_0$和$T$.具体可以描述为:
+
+	存在$T_0>0$,$C_1>0$,$C_2>0$,使得:
+	\begin{align}
+		\|D_{T,2}s\|_0 \leq C_1T^{n/2}\exp(-C_2T)\|s\|_0
+	\end{align}
+	于是命题得证。
+\end{proof}
+\begin{proposition}\label{pro:D4}
+	存在常数$T_2>0$,$C>0$使得对于任何的$s \in E_T^\perp \cap \mathbb{H}^1(M)$和$T\geq T_2$,有:
+	\begin{align}
+		\|D_{Tf}s\|_0\geq C_2\sqrt{T}\|s\|_0
+	\end{align}
+\end{proposition}
+\begin{proof}
+	参照参考文献84页。
+\end{proof}
+\subsection{$D_{Tf}$和$\square_{Tf}$的特征值和特征空间}
+现在对于任意的正整数$c>0$,设$E_T(c)$表示$D_{Tf}$在$[-c,c]$中的特征值所对应的特征空间的直和.我们需要用到$E_T(c)$下面的两个性质。
+\begin{proposition}
+	$E_T(c)$是$\mathbb{H}^0(M)$有限维的子空间。
+\end{proposition}
+\begin{proof}
+	By 参考文献(spin geometry)196页，只需要验证$D_{Tf}$是自伴的椭圆算子。而形变本身不改变$D$的椭圆性和自伴性。
+\end{proof}
+\begin{proposition}
+	$E_T(c)$同时也是$\square_{Tf}$在$[0,c^2]$的中的特征值所对应的特征空间的直和。
+\end{proposition}
+\begin{proof}
+	设$\square_{Tf}$的特征值为$c^2$的特征空间为$E_c$.将$D_{Tf}$视作有限维空间$E_c$上的算子,则$D_{Tf}^2=c^2\mathrm{Id}$.从而$D_{Tf}$在$E_c$可以对角化,且有特征值$-c$和$c$.因此$E_c$是$D_{Tf}$以$-c$和$c$为特征值的特征空间的直和。从而命题得证。
+\end{proof}
+
+记$P_T(c)$是$\mathbb{H}^0(M)$到$E_T(c)$的正交投影算子。下面的引理给出了$E_T$和$E_T(c)$的估计:
+\begin{lemma}\label{lem:vertical}
+	存在常数$C>0$,$T_0>0$,使得对于任何的$T\geq T_0$,和任意的$\sigma \in E_T$,有:
+	\begin{align}
+		\|P_T(c)\sigma-\sigma\|_0 \leq \frac{C}{T}\|\sigma\|_0
+	\end{align}
+\end{lemma}
+设$T \to +\infty$,此时可以看出$P_T(c)\sigma$和$\sigma$相差很小。此时可以近似的研究$E_T$和$E_T(c)
+$的关系。
+\begin{proof}
+	令$\delta=\{\lambda \in \C:\|\lambda\|=c\}$是逆时针定向的圆周。对于任意的$\lambda \in \delta$,$T\geq T_1+T_2$和$s \in \mathbb{H}^1(M)$,有:
+	\begin{align}
+		\begin{split}
+			&{\quad}\|(\lambda-D_{Tf})s_0\|_0 \\
+			&\geq \frac{1}{2}\|\lambda p_T s-D_{T,2}p_T^{\perp}s\|_0+\frac{1}{2}\|\lambda p_T^{\perp}s-D_{T,3}p_Ts-D_{T,4}p_T^{\perp}s\|_0\\
+			&\geq \frac{1}{2}((c-\frac{1}{T})\|p_T s\|_0+(C_2\sqrt{T}-c-\frac{1}{T})\|p_T^{\perp}s\|_0)
+		\end{split}
+	\end{align}
+	其中第一个不等式利用了正交分解,第二个不等式利用上一节的三个命题。
+
+	上述估计式说明算子$\lambda-D_{Tf}$具有一定的下界——取$T$足够大。即存在$T_3 \geq T_1+T_2$和$C>0$使得对于任意的$T\geq T_3$和$s \in \mathrm{H}^1(M)$有:
+	\begin{align}
+		\|(\lambda-D_{Tf})s\|_0\geq C\|s\|_0
+	\end{align}
+
+	因此对于任意的$T>T_3$,$\lambda \in \delta$,有:
+	\begin{align}
+		\lambda-D_{Tf}:\mathbb{H}^1(M)\to \mathbb{H}^0(M)
+	\end{align}
+	可逆。
+
+	从而预解式$(\lambda-D_{Tf})^{-1}$良定。依据算子理论的谱定理:参考文献。
+	\begin{align}
+		P_T(c)\sigma-\sigma=\frac{1}{2\pi \sqrt{-1}}\int_{\delta}((\lambda-D_{Tf})^{-1}-\lambda^{-1})\sigma d\lambda
+	\end{align}
+
+	另外我们也有:
+	\begin{align}
+		((\lambda-D_{Tf})^{-1}-\lambda^{-1})\sigma=\lambda^{-1}(\lambda-D_{Tf})^{-1}D_{T,3}\sigma
+	\end{align}
+	上述式子只需要利用$D_{T,1}=0$即可。同时,对于任意的$T\geq T_3$,$\sigma \in E_T$,有:
+	\begin{align}
+		\|(\lambda-D_{Tf})^{-1}D_{T,3}\sigma\|_0 \leq C^{-1}\|D_{T,3}\sigma\|_0\leq \frac{1}{CT}\|\sigma\|_0
+	\end{align}
+\end{proof}
+\subsection{命题的证明}
+现在我们准备好了所有的内容,以证明命题\ref{property3.3}。
+
+考虑引理\ref{lem:vertical}作用在所有的$\rho_{x,T}$上.因为这样的$\rho_{x,T}$是有限个数的,从而存在足够大$T$使得$P_T(c)\rho_{x,T}$线性无关。(用范数估计)
+
+\begin{proposition}
+	在$T$足够大的时候,有:
+	\begin{align}
+\mathrm{dim}E_T(c)=\mathrm{dim}E_T=\sum_{i=0}^n m_i
+	\end{align}
+	并且$E_T(c)$由$P_T(c)\rho_{x,T}$生成.
+\end{proposition}
+\begin{proof}
+	如上所言，在$T$足够大时候,$P_T(c)\rho_{x,T}$线性无关。而这样的$\rho_{x,T}$有$\displaystyle \sum_{i=0}^n m_i$个,因此总有:
+	\begin{align}
+		\mathrm{dim}E_T(c)\geq \mathrm{dim}E_T=\sum_{i=0}^n m_i
+	\end{align}
+
+	假设存在一个非零的形式$y \in E_T(c)$不由上述$\{P_T(c)\rho_{x,T}\}$生成,且$y$与它们都正交:
+	\begin{align*}
+		\langle y,P_T(c)\rho_{x,T}\rangle_{\mathbb{H}^0(M)}=0,\forall x \in \mathrm{zero}(df)
+	\end{align*}
+    
+	显然对$p_T^{\perp}y$进行估计是一个好的选择。为此我们先计算$p_Ty$:
+	\begin{align}
+		\begin{split}
+			p_Ts&=\sum_{x \in \mathrm{zero}(df)}\langle y,\rho_{x,T}\rangle\rho_{x,T}\\
+			&=\sum_{x \in \mathrm{zero}(df)}\langle y,\rho_{x,T}\rangle\rho_{x,T}-\sum_{x\in \mathrm{zero}(df)}\langle y,P_T(c)\rho_{x,T}\rangle P_T(c)\rho_{x,T}\\
+			&=\sum_{x\in \mathrm{zero}(df)}\langle y,\rho_{x,T}\rangle(\rho_{x,T}-P_T(c)\rho_{x,T})+\sum_{x\in \mathrm{zero}(df)}\langle y,\rho_{x,T}-P_T(c)\rho_{x,T}\rangle P_T(c)\rho_{x,T}
+		\end{split}
+	\end{align}
+	从而不难估计出:
+	\begin{align}
+		\|p_Ty\|_0\leq \frac{C_3}{T}\|y\|_0
+	\end{align}
+
+    因此只要$T$足够大,就有:
+	\begin{align}
+		\|p_T^{\perp}y\|_0 \geq C_4\|y\|_0
+	\end{align}
+	
+	根据命题\ref{pro:D4},我们可以做如下估计:
+	\begin{align}
+		\begin{split}
+			CC_4\sqrt{T}\|y\|_0 &\leq C\sqrt{T}\|p_T^{\perp}y\|_0 \\ 
+			&\leq \|D_{Tf}p_T^{\perp}y\|_0 \\
+			&=\|D_{Tf}y-D_{Tf}p_Ty\|_0\\
+			&\leq \|D_{Tf}y\|_0+\|D_{Tf}p_Ty\|_0\\
+			&\|D_{Tf}y\|+\frac{1}{T}\|y\|_0
+		\end{split}
+	\end{align}
+	于是:
+	\begin{align}
+		\|D_{Tf}y\|_0 \geq CC_4\sqrt{T}\|y\|_0-\frac{1}{T}\|y\|_0
+	\end{align}
+	只要$T$充分大,右边的表达式蕴含$D_{Tf}y$的范数也充分大。但这是矛盾的！因为$\|D_{Tf}y\|$的范数至多是$|c|$倍的$\|y\|_0$.
+\end{proof}
+记$Q_i$是$\mathbb{H}^0(M)$到$\Omega^i(M)$的正交投影算子。
+\begin{proposition}\label{pro:dimQi}
+	在$T$充分大时,有$\mathrm{dim}(Q_iE_T(c))=m_i$.
+\end{proposition}
+\begin{proof}
+	设$s \in E_T(c)$且是特征值为$\mu$的特征向量。因而$\square_{Tf}s=D_{Tf}^2s=\mu^2s$.注意到$\square_{Tf}$是$\mathbb{H}^0(M)$上保$\Z$分次结构的算子，因此$Q_i$和$\square_{Tf}$交换:
+	\begin{align}
+	\square_{Tf}Q_is=Q_i\square_{Tf}s=\mu^2Q_i
+	\end{align}
+	从而$Q_iE_T(c)$是$\square_{Tf}$的特征空间直和的子空间,且这样的特征空间对应的特征值小于$\sqrt{c}$.
+
+	另一方面,根据Hodge定理,紧自伴算子$\square_{Tf}$的特征向量给出了$\mathbb{H}^0(M)$的一组正交基。因此$\square_{Tf}$的以小于$\sqrt{c}$的特征值对应的特征空间的直和正好是$E_T(c)$。
+
+	根据$Q_iE_T(c)$互相不交,我们有:
+	\begin{align}\label{aln:leq}
+		\bigoplus_{i=0}^n Q_i E_T(c) \subset E_T(c),\sum_{i=0}^n \mathrm{dim}Q_iE_T(c) \leq \mathrm{dim}E_T(c)
+	\end{align}
+	
+	另一方面,我们考虑$\{Q_i P_T(c)\rho_{x,T}:x \in \mathrm{zero}(df)\}$。注意到$\rho_{x,T}$是$n_f(x)$次的形式,且结合引理\ref{lem:vertical}:
+	\begin{align}
+		\|Q_{n_f(x)}P_T(c)\rho_{x,T}-\rho_{x,T}\|_0 \leq \frac{C_1}{T}
+	\end{align}
+
+	于是当$T$足够大的时候,$Q_{n_f(x)}P_T(c)\rho_{x,T}$互相线性无关。这意味着:
+	\begin{align}\label{aln:geq}
+		\mathrm{dim}(Q_iE_T(c))\geq m_i
+	\end{align}
+
+	结合式\ref{aln:geq}和\ref{aln:leq}可知命题成立。
+\end{proof}
+
+回忆命题\ref{property3.3},我们需要说明$\square_{Tf}$在$[0,c]$上的特征值个数在$T\geq T_0$时等于$m_i$,其中$0\leq i \leq n$.不妨将$c$改为$c^2$,从而我们可以直接使用上面所有命题的记号。
+
+因为$T$充分大的时候有$Q_iE_T(c)$的维数为$m_i$.我们只需要证明$T$充分大的时候$\square_{Tf}$在$\Omega^i(M)$上且特征值小于$c^2$的特征空间直和就是$Q_iE_T(c)$.
+
+因为$\square_{Tf}$保$\Z$分次,所以上面的命题等价于$T$充分大时,$\square_{Tf}$在$\mathbb{H}^0(M)$上且特征值小于$c^2$的特征空间直和就是$E_T(c)$.这一点在命题\ref{pro:dimQi}中已经使用。
+
+因此命题\ref{property3.3}得证,随即Morse不等式得证。

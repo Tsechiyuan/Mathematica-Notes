@@ -1,0 +1,140 @@
+\documentclass[UTF8]{ctexart}[a4paper,10pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{quiver}
+
+%声明环境
+\newtheorem{example}{例}[section]              
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[section]            
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+{
+    \theoremheaderfont{\sffamily}
+    \newtheorem*{remark}{注解} 
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+%外测度
+\def\outmQ{m_*(Q)}
+
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{Graph}
+\author{颜成子游}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{图的基本概念}
+\subsection{图与子图}
+我们要研究图论，那么首先就要给出图的基本概念。以及一些图的附属概念。
+\begin{definition}
+    图(Graph)是这样一个二元组，记作:$G=(V(G),E(G)$。其中：
+    \begin{enumerate}
+        \item $V(G)={v_1,v_2,\dots,v_n}$。这个集合被称为图的顶点集合，$v_i$被称为$G$的顶点。
+        \item $E(G)=\{(v_i,v_j)|i,j\leq n\}$。这个集合被称为图的边集合。其中$i,j$并不一定遍历所有的$n$.
+    \end{enumerate}
+    如果对于任意的$(i,j)$，若$(v_i,v_j)\in E(G)$,那么就有$(v_j,v_i)$就在$E(G)$中，那么称$G$是无向图。反之称之为有向图。
+\end{definition}
+
+边到$E\times E$的映射被称为关联函数。
+
+对于有向图，如果把所有的有序对都补充上他的转置，那么形成的无向图称为原图的underlying graph（基础图）。
+
+\begin{definition}
+    若$G$的$V(G),E(G)$是有限集合，则称之为有限图。$|V|$被称为$G$的阶，记为$\nu(G)$。$|E|$被称为$G$的边数，记为$\epsilon(G)$。此时$G$被称为$(\nu,\epsilon)$图。
+\end{definition}
+    某种意义上有序对是可以重复的。但是为了研究的方便，我们认为所有的有序对是不重复的。这样的图我们称之为“简单图”。对于有限简单图：
+    $$
+    0\leq \epsilon(G) \leq \frac{1}{2}\nu(G)(\nu(G)-1)
+    $$
+
+    今后未加说明的情况下，所指的图是顶点集和边集有限的无向简单图。
+\begin{example}[几类图的例子]
+    \quad
+
+    1.完全图：$|E|=\dfrac{1}{2}\nu(G)(\nu(G)-1)$的简单图。
+
+    2.空图：没有边的图。
+
+    3.二部图（偶图）：$V(G)=V_1 \cup V_2$，$V_1 \cap V_2= \emptyset$。且$G$的每个边的端点都分别属于$V_1,V_2$。
+
+    4.完全二部图：如果$V_1$中的顶点和$V_2$中的顶点都相邻，则称为完全二部图。显然$G$的边数为$mn$，若$V_1$个数$m$,$V_2$个数$n$。
+
+    
+\end{example}
+
+作为一个类似代数结构的东西，图也可以定义子图：
+\begin{definition}
+    对于$G=(V,E)$,称$H=(V_1,E_1)$是$G$的子图，若$H$也是图且$V_1 \subset V$,$E_1 \subset E$。
+\end{definition}
+\begin{definition}[生成子图]
+    若$H \subset G$，$V(H)=V(G)$，则称$H$是$G$的生成子图或支撑子图。
+\end{definition}
+\begin{definition}[导出子图]
+    某种意义上的“生成子图”。由$E$或者$V$的子集所生成的子图。
+\end{definition}
+\begin{definition}
+    补图：$G$的补图$H$是这样的图，其顶点是$V(G)$，其边集是$V(G)$能生成所有边集中$E(G)$的子集。
+\end{definition}
+显然，图与补图的并是完全图。
+
+\begin{definition}
+    图的并，交：很容易理解的定义。
+
+    图的差：之去掉边。
+
+    图的环和：并中去掉公共边。
+\end{definition}
+\begin{definition}
+    对于不相交的图，我们定义和：$G_1+G_2=(V_1 \cup V_2,E1\cup E_2 \cup E_3)$.其中$E_3=\{uv|u \in V_1,v \in V_2\}$
+
+    笛卡尔积：顶点集合是顶点集的笛卡尔积，而顶点之间有连线当且仅当其有一个分量相同，另一个分量在原图中相邻。
+\end{definition}
+\begin{definition}[图的顶点度]
+    
+    
+\end{definition}
+\subsection{图的连通度}
+\end{document}

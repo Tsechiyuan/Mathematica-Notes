@@ -1,0 +1,976 @@
+\documentclass[UTF8]{ctexart}[a4paper,10pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{quiver}
+
+%声明环境
+\newtheorem{example}{例}[section]              
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[section]            
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+{
+    \theoremheaderfont{\sffamily}
+    \newtheorem*{remark}{注解} 
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+\def\F{\mathbb{F}}
+
+
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{有限群表示论}
+\author{颜成子游}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{代数拾遗}
+为了之后的学习，我们罗列一些已经（可能）被遗忘的代数知识：
+\subsection{线性代数}
+\begin{definition}
+    称一个线性变换$U$是unitary的，如果其在复内积空间上有：
+    $$
+    (Uv,Uw)=(v,w)
+    $$
+    容易验证其一定是可逆的线性变换。
+\end{definition}
+考虑$\C^{n}$上的标准内积：$(u,v)=\overline{u^*v}$，则有：
+$$
+(Av,w)=(v,A^*w)
+$$
+其中$A^*$是$A$的共轭转置矩阵（伴随矩阵）。
+\begin{proposition}
+    在标准内积空间上的线性变换是unitary的当且仅当其的逆等于共轭转置。
+\end{proposition}
+\begin{theorem}[Spectral]
+    设$A$是$n\times n$的复自伴随矩阵。那么存在一个unitary的矩阵$U$使得$U^* A U$为对角矩阵。并且其特征值都是实数。
+\end{theorem}
+\begin{theorem}[矩阵可同时对角化的条件]
+    对于可对角化的矩阵$A,B$，其可以同时对角化的充分必要条件是$AB=BA$。进一步，对于一族可对角化的矩阵，可同时对角化的条件是他们两两可交换。
+\end{theorem}
+
+如果去掉可对角化，上述定理可以改为：
+\begin{theorem}
+    若$AB=BA$，则$A$和$B$可以同时上三角化。进一步，对于一族两两可交换的矩阵，他们可以同时上三角化。
+\end{theorem}
+
+主要要用到下面的引理：
+\begin{lemma}
+    如果$AB=BA$,则$A$的特征子空间是$B$的特征子空间。
+\end{lemma}
+\subsection{群}
+\begin{lemma}
+    如下的集合之间存在一一对应：(1)$S_n$的共轭类 (2)$n$的划分 (3)$n$阶幂零矩阵的相似等价类。
+\end{lemma}
+
+这是因为对于$S_n$而言，任何置换都可以在不计次序的情况下唯一写作一些不相交轮换的乘积。如果两个置换共轭，意味着他们对应的划分相同。
+
+我们还要接触很多特殊的群。因此我们在这里摘录Sylow定理备用：
+\begin{theorem}[Sylow第一定理]
+    设$|G|=p^lm$且$(p,m)=1$，则$\forall k \leq l$，$|G|$存在$p^k$阶的子群。特别的，称$p^l$阶的子群是Sylow-p子群。
+\end{theorem}
+\begin{theorem}[Sylow第二定理]
+    设$P$是$G$的Sylow-p子群，$H$是$G$的$p^k$阶子群。则存在$g$:$g^{-1}Hg \subset P$。特别的，如果$H$也是Sylow-p子群，那么$H$与$P$共轭。
+\end{theorem}
+\begin{theorem}[Sylow第三定理]
+    设$|G|=p^lm$,$(p,m)=1$。则$G$的Sylow-p子群的个数$n_p$满足：$n_p|m$，且$n_p \equiv 1 (\mathrm{mod}p)$
+\end{theorem}
+\section{表示论的基本概念}
+\subsection{表示的起源}
+\begin{definition}
+    称$n$阶矩阵$X_G=(x_{ij})$是$G$的一个群矩阵，其中$x_{ij}$是$s_is_j^{-1}=s_k$所对应的变量$x_k$。称$X_G$的行列式为$G$的群行列式$D_G$。
+\end{definition}
+群的元素排列并不影响行列式。可以计算在置换后行列式的结果仍然不变。
+
+\begin{definition}
+    设$G$是一个群，称$G$到$C^*$的函数$\chi$是$G$的一个特征，如果对于$a,b \in G$，$\chi(ab)=\chi(a)\chi(b)$，即$G$的特征是到$C^*$的一个同态。其中平凡同态$\chi=1$称为主特征。
+\end{definition}
+显然对于有限群，$\chi(s)$的$n$次方是$1$。于是$\chi(s)$是$n$次单位根。
+\begin{example}
+    定义函数$sgn(\sigma)$将$S_n$中的奇置换映为$-1$,将偶置换映为$1$。则容易验证其是一个特征。
+\end{example}
+\begin{example}[Legendre符号]
+    设$p$是一个奇素数。定义函数$\chi_p(a)：$
+    \begin{equation*}
+        \chi_p(a)=(\frac{a}{p})=\left\{
+        \begin{aligned}
+            0&,\quad p|a\\
+            1 &,\quad a=b^2(mod p)\\
+            -1&, \quad others\\
+        \end{aligned}
+        \right.
+    \end{equation*}
+    $\chi_p$是乘法群$F_p*$的特征。
+\end{example}
+     例子是很多的。我们可以在《有限群表示论》的24页找到更多例子。
+
+\begin{lemma}
+    记Abel群$G$的所有特征的全体是$\hat{G}$。对于任意$\varphi,\phi \in \hat{G}$,定义$\chi:G \to C*$：
+    $$
+     \chi(x)=\varphi(x)\phi(x)
+    $$
+    则$\chi(x)$也属于$\hat{G}$。在这样的运算下，$\hat{G}$构成一个Abel群。
+\end{lemma}
+\begin{proof}
+    关键是验证幺元和逆元的存在。可以验证主特征是幺元。其次，对于$\chi(x)$，其逆元应该为$\chi^{-1}(x)=\chi(x^{-1})$。根据同态可知，相乘为主特征。
+
+    根据复数的性质，结合$|\chi(x)|=1$知$\chi^{-1}(x)=\overline{\chi(x)}$。
+\end{proof}
+在线性空间的研究中，$V^*$与$V$维数相同，从而同构。我们也可以猜测，如果Abel群有限，那么其特征群也同构于自己。
+\begin{proposition}
+    设$G$是有限Abel群，则$\hat{G}\backsimeq G$。
+\end{proposition}
+\begin{proof}
+    考虑有限Abel群的结构。设$G$可以写为：
+    $$
+    G=H_1\times H_2\times H_3 \times \dots \times H_n
+    $$
+    我们先考虑循环群。设$H=\left\langle a \right\rangle$ 假设$\chi$是特征，则显然$\chi(a)$唯一确定了$\chi$。设$\chi(a)=\omega$。$\omega$是$n$次本原单位根。可以验证事实：
+    $$
+    \hat{H}=\{\chi,\chi^2,\dots,\chi^n\}
+    $$ 
+    从而$H \backsimeq \hat{H}$
+
+    回到一般的有限Abel群。我们构造映射：
+    $$
+    \phi:\hat{H_1}\times \dots \hat{H_n}\to \hat{G}
+    $$
+    满足：$\phi[(\chi_1,\chi_2,\dots,\chi_n)](a_1a_2\dots a_n)=\chi_1(a_1)\dots\chi_n(a_n)$。
+
+    可以验证这个映射是同构。
+\end{proof}
+\begin{corollary}
+    设$G$为有限群。那么其特征群与$G/G^{(1)}$同构。
+\end{corollary}
+\begin{proof}
+    由于$\chi(G)$交换，这意味着$G^{(1)}\subset \ker \chi$。从而自然诱导：
+    $$
+    \tilde{\chi}:G/G^(1)\to C^{*}
+    $$ 
+    满足$\tilde{\chi}(gG^{(1)})=\chi(g)$。从而建立了$G/G^{(1)}$的特征群到$G$的特征群的一一映射。并且根据诱导映射定义，这个一一映射也是同构。
+
+    再根据上述命题，推论得证。
+\end{proof}
+\begin{corollary}
+    $S_n$的特征群是二阶群。
+\end{corollary}
+\begin{lemma}
+    设$\chi$是有限群$G$的特征且不是主特征，则$\sum_{s \in G}\chi(s)=0$
+\end{lemma}
+引理说明，若把每个特征的所有结果求和，那么会得到0.也就是说，若把$\chi$换成两个不同的特征：
+\begin{proposition}
+    设$\chi，\varphi$是不同的特征，那么$\sum_{s \in G}\chi(s)\varphi(s^{-1})=0$
+\end{proposition}
+这说明了某种正交性。加入我们研究矩阵：$A=(\chi_i(s_j))$，那么该矩阵的共轭是$(\chi_i(s_i^{-1}))$。
+从而$A\overline{A^T}=I_n$。因此$A$是酉矩阵。
+
+\begin{theorem}
+    设群$G=\{s_1,\dots,s_n\}$是交换群。则群的行列式$D_G$可以分解为一次齐次多项式的乘积。
+\end{theorem}
+\begin{proof}
+    定理的证明是构造性的。对于群矩阵，取$\chi\in \hat{G}$，将第$i$行乘$\chi(s_i)$后加到第一行.$i=2,\dots,n$.那么可以得到$\sum_{i=1}^n \chi(s_i)x_i$是$D_G$的因子。这些因子对于不同的$\chi$是互素的，否则则有$\chi_i=\chi_j$。因此因子的乘积也是$D_G$的因子。比较次数和$x_1^n$的系数即可完成证明。
+\end{proof}
+对于非交换群，可以给出不能分解为一次多项式乘积例子：
+\begin{example}
+    可以$S_3$的群行列式为：
+    $$
+    (x_1+x_2+x_3+x_4+x_5+x_6)(x_1+x_2+x_3-x_4-x_5-x_6)(x_1^2+x_2^2+x_3^2-x_1x_2-x_1x_3-x_2x_3-x_4^2-x_5^2-x_6^2+x_4x_5+x_4x_6+x_5x_6)^2
+    $$
+\end{example}
+值得注意的是，上述多项式中一次多项式的指数为一，二次多项式的指数为二。这不是巧合。我们将在之后说明这一结果。
+\subsection{表示的基本概念}
+\subsubsection{群表示的定义}
+特征是一种特殊的表示。表示的概念如下：
+\begin{definition}
+    设$V$是域$F$上$n$维线性空间，$G$为群。称群同态$\rho:G \to GL(V)$是$G$在$V$上的一个$F$表示，记为$(\rho,V)$或$\rho$。$V$称为表示空间，其维数是表示的维数，记为$deg \rho$。
+
+    如果$\rho$是单射，称$\rho$是忠实表示。
+\end{definition}
+\begin{proposition}
+    每个有限群都有忠实的表示。
+\end{proposition}
+\begin{proof}
+    考虑群到对称群的对应：$g\mapsto gx$。从而我们只需考虑$S_n$。显然$S_n$可以写为矩阵，并且这样的矩阵对应了运算。
+\end{proof}
+为了得到忠实表示，显然应该做商：
+\begin{lemma}
+    设$(\rho,V)$是$G$的表示，则$(\overline{\rho},V)$是$G/\ker \rho$的忠实表示。
+\end{lemma}
+
+我们把平凡同态$\rho(s)=id_V$称为平凡表示。
+
+\begin{lemma}
+    设$V$是复线性空间，$\rho:G \to GL(V)$是$n$阶群表示。则$\forall s \in G, \rho(s)$可对角化且特征值是$n$次单位根。
+\end{lemma}
+如果我们考虑线性空间$V$的基$\{e_1,\dots,3_n\}$。可以看出$S_n$在$V$上的一个作用可以被定义为对基的置换。并且在基$\{e_1,\dots,e_n\}$下表示为一个置换矩阵。
+
+\subsubsection{一些例子}
+线性代数可以提供大量群的表示的例子。
+\begin{example}
+    对于线性空间的线性映射群$\text{End} V$,定义$\pi(s)(T)=\rho(s)T\rho(s)^{-1}$,$s \in G$。则$(\pi,\text{End}V)$为$G$的一个表示。
+\end{example}
+\begin{example}
+    将上述例子推广。设$(\rho,V),(\rho^{'},V^{'})$为$G,G^{'}$的表示。对于$T \in Hom(V,V^{'})$，定义$\pi(s,s^{'})(T)=\rho^{'}(s^{'})T \rho(s)^{-1}$。则$(\pi,Hom(V,V^{'}))$是$G\times G^{'}$的表示。这是矩阵相抵得到的表示。
+\end{example}
+\begin{example}
+    上述例子中令$V'=F$,$\rho$是平凡表示。定义：
+    $$
+    \rho^*(s)(f)(v)=f(\rho(s)^{-1}v)
+    $$
+    于是$(\rho^*,V^*)$也是$G$的一个表示。
+\end{example}
+\subsubsection{子表示，商表示，限制表示}
+从例子看出，线性空间是表示中比较关键的概念。如果$G$作用$X$上，$X$不是线性空间，则可以想办法构造$X$对应的线性空间。
+
+设$X$是有限集合，$X={e_1,\dots,e_n}$。形式的把$X$的元素看成基，那么$X$可以生成一个$n$为线性空间。从而$G$在$X$上的作用自然可以看成$G$的表示，称为置换表示。
+\begin{example}
+    设$H <G$,$X=G/H$.则由此得到的置换表示被称为$G$的左正则表示，记为$(R,\F G)$。
+\end{example}
+不难看出，有些元在表示的像作用下不变。比如$w=\sum_{i=1}^n e_i$在置换表示下不变。考虑其生成的一维子空间$W$，则$W$是$\rho(s)$的公共子空间。
+\begin{definition}[子表示]
+    设$(\rho,V)$是$G$的线性表示，$W$是$V$的子空间。称$W$是$G-$不变的，如果对于任意的$s \in G$,$W$都是$\rho(s)$的不变子空间。定义$\rho|_W(s)=\rho(s)|_W$。于是我们得到了$(\rho|_W,W)$是$G$的一个表示，称之为$(\rho,W)$的子表示。自然$0,V$是子表示，称为平凡子表示。其他子表示称为非平凡子表示。
+\end{definition}
+子表示的关键是寻找$\rho(s)$的公共不变子空间。
+\begin{example}
+    考虑$V^G=\{v \in V|\rho(s)v=v,\forall s \in G\}$.显然这是一个子空间，且是$\rho(s)$的公共不变子空间。
+\end{example}
+\begin{definition}[商表示，限制表示]
+    显然$V/W$上也可以定义$\overline{\rho(s)}$。从而$(\overline{\rho},V/W)$是$G$的一个表示，称为商表示；另一方面，若$H$是$G$的子群，那么$G$的表示自然诱导出$H$的表示，称为限制表示
+\end{definition}
+     下面的图是短正合序列：
+     \begin{tikzcd}
+        0 && W && V && {V/W} && 0 \\
+        \\
+        0 && W && V && {V/W} && 0
+        \arrow[from=1-1, to=1-3]
+        \arrow[from=1-3, to=1-5]
+        \arrow[from=1-5, to=1-7]
+        \arrow[from=1-7, to=1-9]
+        \arrow[from=3-1, to=3-3]
+        \arrow[from=3-3, to=3-5]
+        \arrow[from=3-5, to=3-7]
+        \arrow[from=3-7, to=3-9]
+        \arrow["{\rho/W(s)}"{description}, from=1-3, to=3-3]
+        \arrow["{\rho(s)}"{description}, from=1-5, to=3-5]
+        \arrow["{\bar{\rho}(s)}"{description}, from=1-7, to=3-7]
+        \arrow[from=1-9, to=3-9]
+    \end{tikzcd}
+\subsubsection{缠结算子}
+    我们通过对$V$的分析得到了$G$的不同表示。为了描述不同表示之间的关系，引入下列概念：
+    \begin{definition}
+        设$(\rho,V),(\rho^{'},V^{'})$是$G$的两个$\F-$表示。称$T \in Hom(V,V^{'})$是两个表示的缠结算子，若：
+    \begin{figure}[htbp]
+        \centering
+        \begin{tikzcd}
+            V && {V'} \\
+            \\
+            V && {V'}
+            \arrow["{\rho(s)}", from=1-1, to=3-1]
+            \arrow["T", from=1-1, to=1-3]
+            \arrow["{\rho'(s)}"', from=1-3, to=3-3]
+            \arrow["T", from=3-1, to=3-3]
+        \end{tikzcd}
+        \end{figure}
+
+        成立。记所有缠结算子的全体是$Hom_G(V.V')$,是原本空间的子空间。如果算子可逆，那么称两个表示等价。
+    \end{definition}
+    很好理解缠结算子定义的由来。
+    \begin{example}
+        设$Z(G)$是$G$的中心。$(\rho,V)$是$G$的一个表示。由于$Z(G)$与$G$的元素都交换，因此$\forall s \in Z(G)$,$\rho(s)\rho(t)=\rho(t)\rho(s),\forall t \in G$.从而是同一个表示之间的缠结算子。
+    \end{example}
+    可以想到，如果把所有表示看成范畴，那么缠结算子就是范畴中的态射。具体的细节不再赘述。
+
+    \begin{example}
+        把上面的例子推广。假设$(\rho,V)$表示下，定义新的表示：$\rho'(s)=T \rho(s)T^{-1}$.从而$(\rho'，V)$也成为一个表示。这两个表示之间的缠结算子就是$T$。并且两个表示等价。
+    \end{example}
+    
+    很容易根据子，商的泛性质来定义缠结算子的对应：
+    \begin{lemma}
+        设$T \in Hom_G(V,V')$。则$\ker T$与$T(V)$都是$G-$不变的。从而$V/\ker T$与$T(V)$作为表示也是等价的。如果$T$是单射，称$V$是$V'$的子表示。
+    \end{lemma}
+    \begin{proof}
+        利用交换图很快就能说明两者的$G-$不变性。
+    \end{proof}
+    缠结算子给出了不等价表示的含义，有助于我们寻找子表示。子表示的分解是表示的重大问题。
+    \subsubsection{完全可约}
+    \begin{definition}
+        设$(\rho_1,W)$,$(\rho_2,U)$是$G$的表示。则对于$W$与$U$的直和$V=W \oplus U$，可以定义表示$\rho$:
+        $$
+        \rho(s)(v_1+v_2)=\rho_1(s)(v_1)+\rho_2(s)(v_2)
+        $$ 
+    从而我们定义了表示的直和。称一个表示$(\rho,V)$是完全可约的，若对于任意子表示$W$，都有子表示$U$使得$V=W\oplus U$。称$U$是$W$的补表示。
+    \end{definition}
+    可以看出，子表示和补表示类似于子空间和补空间。如果我们能做类似于直和分解的操作，就能分解表示到不同的空间。
+
+    为了求补表示，我们引入投影的概念：
+    \begin{definition}
+        $W$是$V$的子空间。若$p \in End(V)$且$p(V)=W,p(W)=W$，则称其为$V$上一个投影。
+    \end{definition}
+
+    投影是可以对角化的，并且$V=\ker p \oplus im p$。这很容易验证。反之，给定$W$的补空间$U$，定义$p(w+u)=w$。很容易验证这是投影。从而投影和补空间对一一对应。
+    \begin{lemma}
+        设$W$为子表示。则存在$U$使得$V=W\oplus U$当且仅当$p \in Hom_G(V,V)$是$V$到$W$上的投影。
+    \end{lemma}
+    \begin{proof}
+        只需要验证$p$是缠结算子。带入交换图，很容易验证。
+    \end{proof}
+    根据投影，我们给出说明$(\rho,V)$的完全可约性质：
+    \begin{theorem}[Maschke]
+        设$(\rho,V)$是$G$的一个$\F-$表示且$ch \F\nmid |G|$。则$(\rho,V)$是完全可约的。
+    \end{theorem}
+    \begin{proof}
+        只需要找到$V$到$W$的投影$p \in Hom_G(V,V)$即可。为此，先考虑任何一个$U$是$W$的补子空间。$p_0$是投影。则：
+        $$
+        p=\frac{1}{|G|}\sum_{t\in G}\rho(t)p_0\rho(t)^{-1}
+        $$
+        可以验证其是一个缠结算子和投影。
+    \end{proof}
+    注意到$|G|$不能被特征整除。否则在特征的意义下其为0.我们也可以给出这种情况下的反例：见《有限群表示论》（朱富海著）的第36页。
+
+    \subsection{不可约表示}
+    \subsubsection{基本定义}
+    根据Maschke定理，对于有限群$G$的有限维表示$V$，如果其有非平凡子表示$W$，则必定有一个表示的直和分解$V =U \oplus W$.根据$V$维数有限，我们可以把分解进行下去。
+    \begin{definition}
+        对于$G$的有限维表示$V\neq \{0\}$，称其为不可约表示，如果其没有非平凡的子表示。否则称之为可约的。
+    \end{definition}
+    这个定义吊诡的地方在于，如果一个表示是不可约的，那么其一定是完全可约的。
+
+    \begin{lemma}
+    有限群的有限维表示可以被分解为若干不可约表示的直和。
+    \end{lemma}
+    因此我们的任务就落在了研究不可约表示上。
+    
+    在此之前，给出一个略不平凡的命题：
+    \begin{proposition}
+        设$(\rho,V)$是$G$的有限维表示，则下列条件等价：
+        \begin{enumerate}
+            \item $V$是完全可约的。
+            \item $V$是不可约子表示的直和。
+            \item $V$是不可约子表示的和。
+        \end{enumerate}
+    \end{proposition}
+    \begin{proof}
+        只需说明第三条推导第一条：
+
+        若$V=V_1+V_2+\dots+V_n$。对于$V$的任何子表示$W$,如果$W\neq V$,则存在$V_i$不只在$W$中。由于$V_i$是不可约的，并且$W \cap V_i$是子表示，因此$W \cap V_i= \emptyset$,$W$与$V_i$的和是直和。接着往下做，则有限步后能得到：
+        $$
+        W\oplus V_{i_1}\dots \oplus V_{i_n}=V
+        $$
+    \end{proof}
+    我们在这节主要给出不可约表示的一些基本性质。
+    \subsubsection{基本性质}
+    \begin{lemma}
+        设$(\rho,V)$是不可约表示，则$(\overline{\rho},V)$是$G/\ker \rho$的不可约表示。
+    \end{lemma}
+    \begin{proof}
+        显然，若后面的表示存在非平凡子表示$W$，则一定是$(\rho,V)$的子表示。因为$\overline{\rho}(g\ker \rho)=\rho(g)$
+    \end{proof}
+    \begin{example}
+        所有一维表示都是不可约的。因为$V$不可能有非平凡子空间。而有限群的$G$的所有特征都可以看成$G/G^{1}$的特征。这一点已经说明了。
+    \end{example}
+    一维的不可约表示其实是很平凡的。我们来看看二维的不可约表示
+    \begin{example}
+        设$(\rho,V)$是$G$的二维表示，且$\rho(G)$不交换。则$(\rho,V)$不可约。因为如果可约，意味着存在某个子空间使得其为所有$\rho(g)$的不变子空间，也就是$\rho(g)$可以同时对角化。这与交换矛盾。
+    \end{example}
+    下面这个例子颇有意思：
+    \begin{example}
+        对于置换表示，$W=Span\{e_1+e_2+\dots+e_n\}$是其的子表示。其补表示为：
+        $$
+        W'=\{a_1e_1+\dots+a_ne_n|a_1+\dots+a_n=0\}
+        $$
+        且$W'$是不可约的。称为$W'$是$S_n$的约减表示。
+    \end{example}
+    \begin{proof}
+        我们说明任取一个不相等于$W$的非平凡子表示$U$都是$W'$。由于$\sigma=(12)$,$\sigma \alpha-\alpha=(a_1-a_2)(e_1-e_2)\in U$,从而$e_i-e_j \in U$且构成一组$U$的基。从而$dim U=n-1$。由于$U$不可约，从而$U \cap W$是空集，于是$U=W'$.
+    \end{proof}
+    \subsubsection{表示的张量积}
+    我们知道，线性空间的元素可以做张量积。而线性空间上线性函数也可以做张量积。表示也可以进行：
+    \begin{definition}
+        设$(\rho,V)$,$(\rho',V')$是$G$的表示。在$V$与$V'$的张量积$V \otimes V'$上定义：
+        $$
+        \rho \otimes \rho'(s)(v \otimes v')=\rho(s)v\otimes \rho'(s)v'
+        $$
+        容易验证定义了新表示，称之为表示的张量积。
+    \end{definition}
+    张量积也可以定义群的直积的表示。只需要把定义换成$G \times G'$即可。
+
+    \begin{lemma}
+        设$V,V'$是$G$-模，则有$G$-模同构：
+        $$
+        Hom(V,V')\cong V* \otimes V' 
+        $$
+    \end{lemma}
+    \begin{proof}
+        先验证作为线性空间的等价。设$\alpha_i$是$V$的基，$f_i$是对偶基，$\beta_j$是$V'$的基。定义：
+        $$
+        \varphi:V^* \otimes V' \to Hom(V,V')
+        $$
+        $$
+        \varphi(f_i \otimes \beta_j)(v)=f_i(v)\beta_j
+        $$
+        为了说明$\varphi$是线性同构，我们首先说明两个空间的维数相同。这很明显。其次我们说明$\varphi$是线性映射。这是因为：
+        $$
+        \varphi(f \otimes \beta)(v)=f(v)\beta
+        $$
+        从而根据张量的可加性就可以得到验证。
+
+        最后说明单射。这是因为:若$\varphi(f \otimes \beta)=0$，则$f(v)\beta=0$对于任何$v$都成立。这说明$f$,$\beta$中必有一个是0，于是$f \otimes \beta$是0.
+
+        现在说明其实表示的同构。刚才的$\varphi$可以看作缠结算子。设$G$是群。则从$G$到$GL(V),GL(V')$分别有一个同态。我们知道可以构造$G$到$\text{Hom}(V,V')$的表示：$\pi(s)=\rho'(s)T\rho(s)^{-1}$。另外，对于张量的表示：$ \rho \otimes \rho'(s)(v \otimes v')=\rho(s)v\otimes \rho'(s)v'$.
+
+        下面的交换图是成立的。
+        \begin{figure}
+            \centering
+            \begin{tikzcd}
+                {\text{Hom}(V,V')} && {V^*\otimes V'} \\
+                \\
+                {\text{Hom}(V,V')} && {V^*\otimes V'}
+                \arrow["{\pi(s)}", from=1-1, to=3-1]
+                \arrow["\varphi^{-1}"', from=1-1, to=1-3]
+                \arrow["{\sigma(s)}"', from=1-3, to=3-3]
+                \arrow["\varphi^{-1}", from=3-1, to=3-3]
+            \end{tikzcd}
+        \end{figure}
+        
+        验证工作：设$f \otimes \beta$是$V^* \otimes V'$里的一个元素（根据线性很容易推广），则$\sigma(s)(f \otimes \beta)=(\rho^{-1}(s)f)\otimes (\rho'(s)\beta)$,$\varphi(\sigma(s)(f\otimes \beta))=([\rho^{-1}(s)f](e_i)[\rho'(s)\beta])=\rho'(s)([\rho^{-1}(s)f](e_i)[\beta])=\rho'(s)([f](e_i)[\beta])\rho^{-1}(s)$.
+
+        另一方面，从另一个方向出发，$\varphi(f \otimes \beta)=(f(e_i)\beta)$,$\pi(s)(\varphi(f \otimes \beta))=\pi(s)(f(e_i)\beta)=\rho'(s)(f(e_i)\beta)\rho^{-1}(s)$.
+
+        于是图交换成立。
+
+        从而根据这是一个同构，我们知道也是表示同构。
+    \end{proof}
+    \begin{corollary}
+        考虑不动点集合：$\dim \text{Hom}_G(V,V')=\dim Hom(V^* \otimes V')$.
+    \end{corollary}
+    于是如果我们相求缠结算子$\text{Hom}_G(V,V')$的问题，可以转求$V^* \otimes V'$在$G$作用下的不动点集合。
+    \section{特征标}
+    这一章我们将开始研究不可约表示的问题。
+    \subsection{Schur引理}
+    问题：什么样的表示不可约？如何判断不可约的表示等价？有限群的不可约表示有多少个？如何求？
+    \subsubsection{引理的基本内容}
+    \begin{lemma}[Schur]
+        设$(\rho,V),(\rho',V')$是有限群的有限维不可约表示。
+        \begin{enumerate}
+            \item 若$\rho,\rho'$不等价，则$Hom_G(V,V')=\{0\}$
+            \item $Hom_G(V,V)$是一个除环。
+            \item 若$\F$是代数闭域，则
+            $$
+            Hom_G(V,V')=\{\lambda id|\lambda \in \F\} \cong \F
+            $$
+        \end{enumerate}
+    \end{lemma}
+    \begin{proof}
+        首先要明确，$Hom_G(V,V')$是缠结算子。因为其：
+        $$
+        T\in Hom_G(V,V') \Leftrightarrow \rho'(s)T\rho^{-1}(s)=T \Leftrightarrow \rho'(s)T=T\rho(s)
+        $$
+        首先，若不等价。设$\varphi$是缠结算子。由于$\ker \varphi$是$V$的$G-$不变子空间，$im \varphi$是$V'$的$G-$不变子空间，从而根据不可约，$\varphi=0$。
+
+        其次，若$\varphi$不为零，根据上述描述知其一定可逆。于是$Hom_G(V,V')$是体。
+
+        最后，若$\F$是代数闭域，则$\varphi-\lambda id$是不可逆的。由于$\varphi -\lambda id \in Hom_G(V,V')$,所以只能为0.因此我们还说明了$Hom_G(V,V')$里的元素的形状。
+    \end{proof}
+    \begin{proposition}
+        Abel群的任何有限维不可约复表示都是一维的。
+    \end{proposition}
+    \begin{proof}
+        由于$G$是Abel的，所以任何$s,t \in G$,$st=ts$。从而他们的像也可交换。于是$\forall \rho(s),\rho(s)\in Hom_G(V,V)$。由引理知数乘变换，再加上$V$不可约知$\dim V=1$
+    \end{proof}
+    \begin{corollary}
+        设$(\rho,V)$是有限群$G$的有限维表示，则$V$不可约当且仅当$Hom_G(V,V)$是体。
+    \end{corollary}
+    \begin{proof}
+        如果可约，那么有$V=W_1\oplus W_2$。此时$p:V\to V,p(v_1+v_2)=v_1$是不可逆的投影算子。
+    \end{proof}
+    \subsubsection{计算例子}
+    可见朱富海《有限群表示论》43页。
+    \subsection{第一正交关系}
+    \subsubsection{矩阵系数的正交关系}
+    利用Schur引理我们有：
+    \begin{lemma}
+        设$(\rho,V),(\rho',V')$是$G$的不可约表示，$\varphi$是$V,V'$之间的线性映射，令：
+        $$
+        \varphi_0=\frac{1}{|G|}\sum_{s\in G}\rho'(s)\varphi\rho(s)^{-1}
+        $$
+        则：
+        \begin{enumerate}
+            \item $\varphi_0 \in Hom_G(V,V')$
+            \item 若$V,V'$不等价，则$\varphi_0=0$
+            \item 若两个表示相同且为复表示，$\dim V=n$，则$\varphi_0=\frac{1}{n}rr(\varphi)id$
+        \end{enumerate}
+    \end{lemma}
+    \begin{proof}
+        显然。
+    \end{proof}
+    由于如果对应的域不是代数闭域，缠结算子不一定是数乘变换，导致一些麻烦。不做特别说明，我们都只考虑复表示。
+    
+    考虑$V,V'$上的$G-$不变（酉）内积以及标准正交基：
+    $$
+    \epsilon_1,\dots,\epsilon_n, \quad \eta_1,\dots,\eta_m
+    $$
+    从而可以得到$\rho(t),\rho'(t),\varphi,\varphi_0$对应的矩阵：
+    $$
+    (\rho_{kl}(t)),(\rho'_{ij}(t)),A=(a_{jk}),A_0=(a_{jk}^0)
+    $$
+    根据高等代数知识，可以验证:
+    $$
+    a^0_{ik}=\frac{1}{|G|}\sum_{t \in G}\rho_{ij}'(t)a_{jl}\overline{\rho_{kl}(t)}
+    $$
+    \begin{definition}
+        设$C(G)$是所有$f:G \to \C$的线性全体。则其为复线性空间，维度为$|G|$。定义对于$\forall \varphi,\phi \in C(G)$：
+        $$
+        (\varphi,\phi)=\frac{1}{|G|}\sum_{t\in G}\varphi(t)\overline{\phi(t)}
+        $$
+        容易验证这是酉内积，使得$C(G)$是酉空间。
+    \end{definition}
+    \begin{proposition}
+        设$(\rho,V)$，$(\rho',V')$是$G$的不等价的不可约表示，则：
+        $$
+        (\rho_{ij}(t),\rho'_{kl}(t))=0
+        $$
+        $$
+        (\rho_{ij}(t),\rho_{kl}(t))=\frac{1}{\dim V}\delta_{ik}\delta_{jl}
+        $$
+    \end{proposition}
+   \subsubsection{特征标}
+   在给出特征标的定义前，我们给出一个高等代数的引理：
+   \begin{lemma}
+    $f:\C^{n \times n} \to \C$是线性函数，满足：$\forall T,A \in C^{n \times n}$,都有$f(TAT^{-1})=f(A)$.则存在常数$c:f(A)=ctr(A)$
+   \end{lemma}
+   下面定义的提出就顺理成章了：
+   \begin{definition}
+    设$(\rho,V)$是$G$的$n$维表示。称:
+    $$
+    \chi_\rho(s)=tr(\rho(s))=\sum_{i=1}^n \rho_{ii}(s)
+    $$
+    是$\rho$的特征标，其是一个$G \to \C$的线性函数。其中不可约表示的特征标称为不可约特征标。
+   \end{definition}
+   设维度是$n$，则$\chi(1)=n$对于任何表示$\rho$都成立。
+   \begin{proposition}
+    设$\chi$是$(\rho,V)$的特征标,则：
+    \begin{enumerate}
+        \item $\chi(t^{-1})=\overline{\chi(t)}$.特别的，如果$\chi(t),\chi(t^{-1})$共轭,则$\chi(t)\in \R$。
+        \item $\chi(sts^{-1})=\chi(t)$
+    \end{enumerate}
+   \end{proposition}
+   性质2说明$\chi_\rho$对于同一个共轭类的像相同。这样的函数称为类函数，其全体是$C(G)$的线性子空间，称为$\mathcal{H}$.
+   \begin{lemma}
+    设$Conj(G)$是有限群$G$共轭类的全体，则$\dim \mathcal{H}=|Conj(G)$。
+   \end{lemma}
+   \begin{proof}
+    我们断言基为：$\rho_{k}(s)$,$k=1,\dots,|Conj(G)|$。其中$\rho_k(s)$在某个共轭类上取$1$，其他共轭类取$0$.
+   \end{proof}
+   \begin{proposition}
+    设$\chi,\chi'$是$(\rho,V)$，$(\rho',V')$的特征标，则：
+    $$
+    \chi_{\rho \oplus \rho'}=\chi+\chi'
+    $$
+    $$
+    \chi_{\rho^*}=\overline{\chi}
+    $$
+    $$
+    \chi_{\rho \otimes \rho'}=\chi \chi'
+    $$
+    $$
+    \chi_{Hom(V,V')}=\overline{\chi}\chi'
+    $$
+   \end{proposition}
+   \begin{proof}
+    对于张量积，$A \otimes B$的迹是$tr(A)tr(B)$。对于$\rho^*$，$\rho(s)=\overline{\rho^*(s)}$。剩下的显然。
+   \end{proof}
+   对于张量积，也可以考虑不同的群$G,H$的表示。得到$G\times H$的特征标：
+   $$
+   \chi_{\rho \otimes \pi}(g,h)=\chi_\rho(g)\chi_\pi(h)
+   $$
+   \subsubsection{特征标与表示的对应}
+   对于任何一个有限群，若其有两个等价的表示，那么$\chi_\rho=\chi_\pi$。那么，关键是不等价的表示是否会有相同的特征标呢？
+
+   对于这个问题的考量，我们应该首先考虑不可约的情况：
+   \begin{theorem}
+    设$\chi,chi'$是$G$的两个不等价的不可约表示的特征标，那么有：
+    $$
+    (\chi,\chi)=(\chi',\chi')=1, \quad (\chi,\chi')=0
+    $$
+   \end{theorem}
+   \begin{proof}
+    设维数为$n,m$。则根据内积的表达式，可以给出：
+    $$
+    (\chi,\chi)=(\sum_{i=1}^n \rho_{ii}(s),\sum_{j=1}^n \rho_{jj}(s))=1
+    $$
+    $$
+    (\rho.\rho')=0
+    $$
+   \end{proof}
+   因此，不同的不可约表示的特征标不仅不同，而且是相互正交的。这意味着其构成一组无关向量组。由于特征标是类函数的一个子集，因此其也是$\mathcal{H}$的一组无关向量组。
+
+   现在我们研究一般的表示。在复数域下，对于$G$的表示$(\rho,V)$:
+   $$
+   V=m_1 W_1 \oplus \dots \oplus m_hW_h
+   $$
+   其中$W_j,j=1,\dots,h$，表示所有不可约表示对应的子空间。因为我们考虑的是不可约表示的等价类。
+
+   于是：
+   $$
+   \chi_\rho=\sum_{i=1}m_i \chi_{\rho_i}
+   $$
+   由于正交性，我们可以求出系数。
+   \begin{example}
+    考虑$\rho$中平凡不可约表示的系数:$(\chi,1)=\frac{1}{|G|}\sum_{t \in G}\chi(t)$。由于$V^G$正好是$\rho$中的平凡子表示，于是$\dim V^G=(\chi,1)$   
+   \end{example}
+   根据上述讨论：
+   \begin{theorem}
+    表示的分解在等价意义下是唯一的。且每个不可约表示的重数由特征标唯一决定。
+   \end{theorem}
+   然而重数也可以不用特征标来表示，我们提供一种其他办法：
+   $$
+   m_i=\dim \text{Hom}_G(W_i,V)=\dim (W_i^*\otimes V)^G
+   $$
+   该等式的右边是之前的推论，不用多说。左边类似于$\dim V^G$的论证。可以用投影的方式来看。
+   \begin{corollary}
+    特征标相等的两个表示等价。
+   \end{corollary}
+   \begin{theorem}
+    $(\chi_V,\chi_V)$是整数。其不可约当且仅当为1.
+   \end{theorem}
+   \begin{corollary}
+    设$(\rho,V)$是$G$的表示。
+    \begin{enumerate}
+        \item $\rho$不可约当且仅当$\rho^*$不可约。
+        \item $\rho'$是一维表示，则$\rho$不可约当且仅当$\rho \otimes\rho'$不可约。特别的，$\rho \cong \rho \otimes \rho'$当且仅当$\chi_\rho=\chi_\rho \chi \chi_{\rho'}$. 
+    \end{enumerate}
+   \end{corollary}
+   \begin{proof}
+    $\chi_\rho' =\overline{\chi_\rho}$。
+
+    $\chi_(\rho \otimes \rho')=\chi_\rho \rho'$，且$\rho'$的共轭与逆相同。
+   \end{proof}
+   
+   \begin{theorem}
+    不可约的群表示$(\rho,V)$,$(\pi,W)$是$G,H$的表示，则群的乘积表示也是不可约的。并且$\rho \otimes \pi \cong \rho' \otimes \pi '$当且仅当对应表示等价。
+   \end{theorem}
+   证明是显然的。
+   \subsection{左正则表示}
+   \subsubsection{有限群的情况}
+   左正则表示直接研究群本身的结构。其构造出特别的线性空间从而用群表示论的方式研究群。本节我们用$(R,\C G)$表示左正则表示，其$\C G$表示以$G$的元素为形式基的向量空间。$R(t)s=ts$.
+    
+   考虑$R(s_i)$的矩阵为置换矩阵$A_i$，则$A=\sum_{i=1}^n x_iA_i$显然是群的矩阵，$|A|$是群的行列式$D_G$。
+
+   从表示论的角度来看，我们有如下引理：
+   \begin{lemma}
+    设$W$是$G$的一个不可约表示，$\omega$是$W$中任意一个元素，则子空间$U$:
+    $$
+    U=\text{Span}\{\rho(s)\omega|s \in G\}
+    $$
+    有：$U=W$
+   \end{lemma}
+   \begin{proof}
+    由于$W$是不可约的表示，我们只需要验证$U$是$G-$模即可。这是容易的，因为$\alpha=\sum_{s \in G}a_s \rho(s)\omega$有：
+    $$
+    \rho(t)\alpha=\sum_{s \in G}a_s\rho(ts)\omega \in U
+    $$
+   \end{proof}
+   
+   反过来说，这个引理表明由$\rho(s)$所诱导的映射：
+   $$
+   T:\C G \to W, \quad \quad \sum_{s\in G}a_s s \mapsto \sum_{s \in G}a_s\rho(s)\omega
+   $$
+   是一个线性的满射。
+   \begin{corollary}
+    交换图：
+   \begin{figure}[htbp]
+    \centering
+    \begin{tikzcd}
+        {\mathbb{C} G} && W \\
+        \\
+        {\mathbb{C} G} && W
+        \arrow["{R(t)}", from=1-1, to=3-1]
+        \arrow["T", from=3-1, to=3-3]
+        \arrow["T"', from=1-1, to=1-3]
+        \arrow["{\rho(t)}"', from=1-3, to=3-3]
+    \end{tikzcd}
+   \end{figure}
+
+   成立，所以$T$是$\C G$与$W$的一个缠结算子。
+   \end{corollary}
+   \begin{proof}
+    我们只需验证$\C G$的基即可。对于$s \in G,\rho(t)(T(s))=\rho(t)\rho(s)\omega=\rho(ts)\omega$.$T(\R(t)(s))=T(ts)=\rho(ts)\omega$。
+   \end{proof}
+   于是$\ker T$是$\C G$的表示，并且存在$U:U \oplus \ker T=\C G$,$U$是子表示。因此作为$G-$模$U \cong W$.
+   \begin{lemma}
+    $G$的任何一个不可约表示都是$(R,\C G)$的子表示。
+   \end{lemma}
+   分解$(R,\C G)$,我们可以得到：
+   $$
+   \C G=\sum_{i=1}^h m_i W_i
+   $$
+   为了求出$m_i$，让我们计算$\chi_R$：
+   $$
+   \chi_R(t)=\text{tr}(R(t))=\delta_{1,t}|G|
+   $$
+   从而可以计算$m_i$:
+   $$
+   m_i=(\chi_R,\chi_i)=\frac{1}{|G|}\sum_{t \in G}\chi_R(t)\overline{\chi_i}=\frac{1}{|G|}|G|\overline{\chi_i(1)}=\dim W_i
+   $$
+   从而:
+   $$
+   \C G=\sum_{i=1}^h \dim W_i W_i
+   $$
+   \begin{theorem}
+    $\C G=\sum_{i=1}^h \dim W_i W_i$.
+   \end{theorem}
+   \begin{corollary}
+    $|G|=\sum_{i=1}^h (\dim W_i)^2$
+   \end{corollary}
+   这一维数的公式实在是太好了。我们甚至可以用它得到一些群的所有不可约表示：
+   \begin{example}
+    设$G$是交换群，于是$G$的特征群与$G$同构。由于特征互不相同且都不可约，所以这已经是所有$G$的不可约表示了。这从另一个角度也说明了Abel群的不可约表示是一维的。
+   \end{example}
+   \begin{example}
+    四元数群$Q_8=\{\pm 1,\pm i,\pm j,\pm k\} \subset \mathbb{H}$的换位子群是$\{\pm 1\}$.因此$Q_8/\{\pm 1\}$是$K_4$群。从而我们得到了四个$1$维的不可约表示。同时四元数的二阶复矩阵实现给出了$Q_8$的一个自然的二阶不可约表示，从而我们得到了$Q_8$的所有不可约表示。
+   \end{example}
+   \subsubsection{无限群的推广方法}
+   我们虽然研究的是有限群表示论，但是这里对无限的情况也可以做推广。正则表示空间$\C G$在无限的情况下，并不是很合理。
+   \begin{definition}
+    设$G$上所有复值函数的全体为$C(G)$.设$G$作用在该函数空间上的左乘作用和右乘作用为：
+   $$
+   l(t,f)(s)=f(t^{-1}s) \quad \quad \quad r(t,f)(s)=f(st)
+   $$
+   \end{definition}
+   注意$l(t,f)(s)=f(ts)$的方式是不对的。不然有：$l(t_1t_2,f)(s)=f(t_1t_2s)=l(t_1,l(t_2,f))(s)$。于是$t_1t_2$作用结果变成了先作用$t_2$，再作用$t_1$:$t_2 \circ t_1$。这不是群作用。
+   
+   $C(G)$当然可以成为一个线性空间。从而可以验证$l_t,r_t$都是线性映射。因此$(l,C(G))$和$(r,C(G))$自然成为$G$的表示。
+   
+   在有限的情况下，这两种表示与左正则表示殊途同归：
+   \begin{theorem}
+    设$G$是有限群，则$(l,C(G))$和$(r,C(G))$都等价于$G$的左正则表示$(R,\C G)$。
+   \end{theorem}
+   \begin{proof}
+    我们给出缠结算子和交换图，这些想法都是自然的：
+    \begin{figure}[htbp]
+        \centering
+        \begin{tikzcd}
+            {\mathbb{C} G} && {C(G)} && {C(G)} \\
+            \\
+            {\mathbb{C} G} && {C(G)} && {C(G)}
+            \arrow["{R(t)}", from=1-1, to=3-1]
+            \arrow["{S(f)=\sum_{s \in G}f(s)s}", from=3-3, to=3-1]
+            \arrow["{l(t)}"{description}, from=1-3, to=3-3]
+            \arrow["{T(f)=f(s^{-1})}"', from=1-3, to=1-5]
+            \arrow["{T(f)=f(s^{-1})}"', from=3-3, to=3-5]
+            \arrow["{r(t)}"', from=1-5, to=3-5]
+            \arrow["{S(f)=\sum_{s \in G}f(s)s}", from=1-3, to=1-1]
+        \end{tikzcd}
+    \end{figure}
+    剩下的验证工作就不做了。
+   \end{proof}
+
+   我们现在转而研究函数空间上的左正则变换。设$(\rho,W)$是不可约的表示,在$W$上选定$G-$不变内积和$W$的标准正交基$e_1,e_2,\dots,e_m$.则表示$\rho$在这样的基下的矩阵$(\rho_{ij}(s))$是一个酉矩阵。设$C_W(G)=\text{Span}\{\rho_{ij}(s)\}$是$\{\rho_{ij}(s)\}$张成的$C(G)$的子空间。我们可以得到以下引理：
+  
+   \begin{lemma}
+    $C_W(G)$是$(l,C(G))$与$(r,C(G))$的子表示。
+   \end{lemma}
+   \begin{proof}
+    取$t \in G$，则$r_t(\rho_{ij}(s))=\rho_{ij}(st)=(\rho(s)\rho(t))_{ij}=\sum_{k=1}^n\rho_{ik}(s)\rho_{kj}(t) \in C_W(G)$
+
+    $l_t(\rho_{ij}(s))=\rho_{ij}(t^{-1}s)=(\rho(t^{-1})\rho(s))_{ij}=\sum_{k=1}^n \rho_{ik}(t^{-1})\rho_{kj}(s)\in C_W$。
+   \end{proof}
+   子表示，外加$(l,C(G))$的有限等价性提示我们对$C_W$进行研究。
+
+   观察引理的证明，实际上对于$\rho_{ij}(s)$,$r_t$作用后其只由$\rho_{kj}$生成。因此$\text{Span}\{\rho_{ij}|j=1,2\dots,n\}$对于每一个$i$而言其实都是$r$的子表示。
+
+   事实上还有以下结果。
+   \begin{lemma}
+    设$V_i=\text{Span}\{\rho_{ij}(s)|j=1,2,\dots,n\}$,$V_j'=\text{Span}\{\rho_{ij}(s)|i=1,2,\dots,n\}$。则$V_i$是右乘作用的子表示，$V_j'$是左乘作用的子表示。并且$V_i\cong W$,$V_j \cong W^*$。
+   \end{lemma}
+   \begin{proof}
+    只用说明两个等价。那自然要考虑交换图：
+    \begin{figure}[htbp]
+        \centering
+        \begin{tikzcd}
+            W && {V_i} \\
+            \\
+            W && {V_i}
+            \arrow["{T(w)(s)=(\rho(s)w,e_i)}", from=1-1, to=1-3]
+            \arrow["{r_t}", from=1-3, to=3-3]
+            \arrow["{\rho(t)}"', from=1-1, to=3-1]
+            \arrow["{T(w)(s)=(\rho(s)w,e_i)}"', from=3-1, to=3-3]
+        \end{tikzcd}
+    \end{figure}
+    让我们来验证以下该图的交换性质：
+    $\forall w \in W$:
+
+    $$
+    T(\rho(t)w)(s)=(\rho(s)\rho(t)w,e_i)
+    $$
+    $$
+    r_t(T(w))(s)=r_t(\rho(s)w,e_i)=(\rho(st)w,e_i)
+    $$
+    另外，为了说明$T$是线性同构，首先线性映射由内积的线性满足，而任取$V_i$的元素$f(s)=\sum_{j=1}^n a_j \rho_{ij}(s)$,$w=\sum_{j=1}^n a_je_j$即可满足$T(w)=f(s)$。因为$\rho_{ij}(s)=(\rho(s)e_j,e_i)$.
+
+    同理可证$V_j'\cong W^*$.
+   \end{proof}
+    这个命题说明由$(\rho_{ij})$的每列张成的空间都和$W$右乘等价，$(\rho_{ij})$的每行张成的空间都和$W*$等价。那么$C_W$作为$V_i$与$V_j$的张量积，是不是也和$W \otimes W^*$有着密切的关系呢？
+    
+    设$e_1^*,\dots,e_n^*$是$W^*$对偶基。考虑映射：
+    $$ 
+    T:W^* \otimes W \to C_W(G) \quad \quad \quad e_i^* \otimes e_j \mapsto e_i^*(\rho(s)e_j)=\rho_{ij}(s)
+    $$
+
+    考虑维度相同，且上述映射是满射，从而$T$是线性同构。接下来我们要做的就是验证这两个空间作为表示也是等价的。首先我们需要先定义$C_W(G)$上的表示。
+    
+    需要明确，由于$W$,$W^*$是$G$的表示，我们当然可以定义其张量为$G$的表示。但是这样难以满足我们对$C_W(G)$的要求。毕竟一方面是左乘表示，一方面是右乘表示，最后考虑为两个$G$。因此我们定义$C_W(G)$作为$G \times G$的表示为：
+    $$
+    \pi(t,u)(\rho_{ij})(s)=\rho_{ij}(t^{-1}su)
+    $$
+    这个变换很好理解。同时也可以很容易验证其是一个表示。
+
+    \begin{proposition}
+        $T$是$W^*\otimes W$,$C_W(G)$之间的同构缠结算子。即：
+        \begin{figure}[htbp]
+            \centering
+            \begin{tikzcd}
+                {W^*\otimes W} && {C_W(G)} \\
+                \\
+                {W^*\otimes W} && {C_W(G)}
+                \arrow["T", from=1-1, to=1-3]
+                \arrow["{\pi(u,v)}", from=1-3, to=3-3]
+                \arrow["{\rho^*(u)\otimes \rho(v)}"', from=1-1, to=3-1]
+                \arrow["T"', from=3-1, to=3-3]
+            \end{tikzcd}
+        \end{figure}
+        交换。
+    \end{proposition}
+    \begin{proof}
+        我们验证基即可。取$e_i^*\otimes e_j$:
+        $$
+        \pi(u,v)(T(e_i^*\otimes e_j))=\pi(u,v)(e_i^*(\rho(s)e_j))=e_i^*(\rho(u^{-1}sv)e_j)=\rho_{ij}(u^{-1}sv)
+        $$
+        $$
+        T(\rho^*(u)\otimes \rho(v)(e_i^*\otimes e_j))=T((\rho^*(u)e_i^*)\otimes (\rho(v)e_j))=\rho^*(u)e_i^*(\rho(s)\rho(v)e_j)=\rho^*(u)\rho_{ij}(sv)=\rho_{ij}(u^{-1}sv)
+        $$
+
+    \end{proof}
+
+    由于两个表示实际上都可以看成$G$的表示，从而根据上图的遗传性，我们也可以验证两个空间作为$G$的表示也是等价的。
+
+    令$\pi(t):C(G)\to C(G)$，$\pi(t)(f(s))=f(t^{-1}st)$，则：
+    \begin{corollary}
+        对于$G$的表示$\pi,C(G)$，与$(\bigoplus_{i=1}^h \rho_i^* \oplus \rho_i,\bigoplus_{i=1}^h W_i^* \otimes W_i )$,由：
+        $$
+        C(G)=\bigoplus_{i=1}^h W_i^* \otimes W_i
+        $$
+    \end{corollary}
+    但这个推论只能考虑有限群的情况。显然$C(G)$在$|G|$无穷的时候是无限维度的。另外，这也说明，甚至从表示的角度看，$W_i^* \otimes W_i$($\text{Hom}(W,W)$)与$n_iW_i$也是等价的。
+    \subsection{类函数空间}
+    \subsection{特征标表}
+    \subsection{特征标中的正规子群}
+    一个令人意外的结论是，可以从特征标表中得到群所有的正规子群。
+
+    设$(\rho,V)$是$G$的表示。自然$\ker \rho$是$G$的一个正规子群。
+
+    对于$s\in  G$，$\rho(s)$所有的特征值为$\lambda_1,\lambda_2,\dots,\lambda_n$，则$\chi(s)=\sum_{k=1}^n \lambda_k$.于是:
+    $$
+    \chi(s) \leq \sum_{k=1}^n |\lambda_k|=n
+    $$
+    等号成立当且仅当所有特征值都相等。此时
+    \subsection{第二正交关系}
+    \section{McKay对应}
+    \subsection{点群的表示}
+    \begin{proposition}
+        设有限群$G$作用在有限集$P$上，则轨道个数为：
+        $$
+        \frac{1}{|G|}\sum_{g \in G}|U_g|
+        $$
+        $U_g$是$g$的不动点集合。
+    \end{proposition}
+    \begin{proof}
+        组合。考虑$\{(g,x)|gx=x\}$。
+        使用群表示的方法，考虑$G$的作用诱导的置换表示$(\rho,V)$。$V$是$P$内元素构成形式基的线性空间。则$\rho(g)(x_i)=gx_i$。从而：
+        $$
+        \chi_{\rho}(g)=|U_g|
+        $$
+        于是：
+        $$
+        \frac{1}{|G|}\sum_{g \in G}|U_g|=\frac{1}{|G|}\sum_{g \in G}\chi_\rho(g)=(\chi_\rho,\chi_1)
+        $$
+        其中$\chi_1$是一维不可约表示特征标。
+
+        把$\rho$进行不可约分解：
+        $$
+        \rho=\bigoplus_{k=1}^m n_k\rho_k
+        $$
+        
+        则$n_k=(\chi_\rho,\chi_i)$.
+   
+        设$V^G=\{v \in V|gv=v.\forall v \in V\}$.则$V^G \cong n_1\rho_1$。$n_1=\dim V^G$。
+
+        从而问题转化为证明$\dim V^G$是轨道数。
+    
+        考虑$P_1,P_2,\dots,P_s$是不同的$s$个轨道。我们考虑$v_i=\sum_{x\ in P_i}x$。从而$v_i$与$P_i$一一对应。另一方面，对于$v_i$，$gv_i=v_i$。从而$v_i \in V^G$。我们证明$v_1,\dots,v_s$是一组$V^G$的基。
+
+        首先这些向量无关。因为他们的构成丝毫没有关系。其次设$v \in V^G$.把$v$分解并把相同轨道的$v_i$放在一起。为了$v$保持不变，这些$v_i$的系数必须相同。这就说名了$v$可以由$v_i$线性表出。从而$\dim V=s$.
+    \end{proof}
+    
+    考虑$G$是$\text{SO}(3)$的有限子群，其作用在$S^2$上。设$P=\{ x\in S^2|gx=x\}$，$G$作用在$P$上。可以说明$|P|\leq 2(|G|-1)$，从而$P$是有限群。从而有：
+    $$
+    \frac{1}{|G|}(\sum_{g \neq 1}|U_g|+|P|)=\frac{1}{|G|}(2(|G|-1)+|P|)
+    $$
+    是轨道的个数。
+
+    我们对上面的式子进行一些推导：设$s$是轨道个数，则：
+    $$
+    \sum_{i=1}^s(1-\frac{|P_i|}{|G|})=2(1-\frac{1}{|G|})
+    $$
+    由于$P_i$是轨道，而$|P_i||G_x|=|G|$，$x$是$P_i$中的元素，$G_x$是迷向子群。从而：
+    $$
+    \sum_{i=1}^s(1-\frac{1}{|G_x|})=2(1-\frac{1}{|G|})
+    $$
+    
+    从而有定理：
+    \begin{theorem}
+        设$G$是$\text{SO}(3)$的有限子群。则$P$的轨道数是2或者3.
+    \end{theorem}
+\end{document}

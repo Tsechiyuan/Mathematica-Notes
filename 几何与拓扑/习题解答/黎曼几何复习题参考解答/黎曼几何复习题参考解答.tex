@@ -1,0 +1,712 @@
+\documentclass[UTF8]{ctexart}[a4paper,12pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{quiver}
+\usepackage{mathrsfs}
+\usepackage{chngcntr}
+\counterwithout{equation}{section} 
+%声明环境
+\newtheorem{example}{例}[section]
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+{
+    \theoremheaderfont{\sffamily}
+    \newtheorem*{remark}{注解}
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\cC{\mathcal{C}}
+\newcommand{\pa}[3][]{
+	\frac{\partial^{#1} #2}{\partial {#3}^{#1}}
+	}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\na}{\nabla}
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+%极限余极限
+\makeatletter
+\newcommand{\Colim@}[2]{
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font lim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\Colim}{%
+  \mathop{\mathpalette\Colim@{\rightarrowfill@\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+\makeatletter
+\newcommand{\Lim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font lim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\Lim}{%
+  \mathop{\mathpalette\Lim@{\leftarrowfill@\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+
+\makeatletter
+\newcommand{\colim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font oli~$\hfil \cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\colim}{%
+  \mathop{\mathrm{c}\mathpalette\colim@{\rightarrowfill@\scriptscriptstyle}\mathrm{\!\!m}}\nmlimits@
+}
+\makeatother
+
+\makeatletter
+\newcommand{\cone@}[1]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font cone$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\cone}{%
+  \mathop{\mathpalette\cone@{\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{南开大学2024年春黎曼几何复习题参考解答}
+\author{作者：夏目凉 Natsume ryo}
+\begin{document}
+\maketitle
+邮箱:tsechiyuan@163.com
+
+一些只是要求回忆定理/定义/证明的题目,省略解答.
+
+0.回忆几个公式:
+\begin{equation}
+  \Delta f=\sum_i e_ie_if,\text{其中}e_i\text{是正交测地标架}
+\end{equation}
+\begin{equation}
+    \Delta f=\sum_{i,j}\frac{1}{\sqrt{G}}\pa{}{x^i}(\sqrt{G}g^{ij}\pa{f}{x^j})
+  \end{equation}
+  \begin{equation}
+    \Delta(fg)=\Delta(f)g+f\Delta(g)+\la \na f,\na g\ra
+  \end{equation}
+
+1.写出Levi-Civita联络的定义.
+\begin{proof}
+  Levi-Civita联络是黎曼流形上唯一的一个与度量相容且无挠的联络。
+
+  联络定义:省略.
+
+  与度量相容:
+  \begin{equation}
+    \nabla g=0 \Leftrightarrow \nabla_X [g(Y,Z)]=g(\nabla_X Y,Z)+g(Y,\nabla_X Z) 
+  \end{equation}
+
+  无挠:
+  \begin{equation}\label{torsionfree}
+    \nabla_X Y-\nabla_Y X=[X,Y]
+  \end{equation}
+\end{proof}
+
+2.推导Koszul公式,并据此计算出Christoffell系数.
+\begin{proof}
+  设$X,Y,Z$是向量场.根据度量相容性:
+  \begin{equation}
+  \begin{split}
+    X\la Y,Z\ra&=\la \na_X Y,Z\ra+\la Y,\na_X Z\ra \\
+    Y\la Z,X\ra&=\la \na_Y Z,X\ra+\la Z,\na_Y X\ra \\
+    Z\la X,Y\ra&=\la \na_Z X,Y\ra+\la X,\na_Z Y\ra 
+  \end{split}
+  \end{equation}
+  前两个相加,减去第三个,考虑式(\ref{torsionfree}),有:
+  \begin{equation}\label{Koszul}
+    X\la Y,Z\ra+Y\la Z,X\ra-Z\la X,Y\ra=\la [X,Z],Y\ra+\la [Y,Z],X\ra+\la [X,Y],Z\ra+2\la Z,\na_Y X\ra
+  \end{equation}
+  移项即可得到Koszul公式.此外,代入$Z=\pa{}{x_k},X=\pa{}{x_i},Y=\pa{}{x_j}$,即送Christoffel系数:
+  \begin{equation}\label{Christoffel}
+    \Gamma_{ij}^k=\frac{1}{2}[\pa{g_{jm}}{x_i}+\pa{g_{mi}}{x_j}-\pa{g_{ij}}{x_m}]g^{km}
+  \end{equation}
+\end{proof}
+
+3.设$\Omega$是可定向黎曼流形$(M,g)$的体积形式,则$\Omega$是平行的,即$\nabla \Omega=0$.
+\begin{proof}
+  对于任意$p \in M$,选取$p$的一个邻域$U$以及局部定向正交标架$\{e_i,i=1,\dots,n\}$和对偶1形式$\{e^1,i=1,\dots,n\}$.则体积形式可写为:
+  \begin{equation*}
+    \Omega=e^1 \wedge \dots \wedge e^n
+  \end{equation*}
+
+  先计算$\na_{e_j} e^i$.此时:
+  \begin{equation*}
+    (\na_{e_j}e^i)(e_k)=\na_{e_j}(\delta_{ik})-e^i(\na_{e_j}e_k)=-\la e_i,\na_{e_j}e_k\ra=\la \na_{e_j}e_i,e_k\ra \Rightarrow \na_{e_j}e^i=\la \na_{e_j}e_i,e_k\ra e^k
+  \end{equation*}
+
+  于是:
+  \begin{equation*}
+    \nabla_{e_j}\Omega=\sum_i e^1\wedge \dots (\la \na_{e_j}e_i,e_i\ra)e^i \wedge \dots e^n=0
+  \end{equation*}
+\end{proof}
+
+4.阐明平行移动的概念.
+\begin{proof}
+  给定曲线$\gamma:[0,1]\to M$,向量$v \in T_{\gamma(0)}M$.$v$沿着$\gamma$平行移动是指一个沿着$\gamma$的向量场$X$使得$X(0)=v$,且:
+  \begin{equation}
+    \nabla_{\dot{\gamma}(t)}X=0
+  \end{equation}
+\end{proof}
+
+5.证明等距变换保持黎曼联络.即对于等距变换$\phi:M \to M$,有公式:
+\begin{equation*}
+  \phi_*(\nabla_X Y)=\nabla_{\phi_* X}(\phi_* Y)
+\end{equation*}
+\begin{proof}
+    定义联络:
+    \begin{equation*}
+      \nabla^*_X Y=\nabla_{d\phi^{-1}X}(d\phi^{-1}Y)
+    \end{equation*}
+    只需要验证$\nabla^*$也是无挠且与度量相容的联络.由于$\phi$是等距,这一点是很容易的.因此省略余下的证明.
+\end{proof}
+
+注:对于嵌入$f:M \to \overline{M}$,拉回度量有对应的黎曼联络:
+\begin{equation*}
+   \nabla_X Y(p)=(\na_{f_* X}f_{*}Y)(f(p))\text{与}T_pM\text{相切的分量}
+\end{equation*}
+
+
+6.(Killing场)若黎曼流形$(M,g)$上向量场$X$生成的单参数变换群是等距群,则称$X$是Killing场.
+
+(1)证明$\la \nabla_Y X,Z \ra+\la \nabla_Z X,Y\ra=0$.
+
+(2)若$f$是$(M,g)$的一个自等距,则$f_*(X)$也是Killing场.
+\begin{proof}
+(1)Killing场$X$满足:
+\begin{equation*}
+  L_X g=0 \Leftrightarrow X\la Y,Z\ra=\la [X,Y],Z\ra+\la Y,[X,Z]\ra
+\end{equation*}
+根据联络与度量相容和无挠:
+\begin{equation*}
+  \la \na_X Y-[X,Y],Z\ra+\la \nabla_X Z-[X,Z],Y\ra=0 \Rightarrow \la \na_Y X,Z\ra+\la \na_Z X,Y\ra=0
+\end{equation*}
+\textbf{注:}上述方程称为Killing方程.容易看出Killing方程是Killing场的等价定义.
+
+(2)$f_*$是可逆的等距映射,因此:
+\begin{equation*}
+  \la \na_{f_*Y} f_*X,f_*Z\ra+\la \na_{f_*Z} X,f_*Y\ra=0
+\end{equation*}
+\end{proof}
+
+7.设$(M,g)$是闭黎曼流形,$X$是其上的一个散度为$0$的向量场,证明$X$生成的局部单参数变换群保持体积形式.
+\begin{proof}
+  任取$p\in M$和局部坐标$U$.取$U$上的正交坐标系$\{e_i\}$和对偶1形式$\{e^i\}$.
+
+  仿照第3题,我们需要说明:
+  \begin{equation}
+    \sum_i \la e_i,[e_i,X]\ra=0
+  \end{equation}
+  
+  另一方面,$X$的散度定义为:
+  \begin{equation}
+    \mathrm{tr}(Y\mapsto \nabla_Y X)=\sum_{i}\la e_i,\na_{e_i}X\ra=0
+  \end{equation}
+
+  于是:
+  \begin{equation*}
+    \sum_i \la e_i,[e_i,X]\ra=\sum_i \la e_i,\na_{e_i}X-\na_X e_i\ra=-\sum_i \la e_i,\na_X e_i\ra=0
+  \end{equation*}
+  最后一个等号来自于$0=X\la e_i,e_i\ra=2\la e_i,\na_X e_i\ra$.
+\end{proof}
+
+8.设$(M,g)$是黎曼流形,$f$是$M$上光滑函数,证明:
+\begin{equation*}
+  \frac{1}{2}\Delta |\nabla f|^2=\la \nabla \Delta f,\nabla f\ra+|\nabla^2 f|^2+\mathrm{Ric}(\nabla f,\nabla f)
+\end{equation*}
+\begin{proof}
+  任取$p \in M$,选取一组正规测地标架$\{e_i\}$.我们不加证明的指出,梯度和Laplace算子有如下表达式.
+  \begin{equation}
+    \begin{split}
+      \nabla f&=\sum_i e_i(f)e_i\\
+      \Delta f&=\sum_i e_i(e_i(f))-(\na_{e_i}e_i)(f)
+    \end{split}
+  \end{equation}
+
+  从而左式:
+  \begin{equation*}
+    \frac{1}{2}\sum_{i}e_i(e_i(\sum_j e_j(f)^2))=\sum_i \sum_j e_i(e_j(f)e_i(e_j(f)))=\sum_i \sum_j[e_i(e_j(f))^2+e_j(f)e_i(e_i(e_j(f)))]
+  \end{equation*}
+
+  右式:
+  \begin{equation*}
+    \begin{split}
+      \la \na \Delta f,\nabla f\ra&=\la \sum _i \sum_j [e_i(e_j(e_j(f)))-e_i(\na_{e_j}e_j(f))]e_i,\sum_ i e_i(f)e_i\ra=\sum_i \sum_j e_i(f)[e_i(e_j(e_j(f)))-e_i(\na_{e_j}e_j(f))]\\
+     \na^2 f&=\sum_{i,j}[\na^2f(e_i,e_j)]^2=\sum_{i,j}[(\na_{e_j}df)(e_i)]^2=\sum_{i,j}[e_j(e_i(f))-\nabla_{e_j}e_i(f)]^2=\sum_{i,j}[e_j(e_i(f))]^2\\
+     \mathrm{Ric}(\nabla f,\na f)&=\sum_{i,j}e_i(f)e_j(f)\mathrm{Ric}(e_i,e_j)=\sum_{i,j}e_i(f)e_j(f)\sum_k R(e_k,e_i,e_k,e_j)\\
+     &=\sum_{i,j}e_i(f)e_j(f)\sum_k \la (-\na_{e_k}\na_{e_i}e_k+\na_{e_i}\na_{e_k}e_k+\na_{[e_k,e_i]}e_k),e_j\ra\\
+     &=\sum_{i,j}e_i(f)e_j(f)\sum_k \la (-\na_{e_k}\na_{e_i}e_k+\na_{e_i}\na_{e_k}e_k),e_j\ra
+    \end{split}
+  \end{equation*}
+  计算:
+  \begin{equation*}
+    \begin{split}
+      \sum_{i,j}e_j(f)e_j(e_i(e_i(f)))-e_j(f)e_i(e_i(e_j(f)))&=\sum_{i,j}e_j(f)e_i(e_j(e_i(f)))-e_j(f)e_i(e_i(e_j(f)))=\sum_{i,j}e_j(f)e_i([e_j,e_i](f))\\&=\sum_{i,j}e_j(f)[e_i(\na_{e_j}e_if)-e_i(\na_{e_i}e_jf)]\\
+      &=\sum_{i,j}e_j(f)\la \na_{e_i}\na_{e_j}e_i-\na_{e_i}\na_{e_i}e_j,\na f\ra\\
+      &=\sum_{i,j,k}e_j(f)e_k(f)\la \na_{e_i}\na_{e_j}e_i,e_k\ra\\
+      &=\sum_{i,j,k}e_i(f)e_j(f)\la \na_{e_k}\na_{e_i}e_k,e_j\ra
+    \end{split}
+  \end{equation*}
+  相加:
+  \begin{equation*}
+  \begin{split}
+    &\sum_{i,j}[e_i(f)e_i(e_j(e_j(f)))+(e_j(e_i(f)))^2-e_i(f)e_i(\na_{e_j}e_j(f))+e_i(f)e_j(f)\sum_k \la (-\na_{e_k}\na_{e_i}e_k+\na_{e_i}\na_{e_k}e_k),e_j\ra]\\
+    &=\sum_{i,j}[(e_i(e_j(f)))^2+e_j(f)e_j(e_i(e_i(f)))-e_i(f)e_i(\na_{e_j}e_j(f))+e_i(f)e_j(f)\sum_k \la (-\na_{e_k}\na_{e_i}e_k+\na_{e_i}\na_{e_k}e_k),e_j\ra]\\
+    &=\sum_{i,j}[(e_i(e_j(f)))^2+e_j(f)e_i(e_i(e_j(f)))-e_i(f)e_i(\na_{e_j}e_j(f))+e_i(f)e_j(f)\sum_k \la \na_{e_i}\na_{e_k}e_k,e_j\ra]\\
+    &=\sum_{i,j}[(e_i(e_j(f)))^2+e_j(f)e_i(e_i(e_j(f)))]
+  \end{split}
+  \end{equation*}
+  最后一个等号:
+  \begin{equation*}
+    \sum_{i,j}[-e_i(f)e_i(\na_{e_j}e_j(f))+e_i(f)e_k(f)\sum_k \la \na_{e_i}\na_{e_j}e_j,e_k\ra]=\sum_{i,j}[-e_i(f)e_i\la \na_{e_j}e_j,\na f\ra+e_i(f)\la \na_{e_i}\na_{e_j}e_j,\na f\ra]=0
+  \end{equation*}
+\end{proof}
+
+9.写出测地线的定义以及在局部坐标系下的测地线方程.
+\begin{proof}
+  对于参数曲线:$\gamma:I \to M$,称曲线在$t_0\in I$是测地的,若:
+  \begin{equation}
+    \na_{\dot{\gamma}(t_0)}\dot{\gamma}(t)=0
+  \end{equation}
+
+  若$\gamma$在$I$上处处测地,则称$\gamma$是测地线.
+
+  局部上,考虑局部坐标$(U;x^i)$.设曲线$\gamma(t)=(x^1(t),x^2(t),\dots,x^n(t))$.则测地线局部方程为:
+  \begin{equation}
+      \dot{x^i}(t)\na_{\pa{}{x^i}}(\dot{x^j}(t)\pa{}{x^j})=\dot{x^i}(t)\dot{x^i}(t)\Gamma_{ij}^k \pa{}{x^k}+\ddot{x^k}(t)\pa{}{x^k}=0 
+  \end{equation}
+  即:
+  \begin{equation}
+    \dot{x^i}(t)\dot{x^i}(t)\Gamma_{ij}^k+\ddot{x^k}(t)=0,k=1,\dots,n
+  \end{equation}
+\end{proof}
+
+10.证明等距变换把测地线变为测地线.
+\begin{proof}
+  等距变换保测地线方程.
+\end{proof}
+
+11.设$(M^n,g)$是黎曼流形,$u$是$M^n$上正光滑函数.设$\tilde{g}=u^2g$.设$\Delta$和$\tilde{\Delta}$分别为关于$g$和$\tilde{g}$的Laplace算子.证明:
+\begin{equation*}
+  \tilde{\Delta}f=u^{-2}[\Delta f+(n-2)\la \na\mathrm{ln}u,\nabla f\ra]
+\end{equation*}
+\begin{proof}
+  任取$p\in M$和正规标架$\{e_i\}$.则$\{e_i/u\}$是相对于度量$\tilde{g}$的一个正交标架.于是:
+  \begin{equation*}
+    \Delta f(p)=\sum_i e_i(e_if)(p),\tilde{\Delta}f(p)=\sum_i  \frac{e_i}{u}(\frac{e_i}{u}(f))-\sum_i \tilde{\nabla}_{\frac{e_i}{u}}\frac{e_i}{u}(f)
+  \end{equation*}
+  根据Kozsul公式,不难算出:
+  \begin{equation*}
+    \la \tilde{\na}_{e_i}e_i,e_j\ra=\la \na_{e_i}e_i-\frac{1}{u}\na u,e_j\ra,i\neq j;\la \tilde{\na}_{e_i}e_i,e_i\ra=\la \na_{e_i}e_i+\frac{1}{u}\na u,e_j\ra
+  \end{equation*}
+  计算:
+  \begin{equation*}
+  \begin{split}
+    \tilde{\Delta}f(p)&=\frac{1}{u^2}\Delta f(p)-\sum_i \frac{1}{u^3}e_i(u)e_i(f)+\sum_i\frac{1}{u^3}\tilde{\na}_{e_i}ue_i(f)-\sum_i\frac{1}{u^2}\la \tilde{\na}_{e_i}e_i,\na f\ra\\&=\frac{1}{u^2}\Delta f(p)-\sum_i\frac{1}{u^2}\la \tilde{\na}_{e_i}e_i,\na f\ra=\frac{1}{u^2}\Delta f(p)+\frac{1}{u^2}\sum_{i}[\sum_{j\neq i}e_j(f)\frac{1}{u}\la \na u,e_j\ra-\frac{1}{u}\la \na u,e_i\ra]\\
+    &=\frac{1}{u^2}\Delta f(p)+\frac{1}{u^3}\sum_i\la \na u,\na f\ra-\frac{2}{u^3}\la \na u ,\na f\ra\\
+    &=u^{-2}[\Delta f+(n-2)\la \na\mathrm{ln}u,\nabla f\ra]
+  \end{split}
+  \end{equation*}
+\end{proof}
+
+12.对于双曲空间模型$(R_{+}^n,g_H)$,计算$\Delta x_1$和$\Delta x_n^\alpha,\alpha>0$.
+\begin{proof}
+  \begin{equation}
+    g_{ij}=\frac{\delta_{ij}}{x_n^2},g^{ij}=x_n^2\delta_{ij},G=x_n^{-2n},\sqrt{G}=x_n^{-n}
+  \end{equation}
+  
+  于是:
+  \begin{equation*}
+    \Delta x_1=\sum_{i,j}x_n^n\pa{}{x^i}(x_n^{2-n}\delta_{ij}\pa{x_1}{x_j})=0,\Delta x_n^\alpha=\sum_{i,j}x_n^n\pa{}{x^i}(x_n^{2-n}\delta_{ij}\pa{x_n^\alpha}{x_j})=x_n^n\pa{}{x^n}(\alpha x_n^{1-n+\alpha})=\alpha(1-n+\alpha)x_n^\alpha
+  \end{equation*}
+\end{proof}
+
+13.计算$\R^2$关于度量$g=e^{-1/4(x^2+y^2)}(dx^2+dy^2)$的高斯曲率.
+\begin{proof}
+  计算Christoffel记号:
+  \begin{equation*}
+  \begin{split}
+ \Gamma_{11}^1=-\frac{1}{4}x,\Gamma_{12}^1=\Gamma_{21}^1=-\frac{1}{4}y,\Gamma_{22}^1=\frac{1}{4};\\
+  \Gamma_{11}^2=\frac{1}{4}y,\Gamma_{12}^2=\Gamma_{21}^2=-\frac{1}{4}x,\Gamma_{22}^2=-\frac{1}{4}y;
+    \end{split}
+  \end{equation*}
+  然后计算曲率.
+  \begin{equation*}
+    R_{121}^1=\frac{1}{2}
+  \end{equation*}
+  从而高斯曲率为:
+  \begin{equation*}
+    K=\sum_i \mathrm{Ric}(e_i,e_i)=\sum_i \sum_j R(e_j,e_i,e_j,e_i)=\sum_l \la R_{121}^lx_l,x_2\ra g_{11}^{-2}=\frac{1}{2}e^{1/4(x^2+y^2)}
+  \end{equation*}
+\end{proof}
+
+14.计算椭圆抛物面$z=x^2+y^2$的Ricci曲率和数量曲率.
+\begin{proof}
+  二维情况下Ric曲率为Gauss曲率.使用古典微分几何的办法更佳.故略去.
+\end{proof}
+
+15.写出指数映射的定义.
+\begin{proof}
+  根据微分方程解的存在唯一性,局部上,满足测地线方程的曲线在确定起点和初始向量的情况下唯一存在.因此定义该曲线在$t=1$处的点为对应起点和初始向量的指数映射值.
+\end{proof}
+
+16.给出Hopf-Rinow定理.
+\begin{proof}
+  $(M,g)$是黎曼流形,下列条件等价:
+  
+  1.任意$p \in M$,指数映射在$T_pM$均有定义.
+
+  2.$M$的紧集等价于有界闭集.
+
+  3.$M$作为度量空间完备.
+
+  4.$M$测地完备(总有曲线实现距离)
+
+  5.若$M$非紧,则存在序列紧集$\{K_n\}$满足:$K_n \subset \mathrm{int}(K_{n+1})$,$\bigcup_n K_n=M$,且若有点列$\{q_n\}$满足$q_n \notin K_n$,则$d(p,q_n)\to +\infty$
+\end{proof}
+
+17.称$(M,g)$为齐性空间,若任意$p,q \in M$,都存在等距$\varphi(p)=q$.证明齐性空间是完备的.
+\begin{proof}
+  指数映射$\exp$的最大存在范围在整个流形上有一个一致下界.
+\end{proof}
+
+18.设$(M,g)$是完备黎曼流形,$\varphi$是等距.证明:若存在一点$p \in M$是的$\varphi(p)=p$,$\varphi_{*,p}=\mathrm{id}$,则$\varphi=\mathrm{id}$.
+\begin{proof}
+  设$q\in M$.我们说明$\varphi(q)$只有一种选择。
+
+  取连接$p,q$的一条测地线$\gamma$.于是存在$v \in T_pM$使得$q=\exp_p v$.我们断言:
+  \begin{equation}
+    \varphi(q)=\varphi(\exp_p v)=\exp_{\varphi(p)}(\varphi_* v)=\exp_p v=q
+  \end{equation}
+  为了证明上述断言,我们说明曲线$\gamma(t)$:
+  \begin{equation}
+    t \mapsto \varphi(\exp_p(tv))
+  \end{equation}
+  是从$\varphi(p)$出发,以$\varphi_*v$为初始方向的测地线。
+
+  求$\gamma(t)$的切向量$\dot{\gamma}(t)$:
+  \begin{equation}
+    \dot{\gamma}(t)=\varphi_*(\dot{\exp_p(tv)})
+  \end{equation}
+  于是:
+  \begin{equation}
+    \nabla_{\dot{\gamma}(t)}\dot{\gamma(t)}=\varphi_*(\nabla_{\dot{\exp_p(tv)}}\dot{\exp_p(tv)})=0
+  \end{equation}
+  
+  上述第一个等式用到了$\varphi_*$是等距。
+
+  所以$\varphi(\exp_p(tv))=\exp_{\varphi(p)}(tf_*(v))$.带入$t=1$可得断言.
+\end{proof}
+
+19.写出Jacobi场的定义,并推导Jacobi方程.
+\begin{proof}
+  沿着$M$中测地线$\gamma$的向量场$J$若满足Jacobi方程:
+  \begin{equation}
+    \na_{\gamma'(t)}\na_{\gamma'(t)}J(t)+R(\gamma'(t),J(t))\gamma'(t)=0
+  \end{equation}
+  则称为Jacobi场.
+
+  为了写出分量的方程,常见的做法是在$\gamma(0)$处给定正交基底$\{e_i\}$且$e_n=\gamma'(0)$,平行移动$\{e_i\}$,从而给出沿着$\gamma$的正交标架$\{e_i(t)\}$,且$e_n(t)=\gamma'(t)$.
+
+  在这样的标架下可以很轻松的把Jacobi方程写为分量的形式.
+\end{proof}
+
+20.证明负曲率流形任意一点的指数映射都没有共轭点.
+\begin{proof}
+  考虑Jacobi方程:
+    \begin{equation}
+        \frac{D^2 J}{\dd t^2}+\mathcal{R}(V,J)V=0 \Rightarrow  \la \frac{D^2 J}{\dd t^2},J\ra>0
+    \end{equation}
+    因此函数$\la\frac{D J}{\dd t},J\ra$是单增函数.若存在非平凡的共轭点,则对应的一个Jacobi场起点终点都是$0$,因此恒为$0$.根据连续性可知$J\equiv 0$.从而矛盾于共轭！
+\end{proof}
+
+21.推导第一变分公式.
+\begin{proof}
+  只叙述结果.设$(M,g)$是黎曼流形且$\gamma:[a,b]\times (-\epsilon,\epsilon)\to M$是一个道路变分系统.其中$s$是变分参量,$t$是道路参量.$\gamma(t,0)$是基曲线.设$L(s)$是曲线$\gamma_s(t)$的长度.
+
+  令$T(t,s)=\pa{r}{t}(t,s)$是沿着曲线的切向量,$U(t,s)=\pa{r}{s}(t,s)$是沿着变分方向的向量.根据参数化可知$[T,U]=0$.现在我们对$L(s)$进行微分:
+  \begin{equation}
+    \begin{split}
+       L'(s)=\frac{d}{ds}\int_a^b |T|dt=\int_a^b \frac{1}{|T|}\la T,\na_U T\ra dt=\int_a^b \frac{1}{|T|}\la T,\na_T U\ra dt
+    \end{split}
+  \end{equation}
+  代入$s=0$.我们希望在$s=0$时$L'(0)=0$.另外,我们正规化曲线$\gamma_0$使得切向量长度总为$1$.则:
+  \begin{equation}
+    0=L'(0)=\int_a^b \la \gamma_0'(t),\na_{\gamma_0'(t)}U\ra=0 \Rightarrow L'(0)=\int_a^b \frac{d}{dt}\la \gamma_0'(t),U\ra dt-\int_a^b \la U,\na_{\gamma_0'(t)}\gamma_0'(t)\ra dt
+  \end{equation}
+  对于任意变分$U$恒成立.所以$\gamma_0$满足测地线方程.
+\end{proof}
+22.推导第二变分公式.
+\begin{proof}
+   只叙述结果.设$(M,g)$是黎曼流形且$\gamma:[a,b]\times (-\epsilon,\epsilon)\to M$是一个道路变分系统.其中$s$是变分参量,$t$是道路参量.$\gamma(t,0)$是基曲线.设$L(s)$是曲线$\gamma_s(t)$的长度.
+
+  令$T(t,s)=\pa{r}{t}(t,s)$是沿着曲线的切向量,$U(t,s)=\pa{r}{s}(t,s)$是沿着变分方向的向量.根据参数化可知$[T,U]=0$.现在我们对$L(s)$进行微分:
+  \begin{equation}
+    \begin{split}
+       L'(s)=\frac{d}{ds}\int_a^b |T|dt=\int_a^b \frac{1}{|T|}\la T,\na_U T\ra dt=\int_a^b \frac{1}{|T|}\la T,\na_T U\ra dt
+    \end{split}
+  \end{equation}
+
+  我们已经知道$L(s)$在$s=0$时导数为$0$等价于$\gamma_0$是测地线.假设$\gamma_0$是正规测地线,我们计算$L''(s)$以判断“最短测地线”问题.
+  \begin{equation*}
+    \begin{split}
+      L''(s)&=\frac{d}{ds}\int_a^b \frac{1}{|T|}\langle T,\nabla_T U \rangle dt\\&=\int_a^b [-\frac{1}{|T|^3}\langle T,\nabla_T U\rangle^2+\frac{1}{|T|}|\nabla_T U|^2+\frac{1}{T}\langle T,\nabla_U \nabla_T U\rangle]dt\\&=\int_a^b [-\frac{1}{|T|^3}(T\langle T,U\rangle-\langle U,\nabla_T T\rangle)^2+\frac{1}{|T|}|\nabla_T U|^2+\frac{1}{|T|}\langle T,R(U,T)U\rangle+\frac{1}{|T|}\langle T,\nabla_T \nabla_U U\rangle]dt\\&=\int_a^b [-\frac{1}{|T|^3}(T\langle T,U\rangle-\langle U,\nabla_T T\rangle)^2+\frac{1}{|T|}|\nabla_T U|^2+\frac{1}{|T|}\langle T,R(U,T)U\rangle+\frac{1}{|T|}T\langle T, \nabla_U U\rangle-\frac{1}{|T|}\langle \nabla_T T,\nabla_U U \rangle]dt
+    \end{split}
+  \end{equation*}
+
+  $s=0$时，显然$|T|=|\dot{\gamma_0}|=1$，以及$\nabla_{\dot{\gamma_0}}\dot{\gamma_0}=0$（这一点来源于测地线方程）
+\begin{align}
+    L''(0)=\langle \dot{\gamma_0},\nabla_U U\rangle|_a^b +\int_a^b [|\dot{U}|^2-(\langle \dot{\gamma_0},U\rangle')^2+R(\dot{\gamma_0},U,\dot{\gamma_0},U)]dt
+\end{align}
+\end{proof}
+
+23.陈述Bonnet-Myers定理并给出证明.
+
+  \begin{theorem}[Bonnet-Myers]
+    设$(M,g)$是完备黎曼流形,$\mathrm{Ric}\geq (n-1)k$总成立,$k$是一个正实数,则$M$是紧致流形且$d(M)\leq \dfrac{\pi}{\sqrt{k}}$.进一步,$M$的基本群是有限群.
+  \end{theorem}
+\begin{proof}
+在$M$上任取两点$p\neq q$。我们的目的是证明$d(p,q)\leq \dfrac{\pi}{\sqrt{k}}$。
+
+    因为$M$是完备的，自然有最短正规测地线$\sigma:[0,l] \to M$.$l$是$p,q$之间的距离。
+
+    沿着$\sigma$取平行的标准正交基向量场$\{e_i(t)\}_{i=1}^n$。使得$e_n(t)=\dot{\sigma}(t)$。 能做到是因为测地线方程。
+
+    考虑沿着$\sigma(t)$的向量场$E_i(t)=f(t)e_i(t)$。其中$i$的取值是$1,\dots,n-1$。$f(t)$是待定函数，满足$f(0)=f(l)=0$。以$E_i(t)$做$\sigma$的变分如下:
+    \begin{align*}
+        \gamma_i(t,s)=\exp_{\sigma(t)}[sf(t)e_i(t)]
+    \end{align*}
+注意到$t=0$和$t=l$时$\exp_p(0)=p$,$\exp_q(0)=q$。所以这是定端变分，因此第二变分可以写作:($\exp_{\sigma(t)}(sE_i(t))$对$s$求偏导，$s=0$时为$E_i(t)$)
+\begin{align*}
+L_i''(0)=\int_0^l(f')^2+f^2R(\dot{\sigma},e_i,\dot{\sigma},e_i)dt
+\end{align*}
+条件中的Ricci促使我们把所有$L_i''(0)$相加:
+\begin{align*}
+    \sum_{k=1}^{n-1}L_i''(0)&=\int_0^l (n-1)(f')^2-f^2\mathrm{Ric}(\dot{\sigma},\dot{\sigma})dt\\&\leq (n-1)\int_0^l((f')^2-kf^2)dt\\&=(n-1)\int_0^l(f''-kf)fdt \qquad \text{分部积分}f'^2
+\end{align*}
+灵光一闪,取$f=\sin \dfrac{\pi}{l}t$。代入:
+\begin{align*}
+    \sum_{k=1}^{n-1}L_i''(0)\leq -(n-1)\int_0^l[k-(\frac{\pi^2}{l^2})]\sin^2(\frac{\pi }{l}t)dt=\frac{n-1}{2}[(\pi/l)^2-k]l
+\end{align*}
+$\gamma$是最短测地线，因此$L_i''(0)\geq 0$总成立。上述不等式旋即说明:
+\begin{align*}
+    \pi/l \geq k \Rightarrow l \leq \pi/\sqrt{k}
+\end{align*}
+
+对$M$的万有覆叠$\tilde{M}$使用上述分析,则$\tilde{M}$是紧致流形.这表明覆叠重数大于$0$,因此$M$的基本群是有限群.
+\end{proof}
+
+24.陈述Rauch比较定理.
+\begin{theorem}[Rauch I]
+    设$(M,g),(\bar{M},\bar{g})$是黎曼流形。$\gamma,\bar{\gamma}$是$M,\bar{M}$上的正规测地线。$U(t)$和$\bar{U}(t)$分别为沿着$\gamma,\bar{\gamma}$的Jacobi场,且满足条件:
+    \begin{align*}
+        |U(0)|=|\bar{U}(0)|,\langle \dot{U}(0),\dot{\gamma}(0)\rangle=\langle \dot{\bar{U}}(0),\dot{\bar{\gamma}}(0)\rangle=0, |\dot{U}(0)|=|\dot{\bar{U}}(0)|
+    \end{align*}
+    记$k(t)=\min\{K_g(\dot{\gamma}(t),v)|v \bot \dot{\gamma}(t)\}$, $\bar{k}(t)=\max\{K_{\bar{g}}(\dot{\bar{\gamma}}(t),v)|v \bot \dot{\bar{\gamma}}(t)\}$。
+
+    假设1.$\gamma$无共轭点,2.$k(t) \geq \bar{k}(t)$,$\forall t \in [0,t]$。
+    
+    则A.$\bar{\gamma}$无共轭点,B.$|U(t)| \leq \bar{U}(t)|$。
+\end{theorem}
+\begin{theorem}[Rauch II]
+    在Rauch I的条件下,记$\gamma(t)=\exp_p(tv)$,$\bar{\gamma}(t)=\exp_{\bar{p}}(t\bar{v})$。设$X \in T_pM$,$\bar{X}\in T_{\bar{p}}\bar{M}$。若:
+    \begin{align*}
+        \langle X,v\rangle=\langle \bar{X},\bar{v}\rangle,|X|=|\bar{X}|
+    \end{align*}
+    则$|(\exp_p)_{*lv}(X)|\leq |(\exp_{\bar{p}})_{*l\bar{v}}(\bar{X})|$
+\end{theorem}
+
+25.陈述Hessian比较定理.
+\begin{theorem}[Hessian比较定理]
+设$(M,g),(\bar{M},\bar{g})$是完备的黎曼流形。$\gamma,\bar{\gamma}$是正规测地线。
+
+$k(t)=\min \{K(\dot{\gamma}(t),e)|e \bot \dot{\gamma}(t)\}$,$\bar{k}(t)=\max \{K(\dot{\bar{\gamma}}(t),e)|e \bot \dot{ \bar{\gamma}}(t)\}$。记$p=\gamma(0)$,$\bar{p}=\bar{\gamma}(0)$。假设：
+
+(1)$\gamma,\bar{\gamma}$均为最短测地线
+
+(2)$k(t) \geq \bar{k}(t), \forall t \in [0,l]$。
+
+则当$t_0 \in (0,l)$时，有:$\nabla^2 d_p|_{\gamma(t)}<<\nabla^2d_{\bar{p}}|_{\dot{\bar{\gamma(t)}}}$。
+
+即当$X \in T_{\gamma(t_0)}M$，$\bar{X} \in T_{\bar{\gamma}(t_0)}\bar{M}$,$|X|=|\bar{X}|$,$\langle X,\dot{\gamma}(t_0)\rangle=\langle X',\dot{\bar{\gamma}}(t_0)\rangle$，有:
+\begin{align*}
+    \nabla^2d_p(X,X)\leq \nabla^2 d_{\bar{p}}(\bar{X},\bar{X})
+\end{align*}
+\end{theorem}
+
+26.推导标准球面和双曲空间中测地三角形的余弦公式.
+\begin{proof}
+  球面:\href{https://en.wikipedia.org/wiki/Spherical_law_of_cosines}{链接}
+
+  双曲空间:\href{https://pdfs.semanticscholar.org/579f/5c07455bf27e0ff627f5c4e168fc68cec3c8.pdf}{链接}
+\end{proof}
+
+27.证明Cartan-Hadamard流形$(M^n,g)$上到一点$p$的距离函数$d_p(x)$满足:
+\begin{equation*}
+  \Delta d_p(x)\geq \frac{n-1}{d_p(x)}
+\end{equation*}
+\begin{proof}
+  \textbf{注}:Cardan-Hadamard流形意指单连通完备,且截面曲率处处非正的黎曼流形.
+
+  根据Cartan-Hadamard定理,连接$M$上两点$p,q$的测地线均为最短测地线.
+
+  对$M$和$\R^n$使用Hessian比较定理.因为截面曲率处处非正,所以:
+  \begin{equation}
+    \na^2 {d_p}_M(x) >> \na^2 {d_p}_{\R^n}(\overline{x})\Rightarrow \Delta d_p(x)=\mathrm{Tr}(\na^2 d_p(x))>\mathrm{Tr}(\na^2 {d_p}_{\R^n}(\overline{x}))= \frac{n-1}{d_p(x)}.
+  \end{equation}
+
+  因此命题得证.
+\end{proof}
+
+28.设$d_p(x)$是Cartan-Hadamard流形$(M^n,g)$上到一点$p$的距离函数.证明$d_p^2(x)$是凸函数.
+\begin{proof}
+  因为$M$是Cartan-Hadamard流形,从而测地线都是最短测地线.从而为了判定$d_p^2(x)$是凸函数,只需要说明$d_p^2(x)$的Hess正定.
+  \begin{equation}
+    \na^2 d_p^2(x)=\na(\dd (d_p^2))=\na(2d_p\dd d_p)=2d_p\na^2 d_p+2\dd d_p \otimes \dd d_p
+  \end{equation}
+  由27题可给出Hess正定.因此命题得证.
+\end{proof}
+
+29.陈述体积比较定理的内容.
+\begin{theorem}[Bishop-Gromov,1980]
+    设$n$维完备黎曼流形$(M,g)$,$p \in M$。若$\mathrm{Ric}_M \geq (n-1)k$,$k \in \R$。则表达式:
+    \begin{align*}
+        \frac{\mathrm{B_k(p)}}{\mathrm{Vol}(B_R^k)}
+    \end{align*}
+    关于$R$是单调减的。其中$B_R^k$表示曲率为$k$的单连通空间形式中半径为$R$的测地球。特别的，$\mathrm{vol}(B_R(p))\leq \mathrm{vol}(B_R^k)$。
+\end{theorem}
+
+30.证明Hodge *算子与Hodge-Laplace算子交换.
+\begin{proof}
+  直接计算:
+  \begin{equation}
+     \begin{split}
+      *d\delta+*\delta d&=*d*d*(-1)^{nk+n+1}+(-1)^{nk-k+n+1}**d*d\\&=(-1)^{nk+n+1}*d*d*+(-1)^{n^2-nk+n-k}d*d\\
+       d\delta*+\delta d*&=d*d**(-1)^{n(n-k)+n+1}+*d*d*(-1)^{n(n-k+1)+n+1}\\&=(-1)^{nk+k}d*d+(-1)^{n^2-nk+1}*d*d*
+     \end{split}
+  \end{equation}
+  简单比对两者即可得到相等.
+\end{proof}
+
+31.证明$\mathrm{div}X=-\delta(X^b)$
+\begin{proof}
+  取$p$处的测地正规正交坐标$\{e_i\}$,$X=X^ie_i$,于是$X^b=\sum_i X^i e^i$.不难有$[e_i,e_j](p)=0,\forall i,j$
+  \begin{equation}
+    \mathrm{div}X=e_i(X^i)
+  \end{equation}
+  
+  另外,我们又有:
+  \begin{equation}
+    -\delta(X^b)=*d*(X^b)=*d(\sum_i X^i (-1)^{i-1}e^1\wedge \dots \hat{e^i}\dots \wedge e^n)=*(\sum_i e_i(X^i)e^1\wedge\dots e^n)=e_i(X^i)=\mathrm{div}X
+  \end{equation}
+  
+  注:$de^i(e_j,e_k)=-e^i([e_j,e_k])$.在$p$处$[e_j,e_k]=\na_{e_i}e_k-\na_{e_k}e_j=0$.因此在$p$处$de^i=0$.
+\end{proof}
+
+32.写出Hodge定理的内容.
+\begin{proof}
+  有分解:
+  \begin{equation}
+    \Omega^k(M)=H^k(M)\oplus d(\Omega^{k-1}(M))\oplus d^*(\Omega^{k+1}(M))
+  \end{equation}
+\end{proof}
+
+33.设$(M,g)$是闭黎曼流形,$X$是Killing场,$\omega$是调和微分形式.证明$L_X \omega$仍然是调和微分形式,且是恰当形式,因而$L_X \omega=0$
+\begin{proof}
+  显然$L_X \omega=d \iota_X \omega$是恰当形式.我们只需要说明$L_X \omega$是调和的.
+
+  我们断言,Hodge*算子与$L_X$交换.从而$\delta L_X=L_X \delta$.因此Hodge-Laplace算子与$L_X$也交换,因此$L_X \omega$也调和.
+
+  对断言的证明我们直接调用\href{https://math.stackexchange.com/questions/3500992/does-the-lie-derivative-of-a-harmonic-form-with-respect-to-a-killing-vector-fiel}{链接}.可点链接查看.
+\end{proof}
+
+34.设$(M,g)$是闭黎曼流形且$\mathrm{Ric}_g\geq 0$,证明$b_1(M)\leq n$.
+\begin{proof}
+  考虑Hodge分解,则仅需证明不存在$n+1$个处处线性无关的调和1形式.
+
+  假设存在$\omega_1,\dots,\omega_{n+1}$处处线性无关.任取$p\in M$,则$\omega_1(p),\dots,\omega_n(p)$是$T_p^* M$的一组基.于是:
+  \begin{align}
+    \omega_{n+1}(p)=\sum_i a_i\omega_i(p)
+  \end{align}
+
+  紧黎曼流形总是完备的,因此任意$q \in M$,存在测地线$\gamma$连接$p,q$.根据Bochner定理,调和形式总是平行的:
+  \begin{equation}
+    \na \omega_i=0
+  \end{equation}
+  从而$\na(a_i\omega_i)=0$,于是$a_i\omega_i$是一个与$\omega_{i+1}$在$p$处相同的两个平行调和形式,因此:
+  \begin{equation}
+    \omega_{n+1}=\sum_i a_i\omega_i
+  \end{equation}
+  这说明$\omega_1,\dots,\omega_{n+1}$处处线性相关,矛盾！
+\end{proof}
+
+35.证明$S^n\times S^1$不存在正Ricci曲率度量.
+\begin{proof}
+  若存在,考虑$S^n \times S^1$是紧集,则Ricci曲率有正的下界.根据Bonnet-Myers定理,$S^n \times \R^1$也应该是紧致的.矛盾！
+\end{proof}
+
+36.证明$S^n \times S^1$上不存在非正的截面曲率度量.
+\begin{proof}
+  假设存在这样的度量.$S^n \times S^1$是紧集,因而是完备的黎曼流形.从而万有覆叠$S^n \times \R^1$在诱导度量下也是完备的黎曼流形.
+
+  因为覆叠映射是局部等距,所以$S^n \times \R^1$上的截面曲率也非正.根据Cardan-Hadamard定理,$S^n \times \R^1$微分同胚于$\R^{n+1}$.这产生了拓扑上的一个矛盾!
+\end{proof}
+
+37.证明$S^2 \times S^1$上不存在Einstein度量.
+\begin{proof}
+  考虑$S^2 \times S^1$的万有覆叠$S^2 \times \R^1$.因为三维Einstein流形总是常曲率空间,从而$S^2\times S^1$是常曲率空间.然而$S^1 \times \R^1$不与$S^3,\R^3,\mathcal{H}^3$中的任意一个空间同胚,这产生了拓扑上的一个矛盾！
+\end{proof}
+\end{document}
+
+
+

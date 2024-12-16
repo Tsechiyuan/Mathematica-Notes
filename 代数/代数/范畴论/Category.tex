@@ -1,0 +1,59 @@
+\def\allfiles{}
+\documentclass{package/fancy-book}
+\setlength{\parindent}{2em}
+\usepackage[UTF8]{ctex}
+%%%%%%%%%% Default Package %%%%%%%%%%%%%
+\usepackage{package/color-env}
+\usepackage{package/quiver}
+\usepackage{background}
+\usepackage[object=vectorian]{pgfornament} %% used in title.tex
+\usepackage{calligra} %%% (optional) to make the Title text beautiful 
+\usepackage{lipsum}  %% for dummy text 
+\usepackage{amssymb,amsmath,amsfonts}  %%% for maths
+\usepackage{datetime}
+
+%%%%%% Optional Packages %%%%%%%
+\usepackage{lettrine} %% for nice looking 
+\usepackage{GoudyIn} %% first Letter of the paragraph
+\renewcommand{\LettrineFontHook}{\color{black}\GoudyInfamily{}}
+\LettrineTextFont{\itshape}
+\setcounter{DefaultLines}{3}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{datetime2}
+\usepackage{fourier-orns}
+\newcommand{\ornamento}{\vspace{2em}\noindent \textcolor{darkgray}{\hrulefill~ \raisebox{-2.5pt}[10pt][10pt]{\leafright \decofourleft 
+\decothreeleft  \aldineright \decotwo \floweroneleft \decoone   \floweroneright 
+\decotwo \aldineleft\decothreeright \decofourright \leafleft} ~  \hrulefill \\ \vspace{2em}}}
+
+% 命令
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\Ext}{\mathrm{Ext}}
+\newcommand{\Tor}{\mathrm{Tor}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\cC}{\mathcal{C}}
+
+%%%% Bibliography %%%%%%%%%
+% Required packages are included in notes class
+% Can be tweaked in the notes.cls file itself
+\addbibresource{resource/references.bib}
+\includeonly{title,tex/2.tex}
+\begin{document}
+\include{title.tex}
+\backgroundsetup{contents={}} %% to remove background and watermark from other pages
+\tableofcontents
+
+\quad
+
+范畴论基础是学习现代数学理论重要的语言。很多时候如果预先学习过范畴论，就可以很好的了解许多已知的数学理论。我们将会以李文威所著的《代数学方法》为讲义，攥写该笔记。以此在将来遇到该门语言时可以进行快速的复习。
+
+由于范畴本身的概念在攥写笔记中可以得到反复强化，因此我们省略范畴论中最最基础的定义，直接从函子范畴开始攥写笔记。
+\include{tex/1.tex}
+\include{tex/2.tex}
+\end{document}

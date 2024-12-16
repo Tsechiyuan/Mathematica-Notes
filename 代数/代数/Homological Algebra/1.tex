@@ -1,0 +1,722 @@
+\ifx\allfiles\undefined
+
+	% 如果有这一部分另外的package，在这里加上
+	% 没有的话不需要
+	
+	\begin{document}
+\else
+\fi
+\chapter{链复形}
+\section{$R$-Mod上的链复形}
+我们直接给出定义:
+\begin{definition}{}
+  一个$R$模上的链复形是一族$R$模$\{C_n\}$,与模同态$d_n:C_n \to C_{n-1}$，使得$d_n \circ d_{n-1}=0$.习惯上，我们把这些$d_n$称为微分（来源于微分拓扑），把$d_n$的核$\ker d_n$成为$C$的$n$圈，用$Z_n$表示。$d_{n+1}:C_{n+1}\to C_{n}$的像称为$C$的$n$边界，用$B_n$表示。
+
+  显然$B_n \subset Z_n$($d_{n+1}\circ d_n=0$)。定义$C$的$n$阶同调模为$H_n(C)=Z_n/B_n$。
+\end{definition}
+
+实际上，存在范畴$Ch$($R$模下）。其对象为一般的链复形。态射$u:C \to D$定义为一族$R$模同态$u_n:C_n \to D_n$,使得与微分交换:$u_{n-1}d=du_{n}$。在这里，我们混用了$d$的记号，但是其意义并非是容易混淆的。请看交换图:
+
+  \[\begin{tikzcd}
+	{C_n} && {C_{n-1}} \\
+	\\
+	{D_n} && {D_{n-1}}
+	\arrow["d", from=1-1, to=1-3]
+	\arrow["{u_{n-1}}", from=1-3, to=3-3]
+	\arrow["{u_n}"', from=1-1, to=3-1]
+	\arrow["d"', from=3-1, to=3-3]
+\end{tikzcd}\]
+这条交换性质保证了下面的命题:
+\begin{proposition}{}
+  两个链复形之间的态射将圈映射到圈，将边界映射到边界。因此根据模同态定理，$u$诱导了映射$u:H_n(C) \to H_n(D)$。因此$H_n$是从$Ch$到$R$mod的函子。
+\end{proposition}
+\begin{proof}
+  诱导模同态的证明略。要验证$H_n$是函子，需要说明其保$id$和复合。保id也是显然的，因此仅需要证明复合。对于$u,v$是链复形$C,D,E$之间的态射，我们自然有$(u \circ v)_n=u_n \circ v_n$。所以有诱导的映射满足复合关系。
+\end{proof}
+备注：这段证明说的比较含糊，但实际上是抽象代数的基本验证。我更建议读者自行验证这个命题。
+
+\begin{example}{}
+  考虑链复形$\{\mathrm{Hom}(A,C_n)\}$，其是$\Z$上的链复形。其中$A$是$R$模，$C_n$是已知的链复形的第$n$个模。假设$A=Z_n$($C$的第$n$阶圈)，则若$H_n(\mathrm{Hom}(Z_n,C))=0$,则$H_n(C)=0$.
+
+  当然我们需要验证其是一个链复形，以及给出其微分。这里省略。给定$a \in Z_n$，我们需要说明存在$b \in C_{n+1}$使得$db=a$。显然可以定义$f:Z_n \to C_n$使得$f(Ra)=Ra$。并且$d\circ f=0$。于是存在$g:Z_n \to C_{n+1}$满足$d \circ g=f$。于是定义$b=g(a)$，从而$db=f(a)=a$。
+\end{example}
+
+\begin{definition}{}
+  态射$u:C \to D$被称之为拟同构态射，若其诱导的$H_n(C)\to H_n(D)$都是同构。
+\end{definition}
+
+把链复形的定义稍微倒错一下（把$C_n$写为$C^{-n}$),我们可以得到上链复形的概念：
+\begin{definition}{}
+  一个$R$模上的上链复形是指一族$R$模$\{C^n\}$,与模同态$d^n:C^n \to C^{n+1}$，使得$d^{n+1} \circ d^{n}=0$.习惯上，我们把这些$d^n$称为微分（来源于微分拓扑），把$d^n$的核$\ker d^n$成为$C$的$n$上圈，用$Z^n$表示。$d^{n-1}:C^{n-1}\to C^{n}$的像称为$C$的$n$上边界，用$B^n$表示。
+
+  显然$B^n \subset Z^n$($d^{n+1}\circ d^n=0$)。定义$C$的$n$阶上同调模为$H^n(C)=Z^n/B^n$。
+
+  上链复形的其他定义（态射，拟同构）与链复形一致。
+\end{definition}
+
+实际中，我们往往限制链复形和上链复形中不为$0$的模的指数（index）。对于一个链复形而言，若除有限个外其他$C_n$都是$0$,称之为有限链复形。如果对于$n>b(n<a)$有$C_n=0$，则称之为有上边界（下边界）链复形。
+
+显然，有界（上有界，下有界）的链复形构成$Ch$的全子范畴。
+
+上链复形有同样的定义。我们不多赘述。
+
+接下来是一些代数拓扑计算同调群的例子。节省篇幅和时间，就不做记录了。
+\section{链复形的运算}
+我们希望在范畴论的角度下解释链复形，从而我们介绍Abelian范畴的定义。
+
+\begin{definition}{}
+一个范畴$\mathcal{A}$被称为$Ab$范畴，若其每个hom集$\mathrm{Hom}(A,B)$都被赋予了一个abel群的结构，使得态射的复合满足分配：$(f+f')\circ g=f \circ g+f'\circ g$。其中$f,f':B \to C$,$g:A \to B$。同理还有右分配。
+
+显然，$Ch$范畴是一个$Ab$范畴。我们定义加法为模同态的相加$(f+g)_n=f_n+g_n$。
+
+对于$Ab$范畴，我们可以定义加性函子$F:\mathcal{A} \to \mathcal{B}$,假如$F$给出了$\mathrm{Hom}(A,B)$到$\mathrm{Hom}(FA,FB)$的群同态。
+\end{definition}
+然而$Ab$范畴在范畴论上性质并不强。我们常用的许多结构：积，ker，coker都无法给出。所以我们给出下面的定义:
+\begin{definition}{}
+  一个可加范畴是指一个$Ab$范畴，外加拥有$0$对象和$A \times B$的积。从而在可加范畴上我们可以定义有限的积。
+
+  显然$Ch$范畴也是一个可加范畴。
+\end{definition}
+\begin{proposition}
+  直和与直积与同调操作交换。即$\oplus H_n(A_\alpha)\cong H_n(\oplus A_\alpha)$和$\otimes H_n(A_\alpha)\cong H_n(\otimes A_\alpha)$
+\end{proposition}
+\begin{proof}
+链复形的直积，直和定义是自然的。对于直和而言，容易有$Z_n(\oplus A_\alpha)=\oplus Z_n(A_\alpha)$和$B_n(\oplus A_\alpha)=\oplus B_n(\oplus A_\alpha)$。因此同调群直接做商即可。
+\end{proof}
+
+\begin{definition}{}
+  链复形$B$称为$C$的子复形，若$B_n \subset C_n$且$B$的微分算子是$C$微分算子在$B$上的限制。
+
+  子复形的定义自然给出了商复形:
+  \begin{align*}
+    \dots \to C_{n+1}/B_{n+1} \to C_n/B_n \to C_{n-1}/B_{n-1} \to \dots
+  \end{align*}
+\end{definition}
+\begin{proposition}
+  若$f:B \to C$是链复形之间的映射。则可以良定义$\{ker f_n\}$是$B$的子复形。也可以良定义$\{\mathrm{coker} f_n\}$是$C$的商复形。
+\end{proposition}
+\begin{proof}
+  显然。
+\end{proof}
+下面我们介绍一般可加范畴里面$\ker$和$\mathrm{coker}$的定义。
+\begin{definition}{}
+  对于态射$f:B \to C$，我们定义$\ker$为$i:A \to B$使得满足$fi=0$且任意$i':A' \to B$满足$fi'=0$，都有存在唯一的$g:A' \to A$使得$ig=i'$。定义$\mathrm{coker}f$为$p:C \to D$满足$pf=0$且使得任意满足$p'f=0$的$p':C \to D'$，存在唯一的$h:D \to D'$使得$p'=hp$。
+\end{definition}
+我们鼓励读者在这里使用交换图以描述核与余核的区别。
+
+\begin{proposition}{}
+  $\ker$是单态，$\mathrm{coker}f$是满态。
+\end{proposition}
+\begin{proof}
+  仅对单态说明。读者可以自己尝试证明满态。回忆单态的定义是，对于$g:B \to C$，若任意$f,f':A \to B$满足$gf=gf'$，则$f=f'$。对于$\ker$而言，这一点由泛性质自然给出。
+\end{proof}
+
+在$R$模中，单态，单射，ker的概念是重合的。然而一般的范畴却不一定如此——ker是否能定义都是未决的问题。同样，在$R$模范畴中，满态，满射，coker的概念都是重合的，而一般的范畴则不一定。
+\begin{proposition}{}
+  对于$R$模上的$Ch$范畴，$f$是$A$到$B$的链映射。则之前定义的$\ker f$和$\mathrm{coker}f$确实是满足一般范畴定义的核和余核。
+\end{proposition}
+\begin{proof}
+  套用定义，然后根据$R$模范畴中核，余核定义即可得到结果。
+\end{proof}
+
+定义核和余核是定义阿贝尔范畴的关键。
+\begin{definition}{}
+  称一个加性范畴是一个Abelian范畴，若其满足三个条件:
+
+  1.每个态射都有核和余核。
+
+  2.任何一个单态都是其余核态射的核。
+
+  3.任何一个满态都是其核态射的余核。
+\end{definition}
+显然$R$模范畴是一个Abelian范畴。可以证明以下事实:
+\begin{proposition}{}
+  给定$\mathcal{A}$作为Abelian范畴，可以良定义态射的像$im(f)$。对于$f:B \to C$，我们有$\ker(\mathrm{coker}f)=\cong \mathrm{coker}(\ker f)$。因而定义$im(f)=\ker(\mathrm{coker}f)$
+\end{proposition}
+用交换图可以更加准确的描述命题里面的同构。
+\[
+  \begin{tikzcd}
+	{\ker f} & B & C & {\mathrm{coker}f} \\
+	& {\mathrm{coker}i} & {\ker p}
+	\arrow["f", from=1-2, to=1-3]
+	\arrow["i", from=1-1, to=1-2]
+	\arrow["p", from=1-3, to=1-4]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-3, to=1-3]
+	\arrow[dashed, from=2-2, to=2-3]
+\end{tikzcd}\]
+图中虚线的存在是因为泛性质。不妨考虑$fi=0$，所以根据$\mathrm{coker}$泛性质，存在唯一的$\mathrm{coker}i \to C$.由于$\mathrm{coker}i$是满态，所以构造的态射与$p$复合后是$0$。因此根据$\ker$泛性质，有虚线态射的存在。若此态射是同构，我们称这是一个严格的态射$f$。从而Abelian范畴有一个性质为:
+\begin{proposition}{}
+  Abelian范畴的态射都严格。
+\end{proposition}
+\begin{definition}{}
+
+  1.称一个$\mathcal{A}$的列是正合列，若每个对象处都有$\ker=im$。
+
+  2.考虑$\mathcal{B}$是$\mathcal{A}$的子Abelian范畴，若其本身是Abelian的，并且任何一个在$\mathcal{B}$的正合列，在$\mathcal{A}$中都正合。
+\end{definition}
+
+在Abelian范畴下可以讨论一般通过链复形的结构。因此我们给出了可加范畴$Ch(\mathcal{A})$。从而同调成为了从这个范畴到$\mathcal{A}$的函子。
+
+\begin{theorem}{}
+  $Ch(\mathcal{A})$是一个Abelian范畴。
+\end{theorem}
+\begin{proof}
+  首先我们验证该范畴有核和余核。构造与$R$模范畴中的构造类似，因此留给读者做验证。（ker和coker的映射需要用泛性质给出）。
+
+  如果$f:B \to C$是单态链映射，我们断言，$f$是单的，当且仅当$f_n$对于每个$n$都是单的。（可以构造一个非常简单的复形）。对于$f_n$，自然的$B_n$是$\ker (\mathrm{coker}f_n)$。我们断言$B\cong \ker (\{\mathrm{coker}f_n\})$。显然在$B_n$上类似。而对于微分算子:
+\[
+    \begin{tikzcd}
+	{B_n} && {B_{n-1}} \\
+	\\
+	{\ker (\mathrm{coker} f_n)} && {\ker(\mathrm{coker}f_{n-1})}
+	\arrow[from=1-1, to=1-3]
+	\arrow[from=1-1, to=3-1]
+	\arrow[from=1-3, to=3-3]
+	\arrow[from=3-1, to=3-3]
+\end{tikzcd}
+\]
+  这张图本身是交换的。因为同构$B_n\cong \ker (\mathrm{coker}f_n)$本身来自于$\ker$的泛性质（不妨自己研究一下）。
+
+  满态的情况不予验证。
+\end{proof}
+\begin{proposition}{}
+  链复形的正合（范畴论的定义）等价于每个列$0 \to A_n \to B_n \to C_n \to 0$都正和。
+\end{proposition}
+\begin{proof}
+  考察链复形中的像。不妨考虑像定义为$\ker$。对于$0 \to A \to B \to C \to 0$,其中$i:A \to B$的像定义为$\ker (\mathrm{coker}i)$。同时，$\ker p$存在，并且根据泛性质（自行验证），存在$\ker (\mathrm{coker}i) \to \ker p$的态射。
+
+  正合意味着这个态射是一个同构。不难发现这个态射本身为$\{\ker (\mathrm{coker}i_n) \to \ker p_n\}$。同构于是等价于每一个小的态射都是同构。
+\end{proof}
+
+接下来我们讨论双链复形。这一节会更多出现在谱序列的章节中，就之后记录。
+
+链复形有着丰富的构造，这一节只做了最基本的描述。我们将在第五节见到更多构造。
+\section{长正合列}
+\begin{theorem}{}
+  设$0 \to A \to B \to C \to 0$是链复形的正合列。那么存在一个自然的映射$\partial: H_n(C)\to H_{n-1}(A)$，称为连接同态，使得:
+  \begin{align*}
+    \dots \to H_{n+1}(C) \to H_n(A) \to H_n(B) \to H_n(C) \to H_{n-1}(A) \to \dots
+  \end{align*}
+  是一个正合列。
+
+  同样，对于上链复形的正合列:$0 \to A \to B \to C  \to 0$，存在一个自然的$\partial: H^n(C)\to H^{n+1}(A)$和一个长正合列:
+  \begin{align*}
+    \dots \to H^{n-1}(C) \to H^n(A)\to H^n(B) \to H^n(C) \to H^{n+1}(A)
+  \end{align*}
+\end{theorem}
+如果使用追图的技巧，这个定理的证明是相当容易的。（显得繁琐，但是没有思维难度）为此，我们试图介绍一些可能看起来不那么初等的证明。
+
+\begin{proposition}{}
+  对于链复形的正合列:$0 \to A \to B \to C \to 0$,如果其中有两个链复形是正合的，则第三个链复形也是正合的。
+\end{proposition}
+\begin{proof}
+  在长正合列中考虑两个同调群为$0$。由正合性可以得到另外一个也是$0$。
+\end{proof}
+
+\begin{proposition}{}[33引理]
+  给定交换图
+  \[
+    \centering
+    \begin{tikzcd}
+	& 0 & 0 & 0 \\
+	0 & {A'} & {B'} & {C'} & 0 \\
+	0 & A & B & C & 0 \\
+	0 & {A''} & {B''} & {C''} & 0 \\
+	& 0 & 0 & 0
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=3-1, to=3-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=3-2, to=3-3]
+	\arrow[from=2-3, to=2-4]  
+	\arrow[from=3-3, to=3-4]
+	\arrow[from=4-2, to=4-3]
+	\arrow[from=4-3, to=4-4]
+	\arrow[from=4-1, to=4-2]
+	\arrow[from=4-4, to=4-5]
+	\arrow[from=3-4, to=3-5]
+	\arrow[from=2-4, to=2-5]
+	\arrow[from=1-3, to=2-3]
+	\arrow[from=1-4, to=2-4]
+	\arrow[from=2-2, to=3-2]
+	\arrow[from=3-2, to=4-2]
+	\arrow[from=4-2, to=5-2]
+	\arrow[from=2-3, to=3-3]
+	\arrow[from=3-3, to=4-3]
+	\arrow[from=4-3, to=5-3]
+	\arrow[from=2-4, to=3-4]
+	\arrow[from=3-4, to=4-4]
+	\arrow[from=4-4, to=5-4]
+\end{tikzcd}
+  \]
+  这是一个在某个阿贝尔范畴的交换图，使得每一列都是正合的。则:
+
+  1.若底部两行正合，则第一行也正合。
+
+  2.若顶部两行正合，则第三行也正合。
+
+  3.若顶部和底部两行正合，且复合$A \to C$是$0$，则中间一行也正合。
+\end{proposition}
+\begin{proof}
+  追图即可。读者自证不难。或者也可以考虑上述定理，只需要说明这是链复形之间的映射。
+\end{proof}
+
+我们用蛇形引理证明上述的长正合列定理。然而我们不准备给出蛇形引理的证明。
+\begin{lemma}[Snake]{snake}
+  考虑交换图:
+  \[
+    \begin{tikzcd}
+	& {\ker f} & {\ker g} & {\ker h} \\
+	& {A'} & {B'} & {C'} & 0 \\
+	0 & A & B & C \\
+	& {\mathrm{coker} f} & {\mathrm{coker} g} & {\mathrm{coker} h}
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-4, to=2-5]
+	\arrow["f", from=2-2, to=3-2]
+	\arrow[from=3-1, to=3-2]
+	\arrow["g", from=2-3, to=3-3]
+	\arrow[from=3-3, to=3-4]
+	\arrow["h", from=2-4, to=3-4]
+	\arrow[from=3-2, to=3-3]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-3, to=2-3]
+	\arrow[from=1-4, to=2-4]
+	\arrow[from=3-2, to=4-2]
+	\arrow[from=3-3, to=4-3]
+	\arrow[from=3-4, to=4-4]
+	\arrow[dashed, from=1-2, to=1-3]
+	\arrow[dashed, from=1-3, to=1-4]
+	\arrow[dashed, from=4-2, to=4-3]
+	\arrow[dashed, from=4-3, to=4-4]
+	\arrow[curve={height=24pt}, squiggly, from=1-4, to=4-2]
+\end{tikzcd}
+  \]
+   如果图中实两行都是正合的，那么存在一个正合列:
+   \begin{align*}
+    \ker f \to \ker g \to \ker h \to \mathrm{coker}f \to \mathrm{coker} g \to \mathrm{coker} h
+   \end{align*}
+   其中$\ker h \to \mathrm{coker}f$需要构造。可以简单描述为:
+   \begin{align*}
+    \partial(c')=i^{-1}g p^{-1}(c') ,c' \in \ker h
+   \end{align*}
+\end{lemma}
+
+蛇形引理在一般的abelian范畴里面也是成立的。原因是我们可以把一个小abelian范畴$\mathcal{A}$嵌入到$R$-mod范畴中。对于非小范畴$\mathcal{C}$，对于任何交换图，我们都可以找到小范畴包含这张交换图。所以在abelian范畴里面这也是成立的。
+
+\begin{lemma}[5引理]{5lemma}
+  考虑交换图
+  \[
+    \begin{tikzcd}
+	{A'} & {B'} & {C'} & {D'} & {E'} \\
+	A & B & C & D & E
+	\arrow["a"', from=1-1, to=2-1]
+	\arrow["b"', from=1-2, to=2-2]
+	\arrow["c"', from=1-3, to=2-3]
+	\arrow["d"', from=1-4, to=2-4]
+	\arrow["e"', from=1-5, to=2-5]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-4, to=2-5]
+\end{tikzcd}
+  \]
+  若$a,b,d,e$是同构，且行正合，则$c$也是同构。
+\end{lemma}
+
+现在我们讨论导引长正合列的办法。对于$0 \to A \to B \to C \to 0$是正合的链复形链。我们给出:
+\[ \begin{tikzcd}
+	& 0 & 0 & 0 \\
+	0 & {Z_nA} & {Z_n B} & {Z_nC} \\
+	0 & {A_n} & {B_n} & {C_n} & 0 \\
+	0 & {A_{n-1}} & {B_{n-1}} & {C_{n-1}} & 0 \\
+	& {A_{n-1}/dA_n} & {B_{n-1}/dB_n} & {C_{n-1}/dC_n} & 0 \\
+	& 0 & 0 & 0
+	\arrow[from=3-2, to=3-3]
+	\arrow[from=3-3, to=3-4]
+	\arrow[from=3-4, to=3-5]
+	\arrow["d", from=3-2, to=4-2]
+	\arrow[from=4-1, to=4-2]
+	\arrow["d", from=3-3, to=4-3]
+	\arrow[from=4-3, to=4-4]
+	\arrow["d", from=3-4, to=4-4]
+	\arrow[from=4-2, to=4-3]
+	\arrow[from=2-2, to=3-2]
+	\arrow[from=2-3, to=3-3]
+	\arrow[from=2-4, to=3-4]
+	\arrow[from=4-2, to=5-2]
+	\arrow[from=4-3, to=5-3]
+	\arrow[from=4-4, to=5-4]
+	\arrow[from=5-2, to=6-2]
+	\arrow[from=5-3, to=6-3]
+	\arrow[from=5-4, to=6-4]
+	\arrow[from=5-2, to=5-3]
+	\arrow[from=5-3, to=5-4]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=1-3, to=2-3]
+	\arrow[from=1-4, to=2-4]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=3-1, to=3-2]
+	\arrow[from=5-4, to=5-5]
+	\arrow[from=4-4, to=4-5]
+\end{tikzcd}\]
+
+以及:
+\[
+  \begin{tikzcd}
+	& {A_n/dA_{n+1}} & {B _n/dB_{n+1}} & {C_n/dC_{n+1}} & 0 \\
+	0 & {Z_{n-1}B} & {Z_{n-1}B} & {Z_{n-1}C}
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-3, to=2-3]
+	\arrow[from=1-4, to=2-4]
+\end{tikzcd}\]
+
+
+根据第一幅图我们知道第二幅图的第一列和第二列都是正合的。根据snake引理可知第二幅图给出了我们想要的长正合列。
+
+当然也可以直接追图得到长正合列。这没有什么本质困难的东西。
+
+最后我们说明长正合列中$\partial$是自然的。即对于两个正合链复形列之间的态射，我们能给出一个交换图。
+\[
+  % https://q.uiver.app/#q=WzAsMTAsWzAsMCwiMCJdLFsxLDAsIkEiXSxbMiwwLCJCIl0sWzMsMCwiQyJdLFs0LDAsIjAiXSxbNCwxLCIwIl0sWzMsMSwiQyciXSxbMiwxLCJCJyJdLFsxLDEsIkEnIl0sWzAsMSwiMCJdLFswLDFdLFsxLDJdLFsyLDNdLFszLDRdLFs5LDhdLFs4LDddLFs3LDZdLFs2LDVdLFsxLDhdLFsyLDddLFszLDZdXQ==
+\begin{tikzcd}
+	0 & A & B & C & 0 \\
+	0 & {A'} & {B'} & {C'} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-4, to=2-5]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-3, to=2-3]
+	\arrow[from=1-4, to=2-4]
+\end{tikzcd}\]
+\begin{proposition}{}
+  长正合列是一个从$\mathcal{S}$到$\mathcal{T}$的函子。其中$\mathcal{S}$是短链复形正合列范畴，$\mathcal{T}$是长正合列范畴。
+\end{proposition}
+\begin{proof}
+  由于$H_n$是函子，所以我们只需要给出$\partial$的自然性。用嵌入定理可以只考虑$R$模范畴，从而追图。给定$z \in H_n(C)$，用$c$表示$z$在$Z_nC$的代表元。显然$z'$作为$H_n(C')$中$z$的像拥有$c'$作为代表元。
+
+   用$b$表示$c$的一个原像，则$b'$作为$b$在$B'$中像是$c'$的一个原像。从而根据$\partial$的构造可以得到上图交换。
+\end{proof}
+
+\begin{proposition}{}
+  正合列$0 \to Z \to C \to B[-1] \to 0$给出一个可以分裂为短正合列的长正合列。
+\end{proposition}
+\begin{proof}
+  考虑$Z$的同调群为$Z_n$.而$B[-1]$的同调群是$B_{n-1}$。长正合列为$Z_n \to H_n(C) \to B_{n-1} \to Z_{n-1}$。其中$H_n(C) \to B_{n-1}$是$0$态射。
+\end{proof}
+\begin{proposition}{}
+  作为链复形之间的态射$f$，若$\ker f$和$\mathrm{coker}f$零调，则$f$是一个拟同构。
+\end{proposition}
+\begin{proof}
+  若ker和coker其中有一个平凡，则诱导的长正合列即可得到结果。
+
+  现在考虑两个都不平凡。不妨考虑$\ker f \to A \to im(f) \to B \to \mathrm{coker} f$。其中前三个是短正合的，后三个也是短正合的。$\ker f$零调意味着$H_n(A)=H_n(im(f))$。$\mathrm{coker}f$零调意味着$H_n(im(f))=H_n(B)$
+
+  余下要验证的是$f$确实可以如此分解。但是根据abelian范畴，上述两个同构的复合确实是$f_*$。
+\end{proof}
+\section{链同伦}
+链同伦来自于代数拓扑。这是一个很好的概念（用于证明拟同构）。
+
+\begin{definition}{}
+  一个复形$C$称为分裂的，如果存在$s_n:C_n \to C_{n+1}$使得$dsd=s$.如果$C$还是零调的，则称$C$是分裂正合的。
+\end{definition}
+下面的例子说明零调的复形也可能不是分裂的。
+\begin{example}{}
+  $\to \Z/4 \to \Z/4 \to \Z/4 \to \dots$
+
+  其中每个映射都是把元素乘$2$。这是一个零调的列（不管是作为$\Z$还是$\Z_4$模）。然而不是正合的，原因是不存在直和分解:$\Z_4 \cong \Z_2\oplus \Z_2$。
+\end{example}
+下面的命题涉及一些投射模的性质。不懂这个的读者可以先不看。
+\begin{proposition}{}
+  零调有下界，且均为自由模的链复形是分裂正合的。零调且均为自由生成abel群的链复形是分裂正合的。
+\end{proposition}
+\begin{proof}
+  对于第一句话，考虑$R^k \to R^m \to R^n \to 0$。因为$R^n$是投射模，所以是$R^m$的直和项，于是有自然嵌入到$R^m$的映射。并且这个映射满足$dsd=d$。接着考虑$R^m$的直和项（分解$R^n$后剩下的），其也是投射模，并且$R^k$到其为满射，则其为$R^k$的直和项。定义$R^m$到$R^k$的映射为该直和打回去的映射。
+
+  对于第二句话。因为$\Z$是主理想整环，所以有限生成自由模的子模是有限生成自由模。因此大家都是投射模。
+\end{proof}
+
+\begin{definition}{}
+  对于链映射$f:C \to D$,称其为0伦的，若存在一族映射$s_n:C_n \to D_{n+1}$使得$f=ds+sd$。$\{s_n\}$称作$f$的链收缩。
+
+  称$f,g:C \to D$是同伦的链映射，若$f-g$是零伦的。同伦等价的定义不再赘述。
+\end{definition}
+\begin{proposition}{}
+  同伦的链映射诱导一样的同调群同态，因此同伦等价的链复形同调群同构。
+\end{proposition}
+\section{映射锥和映射柱}
+设$f: B \to C$是链复形之间的映射。我们可以定义$f$的映射锥$\mathrm{cone}(f)$为一个新的链复形.
+
+其$n$阶元为$B_{n-1}\oplus C_n$，微分定义为:
+\begin{align*}
+	d(b,c)=(-d(b),d(c)-f(b))
+\end{align*}
+我们省略验证$d \circ d$是一个复形的计算。同理，对于上链复形之间的映射$f: B \to C$，也可以定义$\mathrm{cone}(f)$.其第$n$阶元为$B^{n+1}\oplus C^n$，而微分：
+\begin{align*}
+	d(b,c)=(-db,dc-f(b))
+\end{align*}
+\begin{proposition}{}
+	设$\mathrm{cone}(C)$定义为$C \to C$的恒同映射给出的映射柱。则$\mathrm{Cone}(C)$是分裂正合的。并且$s(b,c)=(-c,0)$是分裂映射。
+\end{proposition}
+\begin{proof}
+	我们先考虑$0$调。实际上$d(c,c')=(-dc,dc'-c)$。因此$\ker d$满足$dc=0$且$dc'=c$.（自然可以只写为$dc'=c$)。所以自然有$d(-c',0)=(c,c')$，于是$\ker d =im(d)$所以零调。
+
+	再考虑分裂正合。实际上$dsd(c,c')=ds(-dc,dc'-c)=d(c-dc',0)=(-dc,dc'-c)$。所以分裂正合成立。
+
+\end{proof}
+
+\begin{proposition}{}
+	设$f$是$C$和$D$之间的链映射。$f$零伦当且仅当$f$可以延拓为$(-s,f):\mathrm{Cone}(C)\to D$的链映射。
+\end{proposition}
+\begin{proof}
+	设$f$零伦，则$f=sd+ds$,$s:C_n \to D_{n+1}$。从而$(-s,f)(c,c')=-s(c)+f(c'),c \in C_n,c' \in C_{n+1}$.显然我们有$d(-s,f)(c,c')=-ds(c)+df(c')$,$(-s,f)d(c,c')=(-s,f)(-dc,dc'-c)=sdc+fdc'-c$.
+
+	不难验证两个结果是相同的。
+
+	另一方面，如果可以延拓为上述映射，则不难发现$f=ds+sd$。
+\end{proof}
+
+现在我们说明任何$f_*$都可以用下面的方式描述（导引长正合列）。让我们考虑短正合列:
+\begin{align*}
+	0 \to C \to \mathrm{cone}(f) \to B[-1] \to 0
+\end{align*}
+其中$c \mapsto (0,c)$,$(b,c) \mapsto -b$。这是正合列，所以导引长正合:
+\begin{align*}
+	\dots \to H_{n+1}(\mathrm{cone}(f)) \to H_n(B) \to H_n(C) \to H_n(\mathrm{cone} f) \to H_{n-1}(B) \to \dots
+\end{align*}
+其中连接同态$\partial$正是$H_n(B) \to H_n(C)$。因此下面命题就是自然的了。
+
+\begin{proposition}{}
+	$\partial=f_*$
+\end{proposition}
+\begin{proof}
+	考虑$b \in B_n$是一个圈，那么$(-b,0)$在映射锥复形中提升了$b$。求一次微分，有$(db,fb)=(0,fb)$。于是:
+	\begin{align*}
+		\partial [b]=[fb]=f_*[b]
+	\end{align*}
+\end{proof}
+\begin{corollary}{}
+	$f:B \to C$是拟同构，当且仅当$\mathrm{cone}(f)$是正合的。因此我们把拟同构的问题化成了分裂的正合列的问题。
+\end{corollary}
+
+一个类似的构造是映射柱。我们用$\mathrm{cyl}(f)$表示。
+
+对于$f:B \to C$，定义$\mathrm{cyl}(f)$的$n$阶元为$B_n \oplus B_{n-1}\oplus C_n$。定义微分:
+\begin{align*}
+	d(b,b',c)=(d(b)+b',-d(b'),d(c)-f(b'))
+\end{align*}
+我们最好用矩阵来描述:
+\begin{align*}
+	\begin{pmatrix}
+	d_B & \mathrm{id}_B & 0\\
+	0 & -d_B & 0\\
+	0  & -f & d_C 
+\end{pmatrix}
+\end{align*}
+通过计算该矩阵的平方，我们知道该微分满足$d^2=0$。
+
+\begin{proposition}{}
+	映射柱$\mathrm{cyl}(C)$表示恒同映射$\mathrm{id}_C$的映射柱。则$f,g$是$C \to D$的同伦的映射当且仅当存在$(f,s,g):\mathrm{cyl}(C) \to D$的链映射。
+\end{proposition}
+\begin{proof}
+	这一点从拓扑上其实很好想。当然我们也可以计算一下交换性:
+	\begin{align*}
+		d(f,s,g)(c_1,c,c_2)=d(f(c_1)+s(c)+g(c_2))=df(c_1)+ds(c)+dg(c_2) \\
+        (f,s,g)d(c_1,c,c_2)=(f,s,g)(dc_1+c,-dc,dc_2-c)=fd(c_1)+f(c)-sd(c)+gd(c_2)-g(c)
+	\end{align*}
+	相减得到:$ds(c)-sd(c)-f(c)+g(c)$。所以$f,g$同伦等价于说该式子等于$0$,也就意味着交换。
+\end{proof}
+\begin{lemma}{}
+	由$(0,0,c)$生成的子复形同构于$C$。并且$\alpha:C \to \mathrm{cyl}(f)$是一个拟同构。
+\end{lemma}
+\begin{proof}
+	这一条也是非常符合拓扑感受的（映射柱和底盘是同伦的）。首先，子复形是显然的。我们只需要说明存在这样一个正合
+	\begin{align*}
+		0 \to C \to \mathrm{cyl}(f) \to \mathrm{cone}(-\mathrm{id}_B) \to 0
+	\end{align*}
+	这个正合也是显然的。最后根据$\mathrm{cone}(-id_B)$的零调性，根据蛇形引理可得结果。
+\end{proof}
+事实上，这是一个链同伦等价。原因是我们定义$\beta(b,b',c)=f(b)+c$.则有:
+\begin{align*}
+	\alpha \beta(b,b',c)=(0,0,f(b)+c), \quad \beta(\alpha(c))=c
+\end{align*}
+只用说明第一个复合同伦于$\mathrm{id_{\mathrm{cyl(f)}}}$。 事实上，相减后得到$(0,0,f):\mathrm{cyl}(f) \to \mathrm{cyl}(f)$。定义$s(b,b',c)=(0,b,0)$.则容易得到$(0,0,f)=ds+sd$。
+
+我们也可以用映射柱考量$f_*$。显然$(b,0,0)$生成的子复形同构于$B$，并且$\mathrm{cyl}(f)/B$同构于$\mathrm{cone}(f)$。
+
+定义$B \to \mathrm{cyl}(f) \to C$，第二个映射是$\beta$。这个复合正好是$f$。所以$f_*$也分解开。我们可以构造下面的交换图：
+\[\begin{tikzcd}
+	&& C \\
+	0 & B & {\mathrm{cyl}(f)} & {\mathrm{cone}(f)} & 0 \\
+	& 0 & C & {\mathrm{cone}(f)} & {B[-1]} & 0
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-4, to=2-5]
+	\arrow["f", from=2-2, to=1-3]
+	\arrow["\beta", from=2-3, to=1-3]
+	\arrow["\alpha", from=3-3, to=2-3]
+	\arrow[from=3-2, to=3-3]
+	\arrow[from=3-3, to=3-4]
+	\arrow["{=}", no head, from=2-4, to=3-4]
+	\arrow["\delta", from=3-4, to=3-5]
+	\arrow[from=3-5, to=3-6]
+\end{tikzcd}\]
+并且同调的长正合列满足下面的交换图：
+\[\begin{tikzcd}
+	{H_{n}(B)} & {H_n(\mathrm{cyl}f)} & {H_n(\mathrm{cone}(f))} & {H_{n-1}(B)} \\
+	{H_{n+1}(B[-1])} & {H_n(C)} & {H_{n}(\mathrm{cone}(f))} & {H_{n}(B[-1])}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow["{-\partial}", from=1-3, to=1-4]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-1, to=2-2]
+	\arrow["\delta", from=2-3, to=2-4]
+	\arrow["{=}", no head, from=1-1, to=2-1]
+	\arrow["{=}", no head, from=1-3, to=2-3]
+	\arrow["{=}", no head, from=1-4, to=2-4]
+	\arrow["{=}", no head, from=1-2, to=2-2]
+	\arrow["{f_*}", from=1-1, to=2-2]
+\end{tikzcd}\]
+为什么交换？我们唯余验证最后一个方块（前面的交换可以直接由第一个图的交换给出）
+
+设$(b,c)$是$\mathrm{cone}(f)$中的圈。因而根据定义有$db=0,f(b)=dc
+$.将其提升到$(0,b,c)$,考虑:
+\begin{align*}
+	d(0,b,c)=(0+b,-db,dc-f(b))=(b,0,0)
+\end{align*}
+因此$\partial$将$(b,c)$的类映射到$b=-\delta(b,c)$的类。
+
+映射柱和映射锥为我们提供了一个自然的方式于将任何一个链复形映射$f: B \to C$变为一个长正合列。为了说明这里的长正合列是良定的，我们需要说明一般的由$0 \to B \to C \to D \to 0$导引的长正合列与$f$,$g$给出的是一致的。
+
+首先考虑$f$。对于$\mathrm{cone}(f)$而言，存在$\varphi:\mathrm{cone}(f)\to D$，满足$\varphi(b,c)=g(c)$。我们有下面的交换图:
+\[\begin{tikzcd}
+	& 0 & C & {\mathrm{cone}(f)} & {B[-1]} & 0 \\
+	0 & B & {\mathrm{cyl}(f)} & {\mathrm{cone}(f)} & 0 \\
+	0 & B & C & D & 0
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow[from=1-5, to=1-6]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=3-1, to=3-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-4, to=2-5]
+	\arrow[from=3-2, to=3-3]
+	\arrow[from=3-3, to=3-4]
+	\arrow[from=3-4, to=3-5]
+	\arrow["{=}", no head, from=2-2, to=3-2]
+	\arrow["\beta", from=2-3, to=3-3]
+	\arrow["\alpha", from=1-3, to=2-3]
+	\arrow["{=}", no head, from=1-4, to=2-4]
+	\arrow["\varphi", from=2-4, to=3-4]
+\end{tikzcd}\]
+考虑$\beta$是一个拟同构，因此我们根据5引理可以知道$\varphi$也是一个拟同构。然而$\varphi$并不一定是一个链同伦。
+
+\begin{example}{}
+	考虑$B,C$是模，并且给出了一个只在$0$度非$0$的链复形。因此$\mathrm{cone}(f)$在$1$度的模是$B$,在$0$度的模是$C$。根据定义可知$d'(b)=-f(b)$。
+
+	我们断言$\varphi$是链同伦等价，当且仅当$f:B \to C$是一个分裂的单射（换言之，$B$是$C$的直和项）
+
+	实际上，$\varphi$只在$0$度的时候有非零的情况:$\varphi_0=g$。下面的交换图很直接:
+	\[\begin{tikzcd}
+	0 & B & C & 0 \\
+	0 & 0 & D & 0 \\
+	0 & B & C & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-3, to=1-4]
+	\arrow["{-f}", from=1-2, to=1-3]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow["g", from=1-3, to=2-3]
+	\arrow[from=1-2, to=2-2]
+	\arrow["h", from=2-3, to=3-3]
+	\arrow[from=2-2, to=3-2]
+	\arrow[from=3-1, to=3-2]
+	\arrow["{-f}"', from=3-2, to=3-3]
+	\arrow[from=3-3, to=3-4]
+	\arrow["s"', from=1-3, to=3-2]
+\end{tikzcd}\]
+注意到$B \to 0\to B$的态射必须和$id$相差无几，所以$s \circ (-f)=-\mathrm{id}_B$,所以$B$内射进入$C$是分裂的。
+
+反过来，如果有这样的分裂，则可以定义$h,s$是另外的投射。不难验证这是一个链同伦。
+
+\end{example}
+
+接下来我们需要验证导引的长正合列。即
+% https://q.uiver.app/#q=WzAsMTIsWzEsMCwiSF9uKEIpIl0sWzAsMCwiXFxkb3RzIl0sWzEsMSwiSF9uKEIpIl0sWzAsMSwiXFxkb3RzIl0sWzIsMSwiSF9uKEMpIl0sWzMsMSwiSF9uKEQpIl0sWzQsMSwiSF97bi0xfShCKSJdLFs1LDEsIlxcZG90cyJdLFsyLDAsIkhfbihcXG1hdGhybXtjeWx9KGYpKSJdLFszLDAsIkhfbihcXG1hdGhybXtjb25lfShmKSkiXSxbNCwwLCJIX3tuLTF9KEIpIl0sWzUsMCwiXFxkb3RzIl0sWzEsMCwiXFxwYXJ0aWFsIl0sWzMsMiwiXFxwYXJ0aWFsIl0sWzIsNF0sWzQsNV0sWzYsN10sWzUsNiwiXFxwYXJ0aWFsIl0sWzAsOF0sWzgsOV0sWzksMTAsIlxccGFydGlhbCJdLFsxMCwxMV0sWzAsMiwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs4LDQsIlxcY29uZyJdLFs5LDUsIlxcY29uZyJdLFsxMCw2LCJcXHNpbSJdXQ==
+\[\begin{tikzcd}
+	\dots & {H_n(B)} & {H_n(\mathrm{cyl}(f))} & {H_n(\mathrm{cone}(f))} & {H_{n-1}(B)} & \dots \\
+	\dots & {H_n(B)} & {H_n(C)} & {H_n(D)} & {H_{n-1}(B)} & \dots
+	\arrow["\partial", from=1-1, to=1-2]
+	\arrow["\partial", from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-5, to=2-6]
+	\arrow["\partial", from=2-4, to=2-5]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow["\partial", from=1-4, to=1-5]
+	\arrow[from=1-5, to=1-6]
+	\arrow[no head, from=1-2, to=2-2]
+	\arrow["\cong", from=1-3, to=2-3]
+	\arrow["\cong", from=1-4, to=2-4]
+	\arrow["\sim", from=1-5, to=2-5]
+\end{tikzcd}\]
+\begin{proposition}{}
+	复合$H_n(D) \cong H_n(\mathrm{cone}f)  \stackrel{-\delta_*}{\rightarrow} H_n(B[-1]) \cong H_{n-1}(B)$给出了$\partial$。
+\end{proposition}
+\begin{proof}
+	取$g(c)$作为$D$中的$n$圈，用$(b,c)$代表其在$\mathrm{cone}(f)$中的像。（这意味着$db=0,dc=f(b)$）。于是$-\delta(b,c)=b$。
+
+	另一方面，仍然考虑$g(c)$。则$dc=f(b)$且$b$是$\partial$的原像。
+\end{proof}
+
+同样的，我们也可以了类似的说明$B[-1]$和$\mathrm{cone}(g)$有一个拟同构，其对偶于$\varphi$。
+
+\begin{proposition}{}
+	给定$f:B \to C$。设$v$是$C$嵌入到$\mathrm{cone}(f)$的态射。那么存在一个$\mathrm{cone}(v)$到$B[-1]$的链同伦等价。
+\end{proposition}
+这个结果是拓扑结论:$L \subset Cf$的映射锥同伦于$K$的双角锥的代数版本。
+\begin{proposition}{}
+	设$B \to C$是链复形态射。自然态射$\ker(f)[-1] \to \mathrm{cone}(f) \to \mathrm{coker}(f)$给出了长正合列。
+\end{proposition}
+\begin{proposition}{}
+	设$C,C'$分别是分裂的复形，其中分裂映射为$s,s'$。设$f:C \to C'$是态射，则$\sigma(c,c')=(-s(c),s'(c')-s'fs(c))$给出了$\mathrm{cone}(f)$的一个分裂当且仅当$f_*$是一个零映射。
+\end{proposition}
+\section{Abel范畴拓展}
+我们不介绍第6节的内容——以后用到再说。
+
+\ifx\allfiles\undefined
+	
+	% 如果有这一部分的参考文献的话，在这里加上
+	% 没有的话不需要
+	% 因此各个部分的参考文献可以分开放置
+	% 也可以统一放在主文件末尾。
+	
+	%  bibfile.bib是放置参考文献的文件，可以用zotero导出。
+	% \bibliography{bibfile}
+	
+	end{document}
+	\else
+	\fi

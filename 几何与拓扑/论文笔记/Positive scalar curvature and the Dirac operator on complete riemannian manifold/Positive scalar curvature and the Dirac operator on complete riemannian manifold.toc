@@ -1,0 +1,3 @@
+\contentsline {section}{\numberline {0}Some prerequisites of this note}{1}{section.0}%
+\contentsline {subsection}{\numberline {0.1}Schwartz kernel}{1}{subsection.0.1}%
+\contentsline {section}{\numberline {1}Generalized Dirac Operators on a Complete Manifold}{1}{section.1}%

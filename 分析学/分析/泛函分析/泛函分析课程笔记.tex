@@ -1,0 +1,1006 @@
+\documentclass[UTF8]{ctexart}[a4paper,12pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{quiver}
+
+%声明环境
+\theorembodyfont{\rmfamily}
+\newtheorem{example}{例}[section]              
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[section]            
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{question}{问题}[section]
+\newtheorem{corollary}[theorem]{推论}
+{
+    \theoremheaderfont{\sffamily}
+    \newtheorem*{remark}{注解} 
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+\def\F{\mathbb{F}}
+
+
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{泛函分析课程笔记·2023春}
+\author{整理者：颜成子游/南郭子綦}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{课程简介与参考书}
+参考书：
+
+1.刘炳初《泛函分析》
+
+2.武大。刘培德 《泛函分析基础》
+
+3.哈工大-武大 许全华，马涛，尹智《泛函分析讲义》
+
+4.清华 步尚全 《泛函分析习题集》
+
+5.英文：J.Conway GTM /W Rudin
+\section{度量空间}
+\subsection{基本概念}
+\begin{definition}[度量空间（距离空间）]
+    天天用，已经不想写了
+\end{definition}
+\begin{example}
+    $\R^n,\C^n$都是距离空间。距离定义为$d(x,y)=(\displaystyle \sum_{i=1}^N|x_i-y_i|^2)^{1/2}$.因为有三角不等式；
+    $$
+    |\sum_{k=1}^N a_kb_k|^2 \leq (\sum_{k=1}^N a_k^2)(\sum_{k=1}^N b_k^2)
+    $$
+\end{example}
+\begin{example}[描述性的”一致收敛“距离化]
+    $[a,b]$上连续函数的全体$C[a,b]$：$d(f,g)=\sup_{t \in [a,b]}|f(t)-g(t)|$, $\forall f,g \in C[a,b]$.
+\end{example}
+\begin{example}
+    集合$S=\{\{a_n\}_{n \in \N},a_n \in\R\}$。设$x=(x_k)_{k=1}^\infty$,$y=(y_k)_{k=1}^\infty \in S$.其距离可定义为：
+    $$
+    d(x,y)=\sum_{k=1}^\infty \frac{1}{2^k}\frac{|x_k-y_k|}{1+|x_k-y_k|}
+    $$
+
+    这是对数列列逐点收敛的刻画。因为会被$\dfrac{1}{2^k}$给控制住。
+\end{example}
+\begin{example}
+    $S[a,b]$记为几乎处处有限的可测函数全体。定义:
+    $$
+    d(f,g)=\int_a^b \frac{|f(t)-g(t)|}{1+|f(t)-g(t)|}dt
+    $$
+    
+    若$f_n \to g$，$d(f_n,g) \to 0$.这是依测度收敛的距离化。即$\forall \delta >0$,$m(\{t \in [a,b]:|f_n(t)-g(t)| \geq \delta\}) \to 0$。
+\end{example}
+当然可以用距离定义收敛：
+\begin{definition}
+    $\{x_n\}\subset X$,$x_0 \in X$。称$\{x_n\}$以$x_0$为极限，若$\{x_n\}$收敛到$x_0$，$x_n \stackrel{d}{\longrightarrow} x_0$,若$d(x_n,x_0)\to 0$.
+\end{definition}
+\begin{proposition}
+    若$x_n \to x_0$，$y_n \to y_0$，则$d(x_n,y_n)\to d(x_0,y_0)$。这说明$d:X \times X \to \R$是二元连续的。
+\end{proposition}
+\begin{definition}
+    设$X_1$和$X_2$是两个度量空间，$f:X_1 \to X_2$。若$d_1(x,y)=d_2(f(x),f(y)),\forall x,y \in X_1$,则称其为$X_1$到$X_2$的等距嵌入。若$f$还是满射，则$(X_1,d_1)$和$(X_2,d_2)$等距。
+\end{definition}
+\begin{proposition}
+    等距嵌入一定是连续嵌入。等距嵌入一定是单射，因而被视为嵌入。
+\end{proposition}
+
+等距的条件是比较强的。我们给出弱一点的条件：
+\begin{definition}
+    $f:X_1 \to X_2$是满射。且存在$A,B \geq 0$,$Ad_1(x,y)\leq d_2(f(x),f(y)) \leq Bd_1(x,y),\forall x,y \in X_1$。
+\end{definition}
+
+\subsection{度量空间中的点集和可分性}
+用$\overline{B}(x_0,r)$表示闭球，$B(x_0,r)$表示开球。值得注意的是，下面的命题是错误的！
+\begin{proposition}[错误的命题]
+    $\overline{B(x_0,r)}=\overline{B}(x_0,r)$
+\end{proposition}
+边界取两次后就保持不变，聚点可以一直严格减少且不为空集。
+
+\begin{definition}
+    $(X,d)$是度量空间。若$X$中存在一个可列的稠密子集，则称$X$是可分的。
+\end{definition}
+\begin{example}
+    $C[a,b]$，$d(f,g)=\sup_{t \in [a,b]}|f(t)-g(t)$是一个可分集合。只需要使用有理系数的多项式来做即可。
+\end{example}
+\begin{example}
+    $L^\infty=\{\{a_n\}\}$且$\{a_n\}$有界。距离定义为$d_\infty(x,y)=\sup_{n \in \N}|x_n-y_n|$。则该空间不可分。原因是子集$A=\{\{a_n\}\}$,$a_n=0$或者$1$。该集合不可数且每个点之间的距离为$1$.
+\end{example}
+\begin{proposition}
+    $(X,d)$不可分等价于$\exists \delta>0$，$\exists$不可数集$A \subset X$,使得$\forall x \neq y \in A$，$d(x,y) \geq \delta$。
+\end{proposition}
+\begin{proof}
+    充分性显然。关键是必要性。
+\end{proof}
+\subsection{距离空间的完备性与压缩映像原理}
+略
+\section                                                                                                       {赋范线性空间}
+\subsection{基本概念}
+\begin{definition}
+    $X$是线性空间（实或复），映射$\|\cdot\|:X \to \R$满足：
+    \begin{enumerate}
+        \item $\| x\|\geq 0$且只在$x=0$时取等。
+        \item $\|\alpha \cdot x\|=|\alpha|\cdot \|x\|$
+        \item $\|x+y\| \geq \|x\|+\|y\|$。
+    \end{enumerate}
+    称为$\|\cdot \|$为$X$上的一个范数。$(X,\|\cdot\|)$称为赋范空间。
+\end{definition}
+显然范数诱导度量:
+$$
+\forall x,y \in X, d_{\|\cdot\|}(x,y):=\|x-y\|
+$$
+从而我们有一系列度量空间的概念：收敛，柯西列,完备等等。
+
+\begin{definition}
+    完备的赋范空间$(X,\| \cdot\|)$被称为Banach空间。
+\end{definition}
+\begin{proposition}
+    $X$是赋范空间，则:
+
+    (1)范数是连续函数，即:
+    $$
+    x_n \to 0 \Rightarrow \|x_n\| \to \|x\|
+    $$
+
+    (2)线性运算都是多元连续的。
+\end{proposition}
+\begin{proof}
+    只需要调教三角不等式即可。并不困难。
+\end{proof}
+\begin{proposition}
+    $(X,\|\cdot\|)$赋范空间，若$X$完备且级数$\sum_{k=1}^\infty \|x_k\|$收敛，则$\sum_{k=1}^\infty x_k$收敛。
+
+    反之，若上述收敛性质对所有收敛$\sum_{k=1}^\infty \|x_k\|$成立，则$(X,\|\cdot\|)$是Banach空间。
+\end{proposition}
+\begin{proof}
+    证明的要点是取子列和三角不等式。构造收敛的子列+本身是Cauthy列即可说明收敛。而子列的收敛则来源于对应范数列的收敛。
+\end{proof}
+\begin{definition}
+    凸集是指线性空间$X$这样的一个子集$A$,对于$\forall x,y \in A $，和$\forall \alpha \in (0,1)$，都有$\alpha x+(1-\alpha)y \in A$。
+
+    凸包是指$X$这样的一个子集：为$X$钟包含$A$的最小凸集。由于凸集的交显然是凸集，则可以写为:
+    $$
+    \mathrm{Co}(A)=\bigcap_{A\subset F \subset X}F
+    $$
+    也可以从内到外写凸集：
+    $$
+    \mathrm{Co}(A)=\{z \in X|\exists n \in \N,\alpha_k \geq 0,1\leq k \leq n,\sum_{k=1}^n \alpha_k=1,z=\sum_{k=1}^n \alpha_k x_k\}    
+    $$
+\end{definition}
+\begin{example}
+    $l^\infty$是有界数列的全体:
+    $$
+    \|(\xi_k)\|_\infty=\sup_{k \in \N}|\xi_k|
+    $$
+    
+    容易证明这是一个范数，并且完备，因而是Banach空间。
+
+    设$l^p=\{(\xi_k)|\displaystyle \sum_{k=1}^\infty |\xi_k|^p<\infty\}$。定义范数为:
+    $$
+    \|(\xi_k)\|_p=(\sum_{k=1}^\infty|\xi_k|^p)^{1/p}
+    $$
+    这也是完备的度量。我们先给出逐点收敛的极限：
+    $$
+    |\xi_k^{(n)-\xi_k^{(m)}}| \leq \|x_n-x_m\|_p
+    $$
+    因此根据逐点收敛的Cauthy定理，自然有:
+    $$
+    \lim_{n \to \infty}\xi_k^{(n)}=\xi_k^{(0)}
+    $$
+    从而我们构造数列:$x_0=(\xi_k^{(0)})$。要说明:
+    $$
+    x_0 \in l^p\quad \|x_n-x_0\| \to 0
+    $$
+
+    $\forall \epsilon >0$，$\exists N$,$\forall n.m>N,\|x_n-x_m\|_p <\epsilon$。
+\end{example}
+\begin{example}[变差空间]
+    空间$V[a,b]$是$[a,b]$上有界变差的函数的空间。即：
+    $$
+    \sup\{\sum_{k=1}^n |f(x_k)-f(x_{k-1})||\forall n \in \N,\forall a=x_0<x_1<\dots<x_n=b\}
+    $$是有限的。
+
+    定义该空间上的范数：
+    $$
+    \|f\|=V_a^b(f)=\sup\{\sum_{k=1}^n |f(x_k)-f(x_{k-1})||\forall n \in \N,\forall a=x_0<x_1<\dots<x_n=b\}
+    $$
+    \end{example}
+
+    定义有界变差数列为:
+    $$
+    (a_n):\sum_{k=1}^\infty |a_{k+1}-a_k| <+\infty
+    $$
+    \begin{proposition}
+        给定各项非零的数列$(x_n)$,定义:
+        $$
+        A=\{(a_n)|\sum_{n=1}^\infty a_nx_n \quad \mathrm{convergence}\}
+        $$
+        若数列$(y_n)$满足$\sum_{n=1}^\infty y_nb_n$对于任意的$(b_n) \in A$都收敛，则存在一个有界变差数列$(\upsilon_n)$满足$y_n=\upsilon_n x_n,\forall n$。反之亦然。
+    \end{proposition}
+    \begin{proposition}
+        给定非零数列$(x_n),(y_n)$。定义$A=\{(a_n)|a_nx_n,a_ny_n \quad \mathrm{convergence}\}$。则$(z_n)$满足对$\forall b_n \in A$有$z_nb_n$收敛当且仅当存在有界变差数列$(v_n^{(1)})$和$(v_n^{(2)})$使得:
+        $$
+        z_n=v_n^{(1)}x_n+v_n^{(2)}y_n
+        $$
+    \end{proposition}
+    \subsection{$L^p[0,1]$空间}
+    几乎处处相等的函数将被视为同一元。
+
+    \subsection{赋范空间进一步的性质}
+    \begin{definition}[子空间]
+        $(X,\|\cdot \|)$是赋范空间，子空间$X_1 \subset  X$。沿用$\|\cdot \|$作为范数，称$(X_1,\| \cdot \|)$为$(X,\|\cdot \|)$的子空间。若$X$是闭集，称为闭子空间。
+    \end{definition}
+    \begin{example}
+        设$l^{\infty}$是有界数列全体。$\|x\|=\sup_{n \in \N}|x_n|$。考虑其子空间$c$为所有收敛数列的全体。其为$l^{\infty}$的闭集，因为数列一致收敛意味着极限列也是收敛的。
+
+        考虑$c_0$为收敛于$0$的数列全体。同样定义范数为$\|x\|=\sup_{n \in \N}|x_n|$。则$c_0$是$l^{\infty}(c)$的闭子空间。从而$c_0 \subset c \subset l^{\infty}$
+
+        由于$l^{\infty}$是完备空间，并且完备性是闭遗传的，因此$c$和$c_0$也是Banach空间。
+
+        继续考虑更小的子空间$c_{00}$为有限项非零的数列全体，范数仍定义:$\|x\|=\sup_{n \in \N}|x_n|$。同样其$c_{00}$是子空间。但其不是闭子集。
+    \end{example}
+
+    相同于度量空间的完备化，赋范空间定义距离$d(x,y)$为$|x-y|$。沿用度量空间的完备化$\tilde{X}$：
+    \begin{definition}
+        设$X$中任意柯西列$\overline{x},\overline{y}$。可以定义自然的加法和数乘运算。定义其范数为:
+        $$
+        \| \overline{x}\|=\lim_{n \to \infty}\|x_n\|
+        $$
+        此时$(\tilde{X},\|\|)$是一个Banach空间。
+    \end{definition}
+    完备化后，$X$等距同构于$\tilde{X}$的一个稠子集。
+
+    \textbf{思考问题}:回忆刚才的例子，试证明:$c$不等距同构于$c_0$的任何子空间。关键在于$c$内有个特殊的元$(1)$(恒为1),其与$c$中其它元产生的关系无法嵌入到$c_0$里面。
+
+    在赋范空间的意义下，我们默认两个空间的同构代表$X$首先与$Y$线性同构，以及存在$T:X \to Y$作为线性双射满足:
+    $$
+    \exists A,B >0, s.t. A\|x\| \leq \|T(x)\| \leq B\|x\|, \forall  x \in X
+    $$
+
+    \begin{theorem}[Mazur]
+       if $V$ and $W$ are normed spaces over $\R$ and the mapping:
+       $$
+       f : V → W 
+       $$
+       is a surjective isometry, then $f$ is affine. If $f(0)=0$，$f$ is linear isomorphic mapping.
+    \end{theorem}
+
+    我们目前有两种空间关系：同构和等距同构。我们接着引入商空间：
+    \begin{definition}[赋范线性空间的商空间]
+        $X$是线性空间，$M$是$X$的线性子空间。定义$X/M$是线性空间的商。我们在上面定义范数:
+        $$
+        \|\tilde{x}\|=\inf_{ y \in \tilde{x}}\|y\|=d(x,M)=\inf_{y \in M}\|x-y\|
+        $$
+    \end{definition}
+     上述定义自然的不能再自然了。
+     \begin{theorem}
+        $X$是Banach空间，$M$是$X$的闭子空间，则$X/M$是Banach空间。
+     \end{theorem}
+     \begin{proof}
+        设$\{\tilde{x_n}\}$是一个$X/M$中的Cauthy列。那么存在子列:
+        $$
+        \|\widetilde{x_{n_{k+1}}}-\widetilde{x_{n_k}}\| \leq 1/2^k
+        $$
+        根据商范数的定义，则存在:
+        $$
+        y_k \in \widetilde{x_{n_{k+1}}}-\widetilde{x_{n_k}}=\widetilde{x_{n_{k+1}}}-\widetilde{x_{n_k}} \quad \|y_k\| <1/2^k
+        $$
+
+        $\sum y_k$是收敛的(其有限项是容易计算的)。从而任取$x_{n_1} \in \tilde{x_{n_1}}$，有:
+        $$
+        x_{n_1}+y_1+\dots+
+        $$
+        收敛于$x$。
+
+        其实$\tilde{x_{n_k}}$收敛于$\tilde{x}$。记$S_k=x_{n_1}+y_1+\dots+y_k$，由于$x_{n_1} \in \tilde{x_{n_1}}$，$y_k \in \tilde{x_{n_{k+1}}}-\tilde{x_{n_k}}$，:
+        $$
+        \|\tilde{x}-\tilde{x_{n_{k+1}}}\| \leq \|x-S_k\| \to 0
+        $$
+     \end{proof}
+     \subsection{赋范空间的基}
+     我们不介绍Hamel基，其只是理论意义上存在。由于很多Hamel基都是不可数的，因而难以进行加减运算。
+
+     我们介绍Schauder基:
+
+     设$X$是赋范线性空间，$\{x_n\}$是$X$的可数子集。称其为$X$的Schauder基。若$\forall x \in X$,$\exists ! (\alpha_n)\subset \R$使得:
+     $$
+     x =\sum_{n=1}^\infty \alpha_n x_n=\lim_{N \to \infty}\sum_{n=1}^N \alpha_n x_n
+     $$
+
+     显然若$X$有Schauder基，则其可分。但可分的赋范线性空间空间$X$不一定有Schauder基。可见Mazur和Enflo的故事。
+     \subsection{习题讲解}
+    \begin{proposition}
+        $(X,d)$是度量空间不可分当且仅当存在不可数的子集$\Gamma$使得存在$\delta>0$,满足$\forall x\neq y \in \Gamma, d(x,y)\geq \delta$
+    \end{proposition}
+  \begin{proof}
+    若$X$可分，$\{x_n\}$是稠密，则$X=\bigcup_{n=1}^\infty B(x_n,\delta/3) \supset X$。从而至少有一个$B(x_{n_0},\delta/3)$与$\Gamma$相交。$\Gamma$不可数，则$\exists x \neq y$满足$x,y \in B(x_{n_0},\delta/3)$，矛盾！
+
+    若$X$不可分。对于$n$是正整数，$A \subset X$称为$1/n$分离集，若$\forall x \neq y \in A$，有:
+    $$
+    d(x,y)\geq 1/n
+    $$
+    设$\mathcal{F}_n$是所有$1/n$分离集的全体。使用包含关系作为偏序。这显然是一个满足Zorn引理的集族，故其存在极大元$A_n$。
+
+    设$B=\bigcup_{n=1}^\infty A_n$。我们断言$B$是不可数的集合。若不是，任取$y \notin B$，根据Zorn引理的极大元断言，则对于$\forall n$,$d(y,A_n)<1/n$。从而$B$是$X$的一个稠子集。由于$X$是不可分的，从而$B$一定是不可数的。
+
+    从而存在$A_n$是不可数集。这个$A_n$就是我们想要找的集合。
+  \end{proof}
+  \begin{proposition}
+    任何线性空间都存在范数（内积）
+  \end{proposition}
+  \begin{proof}
+    Hamel基。
+  \end{proof}
+  \begin{proposition}
+    $[a,b]$上多项式空间上不存在完备范数。
+  \end{proposition}
+  \begin{proof}
+    问题实际上是集合$c_{00}=\{(\alpha_n)_{n=1}^\infty|\exists N ,\forall n>N ,\alpha_n=0\}$
+
+    若其是Banach空间。考虑$E_n=\mathrm{Span}\{e_k\}_{k=1}^n$。则$c_{00}=\bigcup_{n=1}^\infty E_n$。
+
+    根据完备性，存在$\overline{E_{n_0}}=E_{n_0}$有内点。若$B(x_0,r_0)\subset E_{n_0}$。平移，$B(\theta,r_0)\subset E_{n_0}$即$c_{00}=E_{n_0}$。
+  \end{proof}
+  \begin{proposition}[Mazur-Ulam]
+    $X,Y$是Banach空间.$T:X \to Y$满等距，$\|T(x)-T(y)\|=\|x-y\|$。则$T$是仿射的。若$T(0)=0$，则$T$是线性的。
+  \end{proposition}
+  \begin{proof}
+    不妨设$T(0)=0$。如果能证明$T$保中点，就能根据二分性和连续性说明其是仿射。
+  \end{proof}
+  \begin{remark}
+    不能去掉满的条件。设$T:\R \to l^{(2)}_\infty, x\mapsto (x,\sin x)$。则:
+    $$
+    \|(x,\sin x)-(y,\sin y)\|_{\infty}=\max(|x-y|,|\sin x,\sin y|)=\|x-y\|
+    $$
+    $T$是不满的映射，但是保距。
+
+    设$S:l^{(2)}_\infty \to R, (x,y)\mapsto x$。$S$是线性，有界的。$S \circ T=\mathrm{id}_{\R}$.因此$T$虽然不线性，但是有线性的左逆。
+  \end{remark}
+  下面的定理自然可以推出Mazur-Ulam定理。
+  \begin{theorem}[Figiel定理]
+    $X,Y$是Banach空间，$T:X \to Y$是等距映射。$T(0)=0$。则存在$S:\overline{\mathrm{Span}T(X)} \to X$线性且$\|S\|=1$满足:
+    $$
+    ST=\mathrm{id}_X
+    $$
+  \end{theorem}
+
+  对Mazur-Ulam定理的思考还可以对等距进行操作。等距的映射实际上是比较强的.
+  \begin{remark}
+    $X,Y$是Banach空间，$T:X \to Y$是满射且Lipschitz等价。即$\exists A,B >0$：
+    $$
+    A\|x-y\| \leq \|Tx-Ty\| \leq B\|x-y\|, \forall x,y \in X
+    $$
+    问是否有$X$与$Y$同构？
+  \end{remark}
+  这个问题目前仍然是open的。在不可分的Banach空间中，已经找到了反例。而对于可分的Banach空间，甚至进展停留在固定$X$或者$Y$都无法得到很好的解决。例如，当$X=c_0$时问题被证明是成立的。以及$X=l_1$,$Y=X^*$时，也被证明成立了。但是其他情况完全是open的。
+\section{有界线性算子}
+\subsection{有界线性算子}
+设$X,Y$是Banach空间，$T:X \to Y$满足线性，连续，则称$T$是$X$到$Y$的有界线性算子。
+
+为什么这个概念的名字里有"bounded"却没有"continuous"？
+
+\begin{proposition}
+    设$T:X \to Y$只是线性的。若$T$在零点连续，则$T$在所有点都是连续的。
+\end{proposition}
+\begin{proposition}[Lipschitz]
+    若$T$是连续线性的算子，则存在$C>0$,使得:
+    $$
+    \|T(x)\|_Y \leq C\|x\|_X, \forall x \in X
+    $$
+\end{proposition}
+\begin{proof}
+    若不存在这样的$C$,则存在$\{x_n\}$满足:$\|T(x_n)\| >n \|x_n\|$。于是:
+    $$
+    \|T(\frac{1}{\sqrt{n}}\frac{x_n}{\|x_n\|}) \|>\sqrt{n}
+    $$
+    左边的表达式趋近于$0$，但是右边却表明极限不可能为$0$。从而这与连续性矛盾。
+\end{proof}
+     我们当然关注上述命题中$C$的最优选择。即我们关心:
+     $$
+     \inf \{C \geq 0|\|T(x)\| \leq C\|x\|, \forall x \in X\}=\sup_{\|x\|=1}\|T(x)\|=\sup_{\|x\| \leq 1}\|T(x)\|
+     $$
+
+     上述量被定义为算子$T$的\textbf{（算子）范数}。用$(B(X,Y),\|\cdot\|)$表示所有有界线性算子的空间。
+
+\begin{example}
+    考虑$B(\C^N,\C^N)=M_{N \times N}(\C)$。$T$是正规矩阵,则$\|T\|$是$T$的特征值的绝对值中的最大值。
+\end{example}
+\begin{proposition}
+    结合算子范数,$B(X,Y)$成为赋范空间。
+    
+    设$X$是赋范空间。则$Y$是Banach空间等价于$B(X,Y)$是Banach空间。
+\end{proposition}
+\begin{proof}
+    命题第一句话是比较显然的。我们直接考虑第二句话。
+
+    设$B(X,Y)$是Banach空间。$(y_n)\subset Y$是柯西列。（？）（注记：老师在这里卡住了，并且表示后面会讲）
+
+    设$Y$是完备的。设$(T_n)$是$B(X,Y)$中的柯西列。即:
+    $$
+    \|T_n(x)-T_m(x)\|=\|(T_n-T_m)(x)\| \leq \|T_n-T_m\| \cdot \|x\|
+    $$
+    从而$\{T_n(x)\}$也是柯西列。由于$Y$完备可知:$\lim T_n(x):=T_0(x)$.
+
+    由定义，$T_0(x)$线性。
+
+    任意$\epsilon>0,\exists N$,$\forall n,m >N$，有:
+    $$
+    \|T_n-T_m\|<\epsilon
+    $$
+    翻译为:
+    $$
+    \|T_n(x)-T_m(x)\| \leq \epsilon \|x\|
+    $$
+    令$m \to \infty$，则:
+    $$
+    \|T_n(x)-T_0(x)\| \leq \epsilon \|x\|
+    $$
+    于是$T_n-T_0 \in B(X,Y)$且$\|T_n-T_0\| <\epsilon$。
+\end{proof}
+
+设$K=\R$或者是$\C$,则称$B(X,K)$是共轭空间，是所有有界线性泛函的全体。记为$X^*$。
+
+\textbf{remark}:还讲了逐点收敛（强收敛）。笔者此处未作记录。
+\subsection{Banach-Steinhaus定理}
+\textbf{remark}:关于定理的引入没有做记录。
+
+\begin{theorem}
+    设$\{T_\alpha\}$是Banach空间$X$上到赋范空间$X_1$的有界线性算子族。如果有$\sup_\alpha \|T_\alpha(x)\| <\infty, \forall x \in X$，则$\sup_{\alpha \in I}\|T_\alpha\| < \infty$.
+\end{theorem}
+\begin{proof}
+    证明主要是利用了Baire纲定理。
+
+    设$p(x)=\sup_{\alpha \in I}\|T_\alpha x\|$。记$M_k=\{x \in X:p(x)\leq k\}$是一个闭集。则:
+    $$
+    X=\bigcup_{k=1}^\infty M_k
+    $$
+    由于$X$完备，则至少有$M_{k_0}$存在内点。
+
+    未记录完所有的证明。
+\end{proof}
+我们介绍Banach-Steinhaus定理的应用——Fourier级数的发散性。
+
+设$C_{2\pi}$是以$2\pi$为周期的连续函数。这显然可以只考虑$C[-\pi,\pi]$且$f(-\pi)=f(\pi)$。
+定义范数为$\|x\|=\max_{t\in R}|x(t)|$。则$x(t)$可以被展开为Fourier级数:
+\begin{align}
+    x(t) \sim a_0/2+\sum_{k=1}^\infty (a_k\cos kt+b_k \sin kt)
+\end{align}
+前$n+1$项部分可以写为:
+\begin{align}
+    a_0/2+ \sum_{k=1}^n (a_k\cos kt+b_k \sin kt)=\int_{-\pi}^\pi x(s)K_n(s,t)ds
+\end{align}
+其中$K_n(s,t)=\dfrac{\sin(n+1/2)(s-t)}{2\pi \sin 1/2(s-t)}$是核函数。
+
+若Banach空间$X$有Schauder基，则$X$的任意稠子空间也有Schauder基。
+\subsection{开映射定理与闭图像定理}
+\begin{definition}[逆算子]
+    $T \in B(X,Y)$，若存在$S \in B(Y,X)$满足:$S \circ T=\mathrm{id}_X$,$T \circ S=\mathrm{id}_Y$，则称$T$可逆，$T^{-1}=S$。
+\end{definition}
+\begin{theorem}
+    $X$是Banach空间，$T\in B(X)$。若$\|T\|<1$，则$I-T$是可逆的且:
+    \begin{align}
+        \|(I-T)^{-1}\| \leq \dfrac{1}{1-\|T\|}
+    \end{align}
+\end{theorem}
+\begin{proof}
+    本质是等比数列求和。略。
+\end{proof}
+\begin{corollary}
+    $X$是\rm{Banach}空间，$(x_n)$是\rm{Schaduer}基。对于$X$的任意稠子空间$X_0$，存在$(z_n)\subset X_0$使得$(z_n)$是$X$的\rm{Schauder}基。
+\end{corollary}
+\begin{proof}
+    
+\end{proof}
+\begin{theorem}[扰动]
+    $X$是\rm{Banach}空间，$(x_n)$是\rm{Schaduer}基。相应的系数泛函记为$f_n \in X^*$.对于一列$(z_n)$,只要满足:
+    \begin{align}
+        \sum_{n=1}^\infty \|f_n\|\|z_n-x_n\|<1
+    \end{align}
+    则$(z_n)$是\rm{Schaduer}基。
+\end{theorem}
+\begin{proof}
+    构造$T=\sum_{n=0}^\infty f_n(x)(x_n-z_n)$。显然$I-T$可逆。于是:
+    \begin{align}
+        y=(I-T)((I-T)^{-1}y)=\sum_{n=0}^\infty f_n((I-T)^{-1})(y)z_n \forall y \in X
+    \end{align}
+    唯一性是显然的，可以用$I-T$保证。
+\end{proof}
+不是所有的可分Banach空间都有Schaduer基。但下面这个问题是耐人寻味的:
+\begin{proposition}
+    $X$是可分的Banach空间，则存在稠密的子空间$X_0$且拥有Schaduer基。
+\end{proposition}
+这个问题的答案是肯定的。证明暂时不给出。
+\subsection{闭图像定理}
+$X,Y$是赋范空间。$T:X \to Y$是线性算子。在乘积空间$X \times Y$中，记$G(T)=\{(x,Tx)\in X \times Y:x \in X\}$。乘积空间的拓扑是显然诱导的。
+
+\begin{definition}
+    若$G(T)$是闭集，则称$T$是闭算子。
+\end{definition}
+\begin{theorem}[闭图像定理]\label{thm:closegraph}
+    设$T:X \to Y$是线性的闭算子。则$T\in B(X,Y)$。
+\end{theorem}
+\begin{proof}
+    $X,Y$是Banach空间，则$X\times Y$也是Banach空间。由于$G(T)$是$X\times Y$的闭集。也是Banach空间
+
+    定义投射$p:G(T) \to X$。则$p$是单，满，线性的。$p \in B(G(T),X)$且$\|p\| \leq 1$。
+
+    根据Banach逆算子定理，有$p^{-1}\in B(X,G(T))$。即存在$c>0$使得:
+    \begin{align}
+        \|Tx\| \leq C\|x\|
+    \end{align}
+    于是$T \in B(X,Y)$。
+\end{proof}
+\section{Hahn-Banach定理}
+$1<p <\infty$,考虑空间$l_p$。取$x=(x_n)_{n=1}^\infty \in l_p$。设$\|x\|$的范数为$1$。根据Hahn-Banach定理得知，$f \in l_p^*$满足$\|f\|=1$且$f(x)=1$是存在的。但是如何构造具体形式呢？
+
+即我们需要构造:
+\begin{align}
+    f(y)=f(y_1,y_2,y_3,\dots)
+\end{align}
+注意到我们只需要考虑其Schauder基$e_n$。于是我们定义:
+\begin{align}
+    f(e_n)=\|x_n\|^{p-1}\mathrm{sgn}(x_n)
+\end{align}
+则$f(x)=\sum_{n=1}^\infty \|x_n\|^p=1$。对于一般的$y$:
+\begin{align}
+    f(y)=f(\sum_{n=1}^\infty y_ne_n)=\sum_{n=1}^\infty y_n\|x_n\|^{p-1}\mathrm{sgn}(x_n)
+\end{align}
+这是表示定理能说明的事实。因此这里就不具体做了。
+
+事实上，注意到$f^q$有一些独特的性质。我们可以猜测$l_p^*$和$l_q$的神秘关系:$l_p^* \cong l_q$。
+
+\begin{theorem}[共轭空间表示定理:$c_0^*\cong l_1$]
+    $c_0^*\cong l_1$。
+\end{theorem}
+\begin{proof}
+    $c_0^*\cong l_1$。考虑$f \in c_0^*$，则存在唯一的$y \in l_1$使得$f(x)=\sum_{n=0}^\infty x_ny_n$且$\|f\|_{c_0^*}=\|y\|_{l_1}$.
+
+    这是因为，$f((x_n))=\sum_{n=0}^\infty x_n f(e_n)$。于是定义$y_n=f(e_n)$。我们接下来要说明范数之间的关系。
+
+    令$z_n=(\mathrm{sgn}(f(e_1)),\dots,\mathrm{sgn}(f(e_n)),0,0,\dots)$。于是$z_n \in c_0$且$\|z_n\| \leq 1$。$f(z_n)=\sum_{k=0}^\infty |f(e_k)| \leq \|f\|_{c_0^*}$.于是$y$的范数:
+    \begin{align}
+        \|y\|=\sum_{k=0}^\infty |y_k| \leq \|f\|_{c_0^*}
+    \end{align} 
+
+    另外，显然有:
+    \begin{align}
+        |f((x_n))|=|\sum_{n=0}^\infty x_ny_n| \leq \sup_{n}|x_n|\sum_{n=0}^\infty |y_n|=\|x\|\|y\|
+    \end{align}
+    从而$\|f\|_{c_0^*} \leq \|y\|$。
+
+    另一方面，对于任意$y \in l_1$，定义$f(x)=\sum_{n=0}^\infty x_ny_n$,$\forall x \in c_0$。则$f \in c_0^*$且$\|f\|_{c_0^*}=\|y\|$。
+\end{proof}
+    
+\subsection{表示定理}
+\subsubsection*{有界变差函数}
+设区间$[a,b]$上的有界变差空间为$\mathrm{BV}[a,b]$。定义上面的范数为：
+\begin{align*}
+    \|\omega\|=\mathrm{Var}(\omega)+|\omega(a)|
+\end{align*}
+\begin{theorem}
+    有界变差空间在上述范数下构成Banach空间。
+\end{theorem}
+\begin{proof}
+    
+\end{proof}
+设$x \in C[a,b]$，$P$是分划$a=t_0<t_1 \dots <t_n=b$，定义:
+\begin{align*}
+    S(x,\omega,P)=\sum_{i=1}^n x(t_{i-1})[\omega(t_i)-\omega(t_{i-1})]
+\end{align*}
+我们拓宽黎曼积分的定义:Riemann-Stieltjes积分:
+\begin{align*}
+    \int_a^b x(t)d\omega(t)=\lim_{\delta(P)\to 0}S(x,\omega,P)
+\end{align*}
+关于$P$-Cauthy网收敛。
+
+我们考量该积分与$x$和$\omega$范数的关系:
+\begin{proposition}
+    $|\int_a^b xd\omega|\leq \|x\| \cdot \|\omega\|_{\mathrm{bv}}$
+\end{proposition}
+\begin{theorem}[Riese]
+    设$f \in C[a,b]^*$。存在唯一的$\omega \in \mathrm{BV}(a,b)$满足:$\omega(a)=0$,$\omega$在$(a,b)$右连续，即$\omega(t^{\perp})=\omega(t),\forall t \in (a,b)$,使得:
+    $$
+    f(x)=\int_a^b x(t)d\omega(t), x\in C[a,b]
+    $$
+    此时$\|f\|=\|\omega\|_{\mathrm{bv}}$。
+\end{theorem}
+记$\mathrm{BV}[a,b]$中所有$\omega(a)=0$，$\omega$右连续的函数全体为$\mathrm{BV}_0[a,b]$.则我们有表示定理:
+\begin{corollary}
+    $C[a,b]^* \cong \mathrm{BV}_0[a,b]$。
+\end{corollary}
+\begin{proof}
+    考虑$C[a,b] \subset L^\infty[a,b]$.$C[a,b]$是闭子空间。
+
+    对于$f \in C[a,b]^*$,根据$H-B$保范延拓:
+
+    存在$F \in L^\infty[a,b]^*$，$F|_{C[a,b]}=f$。
+
+    考虑$x \in C[a,b]$，$P$为分划。令:
+    $$
+    z(x,P)=x(a)x_{t_1}+\sum_{i=2}^n x(t_{i-1})[x_{t_i}-x_{t_{i-1}}]
+    $$
+    则$F(z(x,p))$是部分和$S(x,\alpha,P)$。显然$\|z(x,P)-x\|_{\infty}\to 0,\delta(P)\to 0$。则$\alpha$的存在保证。
+
+    唯一性:对$\alpha$进行修正，使得$\omega(t)=0,t=a;\alpha(t^+),a<t<b;\alpha(b),t=b$。我们断言$\omega$与$\alpha$积分值相同。即:
+    \begin{align*}
+        \int_a^b xd\alpha =\int_a^b xd \omega
+    \end{align*}
+
+    由于$\alpha$的不连续点至多可列，可以推的上述结论。
+
+    我们现在说明修正得到$\omega$是唯一的。即:
+    \begin{align*}
+        \int_a^b xd\beta =\int_a^b xd \omega \Rightarrow \beta=\omega
+    \end{align*}
+    若$t_0$是两者的连续点，则也是$t \mapsto \mathrm{Var}_{[a,t]}(\alpha)$和$t \mapsto \mathrm{Var}_{[a,t]}(\beta)$的连续点。
+\end{proof}
+
+\section{第10周}
+\subsection{Tuesday}
+\begin{theorem}
+    设$A,B,C$是Banach空间，且:
+    \begin{align*}
+        0 \to A \to B \to C \to 0
+    \end{align*}
+    是Banach空间范畴下的正合列。则诱导的列:
+    \begin{align*}
+        0 \to C^* \to B^* \to A^* \to 0
+    \end{align*}
+    也是正合的列。
+\end{theorem}
+\begin{question}
+一个$n$点的离散距离空间可以等距嵌入到$l_\infty^{n-1}$中吗？
+\end{question}
+\begin{question}
+一个可分距离空间总可以嵌入到一个可分的Banach空间吗？
+\end{question}
+\subsection{Thursday}
+对于空间$X$，定义弱拓扑:$(X,w)$:
+\begin{definition}
+    取遍$\forall x_0 \in X$,$\forall \epsilon>0$，$\forall n \in \N$,$\forall f_k \in X^*,1\leq k \leq n$。集合:
+    $$
+    \{x \in X||f_k(x)-f_k(x_0)|\leq \epsilon,1 \leq k \leq n\}
+    $$
+    取$x_0=0$，称为弱拓扑在原点的邻域基。
+\end{definition}
+注：取$\{x \in X|\|x\| \leq 1\}$是弱（拓扑）开集当且仅当$X$是有限维。
+
+\begin{proposition}
+    $(B_X,w)$是紧空间等价于$X$是自反的。$B_X=\{\|x\| \leq 1\}$。
+\end{proposition}
+\begin{definition}[弱星拓扑]
+    在$X^*$上，定义拓扑基如下:
+
+    取遍$f_0 \in X^*$,$\epsilon>0$，$n \in \N$，取遍$x_k \in X,1 \leq k \leq n$。取遍所有的集合:
+    $$
+    \{f \in X^*||f(x_k)-f_0(x_k)|\leq \epsilon,1\ \leq k \leq n\}
+    $$
+\end{definition}
+\begin{theorem}
+    $(B_{X^*},w^*)$是紧空间。
+\end{theorem}
+\begin{question}
+    对于Banach空间$Y$，是否存在$X$满足$X^*=Y$？
+\end{question}
+\begin{question}[Ball covering Property:球覆盖性质]
+    设$X$是赋范空间，$S_X=\{x \in X|\|x\|=1\}$。$B(x_0,r)=\{x|\|x-x_0\|<r\}$。称$X$有球覆盖性质，若$X$的单位球面$S_X$可以被写为$X$中的至多可列个球的并集覆盖。即：
+    $$
+    S_X \subset \bigcup_{n=1}^\infty B(x_n,r_n)
+    $$
+    且$0 \notin B(x_n,r_n), \forall n$。
+\end{question}
+
+\begin{lemma}
+    设$\Omega$是紧Hausdorff空间，$C(\Omega)$是连续函数空间,则$C(\Omega)$有BCP例，当且仅当$\Omega$有至多可数的$\pi$基（弱拓扑基）。
+\end{lemma}
+\begin{example}
+    可分空间必定BCP;$l_\infty$有BCP;$L^\infty [0,1]$不满足BCP。
+\end{example}
+
+\section{第十一周}
+\subsection{Tuesday}
+\begin{theorem}[Schur性质]
+    对于空间$l^1$，序列按范数收敛等价于按照弱拓扑收敛。即$x_n \stackrel{\|\cdot\|}{\rightarrow} x_0$当且仅当$f(x_n) \to f(x_0)$,$\forall f \in l^1(\cong l^\infty)$
+\end{theorem}
+\begin{proof}
+    只需要说明右边可推得左边。设$x_n \stackrel{w}{\rightarrow} x_0$且$x_n \stackrel{\|\cdot\|}{\rightarrow}$不成立。我们不妨设$x_0=0$。
+
+    根据Banach-Steinhaus定理，$\|x_n\| \leq M$。由于按照范数不收敛，不妨设存在$\delta>0$：
+    \begin{align*}
+        0 <\delta \leq \|x_n\| \leq M
+    \end{align*}
+    做归一化$y_n=x_n/\|x_n\|$。则$y_n \stackrel{w}{\rightarrow} 0$(因为范数有下界。)。
+
+    考虑赋值泛函$e_m:y \mapsto y(m)$。$e_m \in l_1^* \cong l^\infty$。
+
+    $e_m$是连续线性泛函，所以$y_n \stackrel{w}{\rightarrow} 0$表明$e_m(y_n)=y_n(m)\to 0$，并且$\|y_n\|_{l^1}=1$。接下来我们构造$f \in l_1^*$使得:
+    \begin{align*}
+    |f(y_{n_k})|>1/4,\forall n \in \N
+    \end{align*}
+
+    这样的构造可以根据前若干项的绝对值和逐渐趋近0，从而小于$1/4$，中间项足够多时大于$3/4$，从而保证这$3/4$的若干项可以全部取绝对值。
+\end{proof}
+\subsubsection*{紧算子}
+\begin{definition}
+    设$T \in B(X,Y)$称为紧算子，若任意有界集合$M \subset X$,有$\overline{T(M)}$是$Y$中的紧集。等价的，即$\overline{T(B_x)}$是紧集。
+\end{definition}
+\begin{example}
+    无限维空间$X$的恒等映射不是紧算子。因为单位球面不是紧集。
+\end{example}
+\begin{theorem}
+    紧算子把弱收敛列映射为按范收敛列。
+\end{theorem}
+\begin{proof}
+    不妨设$x_n \stackrel{w}{\rightarrow} x_0$但是$Tx_n \stackrel{\|\cdot\|}{\rightarrow} Tx_0$不成立。
+
+    于是存在$\|Tx_{n_k}-Tx_0\| \geq \epsilon$。但是$T$是紧算子，从而$\{Tx_{n_k}\}$是紧集，有聚点，从而有$\|y_0-Tx_0\| \geq \epsilon$。
+
+    但是$\forall f \in Y^*$,$f(Tx_0)=(f\circ T)(x_0)=f(y_0)$。根据Hahn-Banach定理，$Tx_0=y_0$矛盾！
+\end{proof}
+\begin{theorem}
+    $T_n,T_0 \in B(X,Y)$。若$T_n$按照算子范数收敛到$T$，则$T_n$紧得到$T$紧算子。
+\end{theorem}
+\begin{proof}
+    对角线法。
+\end{proof}
+
+考虑一类特殊的算子，其秩1:
+\begin{align*}
+    T(y)=f(y)x,\forall y \in X; \Rightarrow T=x\otimes f,f \in X^*
+\end{align*}
+
+若秩为$N$：
+\begin{align*}
+    T(y)=\sum_{k=1}^N f_k(y)x_k,\forall y\in X;\Rightarrow T=\sum_{k=1}^n x_k \otimes f_k,f_k \in X^*
+\end{align*}
+
+把所有紧算子的集合记为$K(X,Y)$，$F(X,Y)$记为有限秩的算子全体，则:
+\begin{align*}
+    \overline{F(X,Y)}\subset K(X,Y)
+\end{align*}
+\subsection{Thursday}
+\begin{definition}
+    称$X$具有逼近性质（AP）,若任给紧子集$K \subset X$,$\forall \epsilon>0$，都存在有限秩的算子$F$使得:
+    \begin{align*}
+        \|T(x)-x\| <\epsilon,\forall x \in K
+    \end{align*}
+\end{definition}
+\begin{theorem}[Grothendieck]
+    $X$具有AP性质当且仅当$K(X)=\overline{F(X)}$
+\end{theorem}
+\begin{proposition}
+    AP性质等价于:任取$x_n \in X$,$f_n \in X^*$，且$\sum_{n=1}^\infty \|x_n\|\cdot \|f_n\|<\infty$。若$T=\sum_{n=1}^\infty x_n \otimes f_n=0$，则$\sum_{n=1}^\infty f_n(x_n)=0$。
+\end{proposition}
+
+\begin{definition}[bounded approximation property]
+    $X$满足有界逼近性质，若$\exists M>0$，使得$\forall \text{compact} K \subset X$，$\forall \epsilon>0$，存在$T \in F(X)$且$\|T\|<M$使得:
+    \begin{align*}
+        \|T(x)-x\| <\epsilon,\forall x \in K
+    \end{align*}
+\end{definition}
+
+\begin{theorem}
+    对于$T \in B(X,X_1)$，$T$紧与$T^*$紧等价。
+\end{theorem}
+\begin{proof}
+    若$T$紧。
+\end{proof}
+\section{第12周}
+\subsection{Thursday}
+
+\begin{question}[公开问题：不变子空间]
+    $l_2$空间。对于任何$T \in B(L_2)$，是否存在$l_2$的一个无穷维子空间$H_0$使得$T(H_0) \subset H_0$。
+
+    将问题特殊化：设$T$是紧算子，上述命题是否正确？答案是否定的。
+\end{question}
+\begin{question}
+    $B(l_2)$有球覆盖性质。
+\end{question}
+\begin{proposition}
+    当$M$是闭子空间，$H=M \oplus M^{\bot}$。
+\end{proposition}
+\section{第13周}
+\subsection{Tuesday}
+\begin{theorem}
+    对于内积空间$H$，存在$M \subset H$是完备的凸集，则对于$\forall x \in H$，存在唯一的$x_0 \in M$使得:
+    \begin{align*}
+        \|x-x_0\|=d(x,M)=(\inf_{y \in M}\|x-y\|)
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    设$x \notin M$。$\alpha=d(x,M)$。由$\inf$的定义，存在$\{x_n\} \subset M$满足:$\|x_n-x\| \to \alpha$。下证:$\{x_n\}$是Cauthy列。
+
+    由于$M$是凸集，则$(x_m+x_n)/2 \in M$。则$\|x-(x_m+x_n)/2\|\geq \alpha$。
+    \begin{align*}
+        \|x_m-x_n\|^2=2\|x_m-x\|^2+2\|x-x_n\|^2-4\|x-(x_m+x_n)/2\|^2\leq 2\|x_m-x\|^2+x\|x_n-x\|^2-4\alpha \to 0
+    \end{align*}
+    从而是Cauthy列。于是根据完备性知$\{x_n\}$有极限。
+\end{proof}
+
+\begin{theorem}[正交分解]
+    设$H$是Hilbert空间，$M$是闭子空间。$\forall x \in H$，$\exists ! x_0 \in M$，$y \in M^{\bot}$使得$x=x_0+y$即:
+    \begin{align*}
+        H=M\oplus M^{\bot}
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    $M$是闭子空间，$\forall x \in H$，存在唯一的$x_0 \in M$使得$\|x-x_0\|=d(x,M)=\alpha$。
+
+    $\forall z \in M$，$z \neq 0$。$\forall \lambda \in \C$,$x_0+\lambda z\in M$。并且
+    \begin{align*}
+        (x-x_0-\lambda z)^2
+    \end{align*}
+\end{proof}
+\begin{definition}
+    对于Banach空间$X$，$E \subset X$是闭的子空间。若有在闭子空间$F$使$\forall x \in X$，存在!的$x_0 \in E$,$y \in F$使得$x=x_0+y$,即$X=E\oplus F$。此时称$E$是可补的，$F$是$E$的一个补空间。
+\end{definition}
+\begin{example}
+    $c_0 \subset l_\infty$是不可补的。
+\end{example}
+\begin{theorem}
+    $X$是Banach空间，$E$是可补的闭子空间。定义线性映射$P:X \to X$,$P(x)=x_0 \in E$。则$P \in B(X)$。
+\end{theorem}
+\begin{lemma}
+    $\N$中存在不可数个子列记为$\{S_\alpha\}_{\alpha_\Gamma}$且两两几乎不交。
+\end{lemma}
+\begin{lemma}
+    有界线性算子$P \in B(l_\infty)$:$P|_{c_0}=0$，即$P(x)=0,\forall x \in c_0$。则存在$\N$的子列$A$使得$P|_{l_\infty(A)}=0$。即$P(y)=0,\forall y \in l_\infty$且$y(k)=0,\forall k \notin A$。
+\end{lemma}
+\begin{proof}
+    反证，假设不成立。由于$\N$上存在不可数个子列$\{A_\alpha\}$且两两几乎不交。$\forall i \in I$,$\exists x_i \in l_\infty(A_i)$且$P(x_i)=0$。显然$x_i \notin c_0$。
+
+    不妨设$\|x_i\|=1$,$\forall i \in I$。定义$\forall n \in N$:
+    \begin{align*}
+        I_n=\{i \in I:(p(x_i))(n)\neq 0\}
+    \end{align*}
+    则有$I=\bigcup_{n=1}^\infty I_n$。则有$I_n$是不可数的，
+
+    再进行分解:
+    \begin{align*}
+        I_{n,k}=\{i \in I:|P(x_i)(n)|\geq 1/k\}
+    \end{align*}
+    则
+    \begin{align*}
+        I_n=\bigcup_{k=1}^\infty I_{n,k}
+    \end{align*}
+    则有$I_{n,k}$不可列。其任意有限子集$J$:
+    \begin{align*}
+        \text{令}y=\sum_{j\in J}\mathrm{sgn}[P(x_j)(n)]x_j
+    \end{align*}
+    于是
+    \begin{align*}
+        P(y)(n)=\sum_{j \in J}|P(x_j)(n)|\geq 1/k |J|
+    \end{align*}
+    注意到$J$有限，则存在$f$:$y=f+z$且$\{i \in \N:f(i) \neq 0\}$是有限集且$\|z\|_{\infty}\leq 1$。
+
+    于是$P(y)=P(z)\leq \|P\|$。但是$\|P(y)\|\geq |P(y)(n)| \geq |J|/k$。注意到$J$的个数任意大，则产生了矛盾！
+\end{proof}
+\begin{corollary}
+    $c_0$在$l_\infty$中不可补。
+\end{corollary}
+\begin{proof}
+    若可补，则存在$l_\infty=c_0+d$。有界线性算子$P_d|_{c_0}=0$.于是存在$\N$的子列$A$使得$P_d|_{l_\infty(A)}=0$。注意到$P_d+P_{c_0}=\mathrm{id}_{l_\infty}$。则$P_{c_0}|_{l_\infty(A)}=\mathrm{id}$。然而$l_\infty(A)$并未包含在$c_0$中，矛盾！
+\end{proof}
+\subsection{Thursday}
+对于Hilbert空间，使用Zorn引理可以得到其一定有极大的正交系$A_\alpha$。并且$A_\alpha$张成的子空间的闭包是整个Hilbert空间。
+
+考虑$\{e_i\}$是一列极大标准正交基。对于$\forall x \in H$，有:
+\begin{align*}
+    \|x-\sum_{n=1}^N (x,e_n)e_n\|=d(x,\mathrm{Span}(e_n)_{n=1}^N)
+\end{align*}
+注意到:
+\begin{align*}
+    \lim_{N \to \infty}\|x-\sum_{n=1}^N (x,e_n)e_n\|=0
+\end{align*}
+\begin{example}
+    在空间$l^2$中，$e_n$直接可取为Schaduer基。
+\end{example}
+\begin{example}
+    $L^2[0,2\pi]$中，取：
+    \begin{align*}
+        e_n(t)=\frac{1}{\sqrt{2\pi}}e^{int},n\text{的取值是}0,\pm 1,\dots,\pm n,\dots
+    \end{align*}
+    显然:
+    \begin{align*}
+        \int_0^{2\pi}e^{i(n-m)t}dt=\frac{1}{i(n-m)}e^{i(n-m)t}|_0^{2\pi}=0, \text{若}n \neq m
+    \end{align*}
+    并且$\|e_n\|=1$。从而这是一个正交系。
+\end{example}
+\section{拓扑线性空间}
+\subsection{基本性质}
+\subsubsection*{定义}
+\begin{definition}
+    拓扑线性空间的局部基是指$0$点附近的邻域族$\beta$，使得$0$点的任意邻域$U$，都存在$V \in \beta$使得$V \subset U$。
+\end{definition}
+\subsubsection*{分离性}
+\begin{theorem}
+    设$0 \in W$是邻域，则存在邻域$U$使得$U+U \subset W$且$U=-U$。
+\end{theorem}
+\begin{proof}
+    考虑$0+0=0$.于是有:
+    \begin{align*}
+        V_1+V_2 \subset W
+    \end{align*}
+    记$U=V_1\cap V_2 \cap (-V_1)\cap (-V_2)$。
+\end{proof}
+\begin{proposition}
+    $K,C$是$X$的子集且$K$紧，$C$是闭集。若$K\cap C$是空集，则存在$0$的邻域$V$：
+    \begin{align*}
+        (K+V)\cap (C+V)=\emptyset
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    考虑单点$x \in K$。显然有$V_x$:
+    \begin{align*}
+        (x+V_x+V_x+V_x)\cap C=\emptyset \Rightarrow (x+V_x+V_x)\cap (C+V_x)=\emptyset
+    \end{align*}
+    $K$是紧集，自然有有限覆盖:
+    \begin{align*}
+        K=\bigcup_{i=1}^n (x_i+V_{x_i})
+    \end{align*}
+    并记$V=\bigcap_{i=1}^n V_{x_i}$。则$K+V \subset \bigcup_{i=1}^n(x_i+V_{x_i}+V) \subset \bigcup_{i=1}^n (x_i+V_{x_i}+V_{x_i})$
+
+    于是$K+V$与$C+V$不交。
+\end{proof}
+\begin{corollary}
+    拓扑线性空间是Hausdorff空间。
+\end{corollary}
+\begin{proposition}
+    设$\beta$是局部基，则$\forall U \in \beta$，存在$V \in \beta$满足:
+    \begin{align*}
+        \bar{V}\subset U
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    $U^c$是闭集。则存在$V:(U^c+V)\cap V=\emptyset$。
+    \begin{align*}
+        (U^c+V)\cap \bar{V}=\emptyset \Rightarrow (U^c) \cap \bar{V}=\emptyset, \bar{V}\subset U
+    \end{align*}
+\end{proof}
+\subsubsection*{平衡集和有界集}
+\begin{definition}
+    $B$是平衡集，若$\alpha B\subset B$对于$|\alpha|\leq 1$成立。
+\end{definition}
+\begin{theorem}
+    每个$0$点的邻域包含一个包含$0$的平衡邻域。
+\end{theorem}
+\end{document}

@@ -1,0 +1,18 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{\numberline {1}范畴论基础}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}函子范畴与泛性质}{2}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}函子范畴}{2}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}泛性质}{4}{subsection.1.1.2}%
+\contentsline {section}{\numberline {1.2}可表函子}{5}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}四个函子和米田引理}{5}{subsection.1.2.1}%
+\contentsline {section}{\numberline {1.3}可表函子}{8}{section.1.3}%
+\contentsline {section}{\numberline {1.4}伴随函子}{9}{section.1.4}%
+\contentsline {section}{\numberline {1.5}极限与完备化}{14}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}极限和函子的可表性}{16}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}常用的极限}{21}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}完备性}{23}{subsection.1.5.3}%
+\contentsline {subsection}{\numberline {1.5.4}极限与函子之间的关系}{25}{subsection.1.5.4}%
+\contentsline {section}{\numberline {1.6}基础范畴论补充}{26}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}子商}{26}{subsection.1.6.1}%
+\contentsline {chapter}{\numberline {2}幺半范畴}{29}{chapter.2}%
+\contentsline {section}{\numberline {2.1}基础定义}{29}{section.2.1}%

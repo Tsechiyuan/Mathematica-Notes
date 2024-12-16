@@ -1,0 +1,1352 @@
+\documentclass[UTF8]{ctexart}[a4paper,12pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+
+
+%声明环境
+\newtheorem{example}{例}[section]              
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[subsection]            
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[subsection]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+{
+    \theoremheaderfont{\sffamily}
+    \newtheorem*{remark}{注解} 
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+%外测度
+\def\outmQ{m_*(Q)}
+
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{Probability Notes}
+\author{颜成子游}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\section{分布函数}
+\section{随机变量的数字特征}
+\subsection{数学期望}
+\subsubsection{数学期望的定义}
+引入质心坐标：
+$$
+E_\xi=\int_{\Omega}\xi p(d\omega)=\int xd(F(x)) 
+$$
+\begin{definition}
+    设$\xi$是离散型随机变量，概率分布$p_i=p(\xi=x_i), i=1,2,\dots$，如果：
+    $$
+    \sum_{i}|x_i|p_i <+\infty
+    $$
+    
+    则$E_\xi=\sum_{i}x_ip_i$为$\xi$的数学期望。
+\end{definition}
+\begin{definition}
+    设$\xi$是连续型随机变量，密度函数为$p(x)$，若：
+    $$
+    \int_{-\infty}^{+\infty}|x|p(x)dx<+\infty
+    $$
+
+    则称：
+    $$
+    E_\xi=\int_{-\infty}^{+\infty}xp(x)dx
+    $$
+    为$\xi$的数学期望。
+\end{definition}
+
+显然，对于两个随机变量的和，差运算，取期望的操作是线性满足的。但是乘积并非如此：
+
+\begin{theorem}
+    设$\xi,\eta$为$(\Omega,\mathcal{F},P)$两个相互独立
+    的随机变量，并且$\xi,\eta$均可积
+    （$E_\xi,E_\eta < \infty$),那么$\xi\eta$也可积，
+    并且：
+    $$
+    E_{\xi\eta}=E_{\xi}E_{\eta}
+    $$
+\end{theorem}
+\begin{proof}
+    (1)假设$\xi,\eta$都是非负简单随机变量：
+    $$
+    \xi=\sum_{i=1}^na_iI_{A_i},\quad 
+    \eta=\sum_{j=1}^m b_jI_{B_j}
+    $$
+    由于$\xi$与$\eta$独立，可以推出$A_i$与$B_j$独立。(请自己思考为什么这两个事件
+    是独立的。)
+    $$
+    E_{\xi\eta}=\int \sum_{i=1}^n\sum_{j=1}^m
+    a_ib_jI_{A_i}I_{B_j}p(d\omega)=\sum_i\sum_ja_ib_jp(A_iB_j)
+    =\sum_{i}a_ip(A_i)\sum_jb_jp(B_j)=E_\xi E_\eta
+    $$
+    
+    (2)$\xi,\eta$是非负随机变量：
+    $$
+    \xi_n=\sum_{k=0}^{n2^n} k/2^n I_{\{k/2^n \leq \xi 
+    <(k+1)/2^n\}}
+    $$
+    $$
+    \eta_n=\sum_{k=0}^{n2^n} k/2^n I_{\{k/2^n \leq \eta 
+    <(k+1)/2^n\}}
+    $$
+    $\xi_n$与$\eta_n$独立，结合单调收敛定理可得结论。
+
+    (3)$\xi,\eta$是一般的随机变量：
+    $$
+    E_{\xi\eta}=E[(\xi^+-\xi^-)(\eta^+-\eta^-)]=
+    E\xi^+\eta^+-E\xi^+\eta^--E\xi^-\eta^+
+    +E\xi^-\eta^-=
+    E\xi^+E\eta-E\xi^-E\eta=E\xi E\eta
+    $$
+
+    证毕。
+\end{proof}
+
+    什么样的期望保持乘法时，才会有随机变量独立呢？
+    \begin{theorem}
+        设$\xi,\eta$为$(\Omega,\mathcal{F},P)$两个随机变量。那么：
+        
+        $\xi,\eta$独立 $\Leftrightarrow$ $Ef(\xi)g(\eta)
+        =Ef(\xi)Eg(\eta)$对于任何Borel函数$f,g$使得$f(\xi)$$g(\eta)$
+        可积。
+    \end{theorem}
+    \begin{proof}
+        从左往右是显然的。
+
+        从右往左：
+
+        取$f(x)=I_{B_1}(x)$，$g(x)=I_{B_2}(x)$
+        $$
+        Ef(\xi)g(\eta)=EI_{B_1}(\xi)I_{B_2}(\eta)=p(\xi \in B_1,\eta \in B_2)
+        $$
+        $$
+        Ef(\xi)Eg(\eta)=p(\xi \in B_1)p(\eta \in B_2)
+        $$
+        从而知随机变量独立。
+    \end{proof}
+    \subsubsection{数学期望的性质}
+    \begin{theorem}
+        \begin{enumerate}[1]
+            \item $EC=C$
+            \item $EC\xi=CE\xi$
+            \item $E(\eta+\xi)=E(\eta)+E(\xi)$
+            \item 若$\xi\geq \eta$，则$E\xi \geq E\eta$
+            \item $E(f(\xi))=\int f(x)d(F(x))$
+            
+        \end{enumerate}
+    \end{theorem}
+    \subsubsection{常见分布的期望}
+    \textbf{1.Bernoulli分布}
+
+    $E\xi=\sum x_ip_i=p$
+    {二项分布}
+    $\xi =\xi_1+\dots \xi_n$
+    根据可加性知：$E\xi=np$
+
+    \textbf{2.Poisson分布}
+
+    $E\xi=\sum_{k=0}^\infty k\frac{\lambda^k}{k!}e^{-\lambda}=\lambda$
+    
+    \textbf{3.几何分布}
+
+    $E\xi=\sum_{k=1}^\infty kq^{k-1}p=1/p$
+    
+    \textbf{4.均匀分布}
+
+    $E_\xi=\int_a^b \frac{x}{b-a}dx=\frac{a+b}{2}$
+
+    \textbf{5.正态分布}
+
+    $\xi \thicksim N(0,1)$
+    $$
+    E\xi=\int_\R \frac{x}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}dx=0
+    $$ 
+
+    $\eta \thicksim N(a,\sigma^2)$容易有$E\eta =a$
+
+    \textbf{6.$\kappa^2$分布}
+
+    $\xi \thicksim N(0,1)$ $\xi^2,n=1$
+    $$
+    E\xi^2=\int_\R \frac{x^2}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}dx=1
+    $$ 
+    从而$n=m$时，$\eta \thicksim \kappa^2(n),\quad 
+    \eta=\sum_{k=1}^n\xi_k^2 \quad \xi_k 
+    \thicksim N(0,1)$
+    $$
+    E\eta=m
+    $$
+
+    \textbf{7.Cauchy分布}
+
+    $$
+    p(x)=\frac{1}{\pi (1+x^2)}
+    $$
+    $$
+    \int_\R |x|p(x)dx=\int_\R \frac{|x|}{\pi(1+x^2)}dx=+\infty
+    $$
+    从而\textbf{期望不存在！！!}
+    \subsection{其他数字特征}
+    $L^2=\{\xi:E\xi^2 <+\infty\}$
+    若$\xi ,\eta \in L^2$，则$a\xi+b\eta \in L^2$.
+    
+    我们不加证明的指出以下的引理，其证明是显然的。
+    \begin{lemma}\label{lem:11}
+        $E\xi^2=0 \Leftrightarrow \xi=0,a.s.$
+    \end{lemma}
+
+    接下来给出的引理是方差概念的基石。
+    \begin{lemma}
+        设$\xi,\eta \in L^2$则
+        $$
+        (E\xi\eta)^2 \leq E\xi^2E\eta^2
+        $$
+
+        等号成立的条件是存在实数$t_0$，使得$\eta=t_0\xi,a.s.$
+    \end{lemma}
+    \begin{proof}
+       $\eta-t\xi \in L^2$
+       从而
+       $$
+       u(t)=E(\eta-t\xi)^2 \geq 0
+       $$
+       
+       判别式即要证明的不等式。
+
+       要使不等式等号成立，则上述不等式必须取等，从而有唯一的$t_0$，使得
+       $$
+       \eta=t_0\xi,a.s.
+       $$
+
+       我们也可以计算$t_0$:
+       $$
+       t_0=-\frac{-2E\xi\eta}{2E\xi^2}=\frac{E\xi\eta}{E\xi^2}
+       $$
+    \end{proof}
+      \subsubsection{方差}
+       \begin{definition}
+           对于$\xi\in L^2$，称：
+           $$
+           D\xi=E[(\xi-E\xi)^2]
+           $$
+       \end{definition}
+
+       为$\xi$的方差。
+
+       方差直接的会有如下性质：
+       \begin{theorem}
+           设$\xi \in L^2$，则有：
+           \begin{enumerate}
+               \item $D(\xi)\geq 0$
+               \item $D\xi=E\xi^2-(E\xi)^2$
+               \item $D(c\xi)=c^2D(\xi)$
+               \item $f(C)=E(\xi-C)^2$当且仅当$C=E\xi$时取到最小值。
+           \end{enumerate}
+       \end{theorem}
+       \begin{proof}
+           \quad
+
+           1.利用引理\ref{lem:11}显然得到1.
+
+           2.
+           $$
+           D(\xi)=E[(\xi-E\xi)^2]=E[\xi^2-2\xi E\xi+(E\xi)^2]=
+           E(\xi^2)-(E\xi)^2
+           $$
+
+           3.显然
+
+           4.
+           $$
+           f(C)=E[(\xi-E\xi)^2]+2E(\xi-E\xi)(E\xi-C)+(E\xi-C)^2
+           =E[(\xi-E\xi)^2]+(E\xi-C)^2\geq D\xi
+           $$
+
+           从而4也得证。
+       \end{proof}
+       \begin{example}[Poisson分布的方差]
+        $$
+        E(\xi^2)=\sum_{k=0}^\infty k^2\frac{\lambda^k}{k!}e^{-\lambda}
+        =\sum_{k=0}^\infty[k(k-1)+k]\frac{\lambda^k}{k!}e^{-\lambda}
+        =\lambda^2\sum_{i=0}^\infty\frac{\lambda^i}{i!}e^{-\lambda}+
+        \lambda\sum_{i=0}^\infty\frac{\lambda^i}{i!}e^{-\lambda}
+        =\lambda^2+\lambda
+        $$
+        
+        从而由上述定理的2：
+        $$
+        D\xi=\lambda
+        $$   
+       \end{example}
+       \begin{example}[正态分布的方差]
+           $$
+           D\xi=\int_\R(x-a)^2 \frac{1}{\sigma \sqrt{2\pi}}
+           e^{-\frac{(x-a)^2}{2\sigma^2}}dx=\sigma^2
+           $$
+           具体计算过程（换元，利用已知积分等等）见教材。
+       \end{example}
+       \begin{example}[$\kappa^2$分布的方差]
+           $$
+           E(\xi^2)=\int_0^\infty \frac{1}{2^n\Gamma(n/2)}x^{n/2+1}
+           e^{-x/2}dx=\frac{4}{\Gamma(n/2)}\Gamma(n/2+2)=n^2+2n
+           $$
+
+           从而
+           $$
+           D\xi=E\xi^2-(E\xi)^2=2n
+           $$
+       \end{example}
+       \begin{definition}[一般随机变量的标准化]
+           称$\xi$是非退化的，如果其方差不为零。如果方差为零，等价于$\xi$几乎处处为常数，即单点分布。
+           
+           $\xi \in L^2$中的非退化随机变量可以标准化为均值为0，
+           方差为1的随机变量$\xi^*$:
+
+           $$
+           \xi^*=\frac{\xi-E\xi}{\sqrt{D(\xi)}}
+           $$
+           
+           很容易验证其的方差和期望满足我们“标准化”的要求。
+       \end{definition}
+       \subsubsection{协方差阵}
+       协方差描述了多个随机变量之间相互依存的关系
+       \begin{definition}
+           $\xi \in L^2, \eta \in L^2$，称：
+           $$
+           \text{Cov}(\xi,\eta)=E[(\xi-E\xi)(\eta-E\eta)]
+           $$
+           是$\xi$与$\eta$的协方差。
+       \end{definition}
+       \begin{proposition}
+           协方差的等价公式：
+           $$
+           Cov(\xi,\eta)=E[\xi\eta-\xi E\eta-\eta E\xi+E\xi E\eta]
+           =E\xi\eta-E\xi E\eta
+           $$
+       \end{proposition}
+       \begin{proposition}
+           方差与协方差的关系：
+           \begin{enumerate}
+               \item $Cov(\xi,\xi)=E(\xi^2)-(E(\xi))^2=D(\xi)$
+               \item $D(\xi+\eta)=E[(\xi+\eta)-E(\xi+\eta)]^2=
+               E[(\xi-E\xi)^2]+E[(\eta-E\eta)^2]+2E[(\xi-E\xi)(\eta-E\eta)]=
+               D(\xi)+D(\eta)+2Cov(\xi,\eta)$
+               \item $D(\xi_1+\xi_2+\dots+\xi_n)=\sum_{k=1}^n 
+               D(\xi_k)+2\sum_{1 \leq i \leq j \leq n}Cov(\xi_i,\xi_j)$
+           \end{enumerate}
+       \end{proposition}
+       \begin{definition}[协方差矩阵]
+           $n$维随机变量$(\xi_1,\xi_2,\dots,\xi_n)$的对称协方差矩阵定义为：
+           $$
+           B=(b_{ij}), \quad b_{ij}=Cov(\xi_i,\xi_j)
+           $$
+       \end{definition}
+       \begin{proposition}
+           协方差矩阵是半正定的。
+       \end{proposition}
+       \begin{proof}
+           对于任意$n$个实数$a_k$,我们有：
+           $$
+           \sum_{i=1}\sum_{j=1}a_ia_jb_{ij}=\sum_{i=1}\sum_{j=1}a_ia_jcov(\xi_i,\xi_j)
+           =E[\sum_{i=1}^na_i(\xi_i-E\xi_i)]^2 \geq 0
+           $$
+       \end{proof}
+       \begin{example}[离散型二维随机变量的协方差]
+        $$
+        E(g(\xi,\eta))=\sum_{i,j}g(x_i,x_j)P\{\xi=x_i,\eta=x_j\}
+        $$
+        $$
+        Cov(\xi,\eta)=E(\xi\eta)-E(\xi)E(\eta)
+        $$   
+        
+       \end{example}
+       \subsubsection{相关系数}
+       \begin{definition}
+           若$\xi,\eta$是$L^2$中非退化（方差不为零）的随机变量，称：
+           $$
+           r=\frac{cov(\xi,\eta)}{\sqrt{D(\xi)}\sqrt{D(\eta)}}
+           $$
+
+           是$\xi$与$\eta$的相关系数。若$r=0$，则$\xi$与$\eta$不相关。
+       \end{definition}
+       由定义立刻得到：
+       $$
+       r=E[\frac{\xi-E(\xi)}{\sqrt{D(\xi)}}\frac{\eta-E(\eta)}{\sqrt{D(\eta)}}]
+       $$
+
+       即标准化后两个随机变量的协方差。
+
+       注明：
+       
+       1.常数与任何随机变量的协方差都是0.
+
+       2.常数与任何随机变量都是独立的。
+       \begin{theorem}
+        对于$L^2$空间中的非退化随机变量$\xi,\eta$，相关系数取$[-1,1]$。且:
+        $$
+        r=1 \Leftrightarrow \xi^*=\eta^*
+        $$
+        $$
+        r=-1 \Leftrightarrow \xi^*=-\eta^*
+        $$   
+       \end{theorem}
+       \begin{proof}
+           $$
+           |r| =|E(\xi^*\eta^*)|\leq\sqrt{D(\xi^*)D(\eta^*)} =1
+           $$
+           根据Cauthy-Schwarz不等式取等条件，立刻得到取等条件。
+       \end{proof}
+
+       $r=1$，称完全正线性相关；$r=-1$，称完全负线性相关。
+       \begin{theorem}
+           对于空间$L^2$中的非退化随机变量$\xi,\eta$而言，下列命题等价：
+           
+           1.$\xi,\eta$等价。       \qquad       2.$cov(\xi,\eta)=0$
+
+           3.$E(\xi\eta)=E(\xi)E(\eta)$    \qquad     4.$D(\xi+\eta)=D(\xi)+D(\eta)$
+       \end{theorem}
+
+       \begin{theorem}
+           若$\xi,\eta$独立，则不相关。
+       \end{theorem}
+       \begin{proof}
+           $$
+           cov(\xi,\eta)=E(\xi\eta)-E(\xi)E(\eta)=0
+           $$
+           
+           （由独立立刻就有的）
+       \end{proof}
+
+       注意，不相关不一定是独立的。我们将给出一个典型的例子：
+       \begin{example}
+           $\theta$是区间$(0,2\pi)$上的均匀分布的随机变量。$\xi=\cos\theta$,$\eta=
+           \cos(\theta+a)$，不难验证，当$a=\pi/2$，$\xi$与$\eta$是不相关的，但是不独立
+           ($\xi^2+\eta^2=1$)
+       \end{example}
+
+       但是，在二元正态分布下，这就是等价的（笑）
+       \subsubsection{条件数学期望}
+       1.事件关于事件的条件概率：
+       $$
+       P(A|B)=\frac{P(AB)}{P(B)}
+       $$
+       或者写为：
+       $$
+       E[I_A|B]=\frac{I_AI_B}{P(B)}
+       $$
+
+       2.随机变量关于事件的条件期望：
+       $$
+       E[X|B]=\frac{E(XI_B)}{P(B)}
+       $$
+       \begin{proposition}
+           
+        $$
+        E[f(x)I_B]/P(B)=\int_{-\infty}^{+\infty} f(x)dF(X|B)
+        $$
+        其中$F(X|B)=P(X<x|B)$
+       \end{proposition}
+       \begin{proof}
+       证明从简单函数开始，然后是非负可测函数，最后是可测函数。
+       \end{proof}
+
+       3.事件关于$\sigma$-代数的条件概率:
+
+       令$\mathcal{G} =\sigma(B_j:1\leq j\leq m)$,$B_j$是$\Omega$上的一个
+       有限划分
+       $$
+       P(A|\mathcal{G})=E[I_A|\mathcal{G}]=\sum_{j=1}^m\frac{E[I_AI_{B_j}]}{P(B_j)}I_{B_j}(\omega)
+       $$
+
+       对任意的$B_j$，不妨取$B_1$
+       $$
+       \int_{B_1}E[I_A|\mathcal{G}]p(d\omega)=
+       \int_{B_1}\frac{E[I_AI_{B_1}]}{P(B_1)}I_{B_1}(\omega)p(d\omega)
+       =E[I_AI_{B_1}]=\int_{B_1}I_Ap(d\omega)
+       $$
+       
+       由测度论的知识，得到：
+       $$
+       \int_BE[I_A|\mathcal{G}]p(d\omega)=\int_B I_Ap(d\omega)
+       $$
+
+       4.随机变量关于$\sigma$-代数的条件期望
+       $$
+       E[X|\mathcal{G}]=\sum_{j=1}^m\frac{E[XI_{B_j}]}{P(B_j)}I_{B_j}
+       $$       
+
+       类似有：
+       $$
+       \int_B E[X|\mathcal{G}]p(d\omega)=\int_B X pd(\omega)
+       $$
+
+       5.随机变量关于$\sigma$-代数的条件期望定义：
+       \begin{definition}
+             $(\Omega,\mathcal{F},P)$，令$X$是可积随机变量，
+       $\mathcal{G}$是$\mathcal{F}$的子$\sigma$-代数，
+       $E[X|\mathcal{G}]$是$P$等价意义下唯一的$\mathcal{G}$可测的，满足： 
+       $$
+       \int_B E[X|\mathcal{G}]p(d\omega)=\int_B Xp(d\omega)
+       $$
+       的可积随机变量。
+       \end{definition}
+     
+
+       6.随机变量关于随机变量的条件期望:
+       \begin{definition}
+       $$
+       \sigma(Y)=\sigma(\{\omega|Y(\omega)\in C,C\in \beta\})
+       $$
+       被定义为$Y$生成的$\sigma$-代数。
+       \end{definition}
+       
+       \begin{definition}
+           设$(\Omega,\mathcal{F},P)$是概率空间，$X$,$Y$是可积随机变量，
+           $E[X|Y]$是$P$等价意义下唯一的$\sigma(Y)$可测的，满足： 
+           $$
+           \int_{Y \in C} E[X|Y]p(d\omega)=\int_{Y\in C} Xp(d\omega)
+           $$
+           的可积随机变量。
+       \end{definition}
+       注：
+       $$
+       \int_{Y \in C}E[X|Y]p(d\omega)=\int_C\phi(y)dF_Y(y)
+       $$
+       
+       7.$X$关于$Y=y$的条件期望：
+       \begin{definition}
+           $(\Omega,\mathcal{F},P)$是概率空间，$X$是可积随机变量。$E[X|Y=y]$是
+           $\mathbf{F}_X()$意义下唯一$\beta$可测的满足：
+           $$
+           \int_CE[X|Y=y]dF_Y(y)=\int_{Y\in C}Xp(d\omega)
+           $$
+           的$\mathbf{F}_X()$下可积函数。
+       \end{definition}
+       接下来给出一个公式：
+       \begin{proposition}\label{thm:E}
+           $$
+           E[X]=E[E[X|\mathcal{G}]]
+           $$
+       \end{proposition}
+       \begin{proof}
+           根据定义：
+           $$
+           \int_B E[X|\mathcal{G}]p(d\omega)=\int_B Xp(d\omega)
+           $$
+           令$B=\Omega$，则有：
+           $$
+           E[X]=E[E[X|\mathcal{G}]]
+           $$
+       \end{proof}
+       \begin{proposition}
+           如果$X$关于$\mathcal{G}$可测，则：
+           $$
+           E[XY|\mathcal{G}]=XE[Y|\mathcal{G}]
+           $$
+           特别地，
+           $$
+           E[X|\mathcal{G}]=X
+           $$
+       \end{proposition}
+       \begin{proof}
+       先验证$I_A$,其中$A$是$\mathcal{G}$中的集合。再验证一般情形即可。
+       \end{proof}
+       \begin{definition}
+           称一个随机变量独立于$\mathcal{G}$，
+           若$P(X \in C,B)=P(X \in C)P(B),C\in \beta,B\in \mathcal{G}$.
+
+           等价于$\sigma(X)$独立于$\mathcal{G}$.
+       \end{definition}
+       \begin{proposition}
+           如果$X$独立于$\mathcal{G}$，则$E[X|\mathcal{G}]=E(X)$
+       \end{proposition}
+       \begin{proof}
+        先验证$I_A$,其中$A$是独立于$\mathcal{G}$的集合。再验证一般情形即可。
+       \end{proof}
+       接着我们给出条件方差的概念：
+       \begin{definition}
+           $D(\xi|\eta=y)=E[(\xi-E(\xi|\eta=y))^2|\eta=y]$
+       \end{definition}
+       \begin{example}
+           单位圆的均匀分布$(\xi,\eta)$:
+           $$
+           E(\xi|\eta=y)=0
+           $$
+           $$
+           D[\xi|\eta=y]=\frac{1-y^2}{3}
+           $$
+       \end{example}
+       \begin{example}
+           二维正态分布：$(\xi,\eta)$:
+           $$
+           E[\xi|\eta=y]=a_1+r\frac{\sigma_1}{\sigma_2}(y-a_2)
+           $$
+           $$
+           D(\xi|\eta=y)=\sigma_1^2(1-r^2)
+           $$
+       \end{example}
+       \begin{theorem}[全期望公式]
+           设$\xi,\eta$是联合分布随机变量，$g(\xi)$是可积随机变量，则：
+           $$
+           E[E[g(\xi)|\eta]]=E(g(\xi))
+           $$
+       \end{theorem}
+       \begin{proof}
+           根据\ref{thm:E}直接可得。
+       \end{proof}
+       \begin{example}
+           见书上巴格达窃贼问题。
+       \end{example}
+       \begin{example}
+           $\xi$的密度函数为：
+           $$
+           p_1(x)=\lambda^2x^2e^{-\lambda x},x>0
+           $$
+
+           $\eta$在区间$[0,\xi]$上均匀分布，求$E[\eta|\xi=x]$和$E[\eta]$
+           \begin{proof}
+               显然$E[\eta|\xi=x]=\frac{x}{2},x >0$，从而
+               $$
+               E(\eta)=\int_{0}^\infty \frac{x}{2}p_1(x)dx=\frac{1}{\lambda}
+               $$
+           \end{proof}
+       \end{example}
+       \begin{theorem}
+           $\{\xi_k\}$独立同分布，$\xi_k$与可积随机变量$\xi$同分布，$\eta$取自然数的随机变量，
+           $E(\eta)$有限，$\eta$与$\xi_k$独立，则：
+           $$
+           E(\sum_{k=1}^\eta\xi_k)=E(\eta)E(\xi_k)
+           $$
+       \end{theorem}
+       \begin{example}
+           见书上例3.2.9.
+       \end{example}
+       \begin{theorem}
+           $\xi,\eta \in L^2$,如果$f(\eta)$做$\xi$的预测，那么使得预测误差：
+           $E[\xi-f(\eta)]^2$最小的$f$应是$E(\xi|\eta)$.
+       \end{theorem}
+       \begin{proof}
+        简便起见，记$E[\xi|\eta]=g(\eta)$
+        $$
+        E[\xi-f(\eta)]^2=E\{\xi-g(\eta)+g(\eta)-f(\eta)\}^2
+        =E[\xi-g(\eta)]^2+E[g(\eta)-f(\eta)]^2+I
+        $$
+
+        其中，有：
+        $$
+        I=2E[(\xi-g(\eta))(g(\eta)-f(\xi))]=2E[E[(\xi-g(\eta))
+        (g(\eta)-f(\eta))|\eta]]
+        $$
+        
+        注意到随机变量$g(\eta)-f(\eta)$是关于$\sigma(\eta)$可测的。从而有：
+        $$
+        I=2E[\{g(\eta)-f(\eta)\}E(\{\xi-g(\eta)\}|\eta)]
+        $$
+        $$
+        E(\xi-g(\eta)|\eta)=E(\xi|\eta)-E(E(\xi|\eta)|\eta)=0
+        $$
+     
+        故$I=0$.证毕。
+       \end{proof}
+       \subsubsection{矩}
+       \begin{definition}
+           如果$E|\xi|^k < +\infty$，则称$m_k=E\xi^k$为$\xi$的$k$阶原点矩，而
+           称$c_k=E[\xi-E\xi]^k$为$\xi$的$k$阶中心距。
+       \end{definition}
+       \begin{proposition}
+           若$\xi$的高阶矩有限，那么低阶矩有限。
+       \end{proposition}
+       \begin{proof}
+           $|\xi|^k \leq |\xi|^{k+1}+1 $
+       \end{proof}
+
+       下面的定理给出了两种矩的相互转化关系：
+       \begin{theorem}
+           若$E|\xi|^k <+\infty$，有：
+           $$
+           c_k=\sum_{i=0}^k\binom{k}{i}(-m_1)^{k-i}m_i
+           $$
+           $$
+           m_k=\sum_{i=0}^k\binom{k}{i}c_{k-i}m_1^i
+           $$
+       \end{theorem}
+       \begin{proof}
+           直接展开即可得到结果。
+       \end{proof}
+       \begin{example}
+           $\xi \thicksim N(0,1)$，则容易验证$E|\xi|^k<+\infty$对于任何$k$都成立。从而：
+           $$
+           m_{2k-1}=0
+           $$
+           $$
+           m_{2k}=(2k-1)!!
+           $$
+       \end{example}
+       \subsection{母函数}
+           母函数的出现弥补了部分分布函数在分析问题（分析性质，独立和卷积计算复杂，
+           连续型和离散型泾渭分明）上的不足。
+           \begin{definition}
+               对于任何实数列$\{p_n\}$，如果幂级数：
+               $$
+               G(s)=\sum_{n=0}^{+\infty} p_ns^n
+               $$
+               的收敛半径$s_0>0$，则称$G(s)$为数列$\{p_n\}$的母函数。特别的，当$\{p_n\}$为
+               某非负整值随机变量$\xi$的概率分布时，上式至少在区间$[-1,1]$绝对一致收敛，此时有：
+               $$
+               G(s)=E(s^\xi)
+               $$
+               
+               称这个$G(s)$为随机变量$\xi$或其概率分布$\{p_n\}$的母函数。
+           \end{definition}
+           
+           我们给出几个例子：
+           \begin{example}[几何分布的母函数]
+               $G(s)=\sum_{k=1}^{+\infty}s^kq^{k-1}p=\frac{sp}{1-qs}$
+
+               级数在$(-1/q,1/q)$收敛。
+           \end{example}
+           
+           我们不加证明的指出，母函数和非负整值随机变量$\xi$的概率分布有着一一对应的关系。从而可以用母函数
+           来刻画概率分布。
+           \begin{theorem}
+               非负整值随机变量$\xi$的母函数为$G(s)$，如果$E\xi$与$E\xi^2$都收敛，那么:
+               $$
+               G'(1)=E(\xi)
+               $$
+               $$
+               G''(1)=E(\xi^2)-E(\xi)
+               $$
+           \end{theorem}
+           \begin{proof} 
+               逐项求导即可。
+
+
+               级数的一致收敛性保证了逐项求导的可行性，而两个特征收敛保证了在$s=1$处也收敛。
+           \end{proof}
+           
+           \subsubsection*{独立和的母函数}
+           \begin{theorem}
+               设$\xi,\eta$相互独立的整值随机变量，分别有概率分布$\{a_n\},\{b_n\}$。对应
+               母函数$A(S),B(s)$，则它们和$\xi+\eta$的母函数为：
+               $$
+               C(s)=A(s)B(s)
+               $$
+           \end{theorem}
+           \begin{proof}
+               计算右边，根据母函数的唯一性可以很容易得到答案。
+           \end{proof}
+           \begin{corollary}
+               如果$\xi_1,\dots,\xi_n$相互独立且同分布，有母函数$G(s)$，那么和$\sum_{i=1}^n \xi_i$
+               的母函数为$[G(s)]^n$。
+           \end{corollary}
+           
+           这个推论应用在二项分布中，可以很容易得到一些结论。
+           \begin{example}
+               独立的$\xi$的$\eta$分别服从二项分布$B(n,p)$，$B(m,p)$，那么$\xi+\eta$服从二项分布$B(n+m,p)$
+
+               因为计算$\xi+\eta$可以直接得到母函数，从而可以根据唯一性立马得到$\xi+\eta$是$B(m+n,p)$的二项分布。
+           \end{example}
+           \begin{example}
+               掷骰子问题。见书上p137例3.3.4。
+           \end{example}
+           
+           下面这个定理考虑随即多个非负整值随机变量之和的母函数。
+           \begin{theorem}
+               设$\{\xi_k\}$为相互独立的非负整值随机变量序列，它们有共同的母函数$G(s)$。
+               如果$\eta$是另外一个非负整值随机变量，与$\xi_k$均独立，母函数$F(s)$。
+               那么$\xi=\sum_{k=1}^\eta \xi_k$的母函数为：
+               $$
+               H(s)=F(G(s))
+               $$
+           \end{theorem}
+           \begin{proof}
+               使用全期望公式和$H(s)=E(s^\xi)$可以很容易得到结果：
+               $$
+               H(s)=E(s^\xi)=E[E(s^\xi|\eta)]=\sum_{n=0}^\infty P\{\eta=n\}E(s^\xi|\eta=n)=\sum_{n=0}^\infty P\{\eta=n\}[G(s)]^n=F(G(s))
+               $$
+           \end{proof}
+           \begin{corollary}
+               可以通过上述定理证明在非负整值随机变量的情况下，随机变量$\xi$的期望和方差的关系。
+               $$
+               E(\xi)=E(\eta)E(\xi_1)
+               $$
+               $$
+               D(\xi)=E(\eta)D(\xi_1)+D(\eta)[E(\xi_1)]^2
+               $$
+           \end{corollary}
+           \subsection{特征函数}
+           \subsubsection{特征函数的概念}
+           特征函数弥补了母函数只能考虑非负整值随机变量的缺点。
+           \begin{definition}
+               设$F(x)$是$\R$上的一个分布函数，称:
+               $$
+               f(t)=\int_{\R}e^{itx}dF(x),t\in \R
+               $$
+               是$F(x)$对应的特征函数。如果$F(x)$是$\xi$的分布函数，那么$f(t)$也称为$\xi$的
+               特征函数。此时：
+               $$
+               f(t)=E(e^{it\xi})
+               $$
+               
+           \end{definition}
+           \begin{proposition}
+               \quad
+
+               \begin{enumerate}
+                   \item 任意$\xi$的特征函数都存在，因为$|e^itx|\leq 1$，从而积分的模长小于1.
+                   \item Euler公式：
+                   $$
+                   f(t)=E(cost\xi)+iE(sint\xi)
+                   $$
+               \end{enumerate}
+
+           \end{proposition}
+           \begin{proposition}
+               特征函数$f(t)$有如下性质：
+               \begin{enumerate}
+                   \item $|f(t)| \leq f(0)=1$
+                   \item 共轭对称性：$f(-t)=\overline{f(t)}$
+                   \item $f(t)$为$t\in (-\infty,+\infty)$上一致连续。
+                   \item 半正定性：任意$n \geq 1$,任意$n$个实数
+                   $t_1,\dots,t_n$及$n$个复数$a_1,\dots,a_n$:
+                   $$
+                   \sum_{j=1}^n\sum_{k=1}^n a_j\overline{a_k}f(t_j-t_k)\geq 0
+                   $$
+                   \item $f_{a+b\xi}(t)=e^{iab}f_{\xi}(bt)$
+               \end{enumerate}
+           \end{proposition}
+           \begin{proof}
+
+               1，2显然.
+
+               3.相减后使用控制收敛定理显然。
+
+               4.直接运算，注意：
+               $$
+               \sum_{j=1}^n\sum_{k=1}^n a_je^{it_jx}\overline{a_ke^{it_kx}}=(\sum_{m=1}^na_me^{it_mx})^2
+               $$
+
+               5.直接计算可得。
+           \end{proof}
+           
+           \begin{proposition}
+               对于$f(t)$，称之为\textbf{特征函数}，如果满足：
+              \begin{enumerate}
+                  \item $f(0)=1$
+                  \item $f(t)$在$\R$上连续。
+                  \item $f(t)$满足半正定性。
+              \end{enumerate}
+
+              对于任何一个特征函数$f(t)$，都存在一个分布函数，满足：
+              $$
+              f(t)=\int_{\R}e^{itx}dF(x)
+              $$
+           \end{proposition}
+            给出一些例子：
+            \begin{example}
+                $\xi\sim N(0,1) \Rightarrow f_{\xi}=e^{-t^2/2}$
+                则根据性质5，可以算出任何正态分布的特征函数。 
+            \end{example}
+
+            进一步研究特征函数的性质前，我们给出一个引理：
+            \begin{lemma}
+                对于$x\in \R$和自然数$n$，有：
+                $$
+                |e^{ix}-\sum_{k=1}^n\frac{(ix)^k}{k!}|
+                \leq [\frac{|x|^{n+1}}{(n+1)!}]\wedge [\frac{2|x|^n}{n!}]
+                $$
+            \end{lemma}
+            \begin{proof}
+                对于第一个，分部积分：
+                $$
+                \int_{0}^x(x-s)^ne^{is}ds=\frac{x^{n+1}}{n+1}+
+                \frac{i}{n+1}\int_0^x(x-s)^{n+1}e^{is}ds
+                $$
+                递归即可。
+
+                对于第二个，把上述积分中$n$换为$n-1$，解出：
+                $$
+                \int_{0}^x(x-s)^ne^{is}ds
+                $$
+                代入即可。
+            \end{proof}
+            这个引理给出了展开$e^{ix}$的尾项估计。较小的$|x|$用第一项，较大的用第二项。
+            \begin{theorem}
+                如果随机变量$\xi$的各阶原点矩有限，那么对一切满足：
+                $$
+                \lim_n \frac{|t|^nE|\xi|^n}{n!}=0
+                $$
+                的$t$，$\xi$的特征函数$f(t)$有展开式：
+                $$
+                f(t)=\sum_{k=0}^\infty \frac{(it)^k}{k!}E(\xi^k)
+                $$
+            \end{theorem}
+            \begin{proof}
+                展开显然。
+            \end{proof}
+            \begin{theorem}\label{thm:f}
+                $\xi$的$k$阶原点矩有限，则其特征函数$k$阶可微。且有：
+                $$
+                f^{(k)}(t)=E[(i\xi)^ke^{it\xi}]
+                $$
+                特别的，有$f^{(k)}(0)=i^kE\xi^k$。
+            \end{theorem}
+            \begin{proof}
+                显然。。。。留做习题。
+            \end{proof}
+            \begin{proposition}
+                独立的随机变量之和的特征函数是他们各自特征函数的积。
+            \end{proposition}
+            \begin{proof}
+                运用独立的性质，并且$e^{it\xi}$是Borel函数立刻就可以得到答案。
+            \end{proof}
+            \begin{theorem}
+                设$\{\xi_k\}$为相互独立的随机变量序列，
+                它们有共同的特征函数$f_{\xi_0}(t)$。
+                如果$\eta$是另外一个非负整值随机变量，
+                与$\xi_k$均独立，特征函数$G(t)$。
+                那么$\xi=\sum_{k=1}^\eta \xi_k$的特征函数为：
+                $$
+                H(t)=G(f_{\xi_0}(s))
+                $$
+            \end{theorem}
+            \subsubsection{反演公式与唯一性定理}
+            先给出一个引理。这是一个数分的结论：
+            \begin{lemma}
+                $$
+                \lim_{c\to +\infty}
+                \int_0^c \frac{\sin ax}{x}dx=\frac{\pi}{2}\text{sgn}
+                |a|
+                $$
+            \end{lemma}
+            \begin{proof}
+                这是一个数分的结论。注意到换元$y=ax$，此时只要考虑我们常用的迪利克雷积分：
+                $$
+                \int_0^{+\infty}\frac{\sin x}{x}dx=\frac{\pi}{2}
+                $$
+                即可证明结果。
+            \end{proof}
+            这个公式给出了特征函数与分布函数的关系：
+            \begin{theorem}[反演公式]
+                $f(t)$是定义好的特征函数,$F(x)$是分布函数。那么：
+                $$
+                1/2[F(b+0)-F(b)]-1/2[F(a+0)-F(a)]=\lim_{c \to +\infty}
+                \frac{1}{2\pi}\int_{-c}^c\frac{e^{-ita}-e^{-itb}}{it}f(t)dt
+                $$
+            \end{theorem}
+            \begin{proof}
+                考虑式子的右边，把$f(t)$写为积分的形式。使用Fibini定理，交换积分
+                的次序，从而得到关于$t$的积分。此时由控制收敛定理，交换极限和积分的次序，
+                即可得到答案。
+            \end{proof}
+            \begin{theorem}[唯一性定理]
+                分布函数和特征函数是互相唯一决定的。
+            \end{theorem}
+            \begin{proof}
+                假设$F(x)$有连续点集合$C_F$。任一点$x \in C_F$，由反演公式可得
+                $F(b)$。现在考虑分布函数左连续性，即可得到所有的$F(x)$。
+                
+            \end{proof}
+            下面的定理也是分析性质的：
+            \begin{theorem}
+                如果特征函数$f(x)$的模可积，那么对应的分布函数$F(x)$为连续型，且密度函数为：
+                $$
+                p(x)=\frac{1}{2\pi}\int_{\R}e^{-itx}f(t)dt
+                $$
+            \end{theorem}
+            \begin{proof}
+                利用反演公式，取$b_n>a,b_n \to a$。即可得到$F(x)$是连续的。
+
+                再求导就行。
+            \end{proof}
+            以上的结果都可以在傅里叶分析的相关问题中得到答案。
+6            \subsubsection{多元特征函数}
+            \begin{definition}
+                称：
+                $$
+                f(t_1,t_2,\dots,t_n)=
+                \int \dots \int_{\R^n}e^{i(t_1x_1+\dots+t_nx_n)}
+                dF(x_1,\dots,x_n)
+                =E[e^{i(t_1\xi_1+\dots+t_n\xi_n)}]
+                $$
+                是一个多元函数的特征函数。
+            \end{definition}
+
+            这是$n$个实变量$t_1,\dots,t_n$的复值函数。有性质：
+            $$
+            |f(t_1,\dots,t_n)|\leq f(0,0,\dots,0)=1
+            $$
+            $$
+            f(-t_1,\dots,-t_n)=\overline{f(t_1,\dots,t_n)}
+            $$
+            类似于定理\ref{thm:f}，我们也有以下结论：
+            \begin{proposition}
+                若混合矩$E[\prod\xi_i^{k_i}]$有限，那么就可以用
+                其联合特征函数在原点的导数求矩：
+                $$
+                E(\prod\xi_i^{k_i}])=i^{-\sum_{j=1}^n k_j}\frac{\partial ^{k_1+\dots+k_n}f(0,0\dots,0)}{\partial t_1^{k_1}\dots t_n^{k_n}}
+                $$
+            \end{proposition}
+            
+            多元的特征函数也拥有反演公式。由于其复杂性，笔记中不再给出。读者可以在
+            一般的概率论教材中找到。这同样说明特征函数和分布函数是一一对应的。
+
+            我们指出，如果想求出子向量$(\xi_{s_1},\dots,\xi_{s_k})$的$k$维边缘
+            特征函数，我们只需要把原有的特征函数中不相关的变量$t_k$取为0.从其期望的结果来看，
+            结果就是如此。
+            \begin{theorem}
+               $\xi_1,\dots,\xi_n$独立的充分必要条件是他们的联合特征函数等于每个分量边缘特征函数
+               的积。
+               $$
+               f(t_1,t_2,\dots,t_n)=\prod_{k=1}^n f_k(t_k)
+               $$
+            \end{theorem}
+            \begin{proof}
+                如果独立，那么根据期望的可乘性质，即可得到：
+                $$
+                E[e^{i(t_1\xi_1+t_2\xi_2)}]=E[e^{it_1\xi}e^{it_2\xi_2}]
+                =E[e^{it_1\xi_1}]E[e^{it_2\xi_2}]
+                $$
+                如果可分，那么独立。证明留给读者。
+            \end{proof}
+            
+            \subsection{多元正态分布}
+            学习了特征函数后，我们将尝试使用其来分析多元正态分布。
+            这是强大的工具。
+            \subsubsection{密度函数与特征函数}
+            我们用列向量来记$n$维随机变量$\vec{\xi}$和
+            其可能值$\vec{x}$
+            \begin{theorem}
+                设
+                $$
+                \vec{a}=
+                \begin{pmatrix}
+                    a_1\\
+                    \dots\\
+                    a_n
+                \end{pmatrix}
+                B=
+                \begin{pmatrix}
+                    b_{11}&\dots&b_{1n}\\
+                    \dots & &\dots\\
+                    b_{n1}&\dots&b_{nn}\\
+                \end{pmatrix}
+                $$
+                其中$B$是正定矩阵。那么
+                $$
+                p(\vec{x})=\frac{1}{(2\pi)^{n/2}|B|^{1/2}}exp\{-1/2(\vec{x}-\vec{a})^T
+                B^{-1}(\vec{x}-\vec{a})\}
+                $$
+                满足$p(\vec{x})>0$，并且积分为1.从而其给出了一个连续型分布的密度函数，称为$n$维正态分布，记为$N(\vec{a},B)$。
+            \end{theorem}
+            \begin{proof}
+                只需要根据$B$是正定矩阵，然后换元$\vec{y}=L^{-1}(\vec{x}-\vec{a})$即可得到答案（$B=LL^T$）。
+            \end{proof}
+            \begin{theorem}
+                $n$维正态分布的特征函数为：
+                $$
+                f(\vec{t})=exp\{i\vec{a}^T\vec{t}- \frac{1}{2} \vec{t}^T B\vec{t}\}                
+                $$
+
+            \end{theorem}
+            \begin{proof}
+                实在是没有什么技术含量，直接计算就可以了（？）
+            \end{proof}
+            我们注意到在特征函数中，并不需要$B$是正定的。只需要其是半正定的。事实上，根据特征函数
+            与分布函数一一对应的性质（未证明），我们可以推断，对于非正定的$B$，也会有一个特征函数，从而对应
+            一个正态分布。
+
+            事实上，如果$|B|=0$，
+            那么意味着正态分布发生了退化。比如一维退化为单点分布等。
+
+            \subsubsection{正态分布的性质}
+            由于正态分布的性质完全是由其协方差阵和期望所刻画的。从而
+            我们可以猜想到，如果特征函数能保证期望，协方差阵有很好的（如线性）性质，那么这个
+            ，那么直接就会有正态分布的线性性质。
+
+            \begin{theorem}
+                设$\vec{\xi}$是多元正态分布，那么其子向量也是一个正态分布。其中，
+                期望和协方差阵都是对应的子向量和子矩阵。
+            \end{theorem}
+            \begin{proof}
+                根据之前的证明，直接让不相关变量取零，得到子向量的特征函数。其形式仍是正态分布。
+            \end{proof}
+            下面的性质与$n=2$时完全一致。不如说是，我们从$n=2$的协方差阵和期望
+            导出了正态分布的
+            密度函数。当$n$一般化的时候，这个结论仍然成立。
+            \begin{theorem}
+                \quad
+
+                $a_k=E(\xi_k)$
+
+                $b_{jk}=cov(\xi_j,\xi_k)$
+            \end{theorem} 
+            \begin{proof}
+                第一个根据上面的定理显然。第二个，根据矩的性质，可以计算$E(\xi_j\xi_k)=b_{jk}+a_ja_k$。从而根据协方差：
+                $$
+                cov(\xi_j,\xi_k)=E(\xi_j\xi_k)-E(\xi_j)E(\xi_k)=b_{jk}                $$
+            \end{proof}  
+            之前我们也提到，正态分布的变量独立与不相关等价。$n$元情况是一样的。
+            \begin{theorem}
+                正态分布的各分量相互独立，等价于他们互不相关。
+            \end{theorem}  
+            \begin{proof}
+                如果互不相关，那么可以计算特征函数，发现其正好为各自特征函数的乘积。
+            \end{proof}
+            注意，实际上这里还有，正态分布的变量相互独立，等价于它们两两独立。这是一个很好的结论。
+
+            \textbf{上面的结论对分量形式也成立。即如果$B$是一个准对角矩阵，那么按照对角形式所产生的两个子向量，独立。}
+            
+            两个向量独立，当且仅当各取他们之中的两个分量都独立。
+            \subsubsection{线性变换}
+            类似于ode中，我们对多元微分方程，要使用矩阵和线性变换理论研究一样，我们也研究正态分布的线性变换。
+            \begin{theorem}
+                $\vec{\eta}=C\vec{\xi}$也是正态分布，其中$C$是一个$m\times n$矩阵。
+                如果$\vec{\xi}$是正态分布。并且：
+                $$
+                \xi \thicksim N(\vec{a},B) 
+                $$
+                $$
+                \eta \thicksim N(C\vec{a},CBC^T)
+                $$
+                我们
+                总可以通过正交变换，把一个半正定矩阵变换为一个对角矩阵。于是
+                这时候我们就得到了一个各分量独立的正态分布。
+            \end{theorem}
+            下面的这个定理很重要。给出了正态分布和一维正态分布之间的关系：
+            \begin{theorem}
+                $\vec{\xi}$是正态分布$N(\vec{a},B)$，当且仅当对任何的
+                $n$维向量$\vec{s}$，有$\vec{\eta}=\vec{s}^T\vec{\xi}$满足
+                $N(\vec{s}^T\vec{a},\vec{s}^TB\vec{s})$.
+            \end{theorem}
+            证明就留做习题。
+                                     
+            注意!如果只是$n$个分量都是正态分布，是不能得出其为正态分布的。必须是分量的任一线性组合均服从一维正态分布，
+            才能有整个变量满足正态分布。
+
+            在上述定理中，对于一维正态分布并不需要规定相应的形式。即下面加强的定理：
+            \begin{theorem}
+                $\vec{\xi}$是正态分布$N(\vec{a},B)$，当且仅当对任何的
+                $n$维向量$\vec{s}$，有$\vec{\eta}=\vec{s}^T\vec{\xi}$也是一维正态
+                分布
+            \end{theorem}
+
+            那什么时候，分量是正态分布$\Rightarrow$正态分布呢？
+            \begin{theorem}
+                若$\xi_1,\xi_2$是正态分布，那么当$\xi_1,\xi_2$独立的时候，两个分量的
+                联合分布函数也是正态分布，$\xi_1+\xi_2$也是正态分布。
+            \end{theorem}
+            \begin{proof}
+                $$
+                E(e^{i(t_1\xi_1+t_2\xi_2)})=E(e^{it_1\xi_1})E(e^{it_2\xi_2})
+                $$
+                $$
+                E(e^{it(\xi_1+\xi_2)})=E(e^{it\xi_1})E(e^{it\xi_2})
+                $$
+            \end{proof}
+            \begin{example}[分量为正态分布，联合不一定正态，和也不一定正态]
+                \quad
+
+                我们假设随机变量$\xi,\eta$独立，均满足$N(0,1)$。
+
+                令$\zeta=|\eta|,\xi >0;-|\eta|,\xi<0$。
+
+                那么有：$\zeta \thicksim N(0,1)$：
+                
+                当$x>0$，
+                $$
+                P(\zeta <x)=\frac{1}{2}P(|\eta|<x)
+                +\frac{1}{2}P(-|\eta|<x)=
+                \frac{1}{2}(\Phi(x)-\Phi(-x))=\Phi(x)
+                $$  
+                同理也可以计算$P(\zeta<x)=\Phi(x),x <0$
+
+                但是我们断言，$(\eta,\zeta)$的联合分布不是正态分布,和也不是。只需要看如下的等式就够了：
+                $$
+                P(\eta+\zeta=0)=\frac{1}{2}P(\eta+|\eta|=0)+\frac{1}{2}P(\eta-|\eta|=0)=\frac{1}{2}
+                $$
+            \end{example}
+            \section{极限定理}
+            \subsection{随机变量列的收敛性}
+            \begin{definition}
+                称$\xi_n$依概率收敛到$\xi$，如果对于任何的$\epsilon>0$，有：
+                $$
+                \lim_{n\to +\infty}P(|\xi_n-\xi|\geq \epsilon)=0
+                $$
+                
+                记为$\xi_n \stackrel{P}{\longrightarrow} \xi$
+            \end{definition}
+            \begin{proposition}
+                \begin{enumerate}
+                    \item 同一随机变量列概率测度收敛于不同的随机变量
+                    ，那么这两个随机变量几乎相同。
+                    \item  
+                    $$
+                    \xi_n \stackrel{P}{\longrightarrow}\xi,\eta_n \stackrel{P}{\longrightarrow} \eta
+                    $$
+                    那么有线性可加性质：
+                    $$
+                    a\xi_n+b\eta_n \stackrel{P}{\longrightarrow} a\xi+b\eta
+                    $$
+                    \item 连续函数作用后，测度收敛依然保持。
+                    $$
+                    \xi_n \stackrel{P}{\longrightarrow}\xi \Rightarrow f(\xi_n) \stackrel{P}{\longrightarrow}f(\xi)
+                    $$
+                    \item 随机变量列对应相乘后仍然概率收敛。
+                    $$
+                    \xi_n\eta_n \stackrel{P}{\longrightarrow} \xi\eta
+                    $$
+                \end{enumerate}
+
+            \end{proposition}
+            \begin{definition}
+             称$\xi_n$几乎必然收敛到$\xi$，若只在零概率测度下$\xi_n \to \xi$不成立。
+            \end{definition}
+            \begin{proposition}
+                几乎必然收敛的充分必要条件为：
+                $$
+                \lim_{k \to +\infty} P\{\bigcup_{n=k}^{\infty}[|\xi_n-\xi|\geq \epsilon]\}=0
+                $$
+            \end{proposition}
+            \begin{proof}
+                
+            \end{proof}
+            \begin{definition}
+                设$r>0$为常数，若随机变量$\xi$与$\xi_n$的$r$阶矩阵
+                都有限，并且：
+                $$
+                \lim_n E|\xi_n-\xi|^r =0
+                $$
+                则称$\xi_n$为$r$阶平均收敛到$\xi$：
+                $$
+                \xi_n \stackrel{L_r}{\longrightarrow} \xi
+                $$
+            \end{definition}
+            \begin{theorem}[Markov不等式]
+               设随机变量$\xi$的$r$阶矩有限，则对与$\epsilon>0$：
+               $$
+               P(|\xi|\geq \epsilon)\leq \frac{E|\xi|^r}{\epsilon^r}
+               $$
+            \end{theorem}
+            \subsection{弱收敛}
+            \begin{definition}
+                $F_n(x)$与$F(x)$均为实函数。若对于$\forall x \in C_F$均有：
+                $$
+                \lim_{n}F_n(x)=F(x)
+                $$
+                则称$\{F_n\}$弱收敛到
+                $F$:$F_n \stackrel{W}{\longrightarrow}F$
+            \end{definition}
+            
+            任何函数列都弱收敛于一个处处不连续的函数。由此可见弱收敛的极限是不唯一的。
+
+            \begin{definition}
+                若$\xi_n$与$\xi$对应的分布函数$F_n(x)$与$F(x)$,有$F_n(x)$弱收敛
+                到$F(x)$，则称随机变量$\{\xi_n\}$依分布收敛到$\xi$，
+                记作$\xi_n \stackrel{W}{\longrightarrow} \xi$.
+            \end{definition}
+
+            由于分布函数的不连续点是至多可列的。
+            由左连续性，只需要在连续点的值给定，就能确定分布函数。于是极限唯一。
+            \begin{theorem}
+                $$
+                \xi_n \stackrel{P}{\longrightarrow}\xi \Rightarrow  \xi_n \stackrel{W}{\longrightarrow}\xi
+                $$
+            \end{theorem}
+            \begin{proof}
+                $P(\xi<y)=P(\xi<y,\xi_n<x)+P(\xi<y.\xi_n  \geq x)$
+            \end{proof}
+            弱收敛到底意味着什么？我们看下一个反例：
+            \begin{example}
+                依分布收敛不一定是依概率收敛。
+
+                取$\xi.\eta$同分布于$p=1/2$的伯努利分布。于是$\{\xi_n\}=\{\eta\}$
+                依分布收敛到$\xi$。但是显然不依概率收敛。
+
+            \end{example}
+            
+            从这个例子我们看出，依分布收敛只描述了分布函数之间的关系，但不能说明
+            随机变量之间取值的关系（即得不到联合分布）。从而依概率收敛是完全不能够保证的。
+
+            相反，依概率收敛给出了随机变量之间取值的关系，、
+            从而能够说明分布函数之间的关系。
+            \begin{theorem}
+                依分布收敛于一个常数的随机变量列，概率测度收敛于这个常数。
+            \end{theorem}
+            \begin{proof}
+                $P(|\xi_n-C| \geq \epsilon)=1-F_n(c+\epsilon)+F_n((C-\epsilon)+0)\to 1-F(c+\epsilon)+F(c-\epsilon)=0$
+            \end{proof}
+            下面的定理给出了弱收敛的充分条件：
+            \begin{theorem}
+                如果在$\R$的稠子集$D$上有：
+                $$
+                \lim F_n(x)=F(x) \quad ,x \in D
+                $$
+                则依分布收敛。
+            \end{theorem}
+            \begin{proof}
+                
+            \end{proof}
+            \subsection{连续性定理：大的要来了}
+            我们先给出：
+            \begin{theorem}
+                分布函数列弱收敛等价于相应的特征函数列逐点收敛。
+            \end{theorem}
+            这意味着特征函数的定义与反演公式所建立的某种关系是有某种连续性的。得到这个结果
+            的证明是分析的，可以参看傅里叶分析的教材。我们只简明扼要的给出一些结论和证明思路。
+            \begin{theorem}[Helly第一定理]
+            任何$\R$上的分布函数列都有一个弱收敛于某个有界非降且左连续函数的子序列。                
+            \end{theorem}
+            
+            不能断言得到的极限函数是一个分布函数。因为其不能保证值域是$[0,1]$.
+
+            \begin{theorem}[Helly第二定理]
+                分布函数列$\{F_n\}$弱收敛于分布函数$F(x)$,则对任何有界
+                连续函数$\varphi$，有：
+                $$
+                \int_\R \varphi dF_n \to \int_\R \varphi dF
+                $$
+                
+            \end{theorem}
+            \end{document}

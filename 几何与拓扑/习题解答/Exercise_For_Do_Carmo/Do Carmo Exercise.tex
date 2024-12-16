@@ -1,0 +1,1125 @@
+\documentclass[UTF8]{ctexart}[a4paper,12pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{quiver}
+\usepackage{mathrsfs}
+
+%声明环境
+\newtheorem{example}{例}[section]
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[subsection]
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+{
+    \theoremheaderfont{\sffamily}
+    \newtheorem*{remark}{注解}
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\cC{\mathcal{C}}
+\newcommand{\pa}[3][]{
+	\frac{\partial^{#1} #2}{\partial {#3}^{#1}}
+	}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+%极限余极限
+\makeatletter
+\newcommand{\Colim@}[2]{
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font lim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\Colim}{%
+  \mathop{\mathpalette\Colim@{\rightarrowfill@\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+\makeatletter
+\newcommand{\Lim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font lim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\Lim}{%
+  \mathop{\mathpalette\Lim@{\leftarrowfill@\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+
+\makeatletter
+\newcommand{\colim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font oli~$\hfil \cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\colim}{%
+  \mathop{\mathrm{c}\mathpalette\colim@{\rightarrowfill@\scriptscriptstyle}\mathrm{\!\!m}}\nmlimits@
+}
+\makeatother
+
+\makeatletter
+\newcommand{\cone@}[1]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font cone$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\cone}{%
+  \mathop{\mathpalette\cone@{\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+\numberwithin{equation}{section}
+
+
+\title{Do Carmo黎曼几何习题}
+\author{颜成子游}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{第一章}
+\section{第二章}
+1.设$c(t)$的切向量为$\dot{c}(t)$。根据平行移动可知:
+\begin{align}
+  \nabla_{\dot{c}(t)} P_{c,t_0,t}=0
+\end{align}
+等距性:
+\begin{align}
+  s(t)=\|P_{c,t_0,t}\|^2, \dot{s}(t)=0 \Rightarrow s(t)\equiv s(t_0)
+\end{align}
+保定向:
+
+设$e_i$是$t_0$处的一组单位正交定向基,则$P_{c,t_0,t}(e_i)$是一组$t$处的单位正交基。这两组基诱导的定向必须连续变化，于是$P$是保定向的映射。
+
+2.
+\begin{align}
+  \frac{d}{dt}P^{-1}_{c,t_0,t}(Y(c(t)))|_{t=t_0}=\lim_{t \to t_0}\frac{Y(c(t))-P_{c,t_0,t}(Y(p))}{t-t_0}=\nabla_X (Y-P_{c,t_0,t}Y)(p)=\nabla_X Y(p)
+\end{align}
+
+3.$\nabla$是联络是平凡的。我们需要说明这是黎曼联络。
+
+根据拉回，$M$的度量是$f^*g$.设$f_*X=\bar{X}$。（其他向量场也同理）。从而:
+\begin{align}
+  X\langle Y,Z\rangle=X\langle f_* Y,f_*Z\rangle=f_*(X) \langle f_* Y,f_*Z\rangle=\langle \bar{\nabla}_{\bar{X}}\bar{Y},\bar{Z}\rangle+\langle \bar{Y},\bar{\nabla}_{\bar{X}}\bar{Z}\rangle=\langle \nabla_X Y,Z\rangle+\langle Y,\nabla_X Z\rangle
+\end{align}
+
+4.(a)借鉴上题的思路。设$\nabla$是$M$上的联络,则$\nabla_V V=0$.于是$\R^3$上的平凡联络$D$满足:
+\begin{align}
+  D_V V \perp V
+\end{align}
+若上述公式成立,则$\nabla_V V=0$。所以$V$沿着曲线平行移动。
+
+(b)
+
+5.欧氏空间上平行移动与点无关。因为欧氏空间的联络是平凡的，从而对单位向量$e_i$求联络总是$0$.
+
+若不是欧氏空间，则可以举球面$S^2$的例子。从北极点平行移动到南极点，走不同经线得到的结果不同。
+
+6.
+
+7.
+
+8.(a)略。带入公式:
+\begin{align}
+  \Gamma_{ij}^k=\frac{1}{2}\sum_m \{\frac{\partial}{\partial x_i}g_{jm}+\frac{\partial}{\partial x_j}g_{im}-\frac{\partial}{\partial x_m}g_{ij}\}g^{km}
+\end{align}即可。
+
+(b)使用Christoffel记号计算平行移动的方程即可。
+
+9.(a)仿照Levi-Civita联络的证明即可。
+
+因为联络和伪黎曼度量是相容的，且联络是无挠的，我们仍然有:
+\begin{align}
+  X\langle Y,Z\rangle+Y\langle Z,X\rangle-Z\langle X,Y\rangle=\langle [X,Z],Y \rangle+\langle [Y,Z],X \rangle+\langle [X,Y],Z \rangle+2\langle Z,\nabla_Y X \rangle
+\end{align}
+因为$\langle\cdot,\cdot \rangle$仍然是非退化的,所以通过指定$\langle Z,\nabla_Y X\rangle$的值，我们仍然可以给出$\nabla$的唯一性和存在性。
+
+(b)设洛伦兹度量下的Levi-Civita联络是$\nabla$.平凡度量下的Levi-Civita联络是$D$.我们说明若$\nabla_X Y=0$与$D_X Y=0$等价。
+
+对于$\nabla$而言,带入式(7),不难发现$\nabla_{\frac{\partial}{\partial x_j}}\frac{\partial}{\partial x_i}=0,0\leq i,j \leq n$.所以$\nabla_{X^i \frac{\partial}{\partial x_i}}(Y^j \frac{\partial}{\partial x_j})=0$等价于：
+\begin{align}
+  X^i (\nabla_{\frac{\partial}{\partial x_i}}Y^j)\frac{\partial}{\partial x_j}=0
+\end{align}
+由于任何联络作用在函数上总是求李导数,所以上述方程可以直接替换为:
+\begin{align}
+  X^i (D_{\frac{\partial}{\partial x_i}}Y^j)\frac{\partial}{\partial x_j}=0
+\end{align}
+于是$D_X Y=0$与$\nabla_X Y=0$等价。
+\newpage
+\section{第三章}
+1.(Geodesic of a surface of revolution)
+
+(a)计算:
+\begin{align}
+  \langle \pa{v},\pa{u}\rangle=0, \langle \pa{v},\pa{v}\rangle=f'^2+g'^2,\langle \pa{u},\pa{u}\rangle=f^2
+\end{align}
+
+(b)设测地线$\gamma(t)$为$(u(t),v(t))$.则切向量为:
+\begin{align}
+  \dot{\gamma}(t)=u'(t)\pa{}{u}+v'(t)\pa{}{v}
+\end{align}
+显然需要先计算联络系数。我们有:
+\begin{align}
+  &\Gamma_{11}^1=0,\Gamma_{12}^1=\Gamma_{21}^1=\frac{f'}{f},\Gamma_{22}^1=0\\
+  &\Gamma_{11}^2=-\frac{ff'}{f'^2+g'^2},\Gamma_{12}^2=\Gamma_{21}^2=0,\Gamma_{22}^2=\frac{f'f''+g'g''}{f'^2+g'^2}
+\end{align}
+带入测地线方程:
+\begin{align}
+  &\frac{d^2u}{dt^2}+2\frac{f'}{f}\frac{du}{dt}\frac{dv}{dt}=0\\
+  &\frac{d^2v}{dt^2}-\frac{ff'}{(f')^2+(g')^2}(\frac{du}{dt})^2+\frac{f'f''+g'g''}{f'^2+g'^2}(\frac{dv}{dt})^2=0
+\end{align}
+
+(c)$|\gamma'(t)|^2=u'^2f^2+v'^2(f'^2+g'^2)$.对其求导:
+\begin{align}
+  \frac{d}{dt}|\gamma'(t)|^2&=2u'u''f^2+2u'^2ff'v'+2v''v'(f'^2+g'^2)+2v'^3(f''f'+g''g')\\&=2u'u''f^2+2u'^2ff'v'+2v'[ff'u'^2-(f'f''+g'g'')v'^2]+2v'^3(f''f'+g''g')\\&=2fu'(u''f+2u'v'f')=0
+\end{align}
+略去第二个有向角的计算。记录为:
+\begin{align}
+  r\cos \beta=\rm{const}
+\end{align}
+
+(d)我认为是一个错题。
+
+2.(定义切丛上的Riemann度量)
+
+(a)对于给出的度量表达式，良定义意为选择的曲线$p,v,q,w$并不影响计算的结果.其次，这是一个对称的正定二次型。
+
+对称的正定二次型是平凡的。因而我们只需要考虑良定义问题。观察表达式：
+\begin{align}
+  \langle V,W\rangle_{p,v}=\langle d\pi(V),d\pi(W)\rangle_p+\langle \frac{Dv}{dt}(0),\frac{Dw}{ds}(0)\rangle_p
+\end{align}
+
+显然第一项是自然良定的。对于第二项,注意到:
+\begin{align}
+  \frac{Dv}{dt}(0)=\nabla_{d\pi(V)} v(t),\frac{Dw}{ds}(0)=\nabla_{d\pi(W)} w(s)
+\end{align}
+我们需要说明$\nabla_{d\pi(V)} v(t)$是不依赖$v(t)$选取的向量。不妨根据联络的定义展开:
+\begin{align}
+  \nabla_{d\pi(V)} v(t)=((d\pi(V))^j\frac{\partial v^i}{\partial x^j}+\Gamma_{kj}^i(d\pi(V))^kY^j)\pa{x^i},\frac{\partial v^i}{\partial x^j}=V^{n+i}
+\end{align}
+于是该向量被$v$,$V$所表达，因而是良定义的。
+
+(b)纤维上$d\pi(W)=0$。因此$V$是水平向量等价于:
+\begin{align}
+  \langle \frac{Dv}{dt}(0),\frac{Dw}{ds}(0)\rangle\equiv0,\forall w(t)
+\end{align}
+因此$\frac{Dv}{dt}=\nabla_{\dot{p}(t)}v(t)=0$恒成立,即$v(t)$沿着$p(t)$平行移动。
+
+(c)设$v(t)$是测地向量场($M$上的)。这也可以写作$v:M \to TM$表。我们断言$v_*v(t)$是水平向量场。不妨设$v(t)$对应的测地线是$p(t)$。
+
+于是在$(p(t),v(t))$处,$\nabla_{\dot{p(t)}}v(t)=0$恒成立，从而$v_*v(t)$是水平向量场。
+
+(d)设$\bar{\alpha}(t)=(\alpha(t),v(t))$,其中$v(t)$是沿着$\alpha(t)$的向量场。则:
+\begin{align}
+  \|\dot{\bar{\alpha}}(t)\|^2=\|\dot{\alpha}(t)\|^2+\|\frac{Dv}{dt}\|^2 \geq \|\dot{\alpha}(t)\|^2
+\end{align}
+于是我们有:
+\begin{align}
+  l(\bar{\alpha})\geq l(\alpha)
+\end{align}
+若$\alpha(t)$是测地线且$v(t)$是$\alpha(t)$的切向量,我们有:
+\begin{align}
+  \|\dot{\bar{\alpha}}(t)\|^2=\|\dot{\alpha}(t)\|^2+\|\frac{Dv}{dt}\|^2 = \|\dot{\alpha}(t)\|^2+0= \|\dot{\alpha}(t)\|^2
+\end{align}
+于是$l(\alpha)=l(\bar{\alpha})$。
+
+现在考虑一个能使得测地线是最短线的凸邻域。于是$\bar{\alpha}$成为了所有$\bar{\gamma}(t)$中的最短线,因而是测地线。
+
+(e)因为$\dfrac{Dw}{dt}=0$($W$水平),所以第一个等式成立。
+
+如果$W$垂直,则$d\pi(W)=0$且$\dfrac{Dw}{dt}$退化为$W$.所以第二个等式成立。
+
+\quad
+
+3.设$G$是李群,$\mathcal{G}$是李代数.给定$X \in \mathcal{G}$,有积分曲线:
+\begin{align}
+  \varphi:(-\epsilon,+\epsilon) \to G,\varphi(0)=e,\varphi'(t)=X(\varphi(t))
+\end{align}
+
+(a)设$t_0\in (-\epsilon,\epsilon)$且$\varphi(t_0)=y$.根据左不变性,可以推出$t \mapsto y^{-1}\varphi(t)$是在$t_0$处经过$e$的$X$的积分曲线。
+
+事实上,该曲线的切向量场为$L_{*,y^{-1}}X=X$。因此根据积分曲线的唯一性可知$y^{-1}\varphi(t)=\varphi(t-t_0)$.即$\varphi(t_0)^{-1}\varphi(t)=\varphi(t-t_0)$.
+
+由于$t_0$是任意的,所以在$(-\epsilon,\epsilon)$上,我们有$\varphi(t+s)=\varphi(t)\varphi(s)$。用简单的微分方程知识可以推得$t$对于所有$\R$都有定义。
+
+(b)对于$Y \in \mathcal{G}$,需要证明$\nabla_Y Y=0$.
+
+考虑关系:
+\begin{align}
+  2\langle X,\nabla_Y Y\rangle=2Y\langle X,Y\rangle-X\langle Y,Y\rangle+2\langle Y,[X,Y]\rangle
+\end{align}
+因为$X,Y$是左不变的向量场,所以$\langle X,Y\rangle$和$\langle Y,Y\rangle$恒定。于是:
+\begin{align}
+  \langle X,\nabla_Y Y\rangle=\langle Y,[X,Y]\rangle
+\end{align}
+而度量是双不变的,于是:
+\begin{align}
+  \langle [U,X],Y \rangle=-\langle U,[V,X]\rangle
+\end{align}
+上述等式可以参考伴随表示$\rm{Ad}$和$\rm{ad}$之间的关系.
+
+所以$\langle Y,[X,Y]\rangle=0$恒成立。于是$\langle \nabla_Y Y,X\rangle=0$恒成立。于是$\nabla_Y Y=0$.
+
+4.
+
+(a)取满足定理3.7的$W$。对于任意点$p \in W$,有$\exp_p$是$W$上的微分同胚。于是任何点$q$都与$q$有测地线连接，即$W$可缩。
+
+(b)使用$W_p$即可。有限交的情况下用测地线的唯一性可以保证可缩。
+
+5.
+
+(a)设$V$是线性场且$V:\R^n \to \R^n$是矩阵。于是$V$的积分曲线:
+\begin{align}
+  \dot{x}(t)=Ax(t),x(t)=e^{tA}x(0) 
+\end{align}
+所以$\varphi(t_0,p)=e^{t_0A}p$.若这个线性变换是等距,则$e^{t_0A} \in O(n)$.即:
+\begin{align}
+  e^{t_0A}(e^{t_0A})^T=e^{t_0(A+A^T)}=\rm{Id} \Rightarrow A+A^T=0
+\end{align}
+
+(b)取$q=\exp_p(v)\neq p,v \in T_pM$.我们说明$\langle X_q,(d\exp_p)_q v\rangle=0$.
+
+取$q$处的$X$的积分曲线$\gamma(t)$,$\gamma(0)=q$.通过选择适当的$U$作为正规坐标系,我们可以假定$\gamma(t) \in U$且$X$在$U$上满足Killing场的定义。
+
+从而存在$v(t)\in T_pM$使得$\exp_p v(t)=\gamma(t)$,$v(0)=v$.
+
+于是$X_q=\dot{\gamma}(0)=\dot{\exp_pv}(0)$.因为$\exp_p$是微分同胚,于是$X_q=d(\exp_p)_q \dot{v}(0)$.
+
+而根据$X$是无穷小等距可知:
+\begin{align}
+  \|v(t)\| \equiv \mathrm{Const} \Rightarrow \langle v(t),\dot{v}(t)\rangle_p=0
+\end{align}
+
+(c)设$X$在$p$处生成的积分曲线是$\varphi_p$.我们断言$Y$在$f(p)$生成的积分曲线是$f \circ \varphi_p$.
+
+事实上:
+\begin{align}
+  \dot{f\circ\varphi_p}(t)=f_{*,\varphi(t)}(\dot{\varphi_p}(t))=f_{*,\varphi(t)}(X(\varphi(t)))=Y(f(\varphi(t)))
+\end{align}
+
+$f$是等距，意味着$\varphi$是等距与$f\circ \varphi$是等距是等价的。
+
+(d)(killing equation)
+$X$是killing field当且仅当对于任何向量场$Y,Z$,有:
+\begin{align}
+  \langle \nabla_Y X,Z\rangle+\langle \nabla_Z X,Y\rangle=0
+\end{align}
+
+我们说明上述结果。只需要对$X(p)\neq 0$的地方说明。设$U$是$p$处的一个正规坐标系,$S$是$U$的子流形,满足与$X_p$正交。$\dim S=n-1$.设$(x_1,\dots,x_{n-1})$给出$S$在$p$的坐标,$(x_1,\dots,x_{n-1},t)$给出$U$处的坐标,$\pa{t}=X_p$.
+
+同时设$X_i=\pa{}{x_i}$.我们得到:
+\begin{align}
+  \langle \nabla_{X_j}X,X_j\rangle+\langle \nabla_{X_i}X,X_j\rangle=X\langle X_i,X_j\rangle-\langle[X,X_i],X_j\rangle-\langle [X,X_j],X_i\rangle=\pa{t}\langle X_i,X_j\rangle
+\end{align}
+因为$X$是Killing场,而$X_i$沿着$X$的积分曲线移动时仍为$X_i$,从而:
+\begin{align}
+  g(X_i(0),X_j(0))=g(\varphi_\epsilon X_i,\varphi_\epsilon X_j)=g(X_i(p),X_j(p))
+\end{align}
+这意味着上述式子为$0$.
+
+反过来,若上述公式为$0$，则$g(X_i(0),X_j(0))=g(\varphi_\epsilon X_i,\varphi_\epsilon X_j)$.这意味着$g$在$X$的积分曲线上做拉回不变,因此$X$是Killing场。
+
+(e)在(d)题下已经显然。
+
+6.用$X$生成局部单参数变换群$\varphi_t$.则$\varphi_t(q)=0$.从而$\varphi_{t,*,q}$是$T_pM$上的线性映射。我们断言这个映射是$\mathrm{Id}$.
+
+实际上考虑:
+\begin{align}
+  0=(\nabla_Y X-\nabla_X Y)(q)=[Y,X](q)=\lim_{t\to 0}\frac{1}{t}[d\varphi_{t,*,q}-\mathrm{Id}](Y)=\frac{d}{dt}(\varphi_{t,*,q})|_{t=0}
+\end{align}
+并且$\varphi_{t,*,q}\circ \varphi_{s,*,q}=\varphi_{t+s,*,q}$。两边对$s$求导可得：
+\begin{align}
+  \varphi_{s,*,q} \circ \frac{d}{dt}(\varphi_{t,*,q})|_{t=0}=\frac{d}{dt}(\varphi_{t,*,q})|_{t=s}=0
+\end{align}
+于是$\varphi_{t,*,q}=\mathrm{Id}$.
+
+因为$\varphi_t$是等距,我们已经给出了其一个点处的值和微分,从而$\varphi_t$被唯一确定为$\mathrm{Id}$.
+
+\begin{lemma}
+  设$M$是完备黎曼流形,$f$是$M$的等距同构。则$f$被一个点$p$处的值和该处的微分唯一确定。
+\end{lemma}
+\begin{proof}
+  设$q\in M$.我们说明$f(q)$只有一种选择。
+
+  取连接$p,q$的测地线$\gamma$.于是存在$v \in T_pM$使得$q=\exp_p v$.我们断言:
+  \begin{align}
+    f(q)=f(\exp_p v)=\exp_{f(p)}(f_* v)
+  \end{align}
+  为了证明上述断言,我们说明曲线$\gamma(t)$:
+  \begin{align}
+    t \mapsto f(\exp_p(tv))
+  \end{align}
+  是从$f(p)$出发,以$f_*v$为测地线。
+
+  求$\gamma(t)$的切向量$\dot{\gamma}(t)$:
+  \begin{align}
+    \dot{\gamma}(t)=f_*(\dot{\exp_p(tv)})
+  \end{align}
+  于是:
+  \begin{align}
+    \nabla_{\dot{\gamma}(t)}\dot{\gamma(t)}=f_*(\nabla_{\dot{\exp_p(tv)}}\dot{\exp_p(tv)})=0
+  \end{align}
+  
+  上述第一个等式用到了$f_*$是等距。
+
+  所以$f(\exp_p(tv))=\exp_{f(p)}(tf_*(v))$.带入$t=1$可得结果。
+\end{proof}
+
+
+7.设$M$是$n$维黎曼流形,$p\in M$.证明存在$p$在$M$中的邻域$U$和$n$个向量场$E_1,\dots,E_n\in \Gamma(X)$在$U$上的每个点都正交，使得在$p$处:
+\begin{align}
+  \nabla_{E_i}E_j(p)=0
+\end{align}
+这样的一族$E_i$被称为$p$处的局部测地标架。
+
+\textbf{解答}:取$e_1,\dots,e_n$作为$p$处的一组单位正交基。取$U$是$p$处的一个正规坐标系，定义$E_i(\exp_p w)$是$e_i$沿着$\exp_p(tw)$平行移动得到的向量。
+
+容易验证$E_i$正交。另外,$\nabla_{E_i}E_j(p)=\nabla_{e_i}E_j(p)=0$。因为$e_j$沿着$\exp_p(te_i)$平行移动。
+
+
+8.定义向量场$X$的散度是函数$\mathrm{div}X:M \to \R$,在$p$处的值是线性映射$Y(p) \mapsto \nabla_{Y}X(p)$的迹。函数$f$的梯度则是$df$在度量下的对偶向量场。
+
+设$E_i$是测地标架。
+  
+(a)证明$\mathrm{div}X(p)=\sum_{i=1}^n E_i(f_i)(p)$,其中$X=\sum_i f_i E_i$.
+
+(b)验证上式和$M=\R^n$时在数学分析中定义的表达式相同。
+
+\textbf{解答}:
+
+(a)
+\begin{align}
+  \nabla_{E_i}(f^j E_j)=\nabla_{E_i}(f^j)E_j=E_i(f_j)E_j
+\end{align}
+于是该映射的迹是$\sum_i E_i(f_i)(p)$。
+
+(b)平凡。
+
+9.定义Laplacian算子$\Delta$为:
+\begin{align}
+  \Delta(f)=\mathrm{div}\mathrm{grad}f,f \in C^\infty(M)
+\end{align}
+
+\textbf{解答}:
+
+(a)
+\begin{align}
+  \Delta(f)=\sum_i E_i(E_i)(p)
+\end{align}
+
+(b)
+\begin{align}
+  \Delta(fg)=\sum_i E_iE_i(fg)=\sum_i E_i(fE_ig+E_ifg)=2\sum_i E_ifE_ig+\sum_i E_iE_ifg+\sum_i fE_iE_ig
+\end{align}
+
+10.计算:
+\begin{align}
+  \frac{d}{ds}\langle \frac{\partial f}{\partial s},\frac{\partial f}{\partial t}\rangle&=\langle \frac{D}{ds}\frac{\partial f}{\partial s},\frac{\partial f}{\partial t}\rangle+\langle \frac{\partial f}{\partial s},\frac{D}{\partial t}\frac{\partial f}{\partial s}\rangle\\&=\frac{1}{2}\frac{d}{dt}\langle\frac{\partial f}{\partial s},\frac{\partial f}{\partial s}\rangle=0
+\end{align}
+
+11.对于可定向黎曼流形$\nu$，证明:
+\begin{align}
+  d(i_X \nu)=\mathrm{div}X \nu
+\end{align}
+其中$\nu$是$M$的体积形式。
+
+\textbf{解答}:取$p \in M$和$E_i$作为测地标架。设$X=X^iE_i$.设$\omega^i \in \Omega^1(U)$满足$\omega^i(E_j)=\delta_{ij}$.
+
+则$\omega^1\wedge \dots \omega^n$是$M$上的体积形式。于是$i_X \nu=\sum_i(-1)^{i-1}X^i \theta_i$。其中$\theta_i$是缺少$\omega^i$的$n-1$形式。
+\begin{align}
+  d(i_X\nu)&=\sum_i (-1)^{i-1}dX^i \wedge \theta_i+\sum_i (-1)^{i-1}X^i \wedge d\theta_i\\&=\sum_i E_i(X^i)\nu+\sum_i (-1)^{i-1}X^i \wedge d\theta_i
+\end{align}
+
+但是在$p$处$d\theta_i=0$.这是因为:
+\begin{align}
+  d\omega^k(E_i,E_j)=\omega^k(\nabla_{E_i} E_j-\nabla_{E_j}E_i)=0
+\end{align}
+再根据$p$的任意性,可知上述方程成立哦。
+
+12.(E.Hopf定理)
+
+对$\Delta f \nu$给出的$n$形式积分。设$X=\mathrm{grad}f$（因为是紧流形）。
+\begin{align}
+  \int_M \Delta(f)\nu=\int_M \mathrm{div}X \nu=\int_M d(i(X)\nu)=\int_{\partial  M}i(X)\nu=0
+\end{align}
+因为$\nabla f\geq 0$,所以上式给出$\nabla f=0$.
+
+接着对$\nabla(f^2/2)$积分:
+\begin{align}
+  \int_M \nabla(f^2/2)\nu=\int_M 2\|\mathrm{grad}f\|^2\nu
+\end{align}
+对上式使用Stokes公式，可以得到$\mathrm{grad}f=0$.
+
+所以$f$是常数。
+
+13.
+\begin{align}
+  \mathrm{div}X\nu=d(i_X \nu)=dg \wedge dx_2 \wedge \dots dx_n=\frac{1}{g}\frac{\partial g}{\partial t}\nu
+\end{align}
+
+14.(Liouville定理)
+
+选取$p \in M$。我们只需要说明任意$p$以及经过$p$的测地线$\gamma$都有$\mathrm{div}G(p,\dot{\gamma}(p))=0$.
+
+为此,选取$p$周围的测地坐标系。给定$T_pM$处的单位正交基$e_1,\dots,e_n$,用$q=\exp_p(\sum_i u_ie_i)$中的$(u_1,\dots,u_n)$表示$q$的坐标。
+
+在这样的坐标下,我们有:
+\begin{align}
+  \Gamma_{ij}^k(p)=0
+\end{align}
+这是因为经过$p$的测地线由线性方程给出。（或者观察测地线微分方程）。
+
+现在设$(u_i)$是$p\in U \subset M$周围的正规坐标系。设$(u_i,v_j)$是$TM$上的坐标。我们断言$TM$上的在$(q,v)$处的体积形式同构于是$U\times U$在$(q,q)$上的体积形式。
+
+实际上根据第二题e问的垂直水平向量可知，选取$TM$上垂直的$n$个正交向量即可。
+
+由于$G$是测地的,从而$G$是水平的向量场。而散度可以只依照体积形式来计算，从而我们可以在乘积度量下计算$\mathrm{div}G$。让$G$作用在函数$u^i,v^i$上:
+\begin{align}
+  G(u_i)=v_i G(v_j)=-\sum_{ik}\Gamma_{ik}^j v_iv_k \quad \text{第二个等式来自于} G \text{是测地线}
+\end{align}
+
+最终我们有:
+\begin{align}
+  \mathrm{div}G=\sum_i \frac{\partial v_i}{\partial u_i}-\sum_j \pa{v_j}(\sum_{ik}\Gamma_{ik}^j v_iv_k)=0 \text{$\quad u_i,v_i$是$TM$在$(p,p)$处的单位正交基.Christoffel记号在$(p,p)$处退化。}
+\end{align}
+\newpage
+\section{第四章}
+1.(双不变度量的李群)
+
+(1)设$X=W+Z$,$Y=W-Z$。则:
+\begin{align}
+  \nabla_X Y&=\nabla_{W+Z}(W-Z)=\nabla_W(-Z)+\nabla_Z W \\
+  \nabla_Y Z&=\nabla_{W-Z}(W+Z)=\nabla_W Z+\nabla_{-Z}W
+\end{align}
+因此$\nabla_XY=\nabla_YX$。根据无挠性:
+\begin{align}
+  \nabla_XY =\frac{1}{2}[X,Y]
+\end{align}
+
+(2)\begin{align}
+  R(X,Y)Z=\frac{1}{4}([X,[Y,Z]]-[Y,[X,Z]])-\frac{1}{2}([[X,Y],Z])=\frac{1}{4}[[X,Y],Z]
+\end{align}
+
+(c)\begin{align}
+  K(\sigma)=\frac{\langle R(X,Y)X,Y\rangle}{|X|^2|Y|^2}=\frac{1}{4}\frac{\langle [[X,Y],X],Y\rangle}{|X|^2|Y|^2}=\frac{1}{4}\|[X,Y]\|^2
+\end{align}
+
+2.$X$是Killing场。
+
+(a)对$f$求导,作用$Z$向量场。
+\begin{align}
+  2\langle \nabla_Z X,X\rangle(p)=Z\langle X,X\rangle(p)=(df,Z)(p)=0
+\end{align}
+
+(b)
+设$S$为:
+\begin{align}
+  S=\frac{1}{2}ZZ\langle X,X\rangle+\langle R(X,Z)X,Z\rangle
+\end{align}
+根据Killing方程,我们有:
+\begin{align}
+  \langle \nabla_X X,Z\rangle+\langle \nabla_Z X,X\rangle=0
+\end{align}
+从而可以把$S$写为:
+\begin{align}
+  S&=Z\langle \nabla_Z X,X\rangle-\langle \nabla_X \nabla_Z X,Z\rangle+\langle \nabla_Z \nabla_X X,Z\rangle+\langle \nabla_{[X,Z]}X,Z\rangle\\&=-\langle \nabla_X X,\nabla_Z Z\rangle-\langle \nabla_X \nabla_Z X,Z\rangle+\langle \nabla_{[X,Z]}X,Z\rangle\\&=-\langle \nabla_X X,\nabla_Z Z\rangle-X\langle \nabla_Z X,Z\rangle+\langle \nabla_Z X,\nabla_X Z\rangle+\langle \nabla_{[X,Z]}X,Z\rangle\\&=-\langle \nabla_X X,\nabla_Z Z\rangle+\langle \nabla_Z X,\nabla_X Z\rangle+\langle \nabla_{[X,Z]}X,Z\rangle\\&=-\langle \nabla_X X,\nabla_Z Z\rangle+\langle \nabla_Z X,\nabla_Z X\rangle+\langle \nabla_Z X,[X,Z]\rangle-\langle \nabla_Z X,[X,Z]\rangle\\&=-\langle \nabla_X X,\nabla_Z Z\rangle+\langle \nabla_Z X,\nabla_Z X\rangle
+\end{align}
+带入$p$且根据$\nabla_X X(p)=0$可得结果。
+
+3.命题:设$M$是紧致偶数维黎曼流形且截面曲率恒正。则$M$上的Killing场总有$0$点。
+
+解答：设$f:M  \to \R$是函数$f(q)=\langle X,X\rangle(q)$.因为$M$是紧流形,从而$f(q)$有最小值$p$.在该点处$df=0$。假设$X(p)\neq 0$.
+
+定义线性映射$A:T_p M \to T_pM$.其中$A(y)=\nabla_Y X(p)$,其中$Y$是$y$在该处的extension。显然$A(y)$与$Y$的选取无关。
+
+因为$X(p)\neq 0$,所以存在$E$作为$T_p M$的子空间正交于$X(p)$。把$A$限制在$E$上,我们断言这是$E$的一个线性变换(a)。设$\tilde{A}$是$E\times E \to \R$的双线性函数:$\tilde{A}(v,w)=\langle Av,w\rangle$.我们同时断言$\tilde{A}$非退化且反对称。(b)
+
+根据两个断言，$E$的维数必须是偶数。然而$M$的维数也是偶数,这产生了矛盾！因此$X(p)=0$.
+
+先证明断言(a)。首先说明$A(E)\subset E$.事实上,设$y \in E$,则$\langle \nabla_Y X,X\rangle(p)=\dfrac{1}{2}Y\langle X,X\rangle=0$.因此$A(y)\in E$.
+
+再证明断言(b)。选取$E$的基$\{e_2,\dots,e_n\}$.令$E_i$是$e_i$的一个延拓。于是$\langle A(e_i),e_j\rangle=\langle \nabla_{E_i}X,E_j\rangle(p)=-\langle \nabla_{E_j}X,E_i\rangle(p)$.最后一个等号来源于Killing方程。于是$\tilde{A}$是反对称的双线性函数。
+
+为了说明$\tilde{A}$非退化,假设$A(y)=0$且$y\neq 0$.从而:
+\begin{align}
+  0=\langle A(y),A(y)\rangle=\langle \nabla_Y X,\nabla_Y X\rangle=\frac{1}{2}y(Y\langle X,X\rangle)+\langle R(X,Y)X,Y\rangle
+\end{align}
+因为$p$处$f(p)$给出最小值,从而$y(Y(f))$在$p$处必须非负.而截面曲率大于$0$,因此等式右边大于$0$。这产生了矛盾！因而$y=0$,于是$A$是同构。
+
+4.第4题是一个非常好的结论。
+\begin{proposition}
+  设$M$是黎曼流形且满足性质:给定$p,q\in M$,从$p$到$q$的平行移动与连接$p,q$的道路的选取无关。则$M$是曲率算子是$0$,换句话说,$\forall X,Y,Z \in \Gamma(M),R(X,Y)Z=0$.
+\end{proposition}
+\begin{proof}
+  考虑参数化曲面$f:U\subset \R^2 \to M$:
+  \begin{align}
+    U=\{(s,t)\in \R^2;-\epsilon<t+1+\epsilon,-\epsilon<s<1+\epsilon,\epsilon>0\}
+  \end{align}
+  且$f(s,0)=f(0,0),\forall s$.设$V_0\in T_{f(0,0)}(M)$且定义沿着$f$的向量场$V$满足$V(s,0)$是沿着$s \mapsto f(s,0)$得到的向量,$V(s,t)$是$V(s,0)$沿着曲线$t\mapsto f(s,t)$平行移动得到的向量。从而:
+  \begin{align}
+    \frac{D}{\partial s}\frac{D}{\partial t}V=0=\frac{D}{\partial t}\frac{D}{\partial s}V+R(\pa{f}{t},\pa{f}{s})V
+  \end{align}
+  另一方面,因为$M$上的平行移动与选取的曲线无关,因此$V(s,1)$可以看作$V(s,0)$移动的结果,也可以看作$V(0,1)$沿着曲线$s \mapsto f(s,1)$移动的结果。所以:
+  \begin{align}
+    \frac{D}{\partial s}V(s,1)=0
+  \end{align}
+  因此:
+  \begin{align}
+    R_{f(0,1)}(\pa{f}{t}(0,1),\pa{f}{s}(0,1))V(0,1)=0
+  \end{align}
+
+  然而$f(0,1)$,$V_0$是我们随意指定的,$f$也是随意给出的,因而$R=0$恒成立。
+\end{proof}
+
+5.\begin{proposition}
+  设$\gamma:[0,l]\to M$是测地线且$X$是$M$上的向量场,满足$X(\gamma(0))=0$.则:
+  \begin{align}
+    \nabla_{\gamma'}(R(\gamma',X)\gamma')(0)=(R(\gamma',X')\gamma')(0)
+  \end{align}
+  其中$X'=\frac{DX}{dt}$.换句话说,求导穿进了曲率算子。
+\end{proposition}
+\begin{proof}
+  考虑(0,4)型的算子$R$。对于任意的向量场$Z$,在$t=0$时:
+  \begin{align}
+    (\nabla_{\gamma'}R)(\gamma',X,\gamma',Z)&=\frac{\dd}{\dd t}\langle R(\gamma',X)\gamma',Z\rangle-\langle R(\gamma',X')\gamma',Z\rangle-\langle R(\gamma',X)\gamma',Z'\rangle\\&=\langle \nabla_{\gamma'}(R(\gamma',X)\gamma'),Z\rangle-\langle R(\gamma',X')\gamma',Z\rangle
+  \end{align}
+  事实上,上式左边是$0$.因为$X(\gamma(0))=0$,从而(0,4)张量$\nabla_{\gamma'}R$在$t=0$时为$0$.
+\end{proof}
+
+\text{6.}(a)\begin{proposition}[局部对称空间]
+  设$M$是黎曼流形。称$M$是局部对称空间,若$\nabla R=0$.其中$R$是$M$的曲率张量。设$\gamma:[0,l]\to M$是$M$的测地线,且$X,Y,Z$是沿着$\gamma$平行移动的向量场。则$R(X,Y)Z$也是沿着$\gamma$平行移动的向量场。
+\end{proposition}
+\begin{proof}
+  \begin{align}
+    0=(\nabla_{\gamma'}R)(X,Y,Z,W)=\gamma'(R(X,Y,Z,W))-R(X,Y,Z,\nabla_{\gamma'}W)
+  \end{align}
+  于是:
+  \begin{align}
+    \gamma'\langle R(X,Y)Z,W\rangle=\langle R(X,Y)Z,\nabla_\gamma' W\rangle
+  \end{align}
+  根据联络适配度量性,可知:
+  \begin{align}
+    \langle \nabla_\gamma'R(X,Y)Z,W\rangle=0
+  \end{align}
+  总成立。
+\end{proof}
+
+(b)\begin{proposition}
+  若$M$是$2$维的局部对称空间,连通。则$M$有常截面曲率。
+\end{proposition}
+\begin{proof}
+  根据连通,我们只需要说明任何点$p \in M$都存在$p \in U$使得其上的截面曲率为常数。因为是2维的流形,所以实际上是$T_p M$的曲率。
+
+  考虑在上一章习题给出的正规坐标系。取$E_1,E_2$是对应的标架。则$E_i(\exp_p v)$是$E_i(p)$沿着曲线$t \mapsto \exp_p(tv)$平行移动到$\exp_p(v)$的向量。显然$E_1,E_2$总是标准正交基。
+
+  于是$K(\exp v)=R(E_1,E_2,E_1,E_2)$。根据上个命题的结果,该值沿着曲线$t \mapsto \exp_p(tv)$不变,因而在整个测地坐标系上$R$是恒定的。
+\end{proof}
+
+(c)\begin{proposition}
+  若$M$有常截面曲率,则$M$是局部的对称空间。
+\end{proposition}
+\begin{proof}
+  常曲率空间中可以计算:
+  \begin{align}
+    \langle R(X,Y)Z,W\rangle=K_0(\langle X,W\rangle\la Y,Z\ra-\la Y,W\ra \la X,Z\ra)
+  \end{align}
+  对其求$\nabla$可得结果。
+\end{proof}
+
+\textbf{7.}\begin{proposition}[第二Bianchi不等式]
+  \begin{align}
+  (\nabla R)(X,Y,Z,W,T)+(\nabla R)(X,Y,W,T,Z)+(\nabla R)(X,Y,T,Z,W)=0
+  \end{align}
+\end{proposition}
+略。这个恒等式的证明很经典的。
+
+\textbf{8.}\begin{theorem}[Schur定理]
+  若$M$是$n$维黎曼流形且$n\geq 3$.设$M$是各向同性的,即$K(p,\sigma)$并不依赖于$\sigma\subset T_pM$.则$M$有着常截面曲率。
+\end{theorem}
+\begin{proof}
+  定义:
+  \begin{align*}
+    R'(W,Z,X,Y)=\la W,X\ra\la Z,Y\ra-\la Z,X\ra\la W,Y\ra
+  \end{align*}
+  如果截面曲率不依赖于该点处平面的选取,则我们有:
+  \begin{align}
+    R=KR'
+  \end{align}
+  对$R$求联络:
+  \begin{align}
+    \nabla_U R=(UK)R'
+  \end{align}
+  根据第二Bianchi恒等式：
+  \begin{align*}
+    0=(UK)(\la W,X\ra\la Z,Y\ra-\la Z,X\ra\la W,Y\ra)+(XK)(\la W,Y\ra\la Z,U\ra-\la Z,Y\ra\la W,U\ra)+\\(YK)(\la W,U\ra\la Z,X\ra-\la Z,U\ra\la W,X\ra)
+  \end{align*}
+  选取固定的$p\in M$和$X$在$p$的值。因为$n\geq 3$，则存在$Y,Z$使得$\langle X,Y\ra=\la Y,Z\ra+\la Z,X\ra=0$且$\la Z,Z\ra=1$.
+
+  把$U$带入为$Z$,则:
+  \begin{align*}
+    \la (XK)Y-(YK)X,W\ra=0
+  \end{align*}
+
+  因而$(XK)Y-(YK)X=0$.从而$XK=0$恒成立,于是$K$是常数。
+\end{proof}
+
+\textbf{9.}
+\begin{proposition}
+  常数曲率$K(p)$可以用公式:
+  \begin{align*}
+    K(p)=\frac{1}{\omega_{n-1}}\int_{S^{n-1}}\mathrm{Ric}_p(x)dS^{n-1}
+  \end{align*}
+  计算。其中$\omega_{n-1}$是$S^{n-1}$的面积,$\dd S^{n-1}$是$S^{n-1}$的体积元。
+\end{proposition}
+\begin{proof}
+  提示已经做完了。
+\end{proof}
+\textbf{10.}
+\begin{proposition}
+  若$M^n$是连通的Einstein流形,则Einstein数是常数。若$M^3$是连通的Einstein流形则$M^3$的截面曲率恒定。
+\end{proposition}
+提示也做完了。第二个命题直接带入正交基$e_1,e_2,e_3$就得到三个方程。
+\newpage
+\section{第五章}
+\begin{proposition}
+  设$M$是黎曼流形且截面曲率是$0$.则任意$p \in M$,映射$\exp_p:B_{\epsilon}(0)\subset T_p M\to B_{\epsilon}(p)$是等距同构。其中$B_{\epsilon}(p)$是在$p$处的正规球。
+\end{proposition}
+\begin{proof}
+  设$w \in T_v(T_p M)$且满足$\|w\|=1$。则Jacobi场:
+  \begin{align}
+    J(t)=d(\exp_p)_{tv}(tw)
+  \end{align}
+  我们需要说明$\|J(t)\|=t$.因为$\|tw\|=t$,从而给出$\exp_p$是一个等距同构。
+
+  计算:
+  \begin{align}
+    \la J,J\ra'(t)=2\la J',J\ra(t),\la J,J'\ra'(t)=\la J',J'\ra+\la J,J''\ra=\la J',J'\ra-\la J,R(\gamma',J(t))\gamma'\ra
+  \end{align}
+  因为截面曲率总是$0$,所以:
+  \begin{align}
+    \la J,J'\ra'(t)=\la J',J'\ra(t)
+  \end{align}
+  对右边的表达式求导:
+  \begin{align}
+    \la J',J'\ra'(t)=2\la J'',J'\ra=-2\la R(\gamma',J)\gamma',J'\ra=0
+  \end{align}
+  从而$\la J',J'\ra(t)=t$,于是$\langle J,J\rangle(t)=t^2$.
+\end{proof}
+\begin{proposition}
+  设$M$是黎曼流形.$\gamma:[0,1] \to M$是测地线,$J$是沿着$\gamma$的Jacobi场。则存在一个参数化的曲面$f(t,s)$,使得$f(t,0)=\gamma(t)$,$t \mapsto f(t,s)$是测地线,且$J(t)=\pa{f}{s}(t,0)$.
+\end{proposition}
+\begin{proof}
+  是Jacobi场的典范构造。
+\end{proof}
+\begin{proposition}
+  设$M$是有非正截面曲率的黎曼流形。则对于任何$p \in M$,对偶locus$C(p)$总是空集。
+\end{proposition}
+\begin{proof}
+  假设存在非平凡的Jacobi场使得$J(0)=J(1)=0$.
+  \begin{align}
+    \frac{d}{dt}\la \frac{D}{dt}J,J\ra=\la J'',J\ra+\la J',J'\ra\geq 0
+  \end{align}
+  根据$J(0)=J(1)=0$,可以得知:
+  \begin{align}
+    \la \frac{D}{dt}J,J\ra=0
+  \end{align}
+  这意味着$\|J\|^2=0$恒成立,矛盾！
+\end{proof}
+\begin{proposition}
+  设$b<0$.$M$有恒负的常曲率$b$.设$\gamma:[0,l]\to M$是正规测地线,$v \in T_{\gamma(l)}M$且$\la v,\gamma'(l)\ra=0,\|v\|=1$.因为$M$的曲率是负数,从而$\gamma(l)$与$\gamma(0)$不共轭。
+
+  则沿着$\gamma$的Jacobi场$J$($J(0)=0,J(l)=v)$为:
+  \begin{align}
+    J(t)=\frac{\sinh(t\sqrt{-b})}{\sinh(l\sqrt{-b})}w(t)
+  \end{align}
+  其中$w(t)$是沿着$\gamma$平行移动的向量场:
+  \begin{align}
+    w(0)=\frac{u_0}{\|u_0\|},u_0=(d\exp_p)^{-1}_{l\gamma'(0)}(v)
+  \end{align}
+\end{proposition}
+\begin{proof}
+  因为$M$是常曲率空间,于是给定初值的Jacobi场有表达式:
+  \begin{align}
+    J_1(t)=\frac{\sinh t\sqrt{-b}}{\sqrt{-b}}w(t)
+  \end{align}
+  其中$J_1(t)$满足$J_1(0)=0,J_1'(0)=\frac{u_0}{\|u_0\|}$.
+
+  我们用指数映射写出$J_1$:
+  \begin{align}
+    J_1(l)=(d\exp_p)_{l\gamma'(0)}(lw(0))
+  \end{align}
+  因为$v$满足：
+  \begin{align}
+    v=d(\exp_p)_{l\gamma'(0)}(u_0)
+  \end{align}
+  从而$v=\dfrac{\|u_0\|}{l}J_1(l)$.因此:
+  \begin{align}
+    J(t)=\frac{\|u_0\|}{l}\frac{\sinh t\sqrt{-b}}{\sqrt{-b}}w(t)
+  \end{align}
+  余下的工作是解算$\|u_0\|$.事实上,$\|v\|=1$。从而:
+  \begin{align}
+    1=\|v\|=\frac{\|u_0\|\sinh l\sqrt{-b}}{l\sqrt{-b}}
+  \end{align}
+  于是:
+  \begin{align}
+   J(t)=\frac{\sinh(t\sqrt{-b})}{\sinh(l\sqrt{-b})}w(t)
+  \end{align}
+\end{proof}
+\begin{proposition}[局部对称空间的Jacobi场]
+  设$\gamma$是$M$中测地线且$M$是局部对称空间。$v$是$\gamma$在起点的切向量。定义线性映射$K_v:T_pM\to T_pM$:
+  \begin{align}
+    K_v(x)=R(v,x)v
+  \end{align}
+
+  则(1)$K_v$是自伴随的。
+  
+  (2)选取$T_pM$的正交基$\{e_i\}$以对角化$K_v$.把$e_i$沿着$\gamma$平行移动,则$K_{\gamma'(t)}(e_i(t))=\lambda_i e_i(t)$恒成立。
+  
+  (3)设$J(t)=\sum x_i(t)e_i(t)$是沿着$\gamma$的Jacobi场。则Jacobi方程等价:
+  \begin{align}
+    \frac{d^2 x_i}{dt^2}+\lambda_i x_i=0
+  \end{align}
+
+  (4)$p$沿着$\gamma$的共轭点($p$是$\gamma$的起点)由$\gamma(\pi k/\sqrt{\lambda_i})$给出。其中$k$是正整数,$\lambda_i$是$K_v$的正特征值。
+\end{proposition}
+\begin{proof}
+  (1)计算:
+  \begin{align}
+    \la R(v,x)v,y\ra=\la R(v,y)v,x\ra
+  \end{align}
+  这是因为$R$的对称性。
+
+  (2)$R(v,e_i)v=\lambda_ie_i$.则$R(\gamma',e_(t)i)\gamma'$是沿着曲线$\gamma$的平行移动的向量场。于是其和$e_j(t)$的内积保持不变。因此$R(\gamma',e_(t)i)\gamma'=\lambda_ie_i(t)$.
+
+  (3)代入Jacobi场即可。
+
+  (4)观察$x_i(t)$.若$\lambda_i$是正数,则$x_i(t)$有周期解。周期为$\pi k/\sqrt{\lambda_i}$.
+\end{proof}
+  \begin{proposition}
+    见书。不再抄写。
+  \end{proposition}
+  \begin{proof}
+    1.极坐标。验证一下$p$处的非退化性即可。
+
+    2.根据坐标变换公式平凡。
+
+    3.沿着测地线$f(\rho,0)$,有:
+    \begin{align}
+      \sqrt{g_{22}}_{\rho\rho}=-K(p)\rho+R(\rho)
+    \end{align}
+    
+    实际上,$\pa{f}{s}$是Jacobi场,于是:
+    \begin{align}
+      \sqrt{g_{22}}=\rho-\frac{1}{6}K(p,\sigma)\rho^3+o(\rho^3)
+    \end{align}
+    求两次导:
+    \begin{align}
+      \sqrt{g_{22}}_{\rho\rho}=-K(p)\rho+R(\rho)
+    \end{align}
+    4.\begin{align}
+      \lim_{\rho \to 0}\frac{\sqrt{g_{22}}_{\rho\rho}}{\sqrt{g_{22}}}=-K(p)
+    \end{align}
+    
+    
+    泰勒展开一除即可得到答案。
+  \end{proof}
+  \begin{proposition}
+    设$M$是$2$维黎曼流形。设$p \in M$且$V\subset T_pM$是原点处的一个邻域。设$S_r(0)$是半径为$r$的圆,且$L_r$是$\exp_p(S_r)$的周长。证明:
+    \begin{align}
+      K(p)=\lim_{r \to 0}\frac{3}{\pi}\frac{2\pi r-L_r}{r^3}
+    \end{align}
+  \end{proposition}
+  \begin{proof}
+    容易求出$L_r$关于$r$展开。
+  \end{proof}
+  \begin{proposition}
+    设$\gamma$测地且$X$是$M$上的killing场。则$X(\gamma(s))$作为$X$在$\gamma(s)$上的限制是一个Jacobi场。
+  \end{proposition}
+  \begin{proof}
+    用$X$给出局部单参数变换群,从而有曲面$f(s,t)$满足$\forall s$,$t \mapsto f(s,t)$是测地线。从而:
+    \begin{align}
+      X''=\frac{D}{dt}\frac{D}{dt}\pa{f}{s}(t,0)=\frac{D}{dt}\frac{D}{ds}\pa{f}{t}(t,0)=\frac{D}{ds}\frac{D}{dt}\pa{f}{t}(t,0)-R(\gamma',X)\gamma'=-R(\gamma',X)\gamma'
+    \end{align}
+  \end{proof}
+  \newpage
+  \section{第六章}
+  \begin{proposition}
+    设$M_1$和$M_2$都是黎曼流形。考虑$M_1\times M_2$作为乘积度量。设$\nabla^1$是$M_1$的黎曼联络,$\nabla_2$是$M_2$的黎曼联络。
+
+    1.乘积流形的黎曼联络是原本两个联络的和。
+
+    2.给定$p \in M_1$,集合$(M_2)_p=\{(p,q)|q \in M_2\}$是$M_1 \times M_2$的子流形,自然同构于$M_2$.并且$(M_2)_p$是测地子流形。
+
+    3.设$\sigma$是由$x \in T_p M_1$和$y \in T_qM_2$的在$(p,q)$处生成的二维切空间。则$K(\sigma)=0$
+  \end{proposition}
+  \begin{proof}
+    1.用Koszul公式。注意到乘积流形下李括号,内积均可拆分，从而联络可以拆分。
+
+    2.显然$(M_2)_q$与$M_2$微分同胚。而$(M_2)_q$上的联络总不会计算出$M_2$以外的切向量,因此$M_2$是测地子流形。
+
+    3.$x$延拓为$X$,$y$延拓为$Y$且使得$X,Y$李括号为$0$.容易计算$R(X,Y)X=0$
+    
+  \end{proof}
+  \begin{proposition}
+    设$\mathcal{x}:\R^2 \to \R^4$给出:
+    \begin{align}
+      \mathcal{x}(\theta,\varphi)=(\cos \theta,\sin \theta,\cos \varphi,\sin \varphi)
+    \end{align}
+    是$\R^4$上的环面。该环面的曲率是$0$.
+  \end{proposition}
+  \begin{proof}
+    详细的计算不论。注意到覆叠:$p:\R^4 \to \mathcal{x}$保度量。根据曲率是局部性质,可得$\mathcal{x}$曲率是$0$.
+  \end{proof}
+  \begin{proposition}
+    $K \subset N \subset M$是黎曼流形的浸入。设$N$是$M$的完全测地子流形,$K$是$N$的完全测地子流形,则$K$是$M$的完全测地子流形。
+  \end{proposition}
+  \begin{proof}
+    平凡。
+  \end{proof}
+  \begin{proposition}
+    省略。平凡的命题。
+  \end{proposition}
+  \begin{proposition}
+    黎曼流形$S^2\times S^2$的截面曲率非负。另外，可以给出平坦$T^2$到$S^2 \times S^2$的完全测地嵌入。
+  \end{proposition}
+  \begin{proof}
+    根据命题6.1,我们只需要说明$S^2$的截面曲率非负。事实上,$S^2$是常曲率空间。其截面曲率是$1$.
+
+    第二问用$S^1$嵌入$S^2$,嵌入为赤道即可。
+  \end{proof}
+  \begin{proposition}
+    设$G$是李群,拥有一个双不变度量。设$H$是李群且$h:H \to G$是浸入,同时也是群同态。($H$是$G$的李子群).则$h$是完全测地的浸入。
+  \end{proposition}
+  \begin{proof}
+    因为$G$拥有双不变度量,根据在第四章的习题可知:
+    \begin{align}
+      \nabla_X Y=\frac{1}{2}[X,Y]
+    \end{align}
+
+    对于$H$,把$G$拉回到$H$上。则该度量在$H$上也是双不变度量。
+
+    对于$X,Y\in T_e H$,可以延伸出$H$的左不变向量场和$G$的左不变向量场。于是$\nabla^G_X Y$和$\nabla^H_X Y$相同。
+  \end{proof}
+  \begin{proposition}
+    若$M$是$\bar{M}$的测地子流形,则对于$M$的任何切向量场,$\nabla$和$\bar{\nabla}$一致。
+  \end{proposition}
+  \begin{proof}
+    完全测地子流形说明$B(X,Y)=0$成立。
+  \end{proof}
+  \begin{proposition}
+    这是一道计算题。我们省略(a)(b)的解答。
+  \end{proposition}
+  \begin{proof}
+    对于(c),我们需要说明这个浸入是极小浸入。使用(b)的结果.$n_2 \in T_pS^3$.而$Tr(S_{n_2})=0$.
+  \end{proof}
+  \begin{proposition}
+    提示做完了。实际上这个题目在说明这样的事情:选定了法向量$\eta$后,第二基本形式就与其他法向量无关了。
+  \end{proposition}
+  \begin{proposition}
+    选定$M$到$\bar{M}$的等距嵌入,并且给定一个$\eta$作为向量场。我们可以给出一个(1,1)张量$S_\eta:TM \to TM$.则对于所有的$V \in \Gamma(M)$,$\nabla_V S_{\eta}$仍然是对称的。
+  \end{proposition}
+  \begin{proof}
+    因为度量的联络是$0$.所以可以考虑张量$S_\eta(X,Y)=\la S_\eta X,Y\ra$.
+
+    按照定义计算即可。或者看书上提示。
+  \end{proof}
+  \begin{proposition}
+    题目见书。
+  \end{proposition}
+  \begin{proof}
+    (a)根据定义计算即可。$\Delta f=\mathrm{div}\mathrm{grad}f$.
+
+    (b)相减，依照联络的无挠性可得结果。
+
+    (c)选取正交基$E_1,\dots,E_n,E_{n+1}=\dfrac{\mathrm{grad}f}{|\mathrm{grad}f|}$.用定义计算平均曲率:
+    \begin{align}
+      nH&=\mathrm{trace}S_{E_{i+1}}=\sum_{i}\la S_{E_{n+1}}(E_i),E_i\ra\\&=\sum_{i}\la B(E_i,E_i),E_{n+1}\ra\\&=\sum_i \la \nabla_{E_i}E_i,E_{n+1}\ra\\&=-\sum_i \la E_i,\nabla_{E_i}E_{n+1}\ra\\&=-\mathrm{div}E_{n+1}
+    \end{align}
+
+    (d)总结性话语。
+  \end{proof}
+  \begin{proposition}[Killing场的奇异点]
+    设$X$是Killing场。$N$是$X$的奇异点集合。
+
+    (a)设$p\in N$,$V$是$p$的正规邻域。证明连接奇异点$p,q$的测地线$\gamma \subset N$.
+
+    (b)若$p \in N$,则存在$p$的邻域$V$使得$V \cap N$是$M$的子流形。
+
+    (c)$N_k$作为$N$连通分支的余维数是偶数。
+  \end{proposition}
+  \begin{proof}
+    回忆Killing方程:
+    \begin{align}
+      \la\nabla_Y X ,Z\ra=-\la \nabla_Z X,Y\ra
+    \end{align}
+    
+    (a)$X$是沿着测地线的Jacobi场。注意到$X$生成的单参数变换群是等距同构,从而$X$生成的$\varphi_t$把$\gamma$映射为$\gamma$。于是在$\gamma$上$X$总是$0$.
+
+    (b)若$p$是孤立点,则命题直接成立。若不然,设$q_1$是一个奇异点。于是连接$p,q_1$的测地线在$N$中。若$\gamma=N \cap V$,则命题成立。若不然,则存在$q_2$使得$q_2$是$X$的零点。设$\gamma_2$是连接$p,q_2$的测地线。
+
+    设$Q$是由$\exp^{-1}(q_1)$和$\exp^{-1}(q_2)$生成的$T_pM$的子空间。设$v'=\exp^{-1}(V)$.$Q$的维数是2维。考虑$N_2=\exp(Q\cap V')$.我们断言$N_2 \subset V\cap N$.
+
+    考虑$X$生成的单参数变换群$X_t:M \to M$.在$Q \subset T_PM$上,$dX_t|_Q=\mathrm{id}$.从而,任取$v \in Q$,有$X_t(\exp_p(sv))=\exp_p(sv)$.(一组基上是恒同。)因此$X$在$N_2$上为$0$.
+
+   这样对维数做归纳即可。
+   
+   (c)设$E_p$是$N_k$在$p$处的法空间,$V$是$p$处的正规坐标。定义$(N_k)^{\perp}=\exp_p(E_p\cap \exp^{-1}V)$。于是我们局部上给出了一个$N_k$的垂直子流形。
+
+   考虑到$N_k$上$X$总为$0$,因此$X_t:M \to M$限制在$N_k$上为$0$,$dX_t|_{T_p N_k}=\mathrm{id}$.作为等距映射,我们有$dX_t(E_p)\subset E_p$.
+
+   因此$X$作为向量场与$(N_k)^{\perp}$相切。另外,在$(N_k)^{\perp}$上$X \neq 0$.从而我们给出了$N_k$上测地球的一个处处不为$0$的向量场。因此这个测地球面维数必须是奇数,而$(N_k)^{\perp}$的维数就必须是偶数。
+    \end{proof}
+    \newpage
+    \section{第七章:完备黎曼流形与Hopf-Rinow Hadamard定理}
+    备注：本节没有写计算题的答案。
+   \begin{proposition}
+    设$M,N$是黎曼流形,$i: M \subset N$是等距浸入。存在这样的例子:$d_M>d_N$严格成立。
+   \end{proposition}
+   \begin{proof}
+    根据经典的8字形浸入即可构造。
+   \end{proof}
+   \begin{proposition}
+    设$\tilde{M}$是$M$的覆叠空间。显然可以用拉回给出$\tilde{M}$上度量。证明:$\tilde{M}$是完备的当且仅当$M$是完备的。
+   \end{proposition}
+   \begin{proof}
+    拉回度量为:
+    \begin{align}
+      \pi^*g
+    \end{align}
+    因为是局部等距，外加覆叠的曲线提升性质,显然两者的完备性是等价的。
+   \end{proof}
+   \begin{proposition}
+    舍弃掉覆叠空间给出反例。
+   \end{proposition}
+   \begin{proof}
+    $(0,1)$单射到$S^1$上。显然$(0,1)$不是完备的。
+   \end{proof}
+   \begin{proposition}
+    考虑$M \to \R^2-\{(0,0)\}$是泛覆叠映射。给定$M$上的覆叠度量,说明$M$是不可延拓的,但是是不完备的。
+   \end{proposition}
+   \begin{proof}
+      根据命题7.2,$M$是不完备的黎曼流形。若存在$M'$使得:$M \subset M'$且是等距.设$p' \in M'$是$M$边界上的点,设$W' \subset M'$是$p'$的一个凸邻域。
+
+      我们断言$W'-\{p'\}$全部在$M$中。从而$\pi(W'-\{p'\})$是包含$(0,0)$的邻域$U$.考虑$U$中环绕$(0,0)$的圈.显而易见这个圈可以被提升。然而$M$是万有覆叠,这样的提升是做不到的。
+
+      我们现在证明上述断言。因为$p'$是$M$的边界点,于是$W'$中必定含有$M$的点$x$.对于$W'\cap M$的任一点$y$,根据$M$的性质,在$M$上且从$y$出发的测地线中,只有一条使得其不能延申到无穷。在$M'$上考虑$p'$和$x$的测地线$\gamma$.根据$M$是开集,则$\gamma$是从$x$出发的测地线。而$\gamma$不能延申到无穷,因此$\gamma$正是$x$所对应的那条测地线。
+
+      现在$W'$的点(不包含$q'$)分为测地线上的和非测地线上的。如果$y$不在测地线上,则$y$与$x$的测地线($M'$)上不会经过$q'$.因而这条测地线一定在$M$上。若$y$在测地线上,则根据$M$自身测地线的性质可知,$y$也在$M$上。
+
+      所以$W'-\{p\}\subset M$.
+   \end{proof}
+   \begin{proposition}
+    定义发散曲线$\alpha:[0,+\infty) \to M$是在非紧的黎曼流形$M$上的可微曲线,使得对于任何紧集$K \subset M$,都存在$t_0 \in (0,+\infty)$使得$\alpha(t)\notin K$对于所有$t>t_0$都成立。
+
+    定义发散曲线的长度为积分:
+    \begin{align}
+      \lim_{t \to \infty}\int_0^t |\alpha'(t)|dt
+    \end{align}
+
+    则$M$完备等价于任何一条发散曲线的长度都是无界的。
+   \end{proposition}
+   \begin{proof}
+    假设$M$完备,且存在发散曲线$\alpha_0$的长度有界。则$\alpha(0,\infty)$的闭包是$M$中的有界闭集。因而根据Hopf-Rinow定理可知是$M$的紧集。然而$\alpha$并不能超出该紧集,矛盾！因此不存在这样的发散曲线。
+
+    反之,假设任意发散曲线的长度都无界且$M$不完备。设$p \in M$且存在$v$使得$\exp_p(tv)$只在$t < t_0$上有定义。不失一般性,设$|v|=1$。记这条测地线为$\gamma$,则:
+    \begin{align}
+      \tilde{\gamma}(t)=\gamma(t_0-\frac{t_0}{t+1})
+    \end{align}
+    重参数化后$\tilde{\gamma}$长度不变,但是定义域变化。因此$\tilde{\gamma}$不是发散曲线，存在$K$作为紧集使得$\tilde{\gamma}\subset K$.
+
+    在$\gamma$的像上取点列${t_n}$使得$t_n \to t_0$.于是$\gamma(t_n)$是$K$中的点。$K$是紧集,于是$\gamma(t_n)$有聚点$q$.从而可以定义$\gamma(t_0)=q$.这产生了矛盾！因此$M$完备。
+   \end{proof}
+   \begin{proposition}
+    一条测地线$\gamma:[0,\infty)\to M$称为ray射线,若其总是实现$\gamma(0)$和$\gamma(s)$的距离。设$M$是完备,非禁的黎曼流形.则对于任何$p\in M$，都有从$p$出发的ray射线。
+   \end{proposition}
+   \begin{proof}
+    对于$v \in T_p M$,定义映射$S:T_p M\to \R$:
+    \begin{align}
+      S(v)=d(p,\exp_p(v))-|v|
+    \end{align}
+    则$S\geq 0$,且若测地线$\exp_p(tv)$实现距离,则$S(tv)=0$对于任何$0\leq t \leq 1$都成立。
+
+    根据连续性,$S$是连续映射。因此$S^{-1}(0)$是$T_pM$中的闭集，且是Star形的闭集。
+
+    因为$M$非紧完备,所以$M$无界。选取$q_n$使得$d(p,q_n) \to +\infty$。因此存在$w_n \in T_pM$使得$\exp_p(w_n)=q_n$.考虑$w_n/|w_n|\in T_pM$,则有一个聚点$w_0$.我们断言$\exp_p(tw_0)$是一条ray射线。
+
+    我们只用说明$S(tw_0)=0$总是成立的。这等于说任意$N>0$,$S(Nw_0)=0$都成立。然而任意$N>0$,总存在$n>N'$使得$S(Nw_n/|w_n|)=0,n>N'$.根据$S$连续性$S(Nw_0)=0$也成立。
+   \end{proof}
+   \begin{proposition}
+    设$M$和$\bar{M}$是非紧的黎曼流形且$f:M \to\bar{M}$是微分同胚。假定$\bar{M}$是完备的,且存在常数$c$使得:
+    \begin{align}
+      |v|\geq c|(df)_pv|
+    \end{align}
+    则$M$也是完备的。
+   \end{proposition}
+   \begin{proof}
+    用7.5结果。选取一条发散曲线$\gamma \subset M$。由微分同胚可知$f(\gamma)$也是发散曲线。
+   \end{proof}
+   \begin{proposition}
+    见书。
+   \end{proposition}
+   \begin{proof}
+    显然$\bar{M}$上不存在闭测地线。于是若$p,q$不同且$f(p)=f(q)$,则测地线$\gamma$连接$p,q$被$f$全部映射为$f(p)$。这与局部等距矛盾！
+
+    考虑$p,f(p)$。设$\bar{q}\in \bar{M}$和$\bar{\gamma}$是连接$\bar{q}$和$f(q)$的测地线。局部等距说明$(df)_p$是向量空间的同构映射,因而存在$v \in T_p M$使得$(df)_p(v)=\dot{\bar{\gamma}}(0)$.则$f(\exp_p(v))=\bar{q}$.
+   \end{proof}
+   \begin{proposition}
+    设$M$是完备黎曼流形,$X$是$M$的向量场。假设存在$c>0$使得$|X(p)|>c$恒成立,则$X$是完备的向量场。
+   \end{proposition}
+   \begin{proof}
+    错题。反转不等号是显然的。
+   \end{proof}
+   \begin{proposition}
+    称一个黎曼流形是齐次的,若任意$p,q\in M$都有等距同构$f:M \to M$使得$f(p)=q$.试证明任何齐次黎曼流形都是完备的。
+   \end{proposition}
+   \begin{proof}
+    用正规坐标系即可。
+   \end{proof}
+\end{document}
+
+
+

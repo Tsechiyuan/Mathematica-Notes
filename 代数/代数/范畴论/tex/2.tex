@@ -1,0 +1,52 @@
+\ifx\allfiles\undefined
+
+	% 如果有这一部分另外的package，在这里加上
+	% 没有的话不需要
+	
+	\begin{document}
+\else
+\fi
+\chapter{幺半范畴}
+\section{基础定义}
+\begin{definition}[幺半范畴]{}
+	幺半范畴意指一组资料($\mathcal{V},\otimes,a,1,\iota$),其中:
+	
+	1.$\mathcal{V}$是一个范畴。
+
+	2.$\otimes:\mathcal{V}\times \mathcal{V} \to \mathcal{V}$是一个二元函子,其在对象和态射集上定义的映射分别记为:$(X,Y)\mapsto X\otimes Y$和$(f,g)\mapsto f\otimes g$.
+
+	3.$a$是函子范畴$\rm{Fct}(\mathcal{V}\times\mathcal{V}\times \mathcal{V},\mathcal{V})$中的同构:
+	\begin{align}
+		a:((\cdot \otimes \cdot)\otimes \cdot) \cong (\cdot \otimes (\cdot \otimes \cdot))
+	\end{align}
+	使得对于所有对象$X,Y,Z,W$,下图:
+	\[\centering
+	\begin{tikzcd}
+	& {((X\otimes Y)\otimes Z)\otimes W} \\
+	{(X\otimes(Y\otimes Z))\otimes W} && {(X\otimes Y)\otimes (Z\otimes W)} \\
+	{X\otimes((Y\otimes Z)\otimes W)} && {X\otimes(Y\otimes(Z\otimes W))}
+	\arrow["{a(X,Y,Z)\otimes \mathrm{id}_W}"{description}, from=1-2, to=2-1]
+	\arrow["{a(X\otimes Y,Z,W)}"{description}, from=1-2, to=2-3]
+	\arrow["{a(X,Y\otimes Z,W)}", from=2-1, to=3-1]
+	\arrow["{a(X,Y,Z\otimes W)}"', from=2-3, to=3-3]
+	\arrow["{\mathrm{id}_X\otimes a(Y,Z,W)}", from=3-1, to=3-3]
+\end{tikzcd}\]
+   交换。
+
+   4.对象$1$称为幺元,相应的函子$1\otimes -$和$-\otimes 1$给出范畴$\mathcal{V}$到自身的等价。
+
+   5.$\iota:1\otimes 1\to 1$是同构。
+\end{definition}
+ \ifx\allfiles\undefined
+	
+	% 如果有这一部分的参考文献的话，在这里加上
+	% 没有的话不需要
+	% 因此各个部分的参考文献可以分开放置
+	% 也可以统一放在主文件末尾。
+	
+	%  bibfile.bib是放置参考文献的文件，可以用zotero导出。
+	% \bibliography{bibfile}
+	
+	end{document}
+	\else
+	\fi

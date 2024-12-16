@@ -1,0 +1,47 @@
+\contentsline {section}{\numberline {1}课程简介}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}什么似交换代数？}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}课程内容与考核}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}参考书}{3}{subsection.1.3}%
+\contentsline {section}{\numberline {2}复习与回顾（从略）}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}群作用}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}环与代数}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}多项式环上的群作用和代数}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}群表示与不变子环}{6}{subsection.2.4}%
+\contentsline {section}{\numberline {3}模与代数}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}模与代数的定义}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}子模与理想}{7}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}轨道陈类方法(Orbit chern class)}{7}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Hibert基定理方法}{8}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Noether}{9}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Noether环}{9}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Grobner基的存在性和域上的Hilbert基定理}{10}{subsection.4.2}%
+\contentsline {section}{\numberline {5}模的正合列}{11}{section.5}%
+\contentsline {subsection}{\numberline {5.1}正合列的概念}{11}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}不变理论的3个核心问题}{12}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}分次环应用}{13}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}希尔伯特第14问题的解决}{14}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Hilbert Syzygy 定理及其应用}{14}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Hilbert Syzygy定理和更多的Grobner基}{15}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Syzygy定理的证明}{16}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Syzygy定理的应用}{16}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Poincare级数}{18}{subsection.6.4}%
+\contentsline {section}{\numberline {7}环扩张和Noether正规化定理}{18}{section.7}%
+\contentsline {subsection}{\numberline {7.1}整元和整扩张}{18}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Noether两大定理}{20}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}整扩张和奇点阶数}{20}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Hilbert零点定理(Null Stellen Satz)}{21}{section.8}%
+\contentsline {subsection}{\numberline {8.1}零点定理的叙述}{21}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}根理想和Noether环}{22}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}零点定理的证明}{22}{subsection.8.3}%
+\contentsline {section}{\numberline {9}环的局部化}{23}{section.9}%
+\contentsline {subsection}{\numberline {9.1}一般理论}{23}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Noether环的局部化}{24}{subsection.9.2}%
+\contentsline {section}{\numberline {10}Artin环和Artin模}{26}{section.10}%
+\contentsline {section}{\numberline {11}Zariski拓扑}{27}{section.11}%
+\contentsline {subsection}{\numberline {11.1}仿射空间$k^n$上的Zariski拓扑}{27}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}素谱上的Zariski拓扑}{27}{subsection.11.2}%
+\contentsline {subsection}{\numberline {11.3}Zariski拓扑的普遍性}{27}{subsection.11.3}%
+\contentsline {section}{\numberline {12}维数理论}{28}{section.12}%
+\contentsline {subsection}{\numberline {12.1}环上维数的定义:Krull维数}{28}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}参数系和有限生成代数维数}{29}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}不变理论中的参数系}{30}{subsection.12.3}%

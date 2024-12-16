@@ -1,0 +1,63 @@
+\documentclass{package/fancy-book}
+\setlength{\parindent}{2em}
+\usepackage[UTF8]{ctex}
+
+%%%%%%%%%% Default Package %%%%%%%%%%%%%
+\usepackage{package/color-env}
+\usepackage{package/quiver}
+\usepackage{background}
+\usepackage[object=vectorian]{pgfornament} %% used in title.tex
+\usepackage{calligra} %%% (optional) to make the Title text beautiful 
+\usepackage{lipsum}  %% for dummy text 
+\usepackage{amssymb,amsmath,amsfonts}  %%% for maths
+\usepackage{datetime}
+%%%%%% Optional Packages %%%%%%%
+\usepackage{lettrine} %% for nice looking 
+\usepackage{GoudyIn} %% first Letter of the paragraph
+\renewcommand{\LettrineFontHook}{\color{black}\GoudyInfamily{}}
+\LettrineTextFont{\itshape}
+\setcounter{DefaultLines}{3}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{datetime2}
+\usepackage{fourier-orns}
+\newcommand{\ornamento}{\vspace{2em}\noindent \textcolor{darkgray}{\hrulefill~ \raisebox{-2.5pt}[10pt][10pt]{\leafright \decofourleft 
+\decothreeleft  \aldineright \decotwo \floweroneleft \decoone   \floweroneright 
+\decotwo \aldineleft\decothreeright \decofourright \leafleft} ~  \hrulefill \\ \vspace{2em}}}
+
+%定义命令
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\RP}{\mathbb{RP}}
+
+%%%% Bibliography %%%%%%%%%
+% Required packages are included in notes class
+% Can be tweaked in the notes.cls file itself
+\addbibresource{resource/references.bib}
+
+\begin{document}
+\include{title.tex}
+\backgroundsetup{contents={}} %% to remove background and watermark from other pages
+\tableofcontents
+
+\quad
+
+
+\chapter{几何}
+\section{}
+\begin{proposition}{}
+   
+\end{proposition}
+\chapter{代数}
+1
+\chapter{分析}
+1
+\chapter{拓扑}
+\section{}
+\begin{theorem}[Borsuk-Ulam定理]{Borsuk-Ulam定理1}
+    设$f:S^n \to \mathbb{R}^n$是连续函数。则一定存在点$p \in S^n$使得$f(p)=f(-p)$。
+\end{theorem}
+\end{document}

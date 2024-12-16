@@ -1,0 +1,1106 @@
+\documentclass[UTF8]{ctexart}[a4paper,10pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{quiver}
+
+%声明环境
+\newtheorem{example}{例}[section]              
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[section]            
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+{
+    \newtheorem*{remark}{注解} 
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+\def\F{\mathbb{F}}
+
+\newcommand\LM[1]{{}_#1}
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+%极限、余极限与滤过余极限的实现
+\makeatletter
+\newcommand{\Colim@}[2]{
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font lim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\Colim}{%
+  \mathop{\mathpalette\Colim@{\rightarrowfill@\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+\makeatletter
+\newcommand{\Lim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font lim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\Lim}{%
+  \mathop{\mathpalette\Lim@{\leftarrowfill@\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+
+
+\makeatletter
+\newcommand{\colim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font oli~$\hfil \cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\colim}{%
+  \mathop{\mathrm{c}\mathpalette\colim@{\rightarrowfill@\scriptscriptstyle}\mathrm{\!\!m}}\nmlimits@
+}
+\makeatother
+
+\makeatletter
+\newcommand{\cone@}[1]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font cone$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\cone}{%
+  \mathop{\mathpalette\cone@{\scriptscriptstyle}}\nmlimits@
+}
+\makeatother
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\title{代数学方法·模论}
+\author{整理者：颜成子游/南郭子綦}
+\begin{document}
+\maketitle
+\tableofcontents
+\quad
+
+模论是同调代数，交换代数等多个方向的起点。于笔者而言，在本科二年级所学习的模论一是远远不够，二是也没学出个什么样子来。从而在学习深层次的课程时，强烈感受到了模论的缺乏。因而攥写一篇模论的笔记非常有必要。
+
+本篇笔记开始攥写于2023年2月20日，计划用两周时间写完，也就是在2023年3月6前写完本篇笔记。该笔记的来源是李文威《代数学方法》的模论章节。在阅读前，读者需要一些范畴论的知识作为前置。读者可参见笔者所攥写的范畴论基础笔记，也可以直接阅读《代数学方法》的第二章。
+
+任何疑问可致邮Tsechiyuan@163.com。
+\section{模的基本概念和操作}
+在这一节我们介绍模的基本概念和基本操作。范围是《代数学方法》第六章的1，2节。
+
+\subsection{基本概念}
+\begin{definition}
+    设$R$是环，所谓左$R$-模是指以下资料：
+    \begin{enumerate}
+        \item 加法群$(M,+)$
+        \item 映射$R \times M \to M$，记为$(r,m)\mapsto rm$。满足：$r(m_1+m_2)=rm_1+rm_2$,$(r_1+r_2)m=r_1m+r_2m$,$(r_1r_2)m=r_1(r_2m)$,$1_R m=m$。
+    \end{enumerate}
+    若改为右乘法:$m(r_1r_2)=(mr_1)r_2$，则称之为右$R$-模。
+
+    $rm$也被称为是$r$对$m$的纯量乘法。
+\end{definition}
+\begin{proposition}
+    下面的性质是所有左模都满足的：
+
+    (1)$ 0 \cdot m=0,\forall m \in M$
+
+    (2)$(-1_R)\cdot m=-m$
+
+    (3)$(n \cdot 1_R) m=nm$
+\end{proposition}
+\begin{proof}
+    显然。
+\end{proof}
+
+我们现在换一个角度来思考模。注意到上面的定义与群作用特别类似。我们思考结构$\mathrm{End}(M)$.
+
+这个结构拥有自然的环结构。加法是逐点相加，$0$元是零同态。乘法是同态的合成，幺元是恒等映射。那么，$(M,+)$被赋予左模结构意味着存在一个环同态：
+$$
+\varphi: R \to \mathrm{End}(M) \quad r \mapsto [m \mapsto rm]
+$$
+
+同理，右模意味着：
+$$
+\varphi:R^{\mathrm{op}} \to \mathrm{End}(M) \quad r \mapsto [m \mapsto mr]
+$$
+
+由此立刻得到:左$R$-模实际上可以被看作一个右$R^{\mathrm{op}}$-模。如果$R$是交换环，则左右模不区分，统称为模。
+\begin{example}
+    任何环对于自身的左乘构成左$R$-模，对右乘法构成右$R$-模。
+
+    整数环$\Z$上的模只能是加法群。因为$1\cdot m=m$，从而$n \cdot m=nm$。
+\end{example}
+
+接下来我们考虑模的子结构——子模。
+\begin{definition}
+    设$M$是左$R$-模，子集$M' \subset M$若满足加法封闭，纯量乘法封闭，则称之为$M$的子模。
+
+    若$M$没有除了本身和$\{0\}$的子模，则称为单模。
+\end{definition}
+
+子模可以相加。这里的相加是指:
+$$
+\sum_{i\in I} M_i=\{\sum_{k=1}^r m_{i_k}: i_1,\dots,i_r \in I\}
+$$
+即有限个元素和组成的元素。
+
+子模也可以相交。这里不赘述其形式。可以证明，子模相加和相交后仍然得到子模。
+\begin{definition}
+    设$S$是$M$的子集，定义$S$生成的子模$\langle S \rangle$为包含$S$的最小子模。即:
+    $$
+    \langle S \rangle =\bigcap_{M' \supset S}M'
+    $$
+
+    若$S$是独点集，容易想到$\langle S \rangle=\langle x \rangle $可以直接表达为$Rx=\{rx|r \in R\}$。对于一般情况，$\langle S \rangle=\sum_{x\in S}Rx$。
+
+    能表达为$Rx$形式的模称为循环模。显然$R=\Z$的时候，这就是循环群。
+\end{definition}
+\begin{example}
+    环对自身的乘法有天然的左模与右模结构。比较子模与理想的定义，则$R$作为左$R$-模的子模意味着$R$的左理想，$R$作为右$R$-模的子模意味着$R$的右理想。
+\end{example}
+\begin{definition}[模同态]
+    设$M_1$和$M_2$是左$R$-模，映射$\varphi:M_1 \to M_2$既是加法群的群同态，也保持纯量乘法:$\varphi(rx)=r\varphi(x)$.则称其为两个模之间的模同态。
+
+    由此可以定义范畴$R-\mathrm{Mod}$。同样的，如果定义右模同态，可以定义$\mathrm{Mod}-R$范畴。
+
+    同样，定义$\ker(\varphi)$和$\mathrm{im}(\varphi)$。两者都是对应更大的模的子模。
+\end{definition}
+\begin{remark}
+    我们用一种全新的视角来看模同态。首先考虑集合$\mathrm{Hom}_R(M,M')$。这里$M$和$M'$我们都考虑为左模。
+
+    这个集合显然自然有加法群的结构。其中零元是零态射。而同态的合成运算：
+    $$
+    \mathrm{Hom}_R(M',M'')\times \mathrm{Hom}_R(M,M')\to \mathrm{Hom}_R(M,M''): (\varphi,\phi) \mapsto\varphi \circ \phi
+    $$
+    显然是$\Z$-双线性映射。即:
+    $$
+    \varphi(\phi_1+\phi_2)=\varphi \phi_1+\varphi \phi_2 \quad (\varphi_1+\varphi_2)\phi=\varphi_1\phi+\varphi_2\phi
+    $$
+
+    现在考虑自同态$\mathrm{End}(M)$。其中$M$是$R$-右模。由以上的讨论，其自然构成一个环。于是我们思考，是否可以把$M$看作$D:=\mathrm{End}(M)$的模？
+
+    答案是可以的。即定义:
+    $$
+    D \times M \to M,\quad (\varphi,m)\mapsto \varphi(m)
+    $$
+
+    这里的要点是，$M$作为$D$-左模与$R$-右模并不是毫无关系：
+    $$
+    \varphi(m)r=\varphi(mr)
+    $$
+    也就是左$D$-模和右$R$-模的作用可交换。
+\end{remark}
+    接下来考虑商结构。由于这类问题本身很平凡，我们只要定义了商结构，从而许多定理都是一模一样的证明思路。因此本节接下来的定理我们都不给出证明。
+
+    \begin{definition}[商模]
+        设$N\subset M$是子模。加法群$M/N$是商群。我们在上面定义模结构,使之成为$R$-左模。
+        $$
+        r(x+N)=rx+N, \forall r \in R, x \in M
+        $$
+
+        此时，$M \to M/N$是模同态。
+    \end{definition}
+
+    \begin{proposition}
+        商模满足泛性质:
+        \begin{tikzcd}
+	M && {M/N} \\
+	\\
+	&& {M'}
+	\arrow["\pi", from=1-1, to=1-3]
+	\arrow["\varphi"', from=1-1, to=3-3]
+	\arrow["{\exists ! \tilde{\varphi}}", from=1-3, to=3-3]
+\end{tikzcd}
+    即对于任何满足$N \subset \ker(\varphi)$的同态$\varphi:M \to M'$，都存在唯一的模同态$\tilde{\varphi}:M/N \to M'$使上述交换图成立。
+    \end{proposition}
+    \begin{proposition}
+        设$\varphi: M_1\to M_2$，则$M_1/\ker(\varphi) \stackrel{\sim}{\rightarrow} \mathrm{im}(\varphi)$
+    \end{proposition}
+    \begin{proposition}
+        设$\varphi:M_1 \to M_2$是满同态，则$M_2$的子模集与$M_1$的包含$\ker(\varphi)$的子模集存在典范的一一对应关系。
+    \end{proposition}
+    \begin{proposition}
+        设$M,N$是$\mathcal{M}$的子模，合成同态$M \hookrightarrow M+N \twoheadrightarrow (M+N)/N$诱导自然的模同构:
+        $$
+        M/(M\cap N) \stackrel{\sim}{\rightarrow} (M+N)/N \quad m+(M\cap N)\mapsto m+N, m \in N 
+        $$
+    \end{proposition}
+    \begin{definition}
+        对于模同态$f:M\to M'$,定义余核为$M'/\mathrm{im}(f)$。其满足的泛性质是:\begin{tikzcd}
+	M && {M'} & {\mathrm{coker}(f)} \\
+	&& {M''}
+	\arrow["f", shift left=1, from=1-1, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow["0"', shift right=1, from=1-1, to=1-3]
+	\arrow[from=1-3, to=2-3]
+	\arrow["{\exists! \varphi}"{description}, dashed, from=1-4, to=2-3]
+\end{tikzcd}
+    \end{definition}
+    熟悉范畴论中余核定义的读者应该对这张图不陌生——这也是本篇笔记所要求的——对范畴论有一定的认识。
+
+    \subsection{基本操作}
+    本小节我们取定环$R$而讨论$R$-左模。右模的情况是完全相似的。
+
+    先给出几个定义，用于之后章节的分析：
+    \begin{definition}
+        设$M$是$R$-模。则$x \in M$的零化子定义为集合:
+        $$
+        \mathrm{ann}_M(x):=\{r \in R:rx=0\}
+        $$
+        显然这是$R$的左理想。若$\mathrm{ann}_M(x)$平凡，则称其为无挠的，否则称之为挠元。所有非零元都无挠的模称之为无挠模。
+    \end{definition}
+    \begin{definition}
+        $M$的零化子定义为$R$的双边理想：
+        $$
+        \mathrm{ann}(M):=\{r \in R|\forall x \in M,rx=0\}=\bigcap_{x \in M}\mathrm{ann}_M(x)
+        $$
+        若$R$的双边理想$I$含于$\mathrm{ann}(M)$，则自然$M$成为$R/I$-模。其中，加法不变，纯量乘法定义为$(r+I)m=rm$.
+    \end{definition}
+    \begin{definition}
+        $M$对右理想$\mathfrak{a}$的$\mathfrak{a}$-挠部分定义为子模:
+        $$
+        M[\mathfrak{a}]:=\{m \in M:\forall a \in \mathfrak{a},am=0\}
+        $$
+    \end{definition}
+    这个定义颇有些玄妙。比如为什么是右理想？这是因为我们希望$M[\mathfrak{a}]$成为左模:
+    $$
+    \forall b \in R,m \in M[\mathfrak{a}],bm \in M[\mathfrak{a}]
+    $$
+    而右理想正好满足：
+    $$
+    a(bm)=(ab)m=0, ab \in \mathfrak{a}
+    $$
+
+    回顾第二个定义。我们当然可以把$M$看作$R/\mathrm{ann}(M)$-模。
+    \begin{proposition}
+        $M$作为$R/\mathrm{ann}(M)$-模是的零化子是平凡的
+    \end{proposition}
+    \begin{proof}
+        取$x \in M$和$r+\mathrm{ann}(M)$满足:
+        $$
+        (r+\mathrm{ann}(M))x=0
+        $$
+        
+        根据定义，则有$rx=0$。因此$r \in \mathrm{ann}_M(x)$.由于$x$是任意的，所以$r \in \mathrm{ann}(M)$，从而$r+\mathrm{ann}(M)$是零元素。       
+    \end{proof}
+    接下来我们聚焦于问题：范畴$R-\mathrm{Mod}$是否是完备范畴。为此，我们需要给出其中等化子，余等化子，积，余积的形式。
+    \begin{theorem}
+        范畴$\R-$Mod是完备并且余完备的，并且有零对象。
+    \end{theorem}
+    \begin{proof}
+        先考虑零对象。显然是$\{0\}$。其上的模结构只能是$r \cdot 0$。而且出入零模的态射只能是$0$态射，因此这确实是零对象。
+
+        接着构造积和余积。设$I$是小集合，$\{M_i\}$是一族$R$-模。我们给出积的构造:
+        $$
+        \prod_{i \in I}M_i=\{(m_i)_{i \in I}|\forall i \in I, m_i \in M_i\}
+        $$
+
+        这个构造当然和集合论上的构造类似。并且我们自然能给出模的结构。这里任何一个聪明的读者都能想到，因此就不再赘述此模的具体结构。
+
+        当然，严格的积必须还带有投射，这也是非常自然的：
+        $$
+        p_j:\prod_{i \in I}M_i \to M_j, j\in I
+        $$
+        
+        对于余积，我们更习惯称之为直和（对于没有学习范畴论的读者来说）:
+        $$
+        \bigoplus_{i \in I}M_i=\{(m_i)_{i \in I}\in \prod_{i \in I}M_i,\mathrm{finite} \quad m_i \neq 0\}
+        $$
+
+        以及包含同态：
+        $$
+        M_j \to \bigoplus_{i \in I}M_i, m_j \mapsto (m_i)_{i \in I},m_i=\delta_{ij}m_j
+        $$
+
+        验证工作非常显然，就略去了。
+
+        接着构造等化子和余等化子。考虑$f,g: X \to Y$，需要给出等化子$\ker(f,g)$。这意味着$f\iota=g\iota$的类似形式。但是由于模范畴(或者是Ab范畴)特有的加法群结构，我们可以把该问题归结于$\ker(f-g,0)$：
+        \begin{tikzcd}
+	{\mathrm{ker}(f,g)} & X && Y \\
+	& L
+	\arrow["g"', shift right=1, from=1-2, to=1-4]
+	\arrow["f", shift left=1, from=1-2, to=1-4]
+	\arrow[from=2-2, to=1-2]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-2]
+\end{tikzcd}
+    
+    这是因为$f\iota=g\iota$就等价于$(f-g)\iota$，从而范畴中的对象满足两个性质，因而对应的两个等化子典范同构。
+
+    余核同理。
+
+    而核与余核是显然存在的。读者只需要查看一下对应的章节即可。我们只需要指出余核:
+    $$
+    \mathrm{coker}(f,0)=\mathrm{coker}(f)=Y/\mathrm{im}(f)
+    $$
+    因此根据范畴论中众所周知的定理：范畴完备当且仅当积和等化子存在，余完备当且仅当余积和余等化子存在可知，$R$-Mod是完备并且余完备的.
+    \end{proof}
+    \begin{remark}
+        类似于集合的情形，模的滤过$\Colim$具有更容易掌握的构造，其涵摄了代数学中俗称的“直极限”。
+
+        设$I$是滤过小范畴，定义可见范畴论笔记。并考虑函子$\alpha: I \to R$-Mod。则$\alpha$的极限作为集合可定义为:
+        $$
+        \Colim_{i}M_i:=(\bigoplus_{i \in \mathrm{Ob}(I)}M_i)/\sim
+        $$
+
+        换句话说，它是合成函子$I \stackrel{\alpha}{\rightarrow} R-\mathrm{Mod} \to \mathrm{Set}$的极限。
+
+        举例明之：任何模$M$都可以表示为其有限生成子模的极限，并且这个极限是滤过的。记为:
+        $$
+        M =\bigcup_{N \subset M}N
+        $$
+        其中$N$是有限生成子模。
+    \end{remark}
+    \begin{corollary}
+        范畴$R$-Mod是加性范畴。特别的，$R$-模的有限直和和直积相等。
+    \end{corollary}
+    \begin{lemma}\label{lemma:p}
+        设环$R$为直积$R=\prod_{i  \in I}R_i$。其中$I$是有限集。对于每个$i \in I$，定义$R$的双边理想:$\mathfrak{b_i}:=\prod_{j \in I,j\neq i}R_j$.以及:
+        $$
+        e_i:=(\delta_{i,j})_{j \in I}\in R
+        $$
+        对任意的左$R$-模$M$定义$M_i:=\{m \in M:\mathfrak{b}_im=0\}$.则有直和分解:
+        $$
+        \bigoplus_{i \in I}M_i \stackrel{\sim}{\longrightarrow} M
+        $$
+    \end{lemma}
+    \begin{remark}
+        反之，给定一组左$R_i$-模$M_i$，透过投影同态$R \to R_i$将其拉回为左$R$-模：
+        $$
+        (r,m_i)=(p_i(r),m_i)=r_im_i
+        $$
+
+        可构造直和$M=\bigoplus_i M_i$。这样的$M$与最开始分解得到的$M$在自然同构的意义下一样。因此，给定一个$R$-模相当于给定一族$R_i$-模。
+    \end{remark}
+    \section{自由模}
+    \subsection{自由模的定义}
+    接着考虑$\R$以及其左模$\R$-模。对于集合$X$,我们形式的定义模$Rx,x \in X$:$rx+r'x=(r+r')x$，$r(r'x)=(rr')x$。其实这就是形式的构造一个同构于$R$的模。
+    \begin{definition}
+        以$X$为基的自由模定义为:$\R^{\oplus X}=\bigoplus_{x \in X}Rx$.作为集合自然有包含映射:
+        $$
+        X \to R^{\oplus X}\quad x \mapsto 1 \cdot x
+        $$
+        该模的元素可以写为有限和$\sum_{x\in X}a_x x$。
+    \end{definition}
+    上述其实是对我们期待的自由模的泛性质所给出的存在性定义。我们叙述泛性质如下。
+    \begin{proposition}[自由模的泛性质]
+        对于任意$R$-模$M$和集合的映射$X \to M$,存在唯一的模同态$\varphi$使得交换图:
+        \begin{tikzcd}
+	X && {R^{\oplus X}} \\
+	\\
+	&& M
+	\arrow[from=1-1, to=1-3]
+	\arrow["{\exists !\varphi}", from=1-3, to=3-3]
+	\arrow["\phi"', from=1-1, to=3-3]
+\end{tikzcd}成立
+    \end{proposition}
+    \begin{proof}
+        对于每个$x \in X$必然有$\varphi(rx)=r\varphi(x)=r\phi(x)$。从而$\varphi$完全确定。
+    \end{proof}
+
+    这里我们又一次见到了“自由是遗忘的左伴随”：
+    $$
+    \mathrm{Hom}_R(R^{\oplus X},M) \stackrel{\sim}{\rightarrow}\mathrm{Hom}_{\mathrm{Set}}(X,M)
+    $$
+
+    下面的定义来自于线性代数：
+
+    \begin{definition}
+        设$X$是$R$-模$M$的子集。根据上面的命题，包含映射$X \to M$自然诱导模同态：$\sigma: R^{\oplus X}\to M$。
+        \begin{enumerate}
+            \item 称$X$是线性无关的，或者自由的，如果$\sigma$是单射。
+            \item 称$X$生成$M$，若$\sigma$是满射。此时称$X$是$M$的生成集合。具有有限生成集的模称为有限生成模。
+        \end{enumerate}
+        线性无关的生成集称为基；具有基的模也成为自由模。这是自由模的内禀版本。
+    \end{definition}
+    \begin{example}
+        多项式环$R[X]=\bigoplus_{n \geq 0}RX^n$是一个自由模。其基向量是$\Delta:=\{X^n:n \geq 0\}$，并且是左$R$-模。
+    \end{example}
+    \begin{corollary}
+        任何模可以表示为自由模的商模。
+    \end{corollary}
+    \begin{proof}
+        生成元$X$取自身。
+    \end{proof}
+
+    如果$X$是有限集合，$R^{\oplus X}$就如同向量空间一样。因此其自同态环可以表成熟悉的矩阵环形式。不妨令$X$是$\{1,2,\dots,n\}$,我们先讨论右模$R$-的有限积。
+
+    根据积和余积的泛性质，下面的同构是自然存在的:
+    $$
+    \mathrm{Hom}(\bigoplus_{j=1}^n M_j,\bigoplus_{i=1}^m M_i') \stackrel{\sim}{\rightarrow}\prod_{i=1}^m \mathrm{Hom}(\bigoplus_{j=1}^n M_j,M_i') \stackrel{\sim}{\rightarrow}\prod_{j=1}^n \prod_{i=1}^m \mathrm{Hom}(M_j,M_i')
+    $$
+    
+    因此$\varphi:\bigoplus_{j=1}^n M_j \to \bigoplus_{i=1}^m M_i'$完全由其分量之间的$n \times m$个映射决定。不妨把这些映射写为矩阵的形式。
+    $$
+    \varphi \rightleftarrows M(\varphi)=(\varphi_{ij}), \quad \varphi_{ij}=p_i'\varphi \iota_j
+    $$
+
+    问题是这样的定义是否满足运算呢？即$\varphi \circ \phi$的矩阵是否为各自矩阵的乘积？这里我们首先要定义元的乘法。不难想象就是复合。
+    \begin{lemma}
+        $\varphi:\bigoplus_{j=1}^n M_j \to \bigoplus_{i=1}^m M_i'$和$\phi:\bigoplus_{i=1}^m M_i' \to \bigoplus_{k=1}^l M_k''$相应的矩阵满足:
+        $$
+        M(\phi \varphi)=M(\phi)M(\varphi)
+        $$
+    \end{lemma}
+    \begin{proof}
+        计算的要点是分解后的映射并不是毫无关系。这些诱导的$p_i$和$\iota_i$复合时都有关系。
+
+        计算复杂且不好做笔记。请读者自行计算。
+    \end{proof}
+
+    从而我们有:
+    \begin{proposition}
+        模$R^n$ 的自同态环自然地同构于$n\times n$矩阵环$M_n(R^{\mathrm{op}})$, 此同构由$\phi \mapsto M(\varphi)$。导出. 进一步, 加法群$\mathrm{Hom}_R(R^{\oplus n},R^{\oplus m})$ 自然地同构于全体$m \times n$ 矩阵的加法群$M_{m,n}(R^{\mathrm{op}})$; 同态的合成对应到矩阵乘法.
+        
+        如改用右R-模, 则相应地有$\mathrm{Hom}_R(R^{\oplus n},R^{\oplus m}) \cong M_{m,n}(R)$.
+    \end{proposition}
+    \begin{proof}
+        证明的关键是说明$\mathrm{End}_R({}_R R)$与$R^{\mathrm{op}}$同构。这是明显的。因为任意$\varphi \in \mathrm{End}_R({}_R R)$，有:
+        $$
+        \varphi(r)=r\varphi(1)=rm_\varphi
+        $$
+        则定义映射:$\Gamma:\mathrm{End}({}_R R) \to R^{\mathrm{op}}$，$\Gamma(\varphi)=\varphi(1)$.$\Gamma(\varphi \phi)=\varphi(\phi(1))=\phi(1)\varphi(1)$。
+    \end{proof}
+    \subsection{自由模的秩}
+    我们讨论非$0$自由模$R$-模的秩。自然的想法是定$M \cong R^{\oplus X}$的秩为$|X|$。因此关键的问题是说明$|X|$的选择不改变其基的大小。
+
+    若$R$是我们熟知的域，那么秩良定是我们所清楚的。那么接下来要讨论的是交换环的情况。
+    \begin{theorem}
+        设$R$是交换环，则$R^{\oplus X}\cong R^{\oplus Y}$当且仅当$|X|=|Y|$.
+    \end{theorem}
+    \begin{proof}
+        显然右边的条件蕴含左边的条件。假设$R^{\oplus X}\cong R^{\oplus Y}$。我们取$R$的一个极大理想$\mathfrak{m}$。（这样的理想总是存在的，证明要用到选择公理）。对于$M$是$R$-模，定义$\mathfrak{m}M$是形如$\{am|a\in \mathfrak{m},m \in M\}$的元素生成的子模。
+
+        注意上述定义是生成的子模。
+
+        于是$M/\mathfrak{m}M$是$R/\mathfrak{m}$模（验证留给读者）。由于$\mathfrak{m}$是极大理想，所以$R/\mathfrak{m}$是域。当$M=R^{\oplus X}$时容易看出来$\mathfrak{m}M=\mathfrak{m}^{\oplus X}$.于是有同构:
+        $$
+        M/\mathfrak{m}M \stackrel{\sim}{\rightarrow}(R/\mathfrak{m})^{\oplus X}  \quad (a_x)_{x \in X}+\mathfrak{m}M \mapsto (a_x+\mathfrak{m})_{x \in X}
+        $$
+
+        于是$|X|=\mathrm{dim}_{R/\mathfrak{m}}(M/\mathfrak{m}M)$。等式右边只与$M$本身的模结构有关，并不依赖基的选取。
+    \end{proof}
+    \begin{definition}
+        对于交换环的自由模$M$，存在极大线性无关组$X$使其生成$M$。从而定义$M$的秩为$|X|$。
+    \end{definition}
+
+    对于一般的环，令人感到有趣的是，如果$I$为无穷集合，并且$R^{\oplus I}\cong R^{\oplus J}$，则$|J|=|I|$。因此如果我们想要秩的良定问题，只需要讨论:
+    $$
+    R^{\oplus n} \cong R^{\oplus m} \Rightarrow n=m?
+    $$
+    是否成立。
+
+    遗憾的是，上述命题对所有的环并非都是成立的。因而该性质被称为“左不变基数”性质(IBN)。
+
+    除环, 交换环和有限环皆有不变基数性质。
+    \subsection{向量空间}
+    本节我们不讨论线性代数课程里面所学习的向量空间。与一般的交换环，或者PID相比，我们发现域多了除环的性质。因此有必要把除环的模拿出来进行考虑。
+    \begin{definition}
+        设$D$是除环，我们称右$D$-模是$D$-向量空间。其子模，商模也成为子空间和商空间。
+    \end{definition}
+    这里选取右模的原因是为了符号上的方便。其实写为左模也无所谓。若$\varphi$是两个向量空间的同态，则:
+    $$
+    \varphi(vd)=(\varphi v)d
+    $$
+    这种形式很像结合律。如果能加以定义，就能给出真正的结合律。
+
+    \begin{theorem}
+        设$V$是$D$-向量空间，$X$是$V$的子集。以下性质等价：
+        \begin{enumerate}
+            \item $X$是$V$的极大线性无关子集。
+            \item 包含映射$X \to V$诱导同构$D^{\oplus X} \stackrel{\sim}{\rightarrow} V$
+            \item $X$是$V$的极小生成集。
+            \item $V$中任何元素均可写为$\sum_{x \in X}xd_x$的有限和。其中$(d_x)_x$是唯一的。
+        \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+        $1 \to 2$:线性无关说明映射是单射。对于任何$v \in V$,根据极大线性无关知$v$可以被线性表出。（除环保证了能对纯量乘法做逆运算）
+
+        $2 \to 3$：若不是极小，则去除一个$y$后$X$仍然可以表出$V$。但此时$y \in D^{\oplus X}$已经无法被表出。
+
+        $3 \to 4$:$X$是生成集则说明$V$的任何元素可以被写为有限和。若不唯一，则同样有$y \in X$被表出，从而$X \setminus \{y\} $也是生成集。
+
+       $4 \to 1$:极大显然，线性无关显然。
+    \end{proof}
+    从而这样的$X$定义为$V$的基。
+    
+    \begin{proposition}[基的存在性]
+        $V$中的线性无关子集$X$必然包含在某个基$B$中。特别的，$V$有基。
+    \end{proposition}
+    \begin{proof}
+        使用的定理是Zorn引理。构造线性无关的集合族，对于其中的全序列，我们不难想到其上界为该列所有集合的并集。需要验证其为线性无关的集合。
+
+        不如设有线性相关的等式。由于线性相关的式子必然是有限个不为0的元素在做加减，因而这有限个元素必然从属于某个线性无关集合。从而命题得证。
+    \end{proof}
+
+    下面的若干性质则是向量空间很有特点的体现：
+    \begin{lemma}[Steinitz换元性质]
+        设$X,Y$是$V$的两组有限基，$y \in Y\setminus X$。则存在$x \in X\setminus Y$使得$(Y \setminus \{y\})\cup \{x\}$仍然是基。
+    \end{lemma}
+    \begin{proof}
+        把$X$中元素表示为$Y$中元素的组合。显然总有$x$的表示中出现$y$.设$Z=(Y \setminus \{y\})\cup \{x\}$,则任何$V$中元素可以展开为$Z$中元素组合（替换$y$）。
+
+        $Z$也是线性无关的。不然显然有$Y$线性相关，矛盾！
+
+        最后$x \notin Y$。若$x \in Y$，根据$y \notin X$知$Z=(Y \setminus \{y\})$。这与$Y$极大矛盾！
+    \end{proof}
+    书中提到了拟阵的概念。但由于目前没有看到应用，就略去了。
+
+    \begin{theorem}[维数不变]
+        设$X$和$Y$是两组基，则$|X|=|Y|$。于是定义$V$的维数为$|X|$。
+    \end{theorem}
+    \begin{proof}
+        我们不证明无穷的情况。对于有限的情况，取$X,Y$使得$|Y|>|X|$且$|Y-X|$尽可能小。但是通过换元性质可以得到更小的$|Y'-X|$。矛盾！
+    \end{proof}
+    \subsection{生成引理*}
+    该节主要阐述无穷的情况下秩和维的关系。
+    \begin{lemma}
+        设$I$是无穷集合，$(M_i)_{i \in I}$是一族非零模。则$\bigoplus_{i \in I}M_i$的任意生成集合$S$皆满足$|S|\geq |I|$。
+    \end{lemma}
+    \begin{proof}
+        对于$s \in S$,设$I$的子集$E_s=\{i \in I|s_i \neq 0\}$。$E_s$是有限集合。
+
+        由于$S$生成了$M$，则$\bigcup_{s \in S}E_s=I$。我们考虑基数不等式(可见教材的推论1.4.9):
+        $$
+        \max\{|S|,\mathbb{N}\}=|S|\cdot \mathbb{N} \geq |\bigcup_{s \in S}E_s|=|I|
+        $$
+        最左端无非是$|S|$。
+    \end{proof}
+    \begin{lemma}
+        若$R^{\oplus I}\cong R^{\oplus J}$，且$I$是无穷集合，则$|I|=|J|$。
+    \end{lemma}
+    \begin{proof}
+        $J$生成了$R^{\oplus I}$。则$|J|\geq |I|$。由对称性$|I|\geq |J|$.
+    \end{proof}
+    \section{模的张量积}
+    模的张量积是本笔记的重点。我们不会关注张量积具体是怎么构造的——其怎么构造都无所谓，关键是其有很好的泛性质。张量积是十分常用的构造，其蕴含许多有用的性质。
+    \subsection{张量积的定义}
+    首先定义双模:
+    \begin{definition}[双模]
+        设$R,S$都是环，所谓$(R,S)$-双模意味着一个兼具左模$R$-和右模$S$-结构的加法群$M$。并且满足:
+        $$
+        (rx)s=r(xs),\forall r,x,s
+        $$
+    \end{definition}
+    定义十分自然。因为我们不可能让两个模结构毫无关系。而最简单的关系就是满足形式上的结合律。
+
+    双模上可以定义显然的同态，同构，商模等诸多概念，从而形成$(R,S)$-Mod范畴。之后我们会展示如何把双模理论划归到单模的情况。
+
+    \begin{example}
+        设$S=\Z$。我们可以想象此时$\Z$作为右乘的环实际上对于$M$的结构来说没有太大关系。从而:
+        $$
+        (R,\Z)\mathrm{-Mod} \cong R\mathrm{-Mod}
+        $$
+    \end{example}
+    当环$R$是交换环的时候，任何左$R$模自然成为双模。这是因为我们有形式的交换律：
+    $$
+    rmr'=rr'm
+    $$
+    这个交换律来自于交换环的时候左模等于右模。
+
+    我们使用$\LM{R}M$表示左模，$M_S$表示右模,用$\LM{R}M_S$表示双模。
+
+    \begin{definition}[平衡积：单边情形]
+        设$R$是环，考虑$M_R$和$\LM{R}M$和交换群$(A,+)$。称映射:
+        $$
+        B: M \times N \to A
+        $$
+        是平衡积，若其满足双线性且:$B(xr,y)=B(x,ry)$。所有的平衡积构成集合$\mathrm{Bil}(M,N;A)$。对加法构成加法群。
+    \end{definition}
+        
+    现在我们考虑不同的$(A,+)$。此时所有从$M\times N$出发的平衡积构成了一个范畴:$\mathrm{Bil}(M,N;*)$.态射自然的定义为交换图表中的群同态$\varphi$:
+    \begin{tikzcd}
+	& A \\
+	{M\times N} \\
+	& {A'}
+	\arrow["B", from=2-1, to=1-2]
+	\arrow["{B'}"', from=2-1, to=3-2]
+	\arrow["\varphi", from=1-2, to=3-2]
+    \end{tikzcd}
+
+    \begin{definition}[张量积]
+        满足下列泛性质的平衡积$M \times N \to M \otimes_R N$称为$M$和$N$的张量积：对于任何平衡积$B$，都存在唯一的群同态:$M \otimes_R N \to A$满足：
+        
+        \begin{tikzcd}
+	    {M\times N} && {M \otimes N} \\
+	    && A
+	    \arrow[from=1-1, to=1-3]
+	    \arrow["B"', from=1-1, to=2-3]
+	    \arrow["{\exists! \varphi}", from=1-3, to=2-3]
+        \end{tikzcd}
+        也就是范畴$\mathrm{Bil}(M,N;*)$的始对象。记$x \otimes y$是$(x,y)$在$M \otimes_R N$中的像。
+    \end{definition}
+
+    \begin{lemma}
+        对于任意的$M_R$和$\LM{R}N$，张量积$M \times N \to M\otimes _R$存在。
+    \end{lemma}
+    只需要商去最必要的关系：双线性和交换律即可构造。
+
+    \begin{lemma}
+        张量积对$M,N$满足函子性。即若有$\varphi:M \to M'$和$\psi:N \to N'$是模同态，则存在唯一的同态：$\varphi \otimes \psi: M \otimes_R N \to M' \otimes_R N'$使得下图交换:
+        \begin{figure}[htbp]
+            \centering
+            \begin{tikzcd}
+	{M \times N} && {M'\times N'} \\
+	\\
+	{M\otimes N} && {M'\otimes N'}
+	\arrow["{\varphi  \times \psi}", from=1-1, to=1-3]
+	\arrow[from=1-1, to=3-1]
+	\arrow["{\mathrm{Induce}:\varphi \otimes \psi}"', dashed, from=3-1, to=3-3]
+	\arrow[from=1-3, to=3-3]
+\end{tikzcd}
+        \end{figure}
+    \end{lemma}
+    \begin{proof}
+        这是因为合成映射$M \times N \to M'\otimes N'$显然也是一个平衡积。从而根据泛性质自然诱导最下面的同态。
+    \end{proof}
+
+    我们具体研究一下这个诱导的$\varphi \otimes \psi$:
+    $$
+    \varphi \otimes \psi(x\otimes y)=\varphi(x)\otimes \psi(y)
+    $$
+    因此诱导的同态在集合元素上也非常简单和自然。由此知:
+    $$
+    (\varphi \otimes \psi) \circ (\varphi' \otimes \psi')=(\varphi \circ \varphi')\otimes (\psi \circ \psi)
+    $$
+
+    我们现在考虑两个双模$\LM{Q}M_R$,$\LM{R}N_S$.
+    \begin{lemma}\label{lem:1}
+        双模$\LM{Q}M_R$,$\LM{R}N_S$具有自然的双模$(Q,S)$结构:
+        $$
+        q(x \otimes y)s=(qx \otimes ys)
+        $$
+    \end{lemma}
+    \begin{proof}
+        根据双模定义，$q$在$M$的左乘实际上是$M$作为$R$-右模的模同态。同理有$s$在$N$的右乘。
+    \end{proof}
+    注：文章还介绍了关于$(Q,S)$平衡积的问题。但是其本身与我们最开始介绍的平衡积并无大异。所以笔记就略去了。
+
+    实际上，$(Q,S)$平衡积$B:M \times N \to A$还要求$B(qx,ys)=qB(x,y)s$，其中$\LM{Q}M_R,\LM{R}N_S$以及$A$是双模$\LM{Q}A_S$.此时范畴$\mathrm{Bil}(M,N;)$的始对象定义为两个双模的张量积。
+
+    注意到引理\ref{lem:1}给出的$M,N$在只考虑单边情况下给出的张量积的双模结构。就算考虑双模结构，这也是一个双模的平衡积。并且由于只商去了最必要的零关系，因此$M\otimes N$也是双模意义下的张量积。
+    
+    \subsection{张量积的重要性质}
+    接下来我们要介绍几个模张量积中比较重要的定理。分别是结合约束，交换约束，幺元，保持直和。
+    \begin{theorem}[张量积保持直和]
+        对于任意的左，右$R-$模族$(N_j)_{j \in J}$和$(M_i)_{i \in I}$，存在自然的同态:
+        $$
+        (\prod_{i \in I}M_i)\otimes_R (\prod_{j \in J}N_j ) \rightarrow \prod_{(i,j) \in I \times J }M_i \otimes_R N_j
+        $$
+        和
+        $$
+        (\bigoplus_{i \in I}M_i ) \otimes_R (\bigoplus_{j \in J}N_j) \stackrel{\sim}{\rightarrow} \bigoplus_{(i,j)\in I\times J}M_i \otimes N_j
+        $$
+    \end{theorem}
+    \begin{proof}
+        这里的自然意指由张量积的定义诱导。即我们要构造一个平衡积。
+        $$
+        \prod_{i \in I}M_i \times \prod_{j \in J}N_j \to \prod_{(i,j)\in I\times J}M_i \otimes N_j,\quad ((m_i),(n_j)) \mapsto ((m_i \otimes n_j)_{(i,j)\in I\times J})
+        $$
+        因而第一个同态自然存在。
+
+        注意到上述的同态把直和映射到直和。也就是说限制在直和的张量积上即得到张量积的直和。我们只用说明其为同构。
+
+        回忆米田引理，则函子$S\mapsto \mathrm{Hom}(S,\cdot)$是全忠实的函子。从而若$\mathrm{Hom}(S,\cdot)$与$\mathrm{Hom}(T,\cdot)$作为函子同构，则$S \cong T$。于是我们画出交换图：
+        \begin{figure}[htbp]
+            \centering
+            \begin{tikzcd}
+	{\mathrm{Hom}((\bigoplus_{i \in I}M_i ) \otimes_R (\bigoplus_{j \in J}N_j),A)} && {\mathrm{Bil}(\bigoplus_{i \in I}M_i,\bigoplus_{j \in J}N_j;A)} \\
+	&& {\prod_{i,j}\mathrm{Bil}(M_i,N_j;A)} \\
+	{\mathrm{Hom}(\bigoplus_{(i,j)\in I\times J}M_i \otimes N_j,A)} && {\prod_{i,j}\mathrm{Hom}(M_i\otimes N_j,A)}
+	\arrow["{\Phi^*}", from=3-1, to=1-1]
+	\arrow["\sim", from=1-1, to=1-3]
+	\arrow["\sim"', from=3-1, to=3-3]
+	\arrow["\cong", from=1-3, to=2-3]
+	\arrow["\cong"', from=3-3, to=2-3]
+\end{tikzcd}
+        \end{figure}
+       
+       如果不是直和而是直积，上述交换图中从$\mathrm{Bil}(\bigoplus_{i \in I}M_i,\bigoplus_{j \in J}N_j;A)$到下方的映射并非同构。下方给出的映射一般来说会多一些。 
+      
+       交换图的验证从略。
+    \end{proof}
+    \begin{theorem}[张量积的结合约束]
+        设$Q,R,S,T$是环，则存在典范的同构:
+        $$
+        M \otimes_R (M' \otimes_S M'') \stackrel{\sim}{\rightarrow}(M \otimes_R M')\otimes_S M''
+        $$
+        这里的“典范”意指双模$\LM{Q}M_R$,$\LM{R}M'_S$,$\LM{S}M''_T$视为变元，而同构的两端均视为从:
+        $$
+        ((Q,R))-\mathrm{Mod}\times ((R,S))-\mathrm{Mod}\times ((S,T))-\mathrm{Mod}
+        $$
+        到$((Q,T))-\mathrm{Mod}$的函子
+    \end{theorem}
+    \begin{proof}
+        证明的关键是说明三元平衡积与上述两边都是同构的。由于证明冗长，就不再记述了。
+    \end{proof}
+    \begin{theorem}[张量积的幺元]
+        设环$R,S$。利用乘法结构视两者为双模，则存在典范的同构：
+        $$
+        M \otimes_S S \stackrel{\sim}{\rightarrow} M \stackrel{\sim}{\leftarrow} R \otimes_R M
+        $$
+        其中$m \otimes s \mapsto ms;r \otimes m \mapsto rm$。
+
+        把$\LM{R}M_S$视为变元，上述三项都视为$(R,S)$-Mod到自身的函子。也可以说这是函子的典范同构。
+    \end{theorem}
+    \begin{proof}
+        我们只考虑$M \otimes_S S \cong M$这一边。对于任何双$(R,S)$模$A$，我们有:
+        $$
+        \mathrm{Hom}(M,A)\stackrel{1:1}{\leftrightarrow}\{M \times S \to A\} \stackrel{1:1}{\leftrightarrow} \mathrm{Hom}(M\otimes S,A)
+        $$
+        
+        第一个双射来自于$B(m,s)=B(ms,1)=\varphi(ms)$和$\varphi(m)=B(m,1)$。给定一个$B$，定义的$\varphi$是$(R,S)$同态，因为$r\varphi(m)s=rB(m,1)s=B(rm,s)=B(rms,1)=\varphi(rms)$.给定$\varphi$，也能得到平衡积$B$。这是比较显然的。
+
+        对于第二个，则是张量积的泛性质。即$\psi(m\otimes s)=B(m,s)=\varphi(ms)$。
+        
+        从而加法群的同构无非是对$m\otimes s \mapsto ms$作拉回；这样典范的同构也是函子的同构。 
+    \end{proof}
+
+    交换约束仅在$R$交换时候才有意义。因为此时一切$R$模都是双模。
+    \begin{theorem}[张量积的交换约束]
+        设$R$是交换环。存在典范同构:
+        $$
+        c(M,N):M \otimes_R N \stackrel{\sim}{\rightarrow} N \otimes_R M
+        $$
+        并且$c(M,N) \circ c(N,M)=\mathrm{id}_{M \times N}$
+    \end{theorem}
+    \begin{proof}
+        由于$R$是交换环，因而此时的$r$可以作用在$x \otimes y$的任何地方。这是上述同构的保证。
+    \end{proof}
+    我们介绍这些性质的一个小结论：
+    \begin{corollary}
+        设$M$和$N$是交换环$R$上的自由模。分别取$X,Y$作为基，则$M \otimes_R N$也是自由$R$-模。以$X \times Y \stackrel{1:1}{\leftrightarrow} \{x \otimes y|x \in X,y \in Y\}$作为基。特别的，有秩的关系:
+        $$
+        \mathrm{rk}_R(M \otimes_R N)=\mathrm{rk}_R(M)\mathrm{rk}_R(N)
+        $$
+    \end{corollary}
+    \subsection{环变换}
+    给定两个环$R,S$，若存在$f:R \to S$是一个同态，我们可以通过一定操作将$S$模变为$R$模。
+
+    用$af$表示左模同态的作用，用$ga$表示右模同态的作用。这样的记法是为了更好的表示结合律:
+    $$
+    (ra)f=r(af)\quad g(ar)=(ga)r
+    $$
+    从而我们有:
+    \begin{theorem}
+        设$Q,R,S$是环。对于双模$\LM{Q}M_R$和$\LM{Q}M'_S$,其$\mathrm{Hom}_{Q}(M,M')$具有天然的$(R,S)$模结构：
+        $$
+        \forall f \in \mathrm{Hom}_{Q}(M,M'),(m)rfs=((mr)f)s
+        $$
+        同样的，对于双模$\LM{Q}M_R$和$\LM{S}M'_R$，$\mathrm{Hom}_{R}(M,M')$具有天然的$(S,Q)$模结构:
+        $$
+        \forall f \in \mathrm{Hom}_{R}(M,M'), sfq(r)=s(f(qr))
+        $$
+        双模的定义是容易验证的。
+    \end{theorem}
+    \begin{example}[对偶函子]
+        取$M=\LM{R}R_R$。则$\mathrm{Hom}(\cdot,\LM{R}R)$是一个$(R$-Mod)$^{\mathrm{op}}$到Mod-$R$模的函子。$\mathrm{Hom}(\cdot,R_R)$是一个从$(\mathrm{Mod}-R)^{\mathrm{op}}$到$R$-Mod模的函子.
+    \end{example}
+    下面叙述张量积的重要性质，即与$\mathrm{Hom}$函子的伴随性。
+    \begin{theorem}
+        设$\LM{Q}M_R$,$\LM{R}N_S$,$\LM{Q}A_S$是双模。存在典范的同构：
+        $$
+        \mathrm{Hom}_{(Q,S)}(M\otimes N,A)\stackrel{\sim}{\rightarrow} \mathrm{Hom}_{(R,S)}(N,\mathrm{Hom}_{Q}(M,A))
+        $$
+        如果写为函子伴随的形式，则函子$(M \otimes_R \cdot)$作为$(R,S)$-Mod到$(Q,S)$-Mod的函子拥有右伴随:$\mathrm{Hom}(M,\cdot)$，其是从$(Q,S)$-Mod到$(R,S)$-Mod的函子。
+
+        类似的，我们也有:
+        $$
+        \mathrm{Hom}_{(Q,S)}(M\otimes N,A)\stackrel{\sim}{\rightarrow} \mathrm{Hom}_{(Q,R)}(M,\mathrm{Hom}_{S}(N,A))
+        $$
+        如果写为函子伴随的形式，则函子$(\cdot \otimes_R N)$作为$(Q,R)$-Mod到$(Q,S)$-Mod的函子拥有右伴随:$\mathrm{Hom}(N,\cdot)$，其是从$(Q,S)$-Mod到$(Q,R)$-Mod的函子。
+    \end{theorem}
+    \begin{proof}
+        证明并不复杂。我们只关注第二条（因为第一条书中有证明）。注意到张量积到$A$的映射自然与平衡积一一对应。如果存在一个平衡积$B:M \times N \to A$，自然可以定义:
+        $$
+        \Phi:M \to \mathrm{Hom}_S(N,A),\quad m\mapsto B(m,\cdot)
+        $$
+        整个命题的关键在于验证定义的$\Phi$是满足要求的$(Q,R)$同态。而这就牵扯到$\mathrm{Hom}_S(N,A)$的模结构$(Q,R)$。
+
+        同理，如果有$\Phi$，也可以构造平衡积。需要验证平衡积对$(Q,S)$的平衡性质。
+    \end{proof}
+    现在正式处理环变换的问题。我们给定一个环同态$\varphi:R \to S$。现在我们把一些$S$模变成$R$模。
+
+    首先是$S$本身。其自然可以成为$(R,S)$模或者$(S,R)$模。现在我们考虑一般的$S$模。
+
+    介绍函子$\mathcal{F}_{R \to S}$，该函子将右$S$模映射为右$R$模。对于$x \in M$，$xr=xf(r)$.在介绍函子${}_{R \to S}\mathcal{F}$。该函子将右$S$模映射为右$R$模。对于$x \in M$，$xr=xf(r)$.
+
+    这两个函子不仅仅只有定义上的作用，其本身有很好的同构:
+    \begin{lemma}\label{lemma:F}
+        存在函子间的同构:
+        $$
+        \mathrm{Hom}(\LM{S}S,\LM{S}(-))\cong {}_{R \to S}\mathcal{F} \cong \LM{R}S \otimes_S -
+        $$
+        $$
+        \mathrm{Hom}(S_S,(-)_S)\cong \mathcal{F}_{R \to S}\cong - \otimes_S S_R
+        $$
+    \end{lemma}
+    \begin{proof}
+        我们证明第二个式子。设$g \in \mathrm{Hom}(S_S,M_S)$.则$g$右乘上$r$：
+        $$
+        gr: s \mapsto grs=g(f(r)s)
+        $$
+        设$g$对应$M$中的$g(1_S)$。则此时$(gr)(1)=g(f(r)1)=g(f(r))=g(1_S)f(r)$。这正好是$\mathcal{F}_{R \to S}(M)$中的$R$模结构。
+
+        接着考虑$M\otimes S$。这个模自然同构于$M$。注意到此时$S$的右乘其实不影响这里面的结构。从而可知右边也是同构。
+    \end{proof}
+   剩下该节的部分个人认为做笔记也不能很好的帮助记忆。唯一需要记住的是$\mathcal{F}$作为函子也拥有伴随函子。并且其同时拥有左右伴随。这是因为引理\ref{lemma:F}说明其不仅同构于$\mathrm{Hom}$,而且同构于张量积。所以根据两者的伴随关系即可得到。
+
+   同时$\mathcal{F}$也是可以复合的。即$\mathcal{F}_{Q\to R} \circ \mathcal{F}_{R \to S}=\mathcal{F}_{Q \to S}$
+    \section{主理想整环上的有限生成模}
+    这一节是大学二年级模论课学习的重点。教材花了很大的精力来阐述有限生成模的结构定理。对于这篇notes而言，我们当然志不在此。因此简要阐述结构和证明思路即可。
+
+    首先我们注意到有限生成模$M$种有很多复杂的关系。因此先定义:
+    \begin{definition}
+        设$M$是$R$-模.其无挠商定义为商模:
+        $$
+        M_{tf}:=M/M_{tor}
+        $$
+
+        其中$M_{tor}$是$M$的挠子模，即所有挠元构成的模。（容易验证其确实是一个子模）。
+
+        注意到任何同态都把挠元映射到挠元。因此两个模之间的同态自然诱导$\varphi_{tf}:M_{tf}\to N_{tf}$。
+    \end{definition}
+    \begin{lemma}
+        任何$R$-模$M$的无挠商模都是无挠模，对于商同态:$M \to M_{tf}$的拉回给出了自然同构:
+        $$
+        \mathrm{Hom}_R(M_{tf},N) \stackrel{\sim}{\rightarrow} \mathrm{Hom}_R(M,N)
+        $$
+        这里的$N$是无挠模。
+
+        上述自然同构实际上给出来无挠$R$-模范畴，其作为$R$-Mod的全子范畴到$R-$模范畴的包含函子的左伴随。即自然同态给出函子$R$-$\mathrm{Mod}$ $\to $ $R$-$\mathrm{Mod}_{tf}$是包含函子的左伴随。
+    \end{lemma}
+    \begin{proof}
+        设$r(a+M_{tor})=0$。则$ra \in M_{tor}$。则$sra=0$。于是$a \in M_{tor}$。
+
+        第二个命题是显然的。
+    \end{proof}
+
+    我们假设之后的环都是主理想整环。首先考虑如下的命题:
+    \begin{lemma}
+       自由$R-$模的子模都是自由模，并且子模的秩小于等于原模的秩。
+    \end{lemma}
+    值的注意的是，真子模的秩不一定严格小于原模的秩。因此这里的小于等于不能再真子模的情况下精细化为小于。对于例子，可以看$\Z$和$2\Z$。
+    \begin{proof}
+        $M$作为自由模$E$的子模自然是无挠的。（因为是主理想整环）。
+
+        选定$E$的基$X$并考虑如下集合:
+        $$
+        P=\{(Y,Y',b):Y'\subset Y \subset X, M_Y:=M  \cap \sum_{y \in Y}Ry,b:Y' \to M,\{b(y),y\in Y'\}\}
+        $$
+        其中$M_Y$要求是自由模，$M_Y$有基为$\{b(y)\}$.
+
+        集合$P$存在自然的偏序关系。即$Y \subset Y_1$,$Y' \subset Y_1'$，$b_1|_Y'=b$。对于全序列，自然有上界.这一点留给读者自证。
+
+        我们证明由zorn引理和此得到的极大元$(Y',Y,b)$满足$Y=X$。此时$M$的基为$Y'$，符合我们的要求。 
+    
+        这个思路风格很符合zorn引理。即我们构造符合某种特点的全序集，以此得到极大元。对极大元分析，证明是我们想要的东西。这里的特点是，$X$的部分子集能生成的自由群能和$M$相交出自由群。
+
+        假设$X=Y$，则$x \in X\setminus Y$存在。我们定义理想:
+        $$
+        \mathfrak{a}=\{a \in R|(ax+\sum_{y \in Y}Ry)\cap M \neq 0\}
+        $$
+        对于$ra,r \in R,a \in \mathfrak{a}$，容易知道:
+        $$
+        rax+\sum_{y\in Y}rRy \cap rM \neq 0
+        $$
+        然而这式子中两个项都没变。因此$\mathfrak{a}$确实是理想。
+
+        设$\mathfrak{a}=(a)$。若$(a)=0$，则$M_Y=M_{Y \cup\{x\}}$。矛盾于极大元定义！
+
+        若$(a)\neq 0$，则$a \neq 0$。设$m_x \in M$满足：
+        $$
+        m_x \in ax+\sum_{y \in Y}Ry
+        $$
+        任意$M_{Y \cup \{x\}}$中的元素$m'$若在$E$中以$Y \cup \{x\}$展开，则$x$的系数必然属于$(a)$。因而存在$r \in R$:
+        $$
+        m'-rm \in M_Y
+        $$
+        于是:
+        $$
+        M_{Y \cup \{x\}}=Rm_x \oplus M_Y
+        $$
+        
+        于是取$Y_1:=Y \cup \{x\}$，$Y_1'=Y'\cup \{x\}$,$b_1:Y_1 \to M$满足$b|_Y'=b,b(x)=m_x$，其构成大于$(Y',Y,b)$的元。
+
+        因此极大元$(Y',Y,b)$必然满足$Y=X$。
+    \end{proof}
+    \begin{lemma}
+        设$M$是$R$模，且$M_{tf}$有限生成。则$M_{tf}$是自由模，并且存在有限秩自由子模$E$使得$M=M_{tor}\oplus E$。
+    \end{lemma}
+    \begin{proof}
+        每个有限生成模都是自由模的商模。对于$M_{tf}$，取有限生成集$X$,其中的极大线性无关子集$Y$虽然不一定能表达所有$X$，但是对于$x \in X\setminus Y$，总可以找到:
+        $$
+        a_x x \in \sum_{y \in Y}Ry
+        $$
+        设$a=\prod_{x \in X\setminus Y}a_x$，则下面的同态是单同态:
+        $$
+        M_{tf} \to R^{\oplus Y},\quad m \mapsto am
+        $$
+        这是因为若$am=0$，则$m=0$。因为$M_{tf}$是无挠模。于是$M_{tf}$可以被堪为自由模的子模。
+
+        现在选定$M_{tf}$的基$B$。为$b \in B$挑选原像$\overline{b}$。容易验证$E$由$\overline{b}$生成是自由模。$M$的分解也是显然的。
+    \end{proof}
+    这个引理说明我们之研究$M_{tor}$是合理的。此时:
+    \begin{proposition}
+        设$R$模$M$满足$\mathrm{ann}(M)\neq 0$。且元素$\prod_{i=1}^m p_i^{n_i}$生成$\mathrm{ann}(M)$。其中$p_1,\dots,p_m$是互不整除的不可约元。从而$M$有直和分解:
+        $$
+        M=\bigoplus_{i=1}^m M[p_i^{n_i}]
+        $$
+    \end{proposition}
+    \begin{proof}
+        视$M$是$R/\prod_{i=1}^m p_i^{n_i}$模。设$I_i=(p_i^{n_i})$。根据CRT,$R/\prod_{i=1}^m p_i^{n_i}$与$\prod_{i=1}^m R/(p_i^{n_i})$是同构的。
+
+        根据引理\ref{lemma:p}的论述，我们可以对$M$做分解。此时，$M_i$是$R/(p_i^{n_i})$模。这也意味着:
+        $$
+        M_i=M[p_i^{n_i}]=M[p_i^\infty]
+        $$
+    \end{proof}
+    \begin{theorem}
+        主理想环$R$上的有限生成模$N$皆同构于:
+        $$
+        N \cong \bigoplus_{i=1}^n R/\mathcal{o}_i, \quad R\neq \mathcal{o}_1 \supset \dots \supset \mathcal{o}_n
+        $$
+        其中真理想链$\mathcal{o}_1 \supset \dots \supset \mathcal{o}_n$被$N$的同构类唯一的确定，是$N$的初等因子。
+    \end{theorem}
+
+    李文威此时还给出了关于指数abel群的一点应用。在这里也不多阐述了。我们需要抓紧篇幅进入正合列的学习。
+    \section{正合列入门}
+    我们在这节主要叙述最最基本的正合列的知识。因为本身在模上进行讨论，因此问题也不会复杂。之后在同调代数做的工作是把这些推广到更广泛的范畴上，以及搞更多有意思的结果。
+
+    \begin{definition}
+        由$R$-模构成的复形系指一列$R$-模, 连同其间循序相连的同态, 形如:
+        $$
+        \dots \to W \to Z \to Y \to X \to \dots
+        $$
+        该链可以是双边的，单边的，无边的无穷。我们只要求这些同态复合两次后全为$0$。即$\mathrm{im}(W \to Z) \subset \mathrm{ker}(Z \to Y)$。复形在$Z$处的同调群即定义为:$\mathrm{ker}(Z \to Y)/\mathrm{im}(W \to Z)$，是一个$R$-模
+
+        若$Z$处的同调群是平凡的，则称复形在$Z$处正合。处处正合的列称为正合列。
+    \end{definition}
+    习惯上我们把一个复形记为$M$或者$(M,d)$，其中第$n$号的模记为$M_i$。从$M_i$到$M_{i-1}$的同态记为$d_i$。从而$d_{i}\circ d_{i+1} =0$.
+
+    由此我们可以定义同调群。其在每个$i$处都有定义:
+    \begin{align}
+        H_i(M):=\dfrac{\ker d_i}{\mathrm{im}d_{i+1}}
+    \end{align}
+    正合列的同调群处处平凡。
+
+    无端点的复形$M$可以是上有界的，即当$k$足够大时$M_k=0$。也可以是下有界的，即$M_k=0$，当$k$足够负的多的时候。有界的定义同样如此。有界的复形写为:
+    $$
+    0 \to M_n \to M_{n-1}\dots \to M_1 \to 0
+    $$
+
+    改用上标为复形编号。并要求$d^i:M^i \to M^{i+1}$。此时我们得到的链复形拥有类似的理论。定义:
+    \begin{align}
+        H_i(M):=\dfrac{\ker d_i}{\mathrm{im}d_{i-1}}
+    \end{align}
+    称为$i$处的上同调群。上同调拥有与同调同样丰富的性质。
+    \subsection{同调的基础之基础}
+    \begin{definition}
+        两个复形之间可以定义同态。即一系列模的同态$f$。使得下列交换图成立:
+        \begin{figure}[htbp]
+            \centering
+            \begin{tikzcd}
+	\dots & {M_{i+1}} && {M_i} && {M_{i-1}} & \dots \\
+	\\
+	\dots & {N_{i+1}} && {N_{i}} && {N_{i-1}} & \dots
+	\arrow[from=1-4, to=1-6]
+	\arrow[from=1-2, to=1-4]
+	\arrow[from=1-6, to=1-7]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=3-1, to=3-2]
+	\arrow[from=3-2, to=3-4]
+	\arrow[from=3-4, to=3-6]
+	\arrow[from=3-6, to=3-7]
+	\arrow["{f_{i+1}}"{description}, from=1-2, to=3-2]
+	\arrow["{f_i}"{description}, from=1-4, to=3-4]
+	\arrow["{f_{i-1}}"{description}, from=1-6, to=3-6]
+        \end{tikzcd}
+        \end{figure}
+    \end{definition}
+    因而复形具有同构的概念。即这些同态都是同构。并且所有的$R$模复形做成一个范畴。
+
+    同态$f$诱导了一系列同调群$H(M)$到$H(N)$的同态。这是因为$f(\ker)=\ker$,$f(\mathrm{im})=\mathrm{im}$。当同态把大群映射到大群，把被商掉的群映射到被商掉的群时，就会诱导商群的同态。
+
+    同调构成了一族从复形范畴到$\mathrm{Ab}$的加性函子$(H_i)_{a<i<b}$。这种观点实际上是同调公理的思维模式。可见J.P.May的关于代数拓扑的教材。
+
+    可以逐项构造一族复形的
+    \begin{enumerate}
+        \item 积$\prod_i M_{i}$
+        \item 直和$\oplus_i  M_i$
+        \item 极限和余极限$\Lim_i M_i$，$\Colim_i M_i$。
+    \end{enumerate}
+    我们说明极限的情况确实能构成复形。假定$I$是小范畴并且$i \to j$给出了转移同态$M_i \to M_j$注意这里的下标不表示具体的模，而是复形。
+
+    对于极限复形中的$P_k$到$P_{k-1}$，为了给出微分算子，我们自然会依照泛性质来。需要给出若干$k$号模到$P_{k-1}$的态射。这一点由$k$号模到$k-1$号模的微分算子得到。我们不多赘述其中的细节。
+
+    微分算子复合为$0$由泛性质中的唯一导出。此时$0$同态是可选的方案，而唯一性告诉我们只有这一种方案。
+
+    一个值得考虑的问题是，正合性在这些运算中会如何变化？
+    \begin{lemma}
+        正合复形族$(M_{\dot,i})_i$的滤过极限仍然正合。特别的，复形族的积正合当且仅当每个都正合。
+    \end{lemma}
+    \begin{proof}
+        滤过极限暂时用的还很少，我们先不给出证明。
+
+        我们考虑三项的复形:$L_i \to M_i \to N_i$。$f_i: L_i \to M_i,g_i: M_i \to N_i$。考虑积。显然$\mathrm{im}(\prod_i f_i)=\prod_i \mathrm{im}(f_i)$，$\ker(\prod_i f_i)=\prod_i \ker f_i$。直和同样显然。
+
+        上述两个等式就说明了等价关系。
+    \end{proof}
+    \begin{definition}[短正合列]
+        短正合列是形如:$0 \to M' \to M \to M'' \to 0$的正合列。
+    \end{definition}
+    根据正合的关系，在复形同构的意义下，短正合列无非是商模的构造。我们关注的是分裂的概念。
+    \begin{proposition}
+        设$0 \to M' \to M \to M''$是$R$模范畴中的短正合列。则下面的陈述等价。并且当任意一个条件满足时，我们称之为分裂的短正合列。
+        \begin{enumerate}
+            \item 存在$s:M'' \to M$使得$gs=\id_{M''}$
+            \item 存在$r:M \to M'$使得$rf=\id_{M'}$
+            \item 存在图表:\begin{tikzcd}
+	             {M'} & M & {M''}
+	             \arrow["f", shift left=1, from=1-1, to=1-2]
+	             \arrow["g", shift left=1, from=1-2, to=1-3]
+	             \arrow["r", shift left=1, from=1-2, to=1-1]
+	             \arrow["s", shift left=1, from=1-3, to=1-2]
+                \end{tikzcd}使得$M$成为双积分$M' \otimes M''$
+            \item 映射$g_*:\mathrm{Hom}(X,M) \to \mathrm{Hom}(X,M'')$对每个$R$模$X$都是满射。
+            \item 映射$f_*:\mathrm{Hom}(M,X) \to \mathrm{Hom}(M'',X)$对每个$R$模都是$X$射。
+        \end{enumerate}
+    \end{proposition}
+    
+\end{document}

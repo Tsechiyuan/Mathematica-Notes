@@ -1,0 +1,100 @@
+\ifx\allfiles\undefined
+
+	% 如果有这一部分另外的package，在这里加上
+	% 没有的话不需要
+	
+	\begin{document}
+\else
+\fi
+\part{指标理论}
+\chapter{Clifford代数及其表示}
+\section{Clifford表示}
+ Most of the important applications of Clifford algebras come through a detailed understanding of their representations.We can deduce them with a deep understanding of the classification in Section 4.
+
+ Now we begin with a general definition.
+    
+  \begin{definition}\label{def:reps}
+  Let $K \supset k$ be a field containing $k$.Then a \textbf{K-representation} of Clifford algebra $\mathrm{Cl}(V,q)$ is a $k$-algebra homomorphism
+    \begin{align*}
+        \rho:\mathrm{Cl}(V,q) \to \mathrm{Hom}_{K}(W,W)
+    \end{align*}
+
+    where $\mathrm{Hom}_{K}(W,W)$ is the algebra of linear transformations of a finite dimensional vector space $W$ of $K$.
+
+    We call $W$ a $\mathrm{Cl}(V,q)$-module over $K$ and write $\rho(\varphi)(w)=\varphi \cdot w$ to simplify the notation.
+  \end{definition}
+
+
+
+We shall be interested in the cases that $K=\R,\C,\HH$.Note that a complex vector space is just a real space $W$ together with a linear map $J:W \to W$ such that $J^2=-\mathrm{Id}$.So a complex reps. is just a real resp. $\rho:\mathrm{Cl}(V,q)$ such that:
+\begin{align*}
+    \rho(\varphi)\circ J=J \circ \rho(\varphi)
+\end{align*}
+
+Thus the image of $\rho$ commmutes with the subalgebra $\mathrm{span}{\mathrm{Id},J}\cong $. This algebra is called a \textbf{commmuting subalgebra} of $\rho$.
+
+Similar method applies to quaternionic resp. of $\mathrm{Cl}(V,q)$.
+
+
+    Any complex resp. can be extended to a reps. of $\mathrm{Cl}_{r,s}\otimes $.This is also similar for quaternionic resp.
+
+
+\begin{definition}
+   Let $V,q,k \subset K$ be as in definition \ref{def:reps}.A resp. of $\mathrm{Cl}(V,q)$ will be said to be reducible if the vector space $W$ can be written as a non-trivial direct sum( over $K$):
+   \begin{align*}
+    W=W_1 \oplus W_2
+   \end{align*}
+
+   such that $\rho(\varphi)(W_i)\subset W_i, \forall \varphi \in \mathrm{Cl}(V,q)$.
+
+   A reps. is called irreducible if it is not reducible.
+\end{definition}
+  
+
+
+This definition is not conventional as "irreducible" is often regarded as a property that there are no proper invariant subspaces. However.
+
+\chapter{Spin几何和Dirac算子}
+
+
+
+\section{向量丛上的Spin结构}
+\section{Spin流形}
+\section{Clifford丛,旋量丛}
+In this section, we suppose that readers have known some basic propertys of principal bundle and the associated bundle construction.We will briefly introduce these conceptions in appendix B.
+
+
+
+
+\section{联络}
+\section{Dirac算子}
+\section{基本椭圆算子}
+\section{$Cl_k$线性Dirac算子}
+\section{消灭定理}
+\chapter{指标定理}
+
+\chapter{Chern-Weil理论}
+\chapter{热核}
+
+
+
+%\problemset
+\begin{problemset}
+  \item Solve the Riemann Conjecture.
+\end{problemset}
+
+
+\chapter{复几何上的指标定理}
+\ifx\allfiles\undefined
+	
+	% 如果有这一部分的参考文献的话，在这里加上
+	% 没有的话不需要
+	% 因此各个部分的参考文献可以分开放置
+	% 也可以统一放在主文件末尾。
+	
+	%  bibfile.bib是放置参考文献的文件，可以用zotero导出。
+	% \bibliography{bibfile}
+	
+	\end{document}
+	\else
+	\fi

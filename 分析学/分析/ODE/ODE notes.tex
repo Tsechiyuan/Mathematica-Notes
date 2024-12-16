@@ -1,0 +1,236 @@
+\documentclass[UTF8]{ctexart}[a4paper,12pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+
+
+%声明环境
+\newtheorem{example}{例}[section]              
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[section]            
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+{
+    \theoremheaderfont{\sffamily}
+    \newtheorem*{remark}{注解} 
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+%外测度
+\def\outmQ{m_*(Q)}
+
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{ODE Stduy Notes}
+\author{颜成子游}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\section{引论}
+这一章将给出这本书会涉及到的基础概念；以及几种最简单的微分方程的解法。最后讨论了复值函数的微分方程和它们的复值解，以及一些线性微分方程的最简单的知识。
+
+\subsection{一阶微分方程式}
+
+\textbf{微分方程}是指这样的方程：其中未知的是单变量或者多变量的（一个或者几个）函数，且方程中不仅含有函数本身，还含有它们的导函数；如果
+未知数是多变量函数，则称为\textbf{偏微分方程}；否则，则称为\textbf{常微分方程}。ODE即"Ordinary Differential Equation"。
+
+首先讨论一阶的情况，此时，方程可以写为：
+$$
+F(t,x,\dot{x})=0
+$$
+
+由此，我们首先应该考虑$F$的定义域$B$。这里的定义域指的是三个变量$t,x.\dot{x}$所构成的空间。当$r_1<t<r_2$时，解的解：$\varphi(t)$必须满足以上的
+定义域。
+
+如果分离变量，由隐函数定理：
+
+\begin{equation}\label{equ:basicequ}
+    F(t,x,\dot{x})=0\Rightarrow \dot{x}=f(t,x)
+\end{equation}
+
+我们假定$f(t,x)$的定义域$\Gamma$是开集,并且$f$和$\displaystyle{\frac{\partial f}{\partial x}}$是连续的。这将有利于之后的研究。
+
+从方程\eqref{basicequ}解出来的函数$\varphi(t)=x$所对应的曲线称为\textbf{积分曲线}。
+
+\subsection{解的存在性和唯一性}
+显然微分方程的解可以有无数多个的情况。因此我们应当讨论如何描述出微分方程所有的解的集合。我们不加证明给出\textbf{存在和唯一性定理}：
+
+\begin{theorem}\label{thm:solexi}
+    给定微分方程
+    \begin{equation} \label{eq:spesol}
+    \dot{x}=f(x,t) 
+    \end{equation}
+    假设函数$f(x,t)$在变量$(t,x)$平面$P$的某一个开集$\Gamma$上有定义，并且在整个开集$\Gamma$上函数$f$本身及其偏导数$\displaystyle{\frac{\partial f}{\partial x}}$
+    都是$t,x$的连续函数；那么，我们断定：
+    \begin{enumerate}[1]
+        \item 对于集合$\Gamma$的任意一个点$(t_0,x_0)$，方程\eqref{eq:spesol}都存在解$x=\varphi(t)$，它满足:
+        \begin{equation}
+            \varphi(t_0)=x_0
+        \end{equation}
+        \item 如果方程有两个解，只要它们在某一个值$t=t_0$处是一样的，也就是如果满足
+        $$
+        \psi(t_0)=\chi(t_0)  
+        $$
+        那么对于两者都有定义的变量$t$值，它们是恒等的。
+    \end{enumerate}
+\end{theorem}
+
+证明留在很久后给出。
+
+定理\ref{thm:solexi}的几何含义：通过集合$\Gamma$的每一点$(t_0,x_0)$，有且只有一条满足方程积分曲线经过方程\eqref{basicequ}。
+
+在实际问题中，我们必须考虑到$t$的定义区间。定理只表明在定义区间的相同地方，不同解的值会是相同的。但是并没有说明定义区间必须完全相同。
+
+记$\psi(t)$和$\chi(x)$的定义区间分别为：$r_1<t<r_2$，$s_1<t<s_2$，并且前者完全包含了后者，那么我们说$\psi(t)$是$\chi(x)$的延拓。
+
+对于同一个初值，其拥有最大定义区间的解称为\textbf{不可延拓}的解。容易看出来，如果使用图来描述，那么不可延拓的解是集合$\Gamma$里面所能包含的最长曲线。
+
+任何积分曲线$x=\varphi(x)$在它的每一个点的切线可以写为：
+$$
+x=x_0+f(t_0,x_0)(t-t_0)
+$$
+
+这是微分方程\eqref{equ:basicequ}的几何解释。
+\subsection{一些初等的求积分方法}
+这些方法在最后的理解上都不难。我们最需要关注的是解的存在区域(a<t<b)此类。
+一种可能出现的情况是，几个解可以用一个式字表示，但是由于他们的存在范围是分开不连通的，因而不是一个解。
+\subsubsection{$\dot{x}=f(t),t\in (a,b)$}
+无慈悲的讲，这个方程小学生都会。唯一要注意的是，解写为：
+$$
+x=\int_{t_0}^t f(\tau)d\tau+c
+$$
+$t_0 \in (a,b)$是最合适的。此时可以完美解决定义域的问题。
+\subsubsection{$\dot{x}=g(x),x \in(a,b)$}
+不考虑定义域的话，这个方程将是简单的。这里我们假定$g(x)$拥有连续的导函数，以便于使用唯一性定理。
+
+此时直接积分：
+$$
+t-t_0=\int_{x_0}^x \frac{d\xi}{g(\xi)}
+$$
+这要求$g(x)\neq 0$这是自然的。因为如果有$x_0$：$g(x_0)=0$。那么$x =x_0$是一个解。根据存在唯一性，此时$x=x_0$是唯一解。同时，$g(x)\neq 0$也表明$g(x)$不变号。于是上面的方程可以给出反函数。
+
+因此该方程的初值决定了$g(x)$的正负性。在不同的正负区间，解的曲线是不同的。
+
+\subsubsection{$\dot{x}=f(t)g(x),a<t<b,c<x<d$}
+直接分离变量积分即可。注意我们要求$f$连续，$g$连续可导。同样要求$g \neq 0$.
+这样同样可以给出反函数。
+\subsubsection{齐次方程:$\dot{y}=h(\frac{y}{t})$}
+换元$x=\frac{y}{t}$。即可得到一个变量可分离的方程。此时$x$的范围为$h$所规定的范围。
+\begin{example}
+    求解:
+    $$
+    \dot{x}=\frac{x^2-1}{2}
+    $$   
+\end{example}
+\begin{proof}
+    我们把$x$的存在区间分为$(-\infty,-1),(-1,1),(1,+\infty)$。容易知道$-1,1$时解为$x=-1,x=1$。
+    
+    此时$\frac{x^2-1}{2}$符号固定。可以直接分离参量求解。我们得到：
+    $$
+    x=\frac{1+ce^{t}}{1-ce^t}
+    $$
+
+    $c$的取值决定了解的图像。若$c>0$，其确定了谅解，一个定义在$-\infty<t<-\ln c$上，一个定义在$-\ln c<t<+\infty$上。取值分别为$x>1$和$x <-1$。
+
+    若$c>0$，其确定了一个解。$x$取值为$-1<x<1$。
+\end{proof}
+最后，我们说明如果$\dot{x}=f(x,t)$中的$f(x,t)$不满足在区域$\Gamma$内连续，对$x$偏导连续，那么唯一性可能不存在。
+\begin{example}
+    $$
+    \dot{x}=3x^{\frac{2}{3}}
+    $$
+\end{example}
+\begin{proof}
+    这个方程的在初值$(0,0)$处可以有两个解：
+    $$
+    x=0
+    $$
+    $$
+    x=t^3
+    $$
+\end{proof}
+\subsection{存在性与唯一性定理的叙述}
+我们在本节展开叙述存在与唯一性定理的一般情况。证明不会给出。
+\begin{theorem}[存在性与唯一性定理]
+    考虑常微分方程组
+    $$
+    \dot{x}_i=f_i(t,x_1,x_2,\dots,x_n),i=1,2,\dots,n
+    $$
+    设$f_i$有一个公共的区域$\Gamma$作为定义域。这是一个开集。
+
+    若$f_i$与$\frac{\partial f_i}{\partial x_j}$都连续，那么对于$\Gamma$中的每个初值$(t_0,\vec{x}_0)$，都存在唯一的积分曲线满足其是微分方程的解。
+    
+\end{theorem}
+
+我们首先注意到，若$G\subseteq \mathbf{R}$为开集，则$f^{-1}(G)$为$F_{\sigma}$集
+事实上，由于$R$中的开集$G$是可数个构成区间的并，故不妨设$G$是一个开区间$(a,b)$.而我们知道
+\[ \{x|f_{k}(x)\geq a+\varepsilon\}  \]
+是闭集，由于$f_{k}(x)$的连续性，从而
+\[ \{x|f(x)>a \}=\bigcup_{n=1}^{\infty}\bigcup_{m=1}^{\infty}\bigcap_{k=m}^{\infty}\left\{x|f_{k}(x)\geq a+\frac{1}{n}\right\} \]
+是$F_{\sigma}$集.同理$\{x|f(x)<b\}$也是$F_{\sigma}$集合.而他们的交集
+\[ f^{-1}((a,b))=\{x|f(x)>a \}\bigcap\{x|f(x)<b\} \]
+也是$F_{\sigma}$集.为了证明$f(x)$的连续点是稠密的$G_{\delta}$集，我们只要证$f(x)$的不连续点是没有内点的$F_{\sigma}$集.记$D(f)$为$f(x)$的不连续点集合，任意的$a\in D(f)$,存在$p,q\in \mathbf{Q}$使得
+\[ p<f(a)<q\]
+\[ \Leftrightarrow\qquad a\in f^{-1}((p,q)) \]
+\[ a\notin f^{-1}(R-(p,q)) \]
+而存在点列$\{a_{n}\}$使得
+\[ \lim_{n\to\infty}a_{n}=a,\qquad f(a_{n})\notin(p,q) \]
+\[ \Leftrightarrow\qquad a_{n}\notin f^{-1}(p,q) \]
+\[ \Leftrightarrow\qquad a_{n}\in f^{-1}(R-(p,q)), \lim_{n\to\infty}a_{n}=a \]
+于是
+\[ a\in \overline{f^{-1}(R-(p,q))}-f^{-1}(R-(p,q)) \]
+所以
+\[ D(f)=\bigcup_{p<q,\text{$p,q$为有理数}}[\overline{f^{-1}(R-(p,q))}-f^{-1}(R-(p,q))] \]
+而$f^{-1}(R-(p,q))$为$G_{\delta}$集，故
+\[ \overline{f^{-1}(R-(p,q))}-f^{-1}(R-(p,q)) \]
+为$F_{\sigma}$集.并且$\overline{f^{-1}(R-(p,q))}-f^{-1}(R-(p,q))=\partial f^{-1}(R-(p,q))$是没内点的.它是可数个无内点的闭集的并，所以$D(f)$也是可数个无内点的闭集的并。由Baire定理，$D(f)$是无内点的$F_{\sigma}$集.所以$R^{n}\setminus D(f)$是稠密集合.
+
+ 
+
+从这个结论可以看出，导函数的连续点也是稠密的，只要注意到
+
+\[ f'(x)=\lim_{n\to\infty}\frac{f\left(x+\frac{1}{n}\right)-f(x)}{\frac{1}{n}} \]
+
+就好.
+\end{document}

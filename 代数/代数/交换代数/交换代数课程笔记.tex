@@ -1,0 +1,1595 @@
+\documentclass[UTF8]{ctexart}[a4paper,10pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{quiver}
+
+%声明环境
+\theorembodyfont{\rmfamily}
+\newtheorem{example}{例}[section]              
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[section]            
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+{
+    \newtheorem*{remark}{注解} 
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+\def\F{\mathbb{F}}
+
+
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{交换代数课程笔记·2023春}
+\author{整理者：颜成子游/南郭子綦}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{课程简介}
+授课老师：于世卓(今年瘦了好多，代数果然减肥捏)
+
+\subsection{什么似交换代数？}
+代数几何 \quad 交换代数\quad  不变理论 \quad 数论
+
+交换代数起源于不变理论:Hibert14问题：
+
+群$G$作用在$k[x_1,x_2,\dots,x_n]$上，$k$是域，则$k[x_1,x_2,\dots,x_n]$的不变子环是不是一个有限生成的$k$-代数？
+\begin{example}
+    $G$是置换群$\Sigma_n$。$R=k[x_1,\dots,x_n]$，$\sigma \in G$,$f\in R$,$\sigma(f)(x_1,\dots ,x_n)=f(x_{\sigma^{-1}(1)},\dots,x_{\sigma^{-1}(n)})$。
+
+    则不变子环$R^G=k[f_1,\dots,f_n]$，其中$f_i$是对称多项式。对称多项式不再赘述。
+\end{example}
+\begin{example}[Hibert(1890)]
+    $G=\mathrm{SL}(n,\C)$。$\mathrm{char}k=0$。此时Hibert14问题正确。
+\end{example}
+\begin{example}[Noether]
+    $G$有限群，$\mathrm{char} k  \geq 0$时，Hibert14问题也成立。
+\end{example}
+
+Neother的老师P.Gordan(King of Invariant theory)
+
+Nagata(永田雅宜)构造出了Hibert14的反例，同时与Habosh合作，证明了有限生成与$G$是约化群等价。
+
+发展：几何上不变理论。
+\begin{example}[Hilbert1900]
+    $k$是域，$R =k[x_1,x_2,\dots,x_n]$。若$K$是域且$k \subset K \subset \mathrm{Frac} R$，则$K \cap R$是否为有限生成的$k$代数？
+
+    Nagata，Rees给出了反例。Zarski给出了$\mathrm{deg}(K/k)\leq 2$，结论正确。
+\end{example}
+
+代数几何：
+
+揭示了代数与几何的关系。
+
+有1交换环$R$和概型 $\mathrm{Spec} R$是$R$的素理想+Zarski拓扑。
+
+数论 Fermat大定理是代数几何的第三阶段。原因是转化为代数几何问题：椭圆曲线与模形式。($a^n+b^n=c^n,n\geq 3$无正整数解。)
+
+Frey猜想(1985)：Fermat方程有正整数解可以推出椭圆曲线$y^2=x(x-a^n)(x+b^n)\quad over \quad \Q$不是模曲线。
+
+解决：Step1(Rebet):证明了Frey猜想。
+
+Step2(Wiles)：任意椭圆曲线都是模曲线。 
+\subsection{课程内容与考核}
+内容：IT+DT，即不变理论和维数理论。
+
+下面简单介绍一下维数理论：
+
+1.多项式环$k[x_1,\dots,x_n]$的“维数”。若考虑其为线性空间，则是无穷维的。如果考虑Krull维数，则$\mathrm{dim}=n$。
+
+2.奇点。切空间维数$>$Krull维数。
+
+主要定理：Hibert四大定理。Hibert基定理，Hibert零点定理，Hibert·Syzygy定理，Hibert多项式定理。
+
+考核：50+50
+\subsection{参考书}
+
+1.Invariant theory 8-12章。（入门和例子）
+
+2.GTM.150 Eisenbud “字典” 0-4,15.
+
+3.Atiyah-Macdonald 练习册
+\section{复习与回顾（从略）}
+\subsection{群作用}
+\begin{definition}[对偶空间的群作用]
+    设$G$作用在$V =\F^n$上，$V$的基底为$e_1,\dots,e_n$。对偶空间$V^*$的基地为$\chi_1,\dots,\chi_n$。其中$\chi_i(e_j)=\delta_{ij}$。
+
+    定义$G \times V^* \to V^*:g \cdot \chi_i(e_j)=\chi_i(g^{-1}e_j)$
+
+    经过验证，这是一个左作用。
+\end{definition}
+\begin{example}
+    $\Sigma_n$作用在$V$上，$V$的维数是$n$。则$(\sigma,e_i)=e_{\sigma(i)}$。该作用诱导了群作用:
+    $$
+    G \times V^* \to V^*: (\sigma,\chi_i)\mapsto \chi_{\sigma(i)}
+    $$
+    这是因为:
+    $$
+    \sigma \cdot \chi_i(e_j)=\chi_i(\sigma^{-1}e_j)=\chi_i(e_{\sigma^{-1}(j)})=\chi_{\sigma(i)}(e_j)
+    $$
+\end{example}
+\subsection{环与代数}
+\begin{definition}[交换环的定义]
+    常识
+\end{definition}
+
+\begin{remark}[关于非幺环]
+
+    没有$1$的环可以"嵌入"到(单同态)到幺环中,但是性质不一定保持不变。即Dorrol嵌入:
+
+    设$R$是一般的环，考虑幺环$\Z \times R$:
+    $$
+    (n,a)+(m,b)=(n+m,a+b) \quad \quad (n,a)(m,b)=(mn,nb+ma+ab)
+    $$
+    可以验证此环的幺元为$(1,0_R)$。
+\end{remark}
+\begin{remark}[关于非交换环]
+    \quad
+
+    (1)一些非交换环具有一定的交换性，亦可"交换化"。例如下面的"微分算子环"：
+    $$
+    A=\R[x_1,x_2,\dots,x_n,\frac{\partial}{\partial x_1},\dots,\frac{\partial}{\partial x_n}]
+    $$
+    这不是一个交换环。因为:
+    $$
+    \frac{\partial}{\partial x_i}x_i -x_i\frac{\partial}{\partial x_i}=1
+    $$
+    因为:
+    $$
+    \frac{\partial}{\partial x_i}(x_if)=x_i\frac{\partial f}{\partial x_i}+f
+    $$
+
+    (2)非交换环的交换子:
+     $[a,b]=ab-ba$满足Jacobbi恒等式:
+     $$
+     [[a,b],c]+[[b,c],a]+[[c,a],b]=0
+     $$
+     Ado定理：任何有限维的Lie代数都是$\mathrm{GL}(n,\C)$的子代数。
+
+     (3)微分算子环的对称化:
+     $$
+     A: A_0 \subset A_1 \subset A_2 \dots A_i \dots
+     $$
+     其中$A_0=\R[x_1,\dots,x_n]$。其中$A_i:=\{\xi \in A|[\xi,f]\in A_{i-1},\forall f \in \R[x_1,x_2,\dots,x_n]\}$。即$i$阶微分算子构成的集合。
+
+     此时滤子:$R:= A_0 \oplus A_1/A_0 \oplus A_2/A_1 \dots$是交换环。
+\end{remark}
+\begin{definition}[分次环]
+    环$R$称为分次环，如果$R=R_0 \oplus R_1 \oplus R_2\dots $（群直和）使得$R_iR_j \subset R_{i+j}$。
+\end{definition}
+\begin{example}
+    显然最直接的例子是$R[x_1,\dots,x_n]$。其是所有$k$次多项式组成的群的分次环。
+\end{example}
+\begin{definition}[环同态]
+    常识
+\end{definition}
+\begin{definition}[环同态定理]
+    常识
+\end{definition}
+\begin{definition}[代数]
+    $R,S$都是环，若存在环同态$\varphi:R \to S$，则$S$称为$R$-代数。
+\end{definition}
+直观上看，$R$为系数多项式。即给$R$多项式赋值$s \in S$得到$S$中的值。
+
+一个$R$-代数$S$自然满足：存在$\varphi$诱导群作用：
+$$
+R \times S \to S,\quad (r,s) \mapsto r\cdot s:=\varphi(r)s
+$$
+使得：$r(s+s')=rs+rs',(r+r')s=rs+r's,(rr')s=r(rs')$
+\begin{definition}[代数的生成]
+    若$R$-代数:$S=R[s_1,s_2,\dots,]$,$s_1,s_2,\dots \in S$。则称$s_1,s_2,\dots$是$R$-代数的生成元。
+\end{definition}
+\begin{example}
+    (1)任意环$S$都是$\Z$-代数。$\varphi(n) \mapsto n\cdot 1_S$.
+
+    (2)任意环是其子环$R$的$R$-代数。
+
+    (3)多项式环$R[x_1,\dots,x_n]$是$R-$代数。
+    $$
+    R \to R[x_1,\dots,x_n] ,\quad r \mapsto r
+    $$ 
+\end{example}
+\begin{definition}[代数同态]
+    设$S,S'$都是$R$-代数，环同态$\varphi:S \to S'$满足$\varphi(rs)=r\varphi(s)$，则称$\varphi$为$R-$代数同态。
+\end{definition}
+\subsection{多项式环上的群作用和代数}
+设$\F[x_1,\dots,x_n]$是多项式环，$G \times \F^n \to \F^n$是$V=\F^n$上的群作用。则$G \times (\F^n)^*\to (\F^n)^*$是$V^*$上的群作用：$(gx_i)(v)=x_i(g^{-1}v)$。
+
+则可以定义:
+$$
+G \times \F[x_1,\dots,x_n] \to \F[x_1,\dots,x_n]: (g,x_1^{i_1}x_2^{i_2}\dots x_n^{i_n})\mapsto (gx_1)^{i_1}\dots (gx_n)^{i_n}
+$$
+只要定义了单项式，则很容易线性的定义多项式。这里不再赘述。
+
+注意：上述群作用全部由最开始的$G$作用在线性空间$\F^n$诱导。
+
+\begin{proposition}[$G$作用下的不变子集]
+    $\F[x_1,\dots,x_n]^G:=\{f \in \F[V]:gf=f,\forall g \in G \}$是$\F[V]$的子环。其自然是$\F$代数，称为不变子环（代数）。
+\end{proposition}
+\begin{proof}
+    $g \cdot 1=g(1\cdot 1)=(g \cdot 1)^2$于是$g \cdot 1=\alpha$，$\alpha$只能为$1$或者$0$.
+
+    若$\alpha=0$，则$g \cdot f=0$这是平凡的。
+
+    若$\alpha=1$。则$gk=k,\forall k \in \F$.于是$\F \subset \F[x_1,\dots,x_n]^G$.接下来需要验证的是子环。这是比较显然的。因为:
+    $$
+    g(f_1-f_2)=gf_1-gf_2=f_1-f_2 ,\quad g(f_1f_2)=(gf_1)(gf_2)=f_1f_2
+    $$
+\end{proof}
+\begin{example}
+    $G=\Sigma_n$作用在$\F[x_1,\dots,x_n]$。则对应的$\F[x_1,\dots,x_n]^G=A^G=\F[s_1,\dots,s_n]$。
+
+    其中$s_1=x_1+\dots+x_n$，$s_2=x_1x_2+\dots+x_nx_1$，$s_n=x_1\dots x_n$。
+\end{example}
+\begin{example}
+    $G=A_n$是交错群。$G$同样作用在$\F[x_1,\dots,x_n]$上。则:$A^G=\F[x_1,\dots,x_n,\triangledown]$。$\triangledown$是范德蒙德行列式:$\triangledown=\Pi_{i<j}(x_i,x_j)$。
+\end{example}
+上述两个例子有一个本质差异。在第一个例子中，$s_1,\dots,s_n$是代数无关的。但是第二个例子中，$s_1,dots,s_n,triangledown$是代数相关的。
+
+比如，当$n=2$,$\triangledown_2^2=(x_1-x_2)^2=(x_1+x_2)^2-4x_1x_2$。故$\triangledown_2^2-s_1^2+4s_1s_2=0$。
+
+\begin{example}
+    $G=\Z/3Z$作用在$A=\C[x,y]$上。作用为$(w)f(x,y)=f(wx,wy)$,$w$是$e^{2/3 \pi i}$。则$x^ay^b \in A^G \Leftrightarrow 3|(a+b)$。
+
+    结论是，$A^G=\C[x^3,x^2y,xy^2,y^3]$。令这四个元为$z_0,z_1,z_2,z_3$.他们蕴含关系:
+    $$
+    z_0z_3-z_1z_2=0,\quad z_0z_2-z_1^2=0,\quad z_1z_3-z_2^2=0
+    $$
+    这是一阶关系。同时，设这些关系左边的式子为$a_1,a_2,a_3$，则蕴含关系:
+    $$
+    z_1a_1+z_2a_2+z_3a_3=0,\quad z_0a_1+z_1a_2+z_2a_3=0
+    $$
+    第一列关系称为1阶syzygy，第二列关系称为2阶syzygy。详情可见syzygy定理。
+\end{example}
+\begin{example}[二项式的不变理论]
+    设$G$是二阶特殊线性群。（行列式为$1$）设$V_d$是空间$\C[x,y]$即$d$阶齐次多项式。其作为向量空间同构于$ \C ^{d+1}$。
+     
+    为了让$G$作用在$\C[x_0,\dots,x_n]$上，我们首先让$G$作用在$\C^2$上，然后定义$G$作用$V_d$上:$(g)f(x,y)=f(g^{-1}v)$。由于$V_d$与$\C^{d+1}$同构，所以该作用也可以看作在$\C^{d+1}$的作用。从而我们定义了$\C[x_0,\dots,x_d]$上的作用。
+
+    当$d=2$时，$V_2=\{f=a_0x^2+2a_1xy+a_2y^2,a_i \in \C\}$。其同构于$\C^3$.让$\mathrm{GL}(2,\C)$作用在$\C[a_0,a_1,a_2]$上。
+
+    验证:$g=a_1^2-a_0a_2$是不变的，即$g \in \C[a_0,a_1,a_2]^{\mathrm{SL}(2,\C)}$。
+
+    相关的定理:
+    
+    (1)$d=2$,$\C[a_0,a_1,a_2]^{\mathrm{SL}(2,\C)}=\C[a_1^2-a_0a_2]$
+
+    (2)$d=3$,生成元为$1$个。$d=4$,生成元是$2$个。$d=7$生成元是$30$个，$d=9$时生成元是$92$个。
+\end{example}
+\subsection{群表示与不变子环}
+性质1:由$\rho:G \to \mathrm{GL}(n,\C)$作为一个群表示诱导群作用$G\times \F[x_1,\dots,x_n]$.令$H=G/\ker \rho$,则$H$也有到$V$上的群作用。此时，$\F[x_1,\dots,x_n]^G=\F[x_1,\dots,x_n]^H$。
+
+也就是说我们可以只考虑忠实表示的群作用。
+\begin{definition}
+    表示$\rho_1$和$\rho_2$被称为是等价的，若存在$T \in \mathrm{GL}(n,\F)$，使得$\rho_2=T^{-1}\rho_1 T$。
+\end{definition}
+\begin{proposition}
+    若$\rho_1$和$\rho_2$是等价的表示，则$\F[x_1,\dots,x_n]^{\rho_1}=\F[x_1,\dots,x_n]^{\rho_2}$
+\end{proposition}
+\section{模与代数}
+\subsection{模与代数的定义}
+略
+\begin{example}[群环]
+    给定群$G$，考虑$G$是交换群。$F$是域。定义群环$\F G$为形式和:
+    $$
+    \F G=\{\sum_{g \in G}d_g g,d_g \in \F\}
+    $$
+    其中$g$为形式和。$\F G$是环，这一点是显然的。
+
+    若给定群表示$\rho:G \to \mathrm{GL}(V)$，表示空间则立马成为$\F G$-模。定义是明显的。因而要求有限和。
+
+    给定$\F G$模，$\F G\times V \to V$.
+\end{example}
+\subsection{子模与理想}
+我们补充一个模的例子。
+\begin{example}
+    令$\F[V]$是$\F[x_1,\dots,x_n]$，$V$的维数是$n$，$G$是有限群。定义:
+    $$
+    \mathrm{Tr}_G:\F[V]\to \F[V], \quad f \mapsto \sum_{g \in G}g \cdot f
+    $$
+    是$\F[V]^G$-模同态。称为一个变换。
+
+    注意:
+
+    1.$\mathrm{Im}(\mathrm{Tr}^G)=\F[V]^G$
+
+    2.$\mathrm{Tr^G}$不是$\F$-代数同态。即$\mathrm{Tr}^G(f_1f_2)\neq \mathrm{Tr}^G(f_1)\mathrm{Tr}^G(f_2)$.
+\end{example}
+\begin{definition}
+    设$\F$是一个特征值为$0$的域。$\pi^G$:$\F[V] \to \F[V]^G$。$\pi^G(f)=\dfrac{1}{|G|}\mathrm{Tr}^G(f)$称为平均算子。
+\end{definition}
+平均算子显然有性质:
+
+(1)$\pi^G$是满的模同态，则$\pi^G(f)=f,\forall f\in \F^G(V)$
+
+(2)设$f$的轨道为$o(f)=\{f_1,\dots,f_k\}$。则$\pi^G(f)=\dfrac{|G_f|}{|G|}(f_1+\dots+f_k)$。
+
+\subsection{轨道陈类方法(Orbit chern class)}
+设$G$是有限群，$\F$是域且$\mathrm{char}F=0$。设$\rho:G \to \mathrm{GL}(n,\F)$是忠实表示。则$G$自然的有在$\F[x_1,\dots,x_n]$的作用。
+
+令$o(x_i)=\{f_{i1},\dots,f_{ik}\}$。称之为Chern roots.按照初等对称多项式的方式，我们把陈根进行组合:
+
+第一陈类:$f_{i1}+\dots+f_{ik}:=c_1(x_i)$
+
+第二陈类:$\displaystyle\sum_{\alpha<\beta}f_{i\alpha }f_{i\beta}:=c_2(x_i)$。
+
+\dots
+
+最高陈类:$f_{i1}\cdots f_{ik}:=c_k(x_i)$.
+
+我们看一些陈类的应用:
+\begin{example}
+    $\rho:\Z_k \to \mathrm{GL}(2,\C)$:
+    $$
+    1 \mapsto \begin{pmatrix}
+        \omega &0\\ \omega &0
+    \end{pmatrix}  \quad  \omega^k=1
+    $$
+    其中$\omega$是本原根。
+
+    从而$\Z_k$自然有到$\C[x,y]$的作用。可以验证:$1 \cdot (x,y)=(\omega x,\omega y)$。
+
+    从而生成元$x$的陈根是:$\{x,\omega x,\omega^2 x,\dots,\omega^{k-1}x\}$。$y$的陈根类似。
+
+    经过计算得到$c_1(x)=c_2(x)=\dots=c_{k-1}(x)=0$。而$c_k(x)=x^k$，若$k$是奇数。$c_k(x)=-x^k$，若$k$是偶数。
+
+    我们有以下结果:
+    \begin{enumerate}
+        \item $\C[x^k,y^k]$并非$\C[x,y]^G$。
+        \item $\C[x,y]^G=\C[c_k(x),c_k(y),c_k(x+\omega^i y)]$。$i=1,\dots,k-1$。
+    \end{enumerate}
+\end{example}
+
+\begin{theorem}
+    $G$是有限群，$F$是特征为$0$的域。$\rho:G \to \mathrm{Gl}(n,\F)$是忠实表示。则$\F[x_1,\dots,x_n]^G$是由轨道陈类$\{c_i(l):l \in V^*\}$生成$\F$代数。
+\end{theorem}
+\begin{lemma}
+    $x_1^{i_1}\dots x_n^{i_n}=\sum_{l \in V^*}\alpha_l$
+\end{lemma}
+\begin{proof}
+    由于$\pi^G:\F[x_1,\dots,x_n] \to \F[x_1,\dots,x_n]^G$是满的模同态，我们只需证明$\pi^G(x_1^{i_1},\dots,x_n^{i_n}) \subset A$.
+\end{proof}
+\subsection{Hibert基定理方法}
+\begin{definition}[Noether环与Noether模]
+若$R$的每个理想都是有限生成的，则称$R$是Noether环。若$R$-模$M$的每个子模都是有限生成的，则称之为Noether模。
+\end{definition}
+\begin{example}
+    $\F$是域.
+\end{example}
+\begin{theorem}[Hilbert基定理]
+    \quad
+    
+    下述命题都是成立的。
+
+    若$R$是Noether环，则多项式环$R[x_1,\dots,x_n]$也是Noether环。
+
+    若$S$是Noether环，$R$是有限生成的$S$代数，则$R$是Noether环.
+
+    若$R$是Noether环，则有限生成的$R$-模$M$是Noether模。
+\end{theorem}
+\begin{example}
+    $\F$是域，$\F[x,y]$是环。任取$\F[x,y]$的理想$I$，都对应一个所谓的“凸集”。
+    $$
+    \begin{matrix}
+        y^4 &\dots &\dots &\dots &\dots\\
+        y^3 &\dots &\dots &\dots &\dots\\
+        y^2 &xy^2 &x^2y^2 &\dots&\dots \\
+        y&xy&x^2y&x^3y&\dots\\
+        1&x&x^2&x^3&\dots
+    \end{matrix}
+    $$
+
+    此时$I$的生成元可以对应为整除关系下的极小元即图中的凸点，即生成理想包含关系下的极大元。
+\end{example}
+注明:有限生成的理想$I$与$\F$的集并不一定是有限生成的$\F-$代数。例如，$(x)\cup \F$不是有限生成的代数。其写为:
+$$
+\C[x,xy,xy^2,\dots,xy^n,\dots]
+$$
+\begin{theorem}
+    $G$是有限群(不可推广到$\mathrm{SL}(n,\C)$),$\F$是特征为$0$的域。$G$作用在$\F[x_1,\dots,x_n]$上。$\F[x_1,\dots,x_n]^G$是有限生成的$\F$-代数。
+\end{theorem}
+\begin{proof}
+    Key Point 1:将环分次。
+
+    记$\F[x_1,\dots,x_n]$=$R_0 \oplus R_1\dots $。对应的,$\F[x_1,\dots,x_n]^G$可以分解为$I_0 \oplus I_1 \oplus I_2  \dots$.
+
+    设$J$是$\F[x]$中由$I_1,I_2,\dots$生成的理想。即:
+    $$
+    J=RI_1 +RI_2 +\dots \subset R
+    $$
+
+    Key Point 2:Hilbert基定理：$J$是有限生成的，生成元是$a_1,\dots,a_k$。下证$R^G=\F[a_1,\dots,a_k]$，即对于$f \in R^G,f \in \F[a_1,\dots,a_k]$.
+
+    我们对$\mathrm{deg}(f)$进行归纳证明。若$\mathrm{deg}f=0$，则$f\in \F \subset \F[a_1,\dots,a_k]$自然成立。
+
+    现在假设$\mathrm{deg}f \leq m$的情况都已经成立。对于$\mathrm{deg}f=m+1 >0$而言，有:
+    $$
+    f=f_{\mathrm{deg}=0}+f_{\mathrm{deg}>0}=c_0+a_1c_1+\dots+a_kc_k, \quad c_k \in \F[x_1,\dots,x_n]
+    $$
+
+    Key Point 3:应用平均算子得:
+    $$
+    f=\pi^G(f)=\pi^G(a_1c_1)+\dots+\pi^G(a_kc_k)+c_0=a_1\pi^G(c_1)+\dots+a_k\pi^G(c_k)+c_0
+    $$
+    由于$\pi^G(c_i) \in R^G$且$\mathrm{deg}\leq m$，根据归纳假设$\pi^G(c_i)\in \F[a_1,\dots,a_k]$，从而得到:$f \in \F[a_1,\dots,a_k]$。
+\end{proof}
+
+\section{Noether}
+\subsection{Noether环}
+\begin{proposition}[Noether环的等价定义]
+    (1)$R$的任意理想都是有限生成的。
+
+    (2)任何严格理想升链长度有限:
+    $$
+    I_1 \subset I_2 \dots 
+    $$
+
+    (3)设$S$是$R$中的所有理想。用包含定义偏序关系，$S$的任意非空子集有极大元。
+\end{proposition}
+
+注记：(2)中的升链不可以变为降链。即升链有限长无法推出降链有限长。但是反之是可以的。
+\begin{definition}
+    降链有限长的环称之为Artin环。Artin环一定是Noether环。
+\end{definition}
+\begin{example}
+    $\Z$是Noether环。但是$(2) \supset (4) \supset (8) \dots $无限长。
+\end{example}
+\begin{proposition}[Noether模的等价定义]
+    (1)$R$的任意子模都是有限生成的。
+
+    (2)任何严格子模升链长度有限:
+    $$
+    I_1 \subset I_2 \dots 
+    $$
+
+    (3)设$S$是$M$中的所有子模。用包含定义偏序关系，$S$的任意非空子集有极大元。
+\end{proposition}
+\begin{proposition}[Hibert基定理]
+    \quad
+    
+    下述命题都是成立的。
+
+    若$R$是Noether环，则多项式环$R[x_1,\dots,x_n]$也是Noether环。
+
+    若$S$是Noether环，$R$是有限生成的$S$代数，则$R$是Noether环.
+
+    若$R$是Noether环，则有限生成的$R$-模$M$是Noether模。
+\end{proposition}
+\begin{proof}
+    考虑$I$是$\R[x_1,\dots,x_n]$的理想，分次可得$I=I_0+I_1+\dots+I_k$。
+\end{proof}
+\begin{corollary}[Hilbert基定理的推论]
+    若$R$是诺特环，则$R/I$是诺特环。因为$R/I$中的理想与$R$中包含$I$的理想有一一对应。故$R/I$中的理想是有限生成的。
+\end{corollary}
+\begin{corollary}
+    Noether环同态像是Noether环。
+\end{corollary}
+\begin{proof}
+    设$\varphi: R \to S$，根据同构定理，$\varphi(R)=R/\ker(\varphi)$是$R$的商环。所以$\varphi(R)$也是诺特环。
+\end{proof}
+\begin{theorem}
+    $R$是Noether环可以推出若$S$是有限生成的$R$代数，则$S$是Noether环。
+\end{theorem}
+\begin{proof}
+    设$S=R[s_1,\dots,s_n]$.则$S \cong R[x_1,\dots,x_n]/\ker(\varphi)$，其中$\varphi: x_k \mapsto s_k$是环同态。
+\end{proof}
+\subsection{Grobner基的存在性和域上的Hilbert基定理}
+设$I$是域$\F$上多项式的理想。考虑$\F[x_1,\dots,x_n]$中的单项式。我们定义字典序：
+\begin{definition}[字典序]
+    $Ax_1^{a_1}\dots x_n^{a_n}>Bx_1^{b_1}\dots x_n^{b_n}$等价于$a_1>b_1$或者$a_1=b_1$且$a_2>b_2$
+
+    而次数字典序则定义为$m_1=Ax_1^{a_1}\dots x_n^{a_n}>m_2=Bx_1^{b_1}\dots x_n^{b_n}$等价于$\mathrm{deg}(m_1)>\mathrm{deg}(m_2)$或者$\mathrm{def}(m_1)=\mathrm{deg}(m_2)$且$m_1>m_2$在字典序中成立
+\end{definition}
+\begin{definition}[整除偏序]
+    $m_1<m_2 \Leftrightarrow m_1|m_2$。 
+\end{definition}
+\begin{definition}[单项式序]
+    单项式集合上的全序满足:
+    \begin{enumerate}
+        \item $m \geq 1,\forall m=Ax_1^{a_1}\dots x_n^{a_n}$
+        \item 若$m_1 \geq m_2$，则$mm_1\geq mm_2$对于所有$m$成立。
+    \end{enumerate}
+\end{definition}
+\begin{example}
+    字典序，次数字典序都是单项式序。整除偏序不是单项式序。
+\end{example}
+\begin{definition}[Grobner基]
+    设$<$是$\F[x_1,\dots,x_n]$上的单项式序。$\F$是域。
+    $$
+    f \in \F[x_1,\dots,x_n] \rightarrow \mathrm{LT}(f)
+    $$
+    定义为$f$在$<$下最大的单项式。
+
+    而对于$\F[x_1,\dots,x_n]$的理想$I$，定义$\mathrm{LT}(I):=(\mathrm{LT}(f),f \in I)$。
+
+    有限集合$\{g_1,\dots,g_n\}$称为$I$的Grobner基，若$g_1,\dots,g_n$生成了$I$且$\mathrm{LT}(g_1),\dots,\mathrm{LT}(g_n)$生成了$\mathrm{LT}(I)$.
+\end{definition}
+\begin{example}
+    设$I=(g_1,,g_2)$是$\F[x,y]$的理想。$g_1=xy+1$,$g_2=x+y$。令$f=x^2y+y$。考虑$f$是否为$I$里面的元素。
+
+    我们对$g_1,g_2$做带余除法，则$f=xg_1-g_2+2y$，同时也等于$f=xyg_2-yg_1-2y$。注意到余数随做带余除法的顺序而改变。
+
+    但是如果$g_1,\dots,g_n$本身是Grobner基，就可以说明余数与带余除法的顺序无关。
+\end{example}
+\begin{theorem}
+    固定单项式序$<$和理想$I\subset \F[x_1,\dots,x_n]$的Grobner基$\{g_1,\dots,g_n\}$。则:
+    \begin{enumerate}
+        \item $\forall f \in R$可以唯一分解为$f=f_I+r$，其中$f_I \in I$.$r$中的单项式不整除任意的$g_i$.
+        \item $f \in I$等价于$r=0$。
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    对于$g_1,\dots,g_m$做带余除法（任意次序）得到$f=f_I+r,f=f_I'+r'$.则$\mathrm{LT}(r-r')\in \mathrm{LT}(I)$。则单项式$\mathrm{LT}(r-r')=m\mathrm{LT}(g_i)$。则:
+    $$
+    \mathrm{deg}(r-r')\geq \mathrm{deg}g_i \Rightarrow r-r'=0
+    $$
+    第二个命题显然。
+\end{proof}
+接下来我们说明域上加强版的Hilbert基定理。
+\begin{theorem}\label{thm:Hilbert+}
+    对于理想$I \subset \F[x_1,\dots,x_n]$,$I$存在Grobner基。
+\end{theorem}
+\begin{lemma}\label{lem:1}
+    若$g_1,\dots,g_m$满足$(\mathrm{LT}(g_1),\dots,\mathrm{LT}(g_m))=\mathrm{LT}(I)$，则$g_1,\dots,g_m$生成了$I$。
+\end{lemma}
+\begin{proof}
+    对于$f \in I$，考虑带余除法$f=c_1g_1+\dots+c_mg_m+r$。则$r \in I$且$\mathrm{LT}(r)\in \mathrm{LT}(I)=(\mathrm{LT}(g_1),\dots,\mathrm{LT}(g_m))$。从而$\mathrm{def}(r) \geq \mathrm{deg}(g_i)$对于某个$g_i$来说恒成立。于是$r=0$.
+\end{proof}
+\begin{lemma}[Dickson引理]
+    设$S$是$\F[x_1,\dots,x_n]$上任意单项式的集合。则$S$在整除偏序关系下只存在有限个极小元。
+\end{lemma}
+\begin{proof}
+    证明比较难以呈现出来。这里就略去了。
+\end{proof}
+接下来我们证明定理\ref{thm:Hilbert+}。
+\begin{proof}[定理\ref{thm:Hilbert+}的证明]
+    由Dickson引理可知,$\mathrm{LT}(I)$由有限个极小元$L_1,\dots,L_n$生成。因为$\mathrm{LT}(I)$由若干个单项式$S$生成，$S$由其整除偏序下极小元集合生成。而由引理\ref{lem:1}，则$I=(g_1,\dots,g_m)$，其中$g_1.\dots,g_m\in I$满足$\mathrm{LT}(g_i)=L_i$。
+\end{proof}
+\section{模的正合列}
+\subsection{正合列的概念}
+\begin{definition}[模的正合列]
+    略
+\end{definition}
+\begin{example}
+    设$A,B$是$R$模。则:
+    $$
+    0 \to A \to A \oplus B \to B \to 0
+    $$
+    是一个正合列。
+\end{example}
+\begin{example}
+    设$B$是$A$的子模。则:
+    $$
+    0 \to B \to A \to A/B
+    $$
+    是显然的正合列。
+\end{example}
+\begin{example}[自由解消]
+    设$M$是$(m)$生成的模，满足$r_1m=\dots=r_nm=0$即$n$个关系。
+
+    考虑$R^n \to R \to M \to 0$是正合列。其中$e_i \mapsto r_n$。$r \mapsto rm$.称为$M$的一个表现。
+\end{example}
+上述例子显然可以拓展:
+\begin{example}
+    考虑$M$的两要素:生成元$B$和关系集合$A$。即设$\ker$的生成元是$A$.
+
+    则:
+    $$
+    R^A \to R^B \to M \to 0
+    $$
+    也是正合列，称为$M$的一个表现。
+\end{example}
+\begin{example}\label{example:exa}
+    设$G=\Z_3$作用在$\C[x,y]$是二元多项式集合。$\sigma(x,y)=(\omega x,\omega y)$。
+
+    从而$\C[x,y]^G=\C[x^3,x^2y,xy^2,y^3]$（意料之中的）。定义$z_0=x^3,\dots,z_3=y^3$。设$R=\C[z_0,z_1,z_2,z_3]$。则$\C[x,y]^G$是$R$模。定义$z_i \cdot z_j(x,y):=z_i(x,y)z_j(x,y)$。
+
+    3个$1$阶Syzygy关系:
+    \begin{enumerate}
+        \item $z_0z_3-z_1z_2=0$
+        \item $z_1^2-z_0z_2=0$
+        \item $z_2^2-z_1z_3=0$
+    \end{enumerate}
+    令上述关系为$a_1,a_2,a_3$.有2阶Syzygy关系:
+    \begin{enumerate}
+        \item $z_0a_1+z_1a_2+z_2a_3=0$
+        \item $z_1a_1+z_2a_2+z_3a_3=0$
+    \end{enumerate}
+    定义$b_1$和$b_2$为上述关系，则$b_1,b_2$已经实现线性无关。
+
+    于是我们得到$R$模正合列:
+    $$
+    0 \to R^2 \to R^3 \to R \to \C[x,y]^G \to 0 \quad b_1\mapsto z_0a_1+z_1a_2+z_2a_3;a_1 \mapsto z_2^2-z_1z_3; z_0 \mapsto x^3
+    $$
+    
+\end{example}
+\subsection{不变理论的3个核心问题}
+$G$是有限群，$\F$是代数闭域。$G$作用在$\F[x_1,\dots,x_n]$得到正合列。
+\begin{align}
+    \dots \R^{n_2} \to \R^{n_1} \to \F[z_1,\dots,z_n]=R \to A^G \to 0
+\end{align}
+这样的正合列的得到如同例\ref{example:exa}。这样的序列有三个核心的问题。接下来我们给出的三个定理中记号如上的构造。
+\begin{theorem}
+    $R$是有限生成的$\F$-代数。
+\end{theorem}
+\begin{theorem}\label{thm:finitesyzygy}
+    $k$阶Syzygy关系模定义为$\mathrm{im}\varphi_k$，是有限生成的$R$模。
+\end{theorem}
+\begin{theorem}[Hilbert Syzygy定理]\label{thm:Hilbertsyzygy}
+    对于所有的$A^G$正合列，其不为$0$的长度有限，且小于Syzygy生成元的个数。
+\end{theorem}
+\begin{definition}[短正合列]
+    略
+\end{definition}
+短正合列有一个很重要的概念:分裂。这里不叙述。实际上是模论笔记的内容。
+\begin{theorem}
+    分裂的短正合列中，第三个模是第二个模和第四个模的直和。
+\end{theorem}
+\begin{theorem}[Noether模与正合列]
+    设$0 \to A \to B \to C \to 0$是短正合列。则$B$是Noether模等价于$A,C$都是Noether模。
+\end{theorem}
+问题实际等价于Noether模$M$等价于其有一个子模$N$和$M/N$都是Noether模。
+\begin{proof}
+    设$M$是Noether模。设$N$是$M$的子模。则$N$的子模升链显然是$M$的子模升链，于是其长度有限，故$N$是Noether模。
+
+    而$M/N$的子模与$M$包含$N$的子模有着一一对应关系。则$M/N$的子模长度也是有限的。
+
+    现在设$N$和$M/N$是Noether模。考虑$M$的子模升链$\{B_i\}$。
+
+    于是$\{B_i\cap N\}$作为$N$的子模升链长度有限。因此存在$m$使得$\{B_m \cap N\}$不再变化。
+
+    把$\{B_i\}$给投射到$M/N$中，构成其一个子模升链。从而有$n$满足:$\{B_n/(B_n\cap N)\}$之后不再变化。
+
+    我们取$m,n$之中的最大值。不妨设为$m$。于是当$i \geq m$，$B_i\cap N$和$B_i/(B_i\cap N)$都不变化。
+
+    我们断言$B_i$也不变化了。设$x\in B_{m+1}$且$x \notin B_m$。则$x \notin N$。于是$x$在商模$B_{m+1}/Q$中非平凡。从而有$y \in B_m$使得$x-y \in Q=(B_m)\cap N$。于是$x \in B_m$。这导出了矛盾。
+\end{proof}
+下面的大定理是上面这个小定理的推论。（数学是讲化劲，四两拨千斤）
+\begin{theorem}[模的Hilbert基定理]
+    $M$是有限生成$R$模。$R$是Noether环，则$M$是Noether模。
+\end{theorem}
+\begin{proof}
+    设$M=R^n/\ker \varphi$。我们只需要验证$R^n$是Noether模。由于$R^n$本质是一堆$R$的直和，因此显然是Noether的。
+\end{proof}
+由此我们可以已经可以证明定理\ref{thm:finitesyzygy}
+\begin{proof}[Proof for theorem\ref{thm:finitesyzygy}]
+    由希尔伯特基定理，$R=\F[z_1,\dots,z_n]$是Noether环。因此:$\mathrm{Im}(\varphi_1)\subset R$有限生成，从而$R^n$。
+
+    由于$R^{n_{k-1}}$是Noether模,从而其子模$\mathrm{Im}(\varphi_k)$也是有限生成的。
+\end{proof}
+定理\ref{thm:Hilbertsyzygy}之后做证明。
+\subsection{分次环应用}
+\begin{theorem}
+    设$R=\oplus_{n=0}^\infty R_n$是分次环。若$R$是Noether环，当且仅当$R_0$是Noether环且$R$是有限生成的$R_0$代数。
+\end{theorem}
+\begin{proof}
+    回推只是希尔伯特基定理的应用。
+
+    现在考虑$R$是Noether环。则$R_{n \geq 1}$是$R$的理想。并且$R_0 \cong R/R_{n \geq 1}$，则$R_0$是Noether环。
+
+    设$R_{n\geq 1}$的生成元是齐次元$x_1,\dots,x_s$。非齐次的情况可以分拆出齐次元。我们断言$R=R_0[x_1,\dots,x_s]$。定义右式为$R'$。
+
+    任意$k$，$R_k \subset R'$。对于$k=0$自然成立。设$k=l-1$已成立，则$k=l$时，任意$y \in R_l$属于$R_{\geq 1}$。于是$y=\sum_{i=1}^s r_ix_i,r_i \in R$。不难说明$r_i$的次数小于$y$的次数，因此$r_i$的次数小于等于$n-1$。根据归纳假设$r_i \in R'$，从而$y \in R'$。于是$R\subset R'$因此$R=R'$. 
+\end{proof}
+\subsection{希尔伯特第14问题的解决}
+\begin{theorem}[Nagata-Habosh]
+    $G$是代数群，$\F$是代数闭域。下面命题等价:
+    \begin{enumerate}
+        \item $S^G$是有限生成的。
+        \item $G$是约化群，即$G$不存在正规子群$N$满足$N \cong \F^n$。
+        \item 若$v$是$\rho:G \times \F^n \to \F^n$的非零不动点，则存在$f \in S^G$，使得$f(0)=f(v)$
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    证明就略去了。反正最后也是要补的。
+\end{proof}
+\section{Hilbert Syzygy 定理及其应用}
+\begin{definition}[自由消解]
+    设$M$是一串$R$模,$\F_i$是自由$R$模。模正合列:
+    $$
+    \mathcal{F}:\dots \to F_n \to \dots F_1 \to F_0 \to M \to 0
+    $$
+    称为$M$的自由消解。我们用$\varphi_i$表示从$\F_i$出发的同态。
+
+    模$\mathrm{Im}(\varphi_i)$称为$M$的$i$阶Syzygy模。
+
+    若$F_{n+1}=0$且$F_i \neq 0$,$i \leq n$，则称自由解消的长度是$n$。
+\end{definition}
+\begin{example}
+    设$M$是有限生成的$R$模，生成元是$m_1,\dots,m_s$.则$F_0$自然是$s$阶的自由模,其生成元为$a_1,\dots,a_s$.
+    $$
+    \mathrm{Im}(\varphi_1)=\ker \varphi_0=\{(a_1,\dots,a_s)\in R^s|a_1m_1+\dots+a_sm_s=0\} \subset R^s
+    $$
+
+    考虑$M=R=\R[x,y]$,$I=(xy,x^2)\in R^2$。则$\mathrm{Syz}(xy,x^2)=(x,-y)\in R^2$。
+    \begin{align*}
+        0 \to R \to & R^2 \to I \to 0\\
+        &a_1 \mapsto x^2\\
+        &a_2 \mapsto xy\\ 
+        &b_1 \in R \mapsto -ya_1+xa_2       
+    \end{align*}
+\end{example}
+\begin{remark}
+    对于有限消解,注意到$\ker \varphi_{n-1}=\mathrm{im}(\varphi_n)$，而$\varphi_n$是单射，于是$\ker \varphi_{n-1}$是自由模。
+\end{remark}
+    
+\subsection{Hilbert Syzygy定理和更多的Grobner基}
+\begin{theorem}[Hilbert Syzygy]
+    设$R=\F[x_1,\dots,x_n]$,则有限生成的$R$模$M$必然存在长度小于等于$n$的自由消解。
+
+    推论：不变子环$S^G$存在自由消解(根据Hilbert Base Theorem可知其是有限生成)，长度小于Syzygy生成元个数。
+\end{theorem}
+
+为了证明上述定理，我们花费一节来说前置内容。
+
+我们首先要介绍Buchberger算法（多项式环）。
+
+对于$f,g$是$\F[x_1,\dots,x_n]$中的元素，定义:
+$$
+S(f,g)=\frac{M}{\mathrm{LT}(f)}f-\frac{M}{\mathrm{LT}(g)}g
+$$
+其中$M$是$\mathrm{LT}(f),\mathrm{LT}(g)$首一的最小公倍单项式。
+\begin{theorem}
+    (1)对于任何给定单项式序$<$和理想$I$,$G=\{g_1,\dots,g_n\}$是$I$的生成元。则$G$是Grobner基等价于任意$i,j$,$S(g_i,g_j)$对$g_i,g_j$做带余除法，余式为$0$。
+
+    (2)$G$可以依照下列算法扩充为Grobner基。（有限个元素）
+
+    
+\end{theorem}
+\begin{proof}
+    起始：取$G=\{g_1,\dots,g_n\}$。$C:=\{(g_i,g_j):1\leq i \leq n\}$.
+
+    任取$(g_i,g_j)\in C$，检测$S(f,g)$对$G$做带余除法的余数$r=\overline{S(f,g)}$。
+    
+    若$r=0$，则$G$更新为$G$，$C$中去除$(g_i,g_j)$。
+
+    若$r \neq 0$，则$G=G\cup\{r\}$。$C:=C\cup\{(g_i,r)\} \setminus \{(g_i,g_j)\}$。
+
+    终止:直到$C=\emptyset$。此时$G$是$I$的生成元扩充的Grobner基。
+\end{proof}
+\begin{remark}
+    $I$的Grobner基不唯一。特别的，若存在$p \in G$使得$\mathrm{LT(p)} \in \{\mathrm{LT}(G\setminus \{p\})$，则$G\setminus \{p\}$是Grobner基。
+
+    用类似的定义，我们可以定义极小Grobner基。
+\end{remark}
+具体的计算例子不再做记录。
+
+\begin{definition}[约化Grobner基]
+    称$I$中的Grobner基满足:
+    \begin{enumerate}
+        \item $\forall p \in G$是首一多项式。
+        \item $\forall p \in G$,$p$中任意单项式不是$\mathrm{LT}(G \setminus\{p\})$中元素的倍数。
+    \end{enumerate}
+    则称$G$是约化的Grobner基。
+\end{definition}
+\begin{theorem}
+    $I$的约化Grobner基是唯一的。
+\end{theorem}
+
+\textbf{自由模上的Grobner基}
+
+考虑$R=\F[x_1,\dots,x_n]$上的自由模$R^S$，$S$是正整数。设$e_1,\dots,e_s$是$R^s$的基底。
+
+$R^s$中的单项式定义为$m=cx^{\alpha}e_i,c \in \F$,$\alpha \in \Z^s$,$x^\alpha$是$R$中首一单项式。设$m_1=c_1x^{\alpha}e_i$,$m_2=c_2x^{\rho}e_j$。则两个单项式的最小公倍式定义为，若两个单项式所在$e_i$相同，则取$R$中的最小公倍式。若不同，则直接取$0$。
+
+\begin{theorem}
+    $M$由$R^q$的单项式$\{m_1,\dots,m_s\}$生成的子模。令$m_{i,j}=\mathrm{LCM}(m_i,m_j)$，则$M$的1阶Syzygy模$\mathrm{Syz}(m_1e_1+\dots+m_se_s):=\{a_1e_1+\dots+a_se_s:a_1m_1+\dots+a_sm_s=0\}$
+    由
+    $$
+    \{\sigma_{i,j}=\frac{m_{i,j}}{m_i}e_i-\frac{m_{i,j}}{m_j}e_j,1\leq i \leq j \leq s\}
+    $$
+    生成。我们约定$\dfrac{e_k}{e_k}=1$,$0/m=0$。
+\end{theorem}
+
+考虑$R^t$上的单项式序：
+\begin{enumerate}
+    \item 一般定义同$R$上的单项式序的定义。
+    \item 如果单项式在不同的$e_i$上，则定义有两种：要么先看系数$x^\alpha$要么先看下标$i,j$。不在多赘述。我们规定$i$靠前，若$j$更大。
+\end{enumerate}
+\begin{definition}
+    设有限集合$\{g_1,\dots,g_s\}$是$M$的子集。称其为$(M,>)$的Grobner基，若$(\mathrm{LT}(M))=(\mathrm{LT}(g_1),\dots,\mathrm{LT}(g_s))$。同样我们可以定义约化的Gronbner基。
+\end{definition}
+\begin{theorem}
+    $M$的约化Grobner基是唯一的。
+\end{theorem}
+证明依照上述关于$I$的情况来做。我们同样定义$S(f,g)$，以及扩充Grobner基的办法。
+\subsection{Syzygy定理的证明}
+待定。由于其是期末作业，将在之后补充。
+\subsection{Syzygy定理的应用}
+\begin{definition}
+    设$R=\bigoplus_{n=0}^\infty R_n$是分次环。$M=\bigoplus_{-\infty}^{\infty} M_m$,$N=\bigoplus_{-\infty}^\infty N_m$为分次模。若$M \to N$有同态$f$满足$f(M_n)\subset N_n$，则称$f$是分次$R$模同态。
+\end{definition}
+\begin{definition}[分次模的平移]
+    固定平移后的分次模$e$号位为$M(d)_e:=M_{d+e} \to M(d) \cong M$。
+\end{definition}
+\begin{definition}
+    设$R$是分次环。$\mathcal{F}:\dots \to F_n \to F_{n-1}\to \dots F_1 \to F_0 \to M \to 0$是分次模$M$的自由消解。若$F_i$均分次且$\varphi_i$都是$R$模自由同态，则称$\mathcal{F}$为分次自由消解。
+\end{definition}
+于是根据Syzygy定理的证明，我们自然有:
+\begin{theorem}[分次模Hilbert Syzygy定理]
+    设$R=\F[x_1,\dots,x_n]$,有限生成的分次$R$模都存在有限的$(\leq n)$分次自由消解，且$F_n$都是有限生成的。
+\end{theorem}
+\begin{definition}
+    设$\F[x_1,\dots,x_n]=R$,有限生成的$R$模$M=\bigoplus_{-\infty}^\infty M_s$。定义$H_M(s):=\mathrm{dim}_{\F}M_s$(将$M_s$看作向量空间)。称为分次模$M$的Hilbert函数。
+\end{definition}
+注意，$H_M(s)$必然是有定义的。若无限，则子模$\bigoplus_{s}^\infty M_s$不是有限生成的$R$模。
+
+考虑$\bigoplus_s^\infty M_s$是有限生成的。则根据分次模的定义，只有0次的多项式乘$M_s$能得到$M_s$的元素。这就意味着$M_s$有$\F$的基。
+
+$M_s$不有限生成与$M$为Noether模矛盾！
+\begin{theorem}[Hilbert多项式定理]
+    $M$是有限生成的$R$模，$R=\F[x_1,\dots,x_n]$。则存在$r \in \Z$使得Hilbert函数$H_M(s),s\geq r$恰为次数小于$n$的多项式。该多项式称为Hilbert多项式。
+\end{theorem}
+\begin{example}
+    设$M=R=\F[x_1,\dots,x_n]$。$R=\bigoplus_{i=0}^\infty R_i$。$R_i$为$n$阶齐次多项式构成的线性空间。则$H_M(s)=C_{n+s-1}^{n-1}$。
+
+    推论:$H_{M(d)}(s)=H_M(s+d)=C_{s+d+n-1}^{n-1}$
+\end{example}
+\begin{example}
+    设$S^G=(x^3,x^2y,xy^2,y^3)\subset \C[x,y]=R$.则我们熟悉的自由消解:
+    \begin{align}
+        0 \to R^2 \to R^3 \to R \to S^G \to 0
+    \end{align}
+    上述消解其实并不是齐次的。通过平移我们可以得到:
+    \begin{align}
+        0 \to R^2(-3) \to R^3(-2) \to R \to S^G \to 0
+    \end{align}
+
+    $S^G$的Hilbert多项式为$H_{S^G}(s)=H_R(s)-3H_{R(-2)}(s)+2H_{R(-3)}(s)=3s+1$
+\end{example}
+\begin{proof}[Hilbert多项式定理的证明]
+    根据Syzygy定理，$M$存在有限的分次消解:
+    \begin{align}
+        \mathcal{F}:0 \to F_n \to \dots \to F_1 \to F_0 \to M \to 0
+    \end{align}
+    根据上面例子的得到$H_{F_i}(s)=\mathrm{dim}(F_i)(s)$为组合多项式次数$\leq n$。
+    \begin{align}
+        H_M(s)=\mathrm{dim}(F_0)_s-\mathrm{dim}(\ker \varphi_0)_s
+    \end{align}
+    递归的，由于有限步骤后$\mathrm{dim}(\ker \varphi_n)=0$。所以归纳得到这是一个组合多项式。
+\end{proof}
+注意，Hilbert多项式是整值多项式。但是整值多项式不一定都是整系数多项式。关于整值多项式，我们有的性质是:
+\begin{proposition}
+    任意整值的1元多项式是组合多项式$C_n^0,\dots,C_n^n$的$\Z$线性组合。
+\end{proposition}
+\begin{proposition}
+    对于$\F[x_1,\dots,x_n]$模的分次同态的正合列:
+    \begin{align}
+        0 \to A \to B \to C \to 0
+    \end{align}
+    有$H_A(s)+H_C(s)=H_B(s)$。
+\end{proposition}
+\begin{definition}[Poincare级数]
+    $P(M,t):=\sum_{n\geq 0}^\infty \mathrm{dim}_{\F}M_s t^s$称为Poincare级数。
+\end{definition}
+\begin{example}
+    设$M=R=\F[x_1,\dots,x_n]$。则:
+    \begin{align}
+        P(M,t)=\sum_{s=0}^\infty C_{n+s-1}^s t^s=(\sum_{s=0}^\infty t^s)^n=\frac{1}{(1-t)^n}
+    \end{align}
+\end{example}
+\begin{example}
+    $M=(x^3,x^2y,xy^2,y^3)$。则
+    \begin{align}
+    P(M,t)=\sum_{s=0}^\infty (3s+1)t^s
+\end{align}
+\end{example}
+\begin{theorem}[Hilbert-Serie]
+    $M$是有限生成的$\F[x_1,\dots,x_n]$模。则Poincare级数$P(t)$是$t$的有理函数。即:
+    \begin{align}
+        P(t)=\frac{f(t)}{(1-t^{k_1})(1-t^{k_2})\dots (1-t^{k_n})}
+    \end{align}
+    其中$k_1,\dots,k_n$是$x_1,\dots,x_n$在分次环中的次数。
+\end{theorem}
+\begin{proof}
+    对$n$做归纳。若$n=0$，则$M$是$\F$向量空间，则$n$足够大的时候，$M_n=0$。于是$P(t)$是多项式。
+
+    设不定元个数$n-1$及其以下的时候都成立。
+\end{proof}
+
+\subsection{Poincare级数}
+问题:不变理论$\rho:G \to \mathrm{GL}(n,\C)$是忠实表示，$G$是有限群。则:
+
+1.不变子环$R^G$的Poincare级数是什么？
+
+2.$t=1$处的奇点阶数是多少？
+
+答案:1.与生成元选取无关。由$\rho(g)$的特征多项式决定。2阶数为$n$。
+
+\begin{theorem}[Molien]
+    $R=\F[x_1,\dots,x_n]$，$R^G$的Poincare级数为$P(R^G,t)$:
+    $$
+    P(R^G,t)=\frac{1}{|G|}\sum_{g \in G}\frac{1}{\mathrm{det}(I-\rho(g)t)}=\frac{1}{|G|}\sum_{g \in G}\frac{1}{\mathrm{det}(I-\rho(g)^{-1}t)}=\frac{1}{|G|}\sum_{g \in G}\frac{\mathrm{det}(-\rho(g))}{\mathrm{det}(tI-\rho(g))}
+    $$
+\end{theorem}
+我们不给出Molien定理的证明。
+
+当我们用轨道陈类的方法去找$R^G$的时间，Molien定理给出了一个终止条件:
+$$
+S:=\F[f_1,f_2,\dots,f_n]:=\R^G,f_i \in \R^G \Leftrightarrow P(S,t)=P(R^G,t)
+$$
+\begin{example}
+    考虑$\Z/3\Z$.$ 0\mapsto I,1 \mapsto \begin{pmatrix}
+        \omega&0 \\ 0&\omega
+    \end{pmatrix},2 \mapsto\begin{pmatrix}
+        \omega^2&0\\0 &\omega^2
+    \end{pmatrix},\omega=e^{2/3\pi i}$。
+
+    则$R^G$的Poincare级数为:
+    $$
+    \frac{1}{3}(\frac{1}{(1-t)^2}+\frac{1}{(1-\omega t)^2}+\frac{1}{1-\omega^2t^2})=\frac{2t^3+1}{(1-t^3)^2}
+    $$
+\end{example}
+\section{环扩张和Noether正规化定理}
+\subsection{整元和整扩张}
+设$R$是环，$S$是$R$的子环，$S$到$R$有自然嵌入。
+\begin{definition}
+    称$r \in R$是$S$中的整元素，若存在首一多项式:
+    $$
+    P(x)=x^{k}+s_{k-1}x^{k-1}+\dots+s_1x+s_0 \in S[x]
+    $$
+    使得$P(r)=0$。
+\end{definition}
+\begin{definition}
+    称环的扩张为整扩张，若$R$中的元素都是$S$的整元。
+    $$
+    R=\overline{S}:=\{r\in R:r \text{是} s \text{整元}\}
+    $$
+\end{definition}
+\begin{definition}
+    称$S$是整闭的，若$S=\overline{S}$.
+\end{definition}
+\begin{example}
+    设$R$是域$\F$上$n$元多项式环。有限群$G$作用在$R$上，则$R^G \to R$是整扩张。
+\end{example}
+\begin{proof}
+    对任意$x_i$考虑多项式(关于新不定元$X$)。:
+    $$
+    \Phi_{x_i}(X):=\prod_{g \in  G}(X-gx_i) \in R[X]
+    $$
+    $G$作用在$\Phi_{x_i}$上保持不变。故$\forall f \in R$,定义$\Phi_f(X)=\prod_{g \in G}(X-gf) \in R[X]$的系数在$G$作用下保持不变。则$f$是$\Phi_f$的根。于是$R^G \hookrightarrow R$是整扩张。
+\end{proof}
+\begin{definition}
+    若$R$是$S \subset R$的有限生成$S$模。则称$R$是$S$的有限扩张。
+\end{definition}
+\begin{theorem}[环的有限扩张定理]\label{thm:ringextension}
+    $R$是$S$的有限扩张，等价于$R=S[a_1,\dots,a_k]$且$a_i$都是$S$的整元。
+\end{theorem}
+\begin{corollary}
+    有限扩张一定是整扩张。而整扩张不一定是有限扩张。
+\end{corollary}
+要证明定理\ref{thm:ringextension}，我们需要两个刻画整元的引理。
+\begin{lemma}
+    设$S \hookrightarrow R$是环扩张，$r$是$S$的整元素等价于$S[r]$是有限生成$S$模。
+\end{lemma}
+\begin{proof}
+    若$r$是整元，则$S[r]$中的元素由$1,r,\dots,r^{k-1}$生成。($r^{k}$被写为多项式形式)
+
+    若$S[r]$是有限生成的，不妨设其为$1,r,\dots,r^n$。（使用首一齐次替换）则$r^{n+1}$被生成。于是$r$是整元。
+\end{proof}
+\begin{lemma}
+    设$S \hookrightarrow R$是环扩张，$r$是$S$的整元等价于存在忠实的$S[r]$模$M \subset R$使得$M$是有限生成的$S$模。
+\end{lemma}
+\begin{proof}
+    若$r$是整元，同样$S[r]$是有限生成的$S$模。$1 \in S[r]$，从而$S[r]$是忠实的$S[r]$模。
+
+    设$M$是有限生成的$S$模，生成元是$e_1,\dots,e_n$。使得$r M \subset M$且$M$是忠实的。
+
+    对于任意$i$，$re_i=\sum s_{ij}e_j$。进而我们得到$e_i$的线性方程组:
+    $$
+    \sum_{i \neq j}s_{ij}e_j+(s_{ii}-r)e_i=0
+    $$
+    设$C$是系数矩阵，由于$e_i$非零，则根据Cramer法则，有$\mathrm{det}(C)e_j=0$。由于$M$是忠实的，$\mathrm{det}(C)=0$.而$C$可以看作$r$的首一多项式，从而$r$是整元。
+\end{proof}
+注意，根据该定理，我们可以知道，对于$S[r_1,\dots,r_n]$在$r_i$是整元的情况下是整扩张。事实上，任取$q=f(r_1,\dots,r_n)$，$S[q]$ 模$S[r_1,\dots,r_n]$必然是忠实的。而$S[r_1,\dots,r_n]$是有限生成的$S$模，从而根据引理知道$q$也是整元。
+\begin{proof}[For theorem \ref{thm:ringextension}]
+    设$R=S[a_1,\dots,a_n]$，$a_k$都是整元，则$R_1=S[a_1]$是有限生成$S$模，以此类推,加入$a_2,\dots,a_n$也一样。
+
+    设$R$的有限生成元为$a_1,\dots,a_k$。则$R=S+\sum Sa_k \subset S[a_1,\dots,a_k]=R$。下面证明生成元是整元。对于$a_i \in R$，由于$1 \in R$,$R$是忠实的$S[a_i]$模，又$S[a_i]$是有限扩张，则$a_i$是整元。
+\end{proof}
+\subsection{Noether两大定理}
+\begin{theorem}
+    任意特征域$\F$和有限群$G$，$R^G$都是有限生成的:$R=\F[x_1,\dots,x_n]$。
+\end{theorem}
+\begin{proof}
+    令$S$是$\prod_{g \in G} (X-gx_i) \in R[X]$中所有系数生成的$\F$代数。则:
+    $$
+    S \subset R^G \subset R
+    $$
+    
+    第一步，$S$是有限生成的$\F$代数。（系数有限项 $\leq n|G|$）。则$S$是Noether环。
+
+    第二步，由于$x_i$是$\Phi_i$的根，所以$x_i$是$S$整元。于是$R$是有限生成的$S$模。$R$是Noether$S$模
+
+    第三步，由于$R^G$是有限生成$S$模，则根据$S$是有限生成的$\F$代数，可知$R^G$是有限生成的$\F$代数。
+\end{proof}
+\begin{theorem}[Noether正规化定理]
+    域$\F$上的有限生成代数$A$,则存在代数无关的元素$y_1,\dots,y_r$使得$A$是$\F[y_1,\dots,y_n]$的有限扩张。
+\end{theorem}
+\begin{proof}
+    下面就$A$的生成元个数（最小值）进行归纳。
+    
+    若$n=0$,$A =\F$自然成立。
+
+    若$k=n-1$时成立，$A=\F[x_1,\dots,x_{n-1}]$时$\F[y_1,\dots,y_r]$的整扩张。当$k=n$，$A=\F[x_1,\dots,x_n]$。
+
+    若$x_1,\dots,x_n$代数无关，则自然成立。
+
+    若相关，则存在非常数多项式$f(T_1,\dots,T_n)$使得$f(x_1,\dots,x_n)=0$。不妨设$T_1$在$f$中出现，则:
+    $$
+    f=c_0T_1^N+c_1T_1^{N-1}+\dots+c_N,c_0\neq 0
+    $$
+其中$c_i \in \F[T_2,\dots,T_n]$.
+
+若$c_0 \in \F$，则根据$f(x_1,\dots,x_n)=0$得知，$x_1$是$\F[x_2,\dots,x_n]$的整元。根据归纳假设，可以知道存在代数无关的$y_1,\dots,y_r \in A$满足使得$\F[x_2,\dots,x_n]$是$\F[y_1,\dots,y_r]$的整扩张。于是$\F[x_1,\dots,x_n]$是$\F[y_1,\dots,y_r]$的整扩张。
+
+若$c_0$不是$\F$的元素，令$y_1=x_1,y_2=x_2-x_1^{m^2},\dots,y_r=x_r-x_1^{m^r}$.
+\end{proof}
+\subsection{整扩张和奇点阶数}
+\begin{proposition}
+    设$S\subset R\subset \F[x_1,\dots,x_n]$是有限生成的$\F$代数，扩张$S \subset R$是整数扩张，则$R,S$的Poincare级数在$t=1$处的奇点阶数相同。
+\end{proposition}
+\begin{proof}
+    根据有限扩张定理,$R$是有限生成$R$模。则对于多项式次数定义的Poincare级数有:
+    $$
+    P(S,t) \leq P(R,t) \leq P(S^k,t)
+    $$
+\end{proof}
+\begin{corollary}
+    忠实表示$\rho:G \to \mathrm{GL}(n,\F)$诱导不变子环$R^G$在$t=1$处的奇点阶数为$n$。
+\end{corollary}
+\begin{proof}
+    $R^G \hookrightarrow R$一定是整扩张，$R^G$，$R$都是有限生成的代数。
+\end{proof}
+
+\section{Hilbert零点定理(Null Stellen Satz)}
+\subsection{零点定理的叙述}
+
+    考虑$R=k[x_1,\dots,x_n]$中极大理想的分类。设$k$是域。自然地，$(x_1-a_1,x_2-a_2,\dots,x_n-a_n)$是一类极大理想，$a_i \in k$。
+
+\begin{example}
+    设$k=\R$。$R=\R[x]$。$(x^2+1)$是极大理想，但不是$x-a$的形式。这是因为$\R[x]/(x^2+1) \cong \C$.
+\end{example}
+上述例子告诉我们，不是所有的域的极大理想都是上述描述的类。但是如果$k$是代数闭域，就满足了。
+\begin{theorem}[弱零点定理]
+    $k$是代数闭域，多项式环$k[x_1,\dots,x_n]$的所有极大理想为$(x_1-a,\dots,x_n-a_n)$。于是$k^n$上的点与$k[x_1,\dots,x_n]$的极大理想有一一对应。
+\end{theorem}
+
+\begin{definition}[代数集]
+    设$I$是$k[x_1,\dots,x_n]$的理想，$I$中所有多项式的共同零点（有限个生成元共同的零点）称为$I$的代数集，记为$V(I)\subset k^n$。
+\end{definition}
+
+    假设$V(I)\neq 0$，$k[x_1,\dots,x_n]$中在$V(I)$上取值都为$0$的多项式所生成的理想$J(V(I))$与$I$的关系是?
+    \begin{example}
+        考虑$k[x]$。$I$是$x^2$生成的理想。$V(I)=0 \in k$。$J(V)=(x) \neq I$。且$x^2\in I,x \notin I$
+    \end{example}
+    \begin{definition}[根理想]
+        \begin{enumerate}
+            \item 根理想:$I$是理想，则$\sqrt{I}=\{f \in R|f^m\in I,\exists m\}$是理想。
+            \item 称$I$是根理想，若$I=\sqrt{I}$
+            \item 对于任意$I$,$\sqrt{I}$是根理想。即$\sqrt{\sqrt{I}}=\sqrt{I}$。
+        \end{enumerate}
+    \end{definition}
+\begin{theorem}[强零点定理]
+若$k$是代数闭域，则$\sqrt{I}=J(V(I))$。
+\end{theorem}
+\begin{remark}
+    若$k$不是代数闭域，$I \subset k[x_1,\dots,x_n]$。此时$J(V_{\overline{k}}(I))=\sqrt{I}\subset k[x_1,\dots,x_n]$。
+
+    其中$\overline{k}$是$k$的代数闭包。此时$J(V_{\overline{k}}(I)):=\{f \in k[x_1,\dots,x_n],x \in \overline{k}^n,f(x)=0\}$。
+\end{remark}
+\begin{example}
+    设$X=\begin{pmatrix}
+        a&b\\c&d
+    \end{pmatrix},X^2=\begin{pmatrix}
+        a^2+bc &(a+d)b \\ (a+d)c &d^2+bc
+    \end{pmatrix}$。考虑$\C[a,b,c,d]$的理想$I$:
+    \begin{align*}
+        I=(a^2+bc,(a+d)b,(a+d)c,d^2+bc)
+    \end{align*}
+    $V(I)=\{\begin{pmatrix}
+        a&b\\c&d
+    \end{pmatrix}\text{是复幂零矩阵}\}\subset \C^4$。但是$V(I)$不是$\C^4$的子空间。
+
+    我们断言$\sqrt{I}=(a+d,ad-bc)$分别是$X$的迹和行列式。
+
+    \textbf{断言的证明:}先说明$(a+d,ad-bc) \subset \sqrt{I}$。我们要验证$a+d \in \sqrt{I}$。由于$I$包含$\{(a+d)b,(a+d)c\}$,并且$(a+d)(a-d)\in I, (a+d)d^2=[(a+d)(a^2+bc)-(a+d)bc] \in I$，则$(a+d)^2=2a^2+2d^2-(a-d)^2$，可推的$(a+d)^3 \in I$。
+
+    接着验证$ad-bc \in \sqrt{I}$，$ad-bc=(a+d)d-(bc+d^2)$。根据$\sqrt{I}$是理想，则$ad-bc \in \sqrt{I}$。
+
+    我们也可以考虑零点定理。对于$X$是幂零矩阵，$X$的迹和行列式都是$0$。因此根据零点定理，$(a+d,ad-bc)$是$J(V(I))=\sqrt{I}$的子集。
+
+    再证明$\sqrt{I}=(a+d,ad-bc)=I'$。考虑$\C[a,b,c,d]/(a+d,ad-bc)\cong \C[a,b,c]/(a^2+bc)$的幂零元。下证其没有零因子。
+
+    假设有$X$不属于$(a+d,ad-bc)$使得$X^n \in I$。则$[X^n] \in I/I'$.但是经过计算$I/I'$平凡，所以$[X^n]=0$，于是$X$是零因子。矛盾！
+
+    于是任给$X \in \sqrt{I},X \in I'$
+\end{example}
+\begin{proposition}[根理想的基本性质]
+    \begin{enumerate}
+        \item $I \subset \sqrt{I}$
+        \item $I \subset J \Rightarrow \sqrt{I}\subset \sqrt{J}$
+        \item 理想的根是根理想。
+        \item 理想和的根是理想根的和。
+        \item $\sqrt{IJ}=\sqrt{I\cap I}=\sqrt{I}\cap \sqrt{J}$
+        \item $I=R \Rightarrow \sqrt{I}=R$
+    \end{enumerate}
+\end{proposition}
+\subsection{根理想和Noether环}
+\begin{definition}[幂零根基和幂零理想]
+    \begin{enumerate}
+        \item $\sqrt{0}=\{R\text{中所有的幂零元}\}$称为幂零根基。
+        \item 幂零理想$I \subset R$:存在$n \in N$使得$I^n=0$。
+    \end{enumerate}
+\end{definition}
+然而幂零根基不一定是幂零理想。
+\begin{example}
+    $R=k[x_1,\dots,x_n,\dots]/(x_1,x_2^2,x_3^3,\dots)$是可数个生成元的多项式的商环。则$\sqrt{0}=(x_1,\dots)$。然而$(\sqrt{0})^n \neq 0$。其中的交叉项无法清零。
+\end{example}
+\begin{proposition}
+    若$R$是Noether环，$I \subset R$是理想。则$\exists n$使得$(\sqrt{I})^n \subset I$。
+\end{proposition}
+\begin{proof}
+    由于$R$是Noether的，则$\sqrt{I}$有限生成。设生成元为$a_1,\dots,a_n$。则存在$k_i$使得$a_i^{k_i}\in I$。设$k=\max \{k_i\}$。则$a_i^k \in I$。于是$\forall x \in \sqrt{I}$，则$x=\sum_{i=1}^n r_ia_i,r_i \in R$。于是$x^{mk} \in (a_1^{i_1},\dots,a_m^{i_m},i_j \geq 0,i_1+\dots+i_m=mk) \subset (a_1^k,\dots,a_m^k)\in I$。
+\end{proof}
+\begin{corollary}
+    若$R$是Noether环，$\sqrt{0}$是幂零理想。
+\end{corollary}
+\begin{proof}
+    取$I=0$。则$(\sqrt{0})^n \subset I=0$。
+\end{proof}
+\subsection{零点定理的证明}
+\begin{proof}[弱零点定理]
+    令$m$是$\C[x_1,\dots,x_n]$上的极大理想。则$\F=\C[x_1,\dots,x_n]/m$是有限生成的$\C$代数并且是域。则$\F$是$\C$的代数扩张。
+
+    设$\alpha$是$\C$的超越元，则$\{1/(\alpha-t),t \in \C\}$不可数且线性无关。因此$\F \cong \C$推得$x_i+m=a_i+m$，于是$x_i-a_i \in m$即$m=(x_1-a_1,\dots,x_n-a_n)$。
+
+    现在考虑一般的代数闭域。我们有Zariski引理:
+
+    \textbf{Zariski:若域$K$是域$k$的有限生成的$k$代数，则$K$是有限生成的$k$模。}
+
+    此时$k[x_1,\dots,x_m]/m$是域且是有限生成的$k$代数。于是$k[x_1,\dots,x_n]$是有限生成的$k$模。即$k[x_1,\dots,x_n]/m$是$k$的代数扩张，即$k[x_1,\dots,x_n]/m \cong k$。于是$m=(x_1-a_1,\dots,x_n-a_n)$。
+    
+    \textbf{Proof for Zariski:}
+
+    由Noether正规化定理，令$K=k[x_1,\dots,x_m,x_{m+1},\dots,x_n]$使得$n$最小。下面使用反证法说明$m=0$。假设$m \geq 1$，域$F=k(x_1,\dots,x_m)$是$k$的扩张。于是$K$是有限生成的$F$模。
+
+    \textbf{Artin-Tale引理}:
+
+    \textbf{设$k \subset F \subset K$,$F$是$k$代数，$k$是Noether环，$K$是有限生成的$k$代数，$K$是有限生成的$F$模，则$F$是有限生成的$k$代数}。
+
+    根据Artin-Tale引理，$F$是有限生成的$k$代数即$F=k[z_1,\dots,z_s]$,$z_i=\dfrac{f_i}{g_i}$，$f_i,g_i \in k[x_1,\dots,x_n]$。取不可约多项式$h=g_1\dots g_s+1$,则$1/h \notin k[z_1,\dots,z_s]=F$与$F$是域矛盾！
+
+    \textbf{Proof for Artin-Tale:}
+
+    由$K$是有限生成$k$代数和$K$是有限生成$F$模，设$K=k[x_1,\dots,x_n]=Fy_1+\dots+Fy_k$。则$x_i=\sum_{j}f_{ij}y_j,f_{ij}\in F$。
+
+    且由$K$是有限生成$k$代数可知$y_iy_j \in K$。于是$y_iy_j=\sum_{s}f_{ijs}y_s, f_{ijs}\in F$.
+
+    设$F_1$是所有$f_{ij}$和$F_{ijs}$生成的子代数（有限生成），则$K$是有限生成的$F_1$模。这是因为$\sum f_iy_i, f_i \in k[x_1,\dots,x_n]$系数通过$x_ix_j$变为$F_1$中的系数。
+
+    由Hilbert基定理,$F_1$是Noether环，$K$是Noether $F_1$模。则$F$是有限生成的$F_1$模，$F_1$是有限生成的$k$代数，则$F$是有限生成的$k$代数。
+\end{proof}
+
+\begin{proof}[强零点定理]
+    对于$f\neq 0 \in J(V(I))$，$I$是$k[x_1,\dots,x_n]$的理想。
+
+    考虑理想$(I,1-x_0f) \in k[x_0,x_1,\dots,x_n]$。$I$与$1-x_0f$没有公共根。由弱零点定理，该理想不包含在任何极大理想中。于是$(I,1-x_0f)=k[x_0,x_1,\dots,x_n]$.
+
+    设$1=\sum_{i=1}^k a_ib_i+a_0(1-x_0f)$,$b_i \in I$。取$x_0=1/f$，则$1=\sum_{i=1}^k a_ib_i,a_i \in k[x_1,\dots,x_n,1/f]$。
+
+    不妨设$a_i=c_i/f^m$。这里可以设$m$对于所有$i$都是相同的。
+
+    于是$f^m=\sum_{i=1}^k c_ib_i \in I$。从而$f \in \sqrt{I}$。
+\end{proof}
+
+强零点定理也可以推导弱零点定理。
+
+弱零点定理等价于$V(I)\neq 0$当且仅当$I=(1)=k[x_1,\dots,x_n]$
+
+\section{环的局部化}
+\subsection{一般理论}
+目标:构造环的扩张$R[S^{-1}]$使得$S$中的元素都可逆。
+
+方法1:Rabinovitch Technique:
+\begin{align*}
+    R[S^{-1}]=R[t_1,\dots]/(s_1t_1-1,\dots)
+\end{align*}
+
+方法2:分式域方法:
+
+不妨设$S$乘法封闭且不含$0$。
+
+若$S$没有零因子，可以照搬分式域的办法做构造。此间，无零因子的条件被用于等价关系中传递性的构造。
+
+若$S$有零因子。我们依然想要使用分式域的办法。此时我们的办法是:
+\begin{align*}
+    r_1/s_1 \sim r_2/s_2 \Leftrightarrow s(r_1s_2-s_1r_2)=0,\exists s \in S
+\end{align*}
+本质上，考虑$I=\{r \in R:rs=0,\exists s\in S\}$。$I$是理想。考虑$p：R\to R/I$。则$p(S)$没有零因子。因此可以构造$R[S^{-1}]:=(R/I)(S^{-1})$。
+
+\begin{remark}
+    若$R$为整环，$S=R\setminus \{0\}$，$R[S^{-1}]$是$R$的分式域。
+\end{remark}
+\begin{example}
+    考虑$S$是所有奇素数构成的集合。则:
+    \begin{align*}
+        R[S^{-1}]=\{\frac{a}{b},b\text{是素数},a\in \Z\}
+    \end{align*}
+\end{example}
+\begin{example}
+    $R=\C[x]$。
+
+    1.考虑$S=R\setminus \{0\}$，则$R[S^{-1}]=\{\text{有理函数}\dfrac{P(x)}{Q(x)}\}$。
+
+    2.$S=\{x\}$。则$R[S^{-1}]=\{\dfrac{P(x)}{x^m}\}$。
+
+    3.$S=\{x-\alpha,\alpha \in \C,\alpha \neq 0\}$，$\alpha$不为$0$。$R[S^{-1}]=\{\dfrac{P(x)}{Q(x)},Q(0)\neq 0\}$
+\end{example}
+\begin{example}
+    $R=\C[x,y]/(xy)$，$S=\{x+(xy)\}$。
+
+    则$R[S^{-1}]=\C[x,y,z]/(xy,xz-1)\cong \{\dfrac{f(x,y)}{x^n}\}=\C[x,1/x]$
+\end{example}
+
+$R[S^{-1}]$显然拥有泛性质。这里不再赘述。
+\subsection{Noether环的局部化}
+我们关注核心问题:Noether环的局部化是Noether环吗？
+
+工具:理想的扩张和局限。
+
+考虑$f:R \to R[S^{-1}]$，$r \mapsto r/1$。我们考虑$R$的理想和$R[S^{-1}]$之间的对应关系。
+
+由于理想的同态像不一定是理想，我们考虑运算符号:$I^e$和$J^c$。
+\begin{align*}
+    I^e:I \mapsto (f(I)),\quad J^c:J \mapsto f^{-1}(J)
+\end{align*}
+
+\begin{proposition}
+    $J$是局部化$R[S^{-1}]$的理想，则$(J^c)^e=J$。
+\end{proposition}
+\begin{proposition}
+    $\{R[S^{-1}]\text{中的理想}\}$到$\{R\text{中的理想}\}$是单射。即$J \mapsto J^c$是单射。
+\end{proposition}
+\begin{proposition}
+    若$R$是Noether环，则$R[S^{-1}]$也是Noether环。
+\end{proposition}
+\begin{proof}
+    考虑$R[S^{-1}]$的升链:
+    \begin{align*}
+        I_1\subset I_2 \dots I_n \subset I_{n+1}
+    \end{align*}
+    对应$R$中升链:
+    \begin{align*}
+        f^{-1}(I_1)\subset f^{-1}(I_2) \dots f^{-1}(I_n) \subset f^{-1}(I_{n+1})
+    \end{align*}
+    单射和$R$中的升链，得到$R[S^{-1}]$是Noether环。
+\end{proof}
+\begin{definition}[局部环]
+    环$R$是局部环，若下列等价条件有一个成立:
+    \begin{enumerate}
+        \item $R$有唯一极大理想。
+        \item $\forall r \in R$,$1$或者$1-r$中有一个可逆元。
+        \item $m\{r \in R|r\text{不是可逆元}\}$是$R$的（极大）理想。
+    \end{enumerate}
+\end{definition}
+\begin{proof}
+    1到2：若$R$的任意非零真理想$I$满足$I \subset m$。若不然，则存在可逆元素$u \in I$，则$ I=R$矛盾。
+
+    1到2：此时$R$中唯一的极大理想是3中的$m$。则$1-r$和$r$若都不可逆，则$1 \in m$，于是$m=R$矛盾！
+
+    2到3：对于$x \in m$，设$rx$是可逆元，则$rx \notin m$,则$\exists y\in R$使得$y_ix=1$。则$x$是可逆元矛盾，所以$rx \in m$。
+
+   对于$x_1,x_2 \in m$，假设$x_1+x_2 \notin m$，则存在$y(x_1+x_2)=1$。由于$yx_1$和$yx_2$均属于$m$，从而两者都是不可逆元，矛盾于$yx_1+yx_2=1$！。
+\end{proof}
+\begin{example}
+    设$P$是$R$的素理想，$S=R\setminus P$.$S$乘法封闭。
+
+    定义$R_p:=R[S^{-1}]$。$R_p$是局部环，称为$R$在$P$处的局部环。其极大理想为$m=pe=\{a/s:a \in P,s \notin P\}$
+\end{example}
+
+定义$\mathrm{Spec}(R)=\{R \text{中的素理想}\}$。我们介绍素理想的零点定理。
+
+\begin{example}
+    设$R=\C[x]=\{(x-a),a \in \C\} \cup \{(0)\}$。令$Z(I):=\{p \in \mathrm{Spec}(R):p \supset I\}$。
+\end{example}
+
+素谱上的函数:取值的域随$p \in \mathrm{Spec}(R)$的变化而变化。
+
+1.取值的域为$\mathrm{Frac}R/p$(或$R/p$):
+\begin{align*}
+    R \rightarrow R/p \hookrightarrow \mathrm{Frac}R/p \\
+      f \mapsto f+p \hookrightarrow f+p
+\end{align*}
+\begin{example}
+    $R=\C[x]$，$\mathrm{Spec}(R)=\{(x-a),a \in \C\} \cup \{0\}$。
+
+    函数$R$中的元素，比如$x^2 \in R$.在$p \in \mathrm{Spec}R$处的取值为$f \mapsto [f]+p$:$f((x^2))=x^2+(x)=0$,$f((x-1))=x^2+(x-1)=[1]$.$f((x-\alpha))=[x^2]+(x-\alpha)=[\alpha^2]$。上述$f$取值的空间都是$\C$。
+
+    但是$f((0))=[x^2]+(0)\in R$。取值为$\C[x]/(0)=\C[x]$分式域为$\C(x)$。
+\end{example}
+\begin{example}
+    $R=\Z$,$f=8$。则$f(2)=8+2=0$,$f(3)=[8]+3=[2]$。
+\end{example}
+\begin{definition}
+    若$\forall p \in \mathrm{Spec}(R)$,$f(p)=[0]\in R/p$。则称$f$是$\mathrm{Spec}(R)$上的零函数。
+\end{definition}
+\begin{theorem}[素谱上的零点定理]\label{thm:pspec}
+    $\mathrm{Spec}(R)$的零函数是$R$上的幂零根基。即$\sqrt{(0)}=\bigcap_{p\in \mathrm{Spec}R} p$。
+\end{theorem}
+\begin{lemma}
+    设$S$是$R$的可乘子集。$I$是$R$的理想且$I \cap S=\emptyset$.则存在素理想$p \supset I$使得$p \cap S=\emptyset$。
+\end{lemma}
+\begin{proof}
+    设$p$是包含关系下包含$I$且$S$不交的的极大元。（根据Zorn引理显然存在）。下面证明$p$是素理想。
+
+    假定$ab \in P$，假定$a \notin p$且$b \notin p$。则$P+(a)$与$P+(b)$均不为$p$。我们断言若$P+(a) \cap S \neq \emptyset$，则$P+(b)\cap S=\emptyset$。若不然，则$a \in S,b \in S$,于是$ab \in P\cap S$矛盾。于是$P+(b) \cap S =\emptyset$。矛盾于$p$极大。
+
+    所以$p$是素理想。
+\end{proof}
+\begin{proof}[Proof for thm\ref{thm:pspec}]
+    显然$\sqrt{(0)} \subset \bigcap_{p \in \mathrm{Spec}R}p$。
+
+    根据引理，设$a \in \bigcap_{p \in \mathrm{Spec}R}p$且$a^n \neq 0,\forall n \in \N$.令$S=\{1,a,a^2,\dots,a^n,\dots\}$是可乘集合。于是$(0) \cap S$是空集。于是存在$p \supset I$使得$p \cap S =\emptyset$。从而$a \notin p$矛盾！ 
+\end{proof}
+\subsubsection*{局部化的素谱}
+事实上，我们有$\mathrm{Spec}R[S^{-1}]\cong \{p \in \mathrm{Spec}R,p\cap S=\empty\}$.
+
+下面的关系也比较显然:
+\begin{align*}
+    \mathrm{Spec}R/p=\{p' \in \mathrm{Spec}R,p \supset p\}, \mathrm{Spec}R_{(p)}=\{p'\in \mathrm{Spec}R,p' \subset p\}
+\end{align*}
+\section{Artin环和Artin模}
+\begin{example}
+    $\Z$是PID $\Rightarrow \Z$模。
+\end{example}
+\begin{definition}[单模]
+    $M \neq 0$称为单模，如果$M$的子模只有$0$和$M$。例如，$Z/pZ$作为$\Z$模是单$\R$模。
+\end{definition}
+\begin{proposition}[单模的性质]
+    $R$模$N$是单模，等价于$N=Rn,\forall n\neq 0 \in N$。
+\end{proposition}
+\begin{proof}
+    显然$Rn \subset N$是子模。所以若$N$是单模，则$N=Rn$。
+
+    反之，设$N$不是单模，则$M \subset N$是$N$的非空真子模。取$m \in M$，则$Rm \subset M \subset N$是$N$的非空真子模。这矛盾于$Rn=N,\forall n \neq 0 \in N$。
+\end{proof}
+\begin{proposition}
+    $R/m$是$R$单模，等价于$m$是极大理想。
+\end{proposition}
+\begin{proof}
+    若$R/m$是单模。注意到若$m \subset I$，则$R/m$到$R/I$有自然的模同态。其中$\ker$是$I/m$。注意到是单模，所以要么$I/m$是$0$要么是$R/m$。于是$I=R$或者$m$。
+
+    若$m$是极大理想，设$[I]+m \subset R/m$是真子模。则$I+m$是$R$的真理想。注意到$m$是极大理想，则$I+m=m$，于是$[I]+m =0$
+\end{proof}
+\begin{theorem}
+    有限长度模长度为$n$，等价于存在合成列:
+    \begin{align*}
+        0=M_0 \subset M_1 \subset M_2 \dots \subset M_n=M
+    \end{align*}
+    其中$M_{i+1}/M_i$都是单模。
+    
+    注意，这里的$n$与列的选取无关。
+\end{theorem}
+我们给出引理:
+\begin{lemma}
+    设短正合列:
+    \begin{align*}
+        0 \to A \to B \to C \to 0
+    \end{align*}
+    则$A,C$是Noether模等价于$B$是Neother模。$A,C$是Artin模等价于$B$是Artin模。
+\end{lemma}
+\begin{proof}
+    Noether模的情况已经在前面证明过了。
+\end{proof}
+\begin{proof}[有限长度模]
+    注意到单模是Noether模加Artin模。则有限长度根据归纳显然。
+
+    
+\end{proof}
+\section{Zariski拓扑}
+\subsection{仿射空间$k^n$上的Zariski拓扑}
+$k^n$上的拓扑结构。
+
+又$\emptyset=Z((1))$，$k^n=Z((0))$是代数集，于是$\tau$满足闭集公理。称为Zariski拓扑
+。
+
+我们研究一下Zariski拓扑的拓扑基:
+\begin{align*}
+    U_f=\{x \in |f(x)\neq 0\}
+\end{align*}
+\begin{example}
+    $\R^2$中的集合$\{(x,y)\in \R^2:xy=1\}$是Zarski拓扑下的闭集。注意到该集合不可约，从而是连通的。(Zarski拓扑)。因为若不连通，则可以写为闭集与闭集的不交并。其至少也可以写为$\{fg=0\}$。
+\end{example}
+\begin{example}
+    设$A^{mn}$是$k^m$到$k^n$的线性变换集合，其同胚于$k^{mn}$。则非满秩的矩阵是闭集。满秩的矩阵是开集。
+\end{example}
+\subsection{素谱上的Zariski拓扑}
+    $R$是环，$\mathrm{Spec}R$是所有素理想的集合。定义闭集:$Z(I)=\{p \in \mathrm{Spec}R:p \subset I\}$是闭集。
+
+    借助函数找一点的开邻域。
+
+    $p \in \mathrm{Spec}R$的邻域:找函数$f \in R$使得$f \notin p$。$D(f)$是$p$的一个邻域。
+    \begin{example}
+        $\mathrm{Spec}(\C[x,y])=\{0\}\cup \{(x-a,y-b),a,b\in \C\} \cup \{\text{不可约多项式}\}$.
+
+        这里面有三类点:泛点，闭点，一些不可约的多项式。
+
+        对任意的$p_0 \in \mathrm{Spec}R$，找$g \in R=\C[x,y]$中的不可约多项式使得$g \notin p_0$。使得$g \neq 0$,$g(a,b)\neq 0$，$g \neq f$。
+
+        开邻域$U(g):=\mathrm{Spec}(\C[x,y])\setminus \{(g)\text{上所有点对应的}$
+    \end{example}
+    \subsection{Zariski拓扑的普遍性}
+    Stone-Weierstress定理，弱零点定理与Zariski拓扑之间的关系。
+
+    \begin{theorem}[Stone-Weierstress]
+        设$(K,\tau_k)$是紧Hausdorff空间。$C(K,\R)$是$K$上的实值连续函数构成的代数。其是Banach空间，范数为$\|f\|_{\infty}=\sup |f(x)|$。
+
+        设$A$是$C(K)$的子代数，若:
+        
+        1.$A$在$K$上是可分点的，即若$x \neq y$，则存在$f \in A$使得$f(x)\neq f(y)$。
+
+        2.$\forall x \in K$，$A$中一定有$f \in A$使得$f(x)\neq 0$。
+
+        则$A$是$C(K)$中的稠密集。
+    \end{theorem}
+    \begin{theorem}[泛函分析的弱零点定理]
+        设$I$是$C(K)$的极大理想，存在唯一的$x_0 \in K$,使得$I=I_{x_0}$。其中$I_{x_0}=\{f \in C(K):f(x_0)=0\}$。
+    \end{theorem}
+    \begin{proof}
+        假设不存在$x_0 \in K$。使得$\forall f \in I$,$f(x_0)=0$。则W-S条件2成立。
+
+        根据Uryshon引理，S-W的条件1成立。
+
+        从而根据S-W定理，$I \subset I \cup \{1\}$在$C(K)$中稠密。则对于$\epsilon>0$，则存在$f \in I$使得$\|f-1\|_{\infty}<\epsilon$。取$\epsilon=1/2$，则$f$没有零点。于是$1/f \in C(K)$。从而$f,1/f \in I$，矛盾于$I=C(K)$。
+
+        唯一性:$\forall x_1 \neq x_2$，有$I_{x_1}\neq I_{x_2}$。
+    \end{proof}
+    从而$K$和$C(K)$存在双射。$\mathrm{Spec}_mC(K)$的拓扑诱导$K$上的新拓扑$\tau_m$。
+\begin{theorem}
+    $\tau_m=\tau_k$。
+\end{theorem}
+\begin{proof}
+    设$W$是$\tau_k$中的开集。证明$W$是$\tau_m$中的开集。
+
+    根据Uryshon引理,$\forall x \in W$，存在$f_x \in C(K)$使得$f_x(K\setminus W)=0,f_x(x)=1$。只需证明$W=\bigcup_{x \in W} U_{f_{x \in W}}$开覆盖。其中$U(f)=\{x \in K:f(x)\neq 0\}=\{x \in K:f \notin I_x\}$。
+
+    对于$x \in W$，$x \in U(f_x)$。
+
+    对于$y \in U(f_x)$，假设$y \neq W$，则$f_x(y)=0$矛盾！
+\end{proof}
+\section{维数理论}
+\subsection{环上维数的定义:Krull维数}
+设$R$是环
+\begin{definition}
+    $R$的Krull维数定义为$\mathrm{dim}R:=\sup\{n:P_0 \subset P_1 \dots P_n \subset R\}$。且$P_i$均为素理想，所有包含都是真包含。
+
+    对于$p \in \mathrm{Spec}R$，$\mathrm{ht}(p)$定义为$\sup\{n:P_0 \subset P_1\dots \subset P_n \subset P\}$，称为理想的高（余维数）。
+
+    对于$I$是一般的理想，也可以定义$\mathrm{ht}(I)=\inf\{\mathrm{ht}(p):I \subset P\}$称为$I$的高。
+\end{definition}
+\begin{example}
+    $k[x_1,\dots,x_n]$的维数是$n$.
+
+    对$n$做归纳。则$n=0$时显然素理想不存在。所以维数是$0$。
+
+    假定不定元个数小于$n-1$时，$\mathrm{dim}k[x_1,\dots,x_i]$的维数是$i$。对于$R=k[x_1,\dots,x_n]$，有素理想升链:
+    \begin{align*}
+        (0) \subset (x_1) \subset (x_1,x_2) \subset \dots (x_1,\dots,x_n) \subset R
+    \end{align*}
+    由于$R$是Noether整环，$P_1=(f_1)$。$f$是$R$中首1的不可约多项式。考虑$\pi:R \to R/(f_1)$，令$S=k[x_1,\dots,x_{n-1}]$。由于$f \in S[x_n]$。$x_n$是$S \to R/(f_1)$的整元。于是$R/(f)$可以看成$S$的整扩张。从而$\mathrm{dim}R/(f)$的维数等于$S$的维数$n-1$。
+
+    根据$0 \subset (f)/(f) \subset P_m/(f) \subset R/(f)$。则$m-1 \leq n-1$。于是$m$作为$R$的维数小于等于$n$。
+
+    综上，$R$的维数是$n$。
+\end{example}
+\begin{theorem}
+    设$R$是整扩张$S\subset R=S[a_1,\dots,a_r]$。则$S$的Krull维数与$R$相同。
+\end{theorem}
+\begin{proof}
+    首先证明$R$的维数更大。
+    
+    我们断言，(Lying-over定理）对于$S \subset R$整扩张，任取$S$的素理想$p$，存在$R$的素理想$p':p=p'\cap S$。
+
+    根据断言，对于$p_i \in \mathrm{Spec}S$，存在$p_i' \in \mathrm{Spec}R$使得$p_i'\cap S=p_i$。
+
+    再断言(Going up定理):$S \subset R$是整扩张。若$p,q$是$S$的素理想，$p \subset q \subset S$，满足$p' \in \mathrm{Spec}R$且$p=p'\cap S$。则可以找到一个$q' \in \mathrm{Spec}R$满足:$p'\subset q',q=q'\cap S$。
+
+    根据断言，对于$S$中的链$P_0 \subset P_1 \subset \dots P_n \subset R$，则存在$P_0' \subset P_1' \subset \dots P_n'$是真包含的序列。从而$R$的维数至少和$S$相同。
+
+    接着断言,(不相容定理)，对于$S \subset R$整扩张，若$P_1 \subset P_2$是$R$中包含关系的素理想。若$P_1\cap S=P_2 \subset S$，则$P_1=P_2$.
+
+    因此根据不相容定理，则$R$的链可以诱导$S$的链。所以维数相同。
+\end{proof}
+\begin{lemma}
+    Noether整环是UFD当且仅当高为1的理想是素理想。
+\end{lemma}
+\begin{theorem}[Going down定理]
+    若$R,S$还都是整环，且$S$是整闭得，则Going down条件成立。
+\end{theorem}
+\subsection{参数系和有限生成代数维数}
+回忆Noether正规化定理:
+\begin{theorem}
+    域$\F$上的有限生成代数$A$,则存在代数无关的元素$y_1,\dots,y_r$使得$A$是$\F[y_1,\dots,y_n]$的有限扩张。
+\end{theorem}
+参数系:$\{y_1,\dots,y_n\}$称为参数系。Krull维数=参数系元素个数。
+\begin{align*}
+    A=k[y_1,\dots,y_r]x_1+k[y_1,\dots,y_r]x_2+\dots+k[y_1,\dots,y_r]x_m
+\end{align*}
+
+现在考虑向量空间的维数和Krull维数。
+
+1.$k[x_1,\dots,x_n]$是无穷维向量空间，但Krull维数只是n。
+
+2.$V_1 \subset V_2$是子空间。且两个向量空间的向量空间维数相同，我们可以得到$V_1=V_2$.但是考虑$S_n$作用在$k[x_1,\dots,x_n]$的不变子环，该环是所有对称多项式。其Krull维数是$n$。
+
+参数系自然有问题：是否有其他的参数系？这一点与Hilbert零点定理有关。
+\begin{theorem}
+    设$C$是一组齐次多项式，令$I=(C)$，$C$是$R$的参数系等价于$V(I)=(0)$。
+\end{theorem}
+\begin{proof}
+    $C$是$R$的参数系，则$k[x_1,\dots,x_n]/(C)$是有限维$k$向量空间。于是对于$x_i$，存在$d_i$满足$x_i^{d_i} \in (C)$。于是$V(I)\subset V(x_1^{d_1},\dots,x_n^{d_n})=(0)$.
+
+    反之，设$I$满足$V(I)=0=(x_1,\dots,x_n)$。根据零点定理，$\sqrt{I}=(x_1,\dots,x_n)$。
+\end{proof}
+\subsection{不变理论中的参数系}
+$G$是偶置换群，作用在$k[x_1,\dots,x_n]$的不变子环由:
+\begin{align*}
+    s_1,s_2,\dots,\Delta
+\end{align*}
+生成。则$k[s_1,\dots,s_n]\nsubseteq  R^G \nsubseteq  k[x_1,\dots,x_n]$.
+
+那对于一般的群和群作用呢？
+
+存在性:$G$是有限群，$R^G$是有限生成$k$代数。根据Noether正规化定理，$R^G$存在参数系。
+
+参数系与轨道陈类
+$G$作用在$(k^n)^*$上，$x_i \in (k^n)^*$，$G=\{g_1,\dots,g_k\}$是有限群。令$o(x_i)=\{g_1x_i,\dots,g_kx_i\}=\{f_{i1},\dots,f_{ik}\}$
+
+最高陈类:$c_{top}(x_i)=f_{i1}\dots f_{ik}$
+
+$R^G$的参数系:设$\{\alpha_1,\dots,\alpha_n\}$是$(k^n)^*$的一组基，满足$\alpha_{i+1} \notin U_{g_1,\dots,g_n \in G}\mathrm{span}_k\{g_1\alpha_1,\dots,g_i\alpha_i\}$。遍历$(g_1,\dots,g_i)\in G^i$。这称为Dade基，且一定存在。
+
+则$c_{top}(\alpha_1),c_{top}(\alpha_2),\dots,c_{top}(\alpha_n)$构成$R^G$的参数系。
+\end{document}

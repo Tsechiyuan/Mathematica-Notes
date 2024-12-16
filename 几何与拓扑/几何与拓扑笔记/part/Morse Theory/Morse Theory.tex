@@ -1,0 +1,35 @@
+\ifx\allfiles\undefined
+
+	% 如果有这一部分另外的package，在这里加上
+	% 没有的话不需要
+	
+	\begin{document}
+\else
+\fi
+\part{Morse理论}
+设$f$是流形$M$上的光滑函数。我们定义:称一个点$p\in M$是$f$的临界点(critical point),若诱导映射$f_*:T_pM \to T_{f(p)}R$是$0$映射。
+
+在流形上我们最好用各种各样的局部坐标讨论。设$(U;x_i,1\leq i \leq n)$是$p$附近的一个局部坐标系,则临界点的定义可以写为:
+\begin{align}
+	\pa{f}{x^1}=\pa{f}{x^2}=\dots=\pa{f}{x^n}=0
+\end{align}
+
+此时$f(p)$称为$f$的临界值。
+
+在临界点处$f$的性质有着与非临界值完全不同的性质。Morse理论则是研究临界点处,$M$本身拓扑性质的改变的理论。
+\input{part/Morse Theory/1.tex}
+\input{part/Morse Theory/2.tex}
+\input{part/Morse Theory/3.tex}
+\ifx\allfiles\undefined
+	
+	% 如果有这一部分的参考文献的话，在这里加上
+	% 没有的话不需要
+	% 因此各个部分的参考文献可以分开放置
+	% 也可以统一放在主文件末尾。
+	
+	%  bibfile.bib是放置参考文献的文件，可以用zotero导出。
+	% \bibliography{bibfile}
+	
+	\end{document}
+	\else
+	\fi

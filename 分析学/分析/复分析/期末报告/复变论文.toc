@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}总体思路}{2}{section.1}%
+\contentsline {section}{\numberline {2}边界行为}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}极限的存在性}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}延拓后的函数是连续的双射}{4}{subsection.2.2}%
+\contentsline {section}{\numberline {3}给出形式}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}从把实数轴弯折开始}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Schwarz-Christoffel积分}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}构造积分的思路}{7}{subsection.3.3}%
+\contentsline {section}{\numberline {4}最后的验证}{7}{section.4}%

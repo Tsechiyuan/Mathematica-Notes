@@ -1,0 +1,43 @@
+\ifx\allfiles\undefined
+
+	% 如果有这一部分另外的package，在这里加上
+	% 没有的话不需要
+	
+	\begin{document}
+\else
+\fi
+\part{黎曼曲面与复几何}
+\input{part/Complex Geometry and Riemann Surface/1.tex}
+\input{part/Complex Geometry and Riemann Surface/2.tex}
+\input{part/Complex Geometry and Riemann Surface/3.tex}
+\chapter{Complex Manifold}
+
+\chapter{K\"{a}hler Manifold}
+\section{Difinition and K\"{a}hler Identity}
+This section we introduce the basic concept of K\"{a}hler manifold and K\"{a}hler Identity.
+
+Let $X$ be a complex manifold.We denote the induced almost complex structure by $I$. The following definition is natural.
+
+\begin{definition}
+A Riemann metric $g$ on $X$ is an hermitian structure on X if for any point $x \in X$,the scalar product $g_x$ on $T_x X$ is compatible with the almost complex structure $I_x$. That is, $g_x(I_x w,T_x v)=g_x(w,v)$ for any $x \in X,w,v \in T_x X$.
+
+Then the induced form $\omega:=g(I(),())$ is called the fundamental form.
+\end{definition}
+
+\chapter{Vector Bundles}
+
+\chapter{Applications of Cohomology}
+
+\ifx\allfiles\undefined
+	
+	% 如果有这一部分的参考文献的话，在这里加上
+	% 没有的话不需要
+	% 因此各个部分的参考文献可以分开放置
+	% 也可以统一放在主文件末尾。
+	
+	%  bibfile.bib是放置参考文献的文件，可以用zotero导出。
+	% \bibliography{bibfile}
+	
+	\end{document}
+	\else
+	\fi

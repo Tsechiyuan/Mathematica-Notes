@@ -1,0 +1,549 @@
+\ifx\allfiles\undefined
+
+	% 如果有这一部分另外的package，在这里加上
+	% 没有的话不需要
+\else
+\fi
+\chapter{从Riemann-Roch定理谈起}
+这章我们从Riemann-Roch定理开始,介绍一些更进阶的黎曼曲面内容.
+\section{Riemann-Roch定理的叙述与初步证明(尚不完整)}
+\begin{theorem}[Riemann-Roch定理]
+	设$M$是一个紧的黎曼曲面,$D$为$M$上任意一个除子.则:
+	\begin{align*}
+		h^0(M,\OO(D))-h^0(M,\OO(K-D))=\mathrm{deg}D-g+1
+	\end{align*}
+    其中,$\OO(D)$表示除子$D$给出的线丛.$K$表示$M$的典范除子.
+
+	其中,$h^0$表示对应上同调群的维数(rank),$g$表示$M$的亏格数(由2维可定向紧曲面分类得到).另外,$g=H^{0,1}_{\bpa}(M)$.
+\end{theorem}
+
+证明分为几步.我们先证明:
+\begin{align*}
+		h^0(M,\OO(D))-h^1(M,\OO(D))=\mathrm{deg}D-H^{0,1}_{\bpa}(M)+1
+	\end{align*}
+从而归结于计算$H^{0,1}_{\bpa}(M)$和$h^0(M,\OO(K-D))$
+
+假设$D$是有效除子,即$D$的各分量系数均$\geq 0$.我们采用数学归纳法.
+
+Step1:设$D=0$,则$H^0(M,\OO(D))=\C$,$H^0(M,\OO(K-D))=H^0(M,\OO(K))=H^1(M,\OO)\cong H_{\bpa}^{0,1}(M)$.
+
+而$\mathrm{deg}D=0$.于是:
+\begin{align*}
+	h^0(M,\OO(D))-h^1(M,\OO(D))-\mathrm{deg}D=1-\dim H_{\bpa}^{0,1}(M)
+\end{align*}
+
+Step2:假设上述结果对于$\mathrm{deg}D\geq 0$成立,$D\geq 0$.则对于$D_1:=D+p$,任取$p \in M$.
+
+考虑短正合列:
+\begin{align*}
+	0 \to \OO(D) \to \OO(D_1) \to \C_p \to 0
+\end{align*}
+
+其中$\OO(D)(U):=\{ f\in \mu(U)|(f)+D\geq 0\}$.这是因为$\OO(D)(U)$是全体$D$生成的线丛的截面,而若$s_\alpha=s_\beta \dfrac{f_{\alpha}}{f_\beta}$,则:
+\begin{align*}
+	\frac{s_\alpha}{f_\alpha}=\frac{s_\beta}{f_\beta}
+\end{align*}
+即我们构造了一个亚纯函数$f \in \mu(U)$,且$((f)+D)_\alpha=(s_\alpha)\geq 0$.这个结论显然对于任何除子都成立.
+
+$\C_p$则是$p$处的局部层.即若$U$包含$p$,则$\C_p(U)=\C$.反之则为$0$.$\beta_U$则是求出亚纯函数$f$在$p$处的$N$阶系数,其中$N$是$D_1$中$p$的系数.
+
+正合性我们留作读者证明.
+
+诱导长正合列:
+\begin{align*}
+	0 \to H^0(\mathcal{U},\OO(D)) \to H^0(\mathcal{U},\OO(D+p)) \to H^0(\mathcal{U},\C_p) \to H^1(\mathcal{U},\OO(D)) \to \dots 
+\end{align*}
+
+不难计算$H^0(\mathcal{U},\C_p)=\C$,以及$H^0(\mathcal{U},\OO(D+p))\cong \mathrm{Im}\beta^*\oplus \mathrm{Im}i^*$.
+
+也即:
+\begin{align*}
+	\dim H^0(\mathcal{U},\OO(D+p))=\dim H^0(\mathcal{U},\OO(D))+1
+\end{align*}
+
+\begin{align*}
+	H^0(\mathcal{U},\C_p) \to H^1(\mathcal{U},\OO(D)) \to   H^1(\mathcal{U},\OO(D+p)) \to H^1(\mathcal{U},\C_p)=0
+\end{align*}
+
+于是$H^1(\mathcal{U},\OO(D)) \cong   H^1(\mathcal{U},\OO(D+p))$.
+
+从而:
+\begin{align*}
+	h^0(\mathcal{U},\OO(D_1))-h^1(\mathcal{U},\OO(D_1))-\mathrm{deg}D_1=-h^{0,1}_{\bpa}(M)+1
+\end{align*}
+
+Step3:对于一般的$D$.(\textbf{这一段的23种情况都存在问题，笔者暂时没有想到修正的办法})
+
+分类讨论:对于$h^0(M,\OO(D))>0$,则存在$f \in \mu^*(M)$使得:
+\begin{align*}
+	(f)+D\geq 0
+\end{align*}
+
+令$D_0:=(f)+D$.因为全局的亚纯函数不改变$D$对应的向量丛,同时整体的度数为$0$,从而结果自然成立.(详见引理\ref{lem:menomorphic})
+
+若$h^0(M,\OO(D))=0$,$h^1(M,\OO(D))>0$.也即不存在这样的亚纯函数$f$.设$D=D_1-D_2$为两个有效除子的差.
+
+若$h^0(M,\OO(D))=0$,$h^1(M,\OO(D))=0$.仍然$D=D_1-D_2$为两个有效除子的差.利用短正合列
+\begin{align*}
+	0 \to \OO(D-p) \to \OO(D) \to \C_p \to 0
+\end{align*}
+可证明:
+\begin{align*}
+	h^0(M,\OO(D_1))-h^0(M,\OO(D_1-p))\leq 1 \Rightarrow 
+	h^0(M,\OO(D_1))-h^0(M,\OO(D_1-D_2))\leq \deg D_2
+\end{align*}
+因为$D_1$是有效除子,从而:
+\begin{align*}
+	\deg D_2\geq \deg D_1+1-h^{0,1}_{\bpa} \Rightarrow \deg D+1-h^{0,1}_{\bpa}\leq 0
+\end{align*}
+
+类似的,也可以证明:
+\begin{align*}
+	0=h^1(M,\OO(D_1-D_2))\geq(\text{实际上是等于})h^1(M,\OO(D_1))=h^0(M,\OO(D_1))-\deg D_1-1+h^{0,1}_{\bpa}(M)\\
+	 \Rightarrow \deg D+1-h^{0,1}_{\bpa}=h^0(M,\OO(D_1))-\deg D_2
+\end{align*}
+\begin{lemma}[整体亚纯函数]\label{lem:menomorphic}
+   \quad 
+
+	1.对于任意黎曼曲面$M$,整体亚纯函数给出的除子$(f)$对应平凡的线丛.
+
+	2.对于紧黎曼曲面$M$,整体亚纯函数给出的除子度数为$0$.
+\end{lemma}
+\begin{proof}
+	1.长正合列:
+	\begin{align*}
+		\to H^0(M,\mu^*) \to H^0(M,\mu^*/\OO^*) \to H^1(M,\OO^*)
+	\end{align*}
+
+	2.参见\href{chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://homepages.warwick.ac.uk/~masda/MA4L7/old/Part2.pdf}{第五页}
+\end{proof}
+
+\section{Laplace算子与Poisson方程}
+证明RR定理的时候,我们需要用到两个假设:
+\begin{proposition}
+	对于紧致黎曼曲面$M$:
+	\begin{enumerate}
+		\item $\HdR{1}(M,\C)\cong H_{\bpa}^{1,0}(M)\oplus H_{\bpa}^{0,1}(M)$
+		\item $H^0(M,\OO(K-D))\cong H^1(M,\OO(D))$.
+	\end{enumerate}
+\end{proposition}
+本节我们处理这两个假设.首先阐明前置的一些知识.
+\begin{definition}
+	对于$\C$的开域$\Omega$,定义Laplace算子$\Delta$为:
+	\begin{align*}
+		\Delta:=(\pa{}{x})^2+(\pa{}{y})^2
+	\end{align*}
+\end{definition}
+一个直接的推论是:
+\begin{align*}
+	\pa{}{z}\pa{}{\bar{z}}=\frac{1}{4}\Delta,dz \wedge d\bar{z}=-2\ii dx\wedge dy
+\end{align*}
+以及对于$u :\Omega \to \R$
+\begin{align*}
+	\ii \npa \bpa u=\ii \frac{\npa^2 u}{\npa z\npa \bar{z}}dz \wedge d\bar{z}=\frac{1}{2}\Delta u dx\wedge dy
+\end{align*}
+
+不难看出,如果$f$全纯,则$f=u+iv$满足$\Delta u=\Delta v=0$.
+
+另一方面,不难使用计算验证:
+\begin{proposition}
+	$\ii \npa\bpa u$不依赖于全纯坐标卡的选取.
+\end{proposition}
+并且:
+\begin{proposition}
+	算子$\Delta_z$旋转对称,即$\Delta_z f(z)=\Delta f(e^{\ii\theta}z)$.
+\end{proposition}
+\begin{proof}
+	$\npa$和$\bpa$所产生的系数相互抵消.
+\end{proof}
+\begin{proposition}
+	单连通$\Omega \subset \C$.若$\Delta u=0$成立,则存在$v:\Omega \to \R$使得$u+\ii v \in \OO(\Omega)$.称$v$是$u$的共轭调和函数.
+\end{proposition}
+\begin{proof}
+	令$w:=-\pa{u}{y}dx+\pa{u}{x}dy$.则$dw=0$.因为$\Omega$单连通,所以存在$\omega=dv$.
+\end{proof}
+接下来我们描述本节的主定理.证明放在%\ref{proof:possiom}
+
+\begin{theorem}
+	设$M$是紧致连通黎曼面.$\rho \in \Lambda^2(M;\R)$.则方程$\ii \npa\bpa u=\rho$有解当且仅当$\int_M \rho=0$成立.解在加减常数的意义下唯一.
+\end{theorem}
+\begin{corollary}
+	令$M$是紧致连通黎曼曲面.则:
+	\begin{enumerate}
+		\item $\sigma:H^{1,0}_{\bpa}(M) \to \overline{H^{0,1}_{\bpa}{(M)}}$是同构,把$\omega$映射为$\bar{\omega}$
+		\item $\Phi:H^{1,0}_{\bpa}(M)\oplus H_{\bpa}^{0,1}(M)\to \HdR{1}(M,\C)$是同构,把$(\omega,\eta)$映射为$[\omega+\bar{\eta}]$.
+		\item $H^{1,1}_{\bpa}(M)\to \HdR{2}(M,\C)$是同构.
+	\end{enumerate}
+	
+\end{corollary}
+\begin{proof}
+	1.不难验证$\sigma$良定义.若$\bar{w}=\bar{\eta}$,则自然$\omega=\eta$,因此$\sigma$单射.
+
+	任取$[\theta] \in H^{0,1}$,我们需要证明存在$\theta'\in [\theta]$使得$\npa\theta=0$,以此用$\bar{\theta'}$作为原像.
+
+	任取$\theta\in [\theta]$,则$\theta-\theta'=\bpa{u}$.于是:
+	\begin{align*}
+		\npa{\theta-\theta'}=\npa\bpa u
+	\end{align*}
+	问题转化为,任取$\theta\in [\theta]$,是否存在光滑函数$u$使得$\ii \npa\bpa u=-\ii \npa \theta$.根据主定理,使用Stoke公式可以轻松得证.
+
+	2.留作读者练习.需要提醒的是,任何一个$\omega_0 \in [\omega] \in \HdR{1}(M,\C)$都存在一个分解:
+	\begin{align*}
+		\omega_0 =\omega_1+\omega_2 \in \wedge^{1,0}\oplus \wedge^{0,1}
+	\end{align*}
+
+	3.留作练习.
+\end{proof}
+
+我们已经处理了第一个假设.接下来我们考虑第二个.实际上这个假设是黎曼曲面情况下的Serre对偶.
+\begin{theorem}
+	紧致连通黎曼曲面$M$满足,任意除子$D$,有:
+	\begin{align*}
+		H^0(M,\OO(K-D))\cong H^1(M,\OO(D))
+	\end{align*}
+\end{theorem}
+为了证明此结果,我们首先需要做一些准备工作.
+
+1.$\OO(K-D)$是什么?
+
+对于除子$D$,可以定义$D$的一个全纯1-形式层:
+\begin{align*}
+	Z^{1,0}_{\bpa}(D)(U):=\{w=fdz_{U}|f\in \OO(U),(f)+D\geq 0\}
+\end{align*}
+限制映射为通常的限制.
+
+上述定义的好处是下面的命题.读者若仔细检查两边的定义,这个命题是不困难的.
+\begin{proposition}
+	单连通开域$\Omega \subset \C$满足:
+	\begin{align*}
+		\OO(K-D)(\Omega)\cong Z^{1,0}_{\bpa}(-D)(\Omega)
+	\end{align*}
+\end{proposition}
+
+在单连通开集上的同构意味着上同调的同构:
+\begin{corollary}
+	$H^0(\mathcal{U},Z^{1,0}_{\bpa}(-D))\cong H^0(\mathcal{U},\OO(K-D))$
+\end{corollary}
+
+2.定义对偶映射.
+\begin{definition}
+	我们定义如下的对偶映射:
+	\begin{align*}
+		H^0(\mathcal{U},Z^{1,0}_{\bpa}(-D)) \times H^1(\mathcal{U},\OO(D)) \to H^1(\mathcal{U},\OO) \\
+		(\omega,[\sigma]) \mapsto \{(\sigma_{\alpha\beta} \cdot \omega|_{U_{\alpha\beta}})\}
+	\end{align*}
+\end{definition}
+
+不难验证,因为要求$(\omega)-D\geq 0$,于是$\sigma_{\alpha\beta}\omega$是全纯的函数.
+
+由于$H^1(\mathcal{U},\OO)\cong H^{1,0}_{\bpa}(M)$,可以定义留数.
+\begin{definition}
+定义$\mathrm{Res}:H^{1,0}_{\bpa}(M) \to \C,\omega \mapsto \sum_{p\in (\omega)}\mathrm{Res}(\omega,p)$.其中:
+\begin{align*}
+	\mathrm{Res}(\omega,p)=\int_{\npa B_{\epsilon}(p)}\omega=a_{-1}
+\end{align*}
+\end{definition}
+
+3.对偶定理
+\begin{theorem}
+	设$M$是连通紧致黎曼曲面.则双线性映射:
+	\begin{align*}
+		H^0(\mathcal{U},Z_{\bpa}^{1,0}(-D)) \times H^1(\mathcal{U},\OO(D)) \to \C\\
+		(\omega,[\sigma]) \mapsto \sum_p \mathrm{Res}_p (\sigma_{\alpha\beta} \cdot \omega|_{U_{\alpha\beta}})
+	\end{align*}
+	诱导了一个同构,即对偶意义上的同构.
+\end{theorem}
+\begin{proof}
+	使用数学归纳法.
+	
+	若$D=0$,则:
+	\begin{align*}
+		H^0(\U,Z_{\bpa}^{1,0}(0))=H^{1,0}_{\bpa}(M)\\
+		H^1(\U,\OO(0))^*\cong H^{1,0}_{\bpa}(M)
+	\end{align*}
+	\textbf{笔注:第一个同构是定义本身,而第二个同构似乎之前没有提到过.}
+
+	现在假设$D\geq 0$,且$\deg D=k$时定理已经满足.
+	\begin{align*}
+	    0 \to \OO(D) \to \OO(D+p) \to \C_p \to 0\\
+		0 \to \OO(K-D-p) \to \OO(K-D) \to \C_p \to 0
+	\end{align*}
+	同样的诱导长正合列:
+	\begin{align*}
+		0 \to H^0(\U,\OO(D)) \to H^0(\U,\OO(D+p)) \to \C \to H^1(\U,\OO(D)) \to H^1(\U,\OO(D+p)) \to 0 
+	\end{align*}
+
+   根据层上同调的同构:
+   \begin{align*}
+	0 \to H^0(\U,Z_{\bpa}^{0,1}(D-K)) \to H^0(\U,Z_{\bpa}^{0,1}(D+p-K)) \to \C \to H^1(\U,Z_{\bpa}^{0,1}(D-K)) \\\to H^1(\U,Z_{\bpa}^{0,1}(D-K+p)) \to 0 
+   \end{align*}
+
+   同理也可以写出第二个正合列对应的长正合列.
+
+   把两个长正合列并接起来,我们有交换图:
+   \[\begin{tikzcd}
+	0 & {[H^1(\U,\OO(K-D))]^*} & {[H^1(\U,\OO(K-D-p))]^*} & \C \\
+	0 & {H^0(\U,Z^{1,0}_{\bpa}(D-K))} & {H^0(\U,Z^{1,0}_{\bpa}(D+p-K))} & \C
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=2-1, to=1-1]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=1-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=1-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-4, to=1-4]
+\end{tikzcd}\]
+    由追图可以(或者称5-引理)可知推论成立.从而命题在$\deg D\geq 0$的时候成立.
+
+	\textbf{笔记在这个地方缺失,缺少对$\deg D$一般情况的证明}
+\end{proof}
+\section{Branched Covering Map}
+本节我们只考虑紧致连通的黎曼面.
+\subsection*{Covering Map}
+\subsection*{Branched Covering Map(分歧覆盖)}
+\begin{definition}
+	称$f:M \to N$为\textbf{分歧覆盖映射},若$\forall p \in M$,存在开域$U_p \subset M$满足$f|_{U_p\setminus \{p\}}$为$U_p\setminus \{p\}$与$f(U_p)\setminus\{f(p)\}$间的有限覆盖映射.
+
+	在分歧映射的情况下,如果$f|_{U_p}$不是有限覆盖映射,则称$p$是$f$的一个分歧点.
+	
+\end{definition}
+也即局部上$f$是有限覆盖映射,但是要去除中心的点.我们用下面的例子来说明撇除原点的好处.
+\begin{example}
+	考虑函数$f(z):\PP^1 \to \PP^1$.在$\PP^1$除去$0$和$\infty$,把$z$映射到$z^k$.此时$0$和$\infty$是$f$的分歧点.
+	
+	再考虑$f(z)=(z-1)^2(z-2)$.$f(z)$在$z=1$附近和$z=2$附近产生分歧,$1$和$2$是分歧点.在$1$和$2$处,$f$的叶数不同:$1$处$f$的叶数是$2$,$2$处$f$的叶数是$1$.
+\end{example}
+\begin{definition}[重数Multiplicity]
+	令$f:M \to N$是全纯映射.任取$p \in M$,记$q=f(p)$.取$(U_p,\varphi_p)$,$(V_q,\psi_q)$是局部坐标且把$p,q$都映射为$0$点.
+
+	局部展开$f$,我们有$\psi_q \circ f \circ \varphi_p^{-1}(z)=z^k g(z)$,且$g(z) \in \OO^*(U_p)$.
+
+	令$\tilde{\varphi}_p:U_p\to \C$使得$\tilde{\varphi}_p \circ \varphi_p^{-1}(z)=z g(z)^{1/k}$(重新选取一个局部坐标),则:
+	\begin{align*}
+		\psi_q \circ f \circ \tilde{\varphi}_p=z^k
+	\end{align*}
+	称此时的$k$为$f$在$p$点处的\textbf{重数}(Multiplicity)
+\end{definition}
+定义中$k_p$依赖于坐标选取.但我们显然希望这是一个与坐标选取无关的量.实际上,我们有命题:
+\begin{proposition}
+	$f$在$p$点的重数不依赖于坐标的选取.
+\end{proposition}
+我们不给出这个命题的证明.读者可以自行尝试,假定另外一个局部坐标$\varphi_1$给出重数$l$,则会导出什么样的结果.
+
+我们对重数进行初步的分析.如果$k_p=1$,则$f$在局部上是恒同,也即$f$是局部的同胚.如果$k_p>1$,则$f$局部上的叶数即为$k_p$.并且$df$在$p$处退化,$p$成为$f$的退化点.
+
+利用下面这个引理,我们给出映射度的概念.
+\begin{lemma}
+	设$M$,$N$是紧致连通黎曼曲面.$f:M \to N$是全纯映射.令$P:=\{x \in M|df|_x=0\}$,$P^+=f^{-1}(f(P))$.则$f|_{M\setminus P^+}$是一个逆紧的局部同胚.
+\end{lemma}
+\begin{proof}
+	根据微分流形的基本知识,若$df|_x \neq 0$,则$f$在$x$处为一个局部微分同胚.
+
+	由于$M$$N$都是紧集,则$f$天生是逆紧的.
+\end{proof}
+上述结果说明任何紧致黎曼曲面的映射均为若干支点(映射的退化点)外的Covering Map.
+
+\begin{definition}
+	对于映射$f:M \to N$,定义$f$的映射度为:
+	\begin{align*}
+		\deg_y(f):=\sum_{x \in f^{-1}(y)}k_x
+	\end{align*}
+	其中$k_x$表示$f$在$x$处的重数.
+\end{definition}
+\begin{proposition}
+	$\deg_y f$与$y$的选取无关,从而映射度是映射本身固有的量.
+\end{proposition}
+\begin{proof}\textbf{证明待补全,讲义的证明存在问题}
+	把命题转化为局部的情况.若$M=N=\C$且$f=z^k$,则映射度为$k$.因为对于不为$0$的$x$,$k_x=1$.而$k_0=k$.
+
+	一般情况下,设$\deg_y f=k$.我们证明集合$A=\{y \in N|\deg_y =k\}$是$N$上的既开又闭集.
+
+\end{proof}
+\begin{theorem}
+	设$M$是连通的紧致黎曼曲面,且亏格为$g$.(闭曲面分类定理,$M$总是可定向的).则$M$上必存在一个至多$g+1$叶的亚纯函数$f: M \to \PP^1$
+\end{theorem}
+\begin{proof}
+	任取$p \in M$,设除子$D$为$(g+1)p$.利用Riemann-Roch定理:
+	\begin{align*}
+		h^0(M,\OO(D))=h^0(M,\OO(K-D))+1-g+g+1\geq 2
+	\end{align*}
+	也就是说存在亚纯函数$f$使得$(f)+D\geq 0$.换言之$f$在$p$上的次数大于等于$-(g+1)$.
+\end{proof}
+\begin{remark}
+	映射度实际上是拓扑量.我们有结论:
+	\begin{align*}
+		&f:M \to N\\
+		&f_*:H_2(M,\R) \to H_2(N,\R),[M] \mapsto \mathrm{deg}(f)[M]=[N]
+	\end{align*}
+\end{remark}
+\section{Riemann-Hurwitz公式}
+本节我们论述公式:
+\begin{theorem}
+	假定$f$是黎曼曲面$M$到$N$的全纯映射,且$M,N$都是紧致黎曼曲面.则:
+	\begin{align*}
+		[K_M] \sim f^*[K_N]+[B]
+	\end{align*}
+	其中$B=\sum_{p \in M}(k_p-1)p$.
+
+	这是一个除子的等式,其中的其他记号我们将在下面论述.
+\end{theorem}
+首先,$[K_M]$表示这样一个除子——典范除子.即一个对应线丛$K_M$的除子.$f^*[K_N]$表示把除子$[K_N]$拉回到$M$上,成为$M$的除子.即$f^*[q]=\sum_{p\in f^{-1}(q)}[p]$
+
+\begin{proof}
+	任取$\omega_N \in H^0(N,K_N)$,且$(\omega_N)=K_N$.$f^*\omega_N$是$M$上的全纯1-形式.并且:
+	\begin{align*}
+		f^*\omega_N \sim K_M
+	\end{align*}
+	我们只需要证明$[f^*\omega]=f^*(\omega_N)+\sum_{p\in P^+}(k_p-1)[p]$.事实上,考虑$p\in P^+$,$\omega_N|_{V_{f(p)}}=a(w)dw$,直接计算有:
+	\begin{align*}
+		f^*\omega|_{U_p}&=a(f(z))f'(z)dz\\&=a(z^{k_p})k_pz^{k_p-1}dz
+	\end{align*}
+	因此:
+	\begin{align*}
+		(f^*\omega|_{U_p})=(a(w)dw)|_{U_p}+(k_p-1)[p]
+	\end{align*}
+	求和即可得到结果.
+\end{proof}
+除子的等价意味着一些只取决于除子等价类的量的等式,如度数:
+\begin{corollary}
+	条件不变,
+	\begin{align*}
+		\deg ([K_M])=\deg [K_N]+\sum_{p \in P^+}(k_p-1)
+	\end{align*}
+\end{corollary}
+实际上,一般的Hurwitz公式是关于欧拉示性数的等式.这是因为我们可以从$[K_M]$中得到$M$的欧拉示性数.$\chi_M=-\deg K_M$.
+
+\section{射影嵌入定理}
+回忆:对于$M:=\{(z,w)\in \C^2|P(z,w)=0\}$
+
+结论一:$M^+$是$M$的非奇异点集合,则$M$是一个黎曼曲面.
+
+如果我们把$z,w$视作$M$上函数,则不难发现,所谓$M_{\mathrm{sing}}$是$z,w$共同的分歧点.
+
+结论二:若$P$是不可约多项式,则$M_{\mathrm{sing}}$是有限点集合.这个结论是一个代数的结果.
+
+回到$M^+$.不幸的是,$M^+$可能不再是紧致黎曼曲面.但是$M$是紧集,因此一个自然的想法是紧化.
+
+但是拓扑的紧化必然会导致提问:如何在保证解析结构的情况下紧化？其次,$P$不一定是齐次的,因此$M$不能直接嵌入为$\PP^1$的子集,有没有办法可以把$P$齐次化呢?
+\subsection*{保解析结构的紧化}
+类似于$\PP^1$,我们可以定义$N$维复射影空间:
+\begin{align*}
+	\PP^N:=\C^{N+1}\setminus \{0\}/\sim
+\end{align*}
+其中等价关系$\sim$为:$(z^0,\dots,z^{N+1})\sim (w^0,\dots,w^{N+1})$当且仅当$\exists \lambda \in \C^*$使得$\lambda z=w$.
+
+$\PP^N$显然是紧致的,并且有Hopf纤维:
+\begin{align*}
+	S^1 \to S^{2N+1} \to \PP^N
+\end{align*}
+
+\begin{proposition}
+	$\PP^N$的结构为$\PP^N=\C^N\cup \PP^{N-1}$
+\end{proposition}
+从集合角度上来看上述并不难理解.关键是解析结构上.但解析结构的保持也是自然的.
+
+对于曲线$M\subset \C^2$:
+\begin{align*}
+	\Phi:&M \to \PP^2=\C^2 \cup \PP^1\\
+&    (z,w) \mapsto [1:z:w]=[z^0,z^1,z^2]
+\end{align*}
+
+观察$\Phi(M)$.我们发现其由:
+\begin{align*}
+	P(\frac{z^1}{z^0},\frac{z^2}{z^0})=0
+\end{align*}
+给出.若$P(z,w)=\sum_{i,j}a_{ij}z^iw^j$,则$\Phi(M)$由多项式:
+\begin{align*}
+	\tilde{P}(z^0,z^1,z^2)=\sum_{i,j}a_{ij}(z^1)^j(z^2)^i(z^0)^{m-i-j}
+\end{align*}
+定义.这是一个齐次多项式！
+
+因此我们可以把$M$视作$\PP^2$的子集.现在我们讨论一个$\PP^N$的性质.
+
+\begin{proposition}
+	$\PP^N$的全纯自同构群为$\mathrm{PGL}_{N+1}(\C)$.
+\end{proposition}
+\begin{proof}
+	留作读者练习.
+\end{proof}
+\subsection*{嵌入定理(一)}
+\begin{theorem}
+	设连通黎曼曲面$M$的亏格为$g$,则可以全纯的嵌入$\PP^{g+1}$.(是比较粗糙的结果)
+\end{theorem}
+\begin{proof}
+	若$g=0$,则$M\cong \PP^1$.不妨设$g\geq 1$.'
+
+   注意到$\deg D<0$可以推出$h^0(M,\OO(D))=0$.因为全局的亚纯函数的总体degree总是$0$,而$f$存在则必须有$(f)+D\geq 0$.因此$f$不存在.
+
+   根据Serre对偶,若$\deg D>\deg K_M=2(g_M-1)$\textbf{笔者注记:什么时候讲的后者的大小},我们有:
+   \begin{align*}
+	H^1(M,\OO(D))=H^0(M,\OO(K_M-D))=0
+   \end{align*}
+   于是根据Riemann-Roch定理:
+   \begin{align*}
+	 h^0(M,\OO(D))=1-g+(2g+1)=g+2
+   \end{align*}
+   不妨设该同调群的向量基为:$\{f_0,\dots,f_{g+1}\}$.并且设:
+   \begin{align*}
+	\Phi:&M \to \PP(H^0(M,\OO(D)))\\
+	    & p \mapsto [f_0(p),\dots,f_{g+1}(p)]
+    \end{align*}
+	$\Phi$显然是一个良定义的函数.只要我们证明$\Phi$是单的全纯函数,则完成了证明(双射全纯函数一定是双全纯的).
+
+	为了证明单射,任取$p_1 \neq p_2$,我们证明$\Phi(p_1)
+\neq \Phi(p_2)$.
+
+    令$D_1=D-p_1$,$D_2=D_1-p_2=D-p_1-p_2$.
+
+	则:$H^0(M,\OO(D_2))\subset H^0(M,\OO(D_1)) \subset H^0(M,\OO(D))$,且$h^0(M,\OO(D_2))=g$.
+
+	由于维数上显然的小于关系,我们取不在$H^0(M,\OO(D_2))$的$H^0(M,\OO(D_1))$元$f$.即$(f)+D-p_1\geq 0$但$(f)+D-p_1-p_2$不再大于等于$0$.
+
+	此时就会有$f(p_1)=0,f(p_2)\neq 0$.用$f$拓展出一个基$\{f_n\}$.\textbf{此处证明存疑.既然选定了一组基就不能随意更换.}
+
+	为了证明同胚,我们只需要证明在每个点$p$处,总存在$f_i$使得$f_i'(z_{p})\neq 0$.实际上,如上所言,我们取出$f \in H^0(M,\OO(D-p)) \setminus H^0(M,\OO(D-2p))$,则$f(p)=0$且$f'(p)\neq 0$.则:
+	\begin{align*}
+		f(p)=\sum_{i=0}^N a_i f_i(p)
+	\end{align*}
+	可知,存在$f_i$,$f_i'(z_p)\neq 0$.
+
+\end{proof}
+\subsection*{射影代数曲线}
+本节我们论述的是Chow定理的低维版本.为了不受到良心的煎熬,我们记录完整版本如下:
+\begin{theorem}[Chow定理]
+	$\PP^N$上的解析曲线是代数曲线,解析映射是代数映射.
+\end{theorem}
+因此可以用代数几何的视角来研究复几何.
+
+现在我们考虑低维的版本,即考虑黎曼曲面.
+
+来看一个例子.
+
+设$M=\PP^1$.坐标$U_0:=\{[1,\xi]\}\cong \C$.令$z=\PP^1 \to \PP^1$,$\xi \mapsto \xi^n$.$f:\PP^1 \to \PP^1$,$\xi \mapsto \xi^m$.$\pi_i:\PP^1\setminus \{0,\infty\} \to \PP^1 \setminus \{0,\infty\}$,$z \mapsto z^{i/n}$.
+
+令$P(w,z):=\prod_{i=1}^n(w-f(\pi_i(z)))$.我们计算$P(w,z)$的表达式:
+\begin{align*}
+	P(w,z)&=\prod_{i=1}^n(w-z^{im/n})\\&=w^n-w^{n-1}\sum z^{im/n}+\dots (-1)^n z^{(n+1)m/2}=w^n-z^m
+\end{align*}
+
+\begin{theorem}
+	紧致连通黎曼曲面$M$.$z \in \mu^*(M)$是一个$n$叶的亚纯函数,$f\in \mu^*(M)$是一个$m$叶的亚纯函数.则必然存在$n+m$次的多项式使得$f^n+\sigma_{n-1}(z)f^{n-1}+\dots+\sigma_0(z)=0$
+\end{theorem}
+\subsection*{相交数与Bezout定理}
+\section{解方程$\ii \bpa \npa u=\rho$.}
+\section{单值化定理}
+\ifx\allfiles\undefined
+	
+	% 如果有这一部分的参考文献的话，在这里加上
+	% 没有的话不需要
+	% 因此各个部分的参考文献可以分开放置
+	% 也可以统一放在主文件末尾。
+	
+	%  bibfile.bib是放置参考文献的文件，可以用zotero导出。
+	% \bibliography{bibfile}
+	
+	\end{document}
+	\else
+	\fi

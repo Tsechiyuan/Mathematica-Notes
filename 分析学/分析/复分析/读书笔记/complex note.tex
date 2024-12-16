@@ -1,0 +1,112 @@
+\documentclass[UTF8]{ctexart}[a4paper,10pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb}
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+
+%声明环境
+\newtheorem{example}{例}[section]
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[subsection]
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+{
+    \theoremheaderfont{\sffamily}
+    \newtheorem*{remark}{注解}
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+%外测度
+\def\outmQ{m_*(Q)}
+
+%页眉设计
+\renewcommand
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{Complex Analysis Stduy Notes}
+\author{颜成子游}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{复分析的基础前置}
+这一章主要是列举一些关于复数，复函数的前置知识。以及复平面作为拓扑结构，沿路径的复函数积分等等定义。很简单，只列举基本概念和基础定理，不做证明。
+\subsection{复数和复平面}
+首先要清楚复数的基本运算：加减乘除。
+
+复数的模长和基础的三角不等式。
+
+实部与虚部。注意实部可以用$z+\overline{z}$的一半来表示。
+
+复数的收敛与实数类似：
+$$
+\lim_{n\to +\infty}|z_n-\omega|=0
+$$
+即距离趋近于0.
+
+\begin{theorem}
+    复平面是完全的。
+\end{theorem}
+作为复平面上的柯西列，必然分量也是柯西列。实数是完全的，从而复平面也是完全的。
+
+现在考察复平面的拓扑结构。与$\R^2$的结构是极其类似的。由于点集拓扑学已经详细的研究了$\R^2$的拓扑性质，我们不再赘述。
+
+\subsection{复平面上的函数}
+复数可以由有序数对$(x,y)$唯一决定。某种意义上，复函数是一个向量函数：$s=f(x,y),t=g(x,y)$。但并不能用这样的视角来研究复函数。这样会掩盖掉复函数许多丰富的性质。
+
+首先研究连续的复函数。比照实函数的定义，复函数的连续当然是毋庸置疑的。由于模长大于实部和虚部的绝对值，因此复函数连续也意味着实部函数和虚部函数作为二元函数连续。反之亦然。因此连续的复函数的模长函数也连续。
+
+接着研究可导。与实函数的可导不同，实部函数与虚部函数都可微并不能带来复函数可导。我们先给出定义：
+\begin{definition}
+    对于复函数$f$,和其定义域$\Omega$。$\Omega$是一个开集。称$f$在$z_0$可导，若极限：
+    $$
+    \lim_{h \to 0}\frac{f(z_0+h)-f(z_0)}{h}
+    $$
+    存在。极限值是$f$在$z_0$的导数值，记为$f'(z_0)$。
+\end{definition}
+    必须注意，$h$可以是任何方向的复数。极限存在意味着任何一个方向的$h$趋近0时，上述式的极限相同。
+
+\begin{definition}
+    若$f$在整个$\Omega$都可导，称其是一个$\Omega$上的全纯函数。若$\Omega$是整个复平面，称其为整函数。
+\end{definition} 
+\begin{example}
+        $f(z)=\frac{1}{z}$在除了$z=0$外点都可导。$g(z)=\overline{z}$不可导。因为纯虚数和实数的$h$极限不同。
+\end{example}
+由于极限形式完全相同，从而复函数的求导四则运算与实函数一模一样。
+\end{document}

@@ -1,0 +1,115 @@
+\documentclass[UTF8]{ctexart}[a4paper,12pt]
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb} 
+\usepackage{thmtools}
+\usepackage[hmargin=2.5cm,vmargin=2.5cm]{geometry}
+\usepackage{tikz-cd,tikz}
+\usepackage{graphicx,float}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{quiver}
+
+%声明环境
+\theorembodyfont{\rmfamily}
+\newtheorem{example}{例}[section]              
+\newtheorem{algorithm}{算法}[subsection]
+\newtheorem{theorem}{定理}[section]            
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{question}{问题}[section]
+\newtheorem{corollary}[theorem]{推论}
+{
+    \theoremheaderfont{\sffamily}
+    \newtheorem*{remark}{注解} 
+}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}[section]
+\newtheorem{assumption}{假设}
+{
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremsymbol{\mbox{$\Box$}}
+\newtheorem{proof}{证明}
+}
+%定义命令
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\S{\mathbb{S}}
+\def\D{\mathbb{D}}
+\def\H{\mathbb{H}}
+\def\F{\mathbb{F}}
+
+
+%页眉设计
+\renewcommand 
+\headrule{
+\hrulefill
+\raisebox{-2.1pt}
+{\quad{\FourierOrns M T S N}\quad}
+\hrulefill}
+\pagestyle{fancy}
+
+%超链接红色
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{enumerate}
+
+
+\title{PDE知识整理}
+\author{整理者：颜成子游/南郭子綦}
+\begin{document}
+\maketitle
+\tableofcontents
+1.齐次化原理。
+
+设$L$是$t,x$的线性微分算子。且关于$t$的最高阶求导次数小于$m$，则定解问题:
+\begin{equation*}
+    \left \{\begin{aligned}
+        &\frac{\partial^m \omega}{\partial t^m}=L\omega+f(x,t),t >0\\
+        &\omega|_{t=0}=\dots=\frac{\partial^{m-1} \omega}{\partial t^{m-1}}|_{t=0}=0
+    \end{aligned}\right.
+\end{equation*}
+的解表示为:
+\begin{align*}
+    \omega=\int_0^t z(x,t;\tau)d\tau
+\end{align*}
+其中$z$是定解问题:
+\begin{equation*}
+    \left \{\begin{aligned}
+        &\frac{\partial^m z}{\partial t^m}=Lz,t >\tau>0\\
+        &z|_{t=\tau}=\dots=\frac{\partial^{m-2} z}{\partial t^{m-2}}|_{t=\tau}=0,\frac{\partial^{m-1} z}{\partial t^{m-1}}|_{t=\tau}=f(x,\tau)
+    \end{aligned}\right.
+\end{equation*}
+的解。
+
+在实际应用中，如果有第一个方程待解，可以考虑下面的方程。把$\tau$看作参数般解出$z$后，对$\tau$做积分得到第一个方程的解。
+
+\begin{example}[Duhamel原理:对于波动方程]
+    设柯西问题为:
+    \begin{equation*}
+        \left\{\begin{aligned}
+            &\square_4 \omega=0, t>\tau\\
+            &\omega(x,\tau,\tau)=0\\
+            &\omega_t(x,\tau,\tau)=f(x,\tau)
+        \end{aligned} \right.
+    \end{equation*}
+
+    则$u(x,t)=\int_0^t \omega(x,t,\tau)d\tau$是柯西问题:
+    \begin{equation*}
+        \left\{\begin{aligned}
+            &\square_4 u=f(x,t),t>0\\
+            &u(\dot{x},0)=0\\
+            &u_t(x,0)=0
+        \end{aligned}\right.
+    \end{equation*}
+    的解。只需要把$L$代为$\Delta$算子即可。
+\end{example}
+\end{document}

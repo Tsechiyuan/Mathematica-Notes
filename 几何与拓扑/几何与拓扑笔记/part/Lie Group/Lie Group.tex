@@ -1,0 +1,1329 @@
+\ifx\allfiles\undefined
+
+	% 如果有这一部分另外的package，在这里加上
+	% 没有的话不需要
+	
+	\begin{document}
+\else
+\fi
+
+\part{李群}
+\chapter{2023.02.16}
+\section{一些定义}
+\begin{definition}
+\textbf{拓扑群}$(G, \cdot )$：$G$是群且是一个拓扑空间，满足$\cdot:G \times G \to G$和$()^{-1}:G \to G$都是连续的。
+
+\textbf{李群}:$(G,\cdot)$:$G$是拓扑群，且本身是一个微分流形，满足$\cdot: G \times G \to G$和$()^{-1}:G \to G$是光滑的。
+\end{definition}
+
+为什么没有拓扑群专门的课程呢？
+\begin{proposition}[Hilbert第五问题]
+    拓扑群+局部欧氏能否成为李群呢？
+
+    叙述如下：
+
+    任意局部欧的拓扑群是李群且微分结构是唯一实解析的。
+\end{proposition}
+该问题在1950年代已经被证明了。从而拓扑群方向基本没有人研究了。
+\begin{proposition}
+    任意连通的微分流形是道路连通的。
+\end{proposition}
+\begin{proof}
+    
+\end{proof}
+\begin{definition}[李子群]
+    设$H$是李群$G$的子群。若$H$是$G$的浸入子流形，则$H$是$G$的李子群。
+\end{definition}
+回忆：什么是浸入子流形？
+
+\begin{proposition}[Yamabe]
+    李群的道路连通的子群是李子群。
+\end{proposition}
+但是李群的连通子群就不一定是李子群了。
+\begin{example}[李子群但不是嵌入李子群]
+    考虑$T^2$作为李群（显然是李群）。考虑子流形：
+    $$
+    H^n=\{(e^{it},e^{int})|n \in \N,t \in \R\}
+    $$
+    $$
+    H^a=\{(e^{it},e^{iat})|a \in \R/\Q,a>0,t \in \R\}
+    $$
+    
+    $H^n$是嵌入的李子群，其同胚于$S^1$。但$H^a$是非嵌入的李子群，只是浸入李子群。($\overline{H^a}=T^2$.)
+\end{example}
+\section{李群与矩阵李群}
+一般线性群：
+$$
+\mathrm{GL}(n,\C)=\{A \in \C^{n\times n}||A|\neq 0\}
+$$
+$$
+\mathrm{GL}(n,\R)=\{A \in \R^{n\times n}||A|\neq 0\}
+$$
+其中$\mathrm{GL}(n,\C)$是复李群（乘法是全纯的），实李群。另外一个是实李群。
+\begin{definition}[矩阵李群]
+    $\mathrm{GL}(n,\C)$的闭子群$G$称为矩阵李群。换句话说，若$\mathrm{GL}(n,\C)$满足若序列$\{A_m\}\subset G$,则$\lim_{n \to \infty}A_m =A \in M_n(\C)$，有$A \in G$或者不可逆。
+\end{definition}
+注意：
+
+1.李群不一定是矩阵李群。但紧李群一定是矩阵李群。(Peter-Weyl)
+
+2.矩阵李群是$\mathrm{GL}(n,\C)$的闭子群，而不是$M_n(\C)$的“闭子群”。
+
+3.任何闭子群都是嵌入李子群（Cartan）。
+
+\begin{example}
+    $\mathrm{GL}(n,\R)$是矩阵李群，但不是$M_n(\C)$的闭子集。
+
+    $\mathrm{GL}(n,\Q)$是群但并非矩阵李群。其不是闭集。
+\end{example}
+\begin{example}[矩阵群的例子]
+    A.一般线性群。$\mathrm{GL}(n,\R)$,$\mathrm{GL}(n,\C)$。
+
+    B.特殊线性群。$\mathrm{SL}(n,\C)=\{A \in \mathrm{GL}(n,\C)||A|=1\}$,$\mathrm{SL}(n,\R)=\{A \in \mathrm{GL}(n,\R)||A|=1\}$。
+
+    C.正交群：$\mathrm{O}(n,\R)=\{A \in \mathrm{GL}(n,\R),A^T A=I_n\}$.$\mathrm{O}(n,\C)=\{A \in \mathrm{GL}(n,\C)|A^T A=I_n\}$
+
+    D.特殊正交群:$\mathrm{SO}(n,\R)=\{A \in \mathrm{O}(n,\R)||A|=1\}$。
+
+    E.酉群:$A \in M_n(\C)$，使得$A*A =I_n$。其中$A*=(\overline{A})^T$。这样的矩阵称为酉矩阵。酉群:$U(n)=\{A \in \mathrm{GL}(n,\C):A^*A=I_n\}$。酉矩阵变换保证酉内积的不变。\textbf{注意}：$U(n)$是实李群而非复李群。特殊辛群:$SU(n)=\{A \in U(n)|\mathrm{det}A=1\}$
+
+    F.辛群:$S_p(n)$。$\mathrm{GL}(n,\mathbb{H})=\{A\in \mathbb{H}^{n \times n}:\mathrm{det} A\neq 0\}$是实李群。注意，由于四元数一些神秘的性质，虽然行列式，迹是良定义的，但是有$\mathrm{det}(AB)\neq \mathrm{det}(BA)$,$\mathrm{Tr}(AB)\neq \mathrm{Tr}(BA)$。
+ 
+    $S_p(n)=\{A \in \mathrm{GL}(n,\mathbb{H})|A*A=I\}$。称为辛群，不是复李群。
+
+    $S_p(1)\cong SU(2) \cong S^3$。
+
+    G.实辛群。$\R^{2n}$的反对称双线性型。$w(x,y)=\sum_{j=1}^n(x_jy_{n+j}-x_{n+j}y_j)$。
+
+    $$
+    S_p(n,\R)=\{A \in M_{2n}(\R)|:w(Ax,Ay)=w(x,y),\forall x,y \in \R^{2n}\}=\{A \in \mathrm{SL}(2n,\R):\Omega A^T \Omega=A^{-1}\}, \Omega=\begin{bmatrix}
+        0&I\\-I&0
+    \end{bmatrix}
+    $$
+\end{example}
+\section{球面上的李群结构}
+$S^n$有李群结构等价于$n=1$或者$n=3$。并且$S^1 \cong SO(2,\R)$,$S^3 \cong \mathrm{SU}(2) \cong S_p(1)$.
+
+\begin{proposition}
+    李群上的切丛是平凡的。即对于$n$维李群，有$TG \cong G \times \R^n$。
+\end{proposition}
+\begin{proof}
+    $$
+    G\times T_e G \to TG:(g,v)\mapsto (g,(L_g)_* v)
+    $$
+    $L_g$是左平移作用，是一个微分同胚。详细证明可以见梅加强。
+\end{proof}
+
+对于$S^n$，若$S^n$的切丛是平凡的，则$n=1$，$n=3$,$n=7$。因而想要关注$S^n$是否为李群，只需要考虑这三个。
+
+\chapter{2023.02.23}
+\section{李群的局部性质}
+\subsection{单位元邻域生成连通子群}
+\begin{proposition}
+    
+连通李群$G$可以由$e$处任意邻域生成。
+\end{proposition}
+\begin{lemma}
+    设$H$是李群$G$的开子群，则$H$是$G$的闭子群。
+\end{lemma}
+\begin{proof}
+    这一点在拓扑群的考量中就可实现。固定$g \in G$，$L_g:G \to G$是一个微分同胚。故任意左陪集$gH$是开集。考虑$G \times H \to G$群作用，则$G=\bigcup_{g \in G}gH$且是不交并。从而$H$的余集是开集，$H$是闭子群。
+\end{proof}
+因此开子集是闭子群。是即开又闭的集合。
+\begin{lemma}
+    设$U$是$e$处的开邻域，则$U$的生成子群$H$是开集。
+\end{lemma}
+\begin{proof}
+    根据定义，群$H$包含所有的乘积$x_1^{\epsilon_1}\dots x_n^{\epsilon_n}$。故$H=\bigcup_{x \in U}xU$是开集。
+\end{proof}
+两个引理立马就得到了命题。
+\begin{proposition}
+    设$G$是李群，$G_0$是$G$的单位连通分支，则$G_0$是$G$的子群。
+\end{proposition}
+\begin{proof}
+    对给定的$x \in G_0$，其中$x$可以是任意指定的。由于$e \in G_0 \cap x^{-1}G_0$，从而$G_0=x^{-1}G_0$。于是$\forall y\in G_0$，$x^{-1}y \in G_0$.$G_0$是子群。
+\end{proof}
+\begin{corollary}
+    $\forall x_1,x_2 \in G$，则$x_1G_0 \cap x_2G_0$要么是空集，要么是$x_1G_0=x_2G_0$
+\end{corollary}
+\begin{proof}
+    如果相交非空，则两者都同胚于$G_0$。
+\end{proof}
+\begin{corollary}
+    $G_0$是$G$的正规子群。
+\end{corollary}
+\begin{proof}
+    考虑群作用$G\times G \to G:(g,h)\mapsto ghg^{-1}$。于是$G$成为了若干共轭类的并。
+
+    由于$e \in gG_0g^{-1} \cap eG_0 e^{-1}$，因此轨道$gG_0g^{-1}=G_0$。于是$G_0$是正规子群。
+\end{proof}
+正规子群意味着可以做商。那么:
+$$
+1 \to G_0 \to G \to G/G_0 \to G
+$$
+是正合列。
+
+\subsection{单位元的切空间具有Lie代数结构}
+\begin{definition}[李代数]
+    $V$是有限维$k$向量空间。$[,]$是$k$双线性:$[,]V \times V \to V$，满足反对称和Jacobbi恒等式:
+    $$
+    [X,[Y,Z]]+[Y,[Z,X]]+[Z,[X,Y]]=0
+    $$
+
+\end{definition}
+\begin{example}
+    $\mathrm{GL}(n,\C)$是李代数。$[A,B]=AB-BA$。此时这是Lie代数。
+\end{example}
+\begin{theorem}[Ado定理]
+    有限维李代数是$(\mathrm{GL}(n,\C),[,])$的李子代数。
+\end{theorem}
+
+我们自然关注李群的李代数问题。
+\begin{definition}[左不变向量场]
+    李群$G$上的向量场$X$称为左不变的向量场，如果$L_g(Xh)=X(gh)$对于任意的$g,h$都成立。其中$L_g$是左平移作用。
+\end{definition}
+\begin{proposition}
+    设$g$是$G$上左不变向量场的集合,$T_eG$是$G$在$e$处的切空间，则$I:g \to T_eG$，$X \to X(e)$是向量空间的同构。
+\end{proposition}
+\begin{proof}
+    根据左不变的定义，左不变向量场由$T_eG$中的元素确定。即$X(g)=L_g(X(e))$,从而$I$是双射。
+
+    根据向量场的运算$(X+Y)(e)=X(e)+Y(e)$，$(kX)(e)=k(X(e))$知道$I$是同构。
+\end{proof}
+由于$g$是有限维的李代数，其中$[X,Y]=XY-YX$，则$I$诱导了$T_e G$上的李括号结构：
+$$
+[X(e),Y(e)]:=[XY-YX](e)
+$$
+\begin{definition}
+    $(T_e G,[,])$称为李群$G$的李代数。
+\end{definition}
+
+我们借此计算一下一些李群的李代数。
+\begin{example}
+    $\mathrm{GL}(n,\R)$的李代数为$\mathrm{GL}(n,\R)$。李括号为$XY-YX$.
+
+    $\mathrm{GL}(n,\R)$在$I$处的切空间为$\mathrm{GL}(n,\R)$。左不变向量场由$\tilde{X}(I)=X \in G$决定。
+\end{example}
+\begin{example}
+    $\mathrm{SL}(n,\R)$的李代数。$A \in \mathrm{SL}(n,\R)$，则$|A|=1$。
+
+    $\mathrm{det}(I+\epsilon X)=1+\epsilon tr(X)+o(\epsilon^2)=1$,则
+\end{example}
+\begin{example}
+    
+\end{example}
+\subsection{Hall-Wilt恒等式}
+令$[x,y]=x^{-1}y^{-1}xy$是群上的交换子。考虑伴随作用$x^y=y^{-1}xy$.则下面有恒等式:
+$$
+[[x,y^{-1}],z]^y[[y,z^{-1}],x]^z[[z.x^{-1}],y]^x=1
+$$
+\begin{example}
+    
+\end{example}
+\section{李群与李代数的关系——指数映射}
+1.矩阵（复数元）的指数映射。
+$$
+e^X:=\sum_{n=0}^\infty \frac{X^m}{m!}, \quad X \in \mathrm{GL}(n,\C)
+$$
+
+\begin{proposition}
+     对于任何$X \in \mathrm{GL}(n,\C)$，上述级数收敛。    
+\end{proposition}
+\begin{proof}
+    分析方法：
+
+    考虑$\mathrm{GL}(n,\C)$上的范数是所有元素的平方和的平方根。若$\lim X_n \to X$，则有$\lim |X_n -X|=0$。
+
+    从而转化为:
+    $$
+    \|\sum_{m=0}^\infty \frac{X^m}{m!}\| \leq \sum_{m=0}^\infty \frac{\|X\|^m}{m!}=e^{\|X\|}
+    $$
+    收敛。(代数范数)
+
+    代数方法:考虑可对角化矩阵
+    $$
+    X=CDC^{-1}
+    $$
+    若$D$对角，则显然收敛。若$X$幂零，则显然也收敛。一般的情况而言，由于任意的$X$可唯一分解为$X=S+N$，且$SN=NS$。从而$e^X=e^{N+S}=e^N e^S$。故收敛。
+\end{proof}
+$(R,+) \to (\mathrm{GL}(n,\C))$是李群同态。
+
+\begin{lemma}
+    
+    设$\mathrm{Sym}_n(\R)$是$n$阶实对称矩阵，$\mathrm{Sym}_n^+(\R)$是正定矩阵。则$\mathrm{Sym}_n(\R) \to \mathrm{Sym}_n^+(\R)$是微分同胚。
+\end{lemma}
+
+\begin{proposition}
+    对于$A \times $
+\end{proposition}
+
+\section{矩阵李群的性质与李代数}
+\chapter{2023.03.02}
+\section{李群的指数映射}
+\begin{definition}[李群同态]
+    设$H,G$是李群。若$\varphi:H \to G$是光滑的群同态，则称$\varphi$是李群同态。
+\end{definition}
+\begin{definition}[李代数同态]
+    设$g,h$是李代数，线性映射$\varphi:h \to g$称为李代数同态，若$\varphi[x,y]_h =[\varphi(x),\varphi(y)]_g$.
+\end{definition}
+\begin{definition}[单参数变换群]
+    李群同态$\varphi:(\R,+) \to G$称为单参数变换群。
+\end{definition}
+\begin{proposition}\label{pro:eee}
+    设$G$是李群且李代数是$g$。对于任意给定的$X \in g$，存在唯一的单参数变换子群$\varphi_x:\R \to G$满足:
+    $$
+    \dfrac{d}{dt}|_{t=0}\varphi_x(t)=X(e)
+    $$
+\end{proposition}
+\begin{proof}[积分曲线+ODE解的完备性]
+    只需证明任意给定的$X \in g$,存在完备的积分曲线$\varphi_X$使得:$\varphi_X(t+s)=\varphi_X(t)\varphi_X(s)$。
+
+    对于任意的$X \in g$，存在$\epsilon>0$使得在$(-\epsilon,\epsilon)$,$X$的积分曲线$\varphi_X(t)$存在，且满足$\varphi_X(0)=e$,$\dfrac{d}{dt}|_{t=0}\varphi_x(t)=X(e)$.这是可以做到的，因为是局部的性质。
+
+    我们验证这是同态。设$\varphi_1(t)=\varphi_X(s+t),\varphi_2(t)=\varphi_X(s)\varphi_X(t)$。则$\dfrac{d}{dt}|_{t=0}\varphi_1(t)=X(\varphi_X(s))$,$\dfrac{d}{dt}|_{t=0}\varphi_2(t)=\dfrac{d}{dt}|_{t=0}L_{\varphi_X(s)}\varphi_X(t)=(L_{\varphi_X(s)})_*\dfrac{d}{dt}|_{t=0}\varphi_x(t)=(L_{\varphi_X(S)})_* X(e)=X(\varphi_X(s))$。
+
+    根据ODE解的存在唯一性，则$\varphi_1(t)=\varphi_2(t)$。从而这是同态。
+
+    再证明完备性。作曲线$\varphi_x^{\R}(t):=\varphi_X(\epsilon/2)\varphi_X(t-\epsilon/2)$。则根据同态性，$\varphi_X^{\R}$与$\varphi_X(t)$在$(-\epsilon/2,\epsilon)$是重合的。由此我们把区间延拓到了$(-\epsilon,3/2\epsilon)$.类推可以延拓$(-\epsilon,+\infty)$。同理可以延拓到$(-\infty,\epsilon)$。因此这是完备的曲线。
+\end{proof}
+\begin{theorem}
+    给定李代数的同态$\phi:g \to h$，若$G$是单连通的，则存在唯一的李群同态$\Phi:G \to H$满足$\Phi_{*e}=\phi$:
+    \begin{tikzcd}
+	{\Phi:G} && H \\
+	\\
+	{\phi:g} && h
+	\arrow[from=1-1, to=1-3]
+	\arrow[from=3-1, to=3-3]
+	\arrow[from=3-1, to=1-1]
+	\arrow[from=3-3, to=1-3]
+     \end{tikzcd}
+\end{theorem}
+\begin{proof}[命题\ref{pro:eee}李代数同态的提升]
+    对任意的$X$是$g$里的元素，$\phi_X:\R \to g$,$t \mapsto tX$是李代数的同态。这里$\R$的李代数结构为$[x,y]=0$.
+
+    由于$\R$单连通，$\exists$唯一的李群同态$\varphi_x:\R \to G$使得$(\varphi_X)_{*e}=\phi_X$。即为所求的单参数变换群。
+\end{proof}
+\begin{definition}[李群的指数映射]
+    设$G$是李群，李代数为$g$。考虑映射$\mathrm{exp}:g \to G$,$X \mapsto \varphi_X(1)$称为$G$的指数映射。
+\end{definition}
+\begin{remark}
+    指数映射一般非满射。\textbf{$G$是紧李群，则$\exp$是满射。这一点暂时不证明。}
+\end{remark}
+\begin{example}
+    考虑$\R$是李群，则$g=\R$。我们计算指数映射。对于给定的$a \in \R$，其单参数变换群为$\varphi_a(t)=ta$。从而指数映射$\exp(a)=a$。
+\end{example}
+\begin{example}
+    设$G=S^1$。$g=\R$。给定$a \in \R$，则$\varphi_a(t)=e^{2\pi i at}$,则$\exp(a)=e^{2\pi i a}$
+\end{example}
+\begin{example}
+    $G=\mathrm{GL}(n,\C)$。任取$A$是可逆矩阵，$\varphi_A(t)=e^{tA}$于是$\exp(A)=e^A$.
+\end{example}
+我们自然的给出指数映射的性质。
+\section{指数映射的性质}
+\begin{proposition}
+    存在$(g,+)$的单位元邻域$U(0)$以及$(G,\cdot)$的单位元邻域$V(e)$使得$\exp:U(0) \to V(e)$是微分同胚。且满足$\exp_{*0}=\mathrm{id}$，$T_0g\cong g$.从而$T_eG =g$。
+\end{proposition}
+\begin{proof}
+    首先证明$\exp$是光滑映射。考虑$G \times g$上由向量场$(X,0)$诱导的流。
+    $$
+    \Phi:\R \times G \times g \to G \times g, (t,g,X)\mapsto (g \exp{tX},X)
+    $$
+    这是光滑映射。设$G \times g \to G$是自然投影，从而也使光滑的。因此$\exp=P\circ \Phi(0,e,X)$也是光滑的。
+
+    由定义$\exp_{*0}(X)=\dfrac{d}{dt}|_{t=0} \exp{tX}=X(e)$，得$\exp_{*e}=\mathrm{id}$。
+
+    从而根据反函数定理可知，存在两个邻域使其为微分同胚。
+\end{proof}
+\begin{remark}
+    该性质可以定义$e$处得一个局部坐标系:
+    $$
+    \phi:V(e) \to \R^n \quad \exp(t_1x_1+\dots+t_nx_n)\mapsto (t_1,\dots,t_n)
+    $$
+    其中$X_i$是$g=T_e G$的一组基。
+\end{remark}
+\begin{proposition}\label{pro:extension}
+    设$n \geq 1$，$X_1,\dots,X_n$是$g$里面的元素。当$\|t\|$充分小的时候，有:
+    \begin{align}
+        \exp(tX_1)\exp(tX_2)\dots \exp(tX_n)=\exp(t\sum_{1\leq i \leq n}X_i+\dfrac{t^2}{2}\sum_{1\leq i \leq j\leq n}[x_i,x_j]+o(t^3))
+    \end{align}
+\end{proposition}
+先给出一个引理:
+\begin{lemma}
+    设$f$是$G$上的光滑函数，当$\|t\|$充分小的时候，有:
+    \begin{align}
+        f( \exp(tX_1)\exp(tX_2)\dots \exp(tX_n))=f(e)+t\sum_{i}X_if(e)+\frac{t^2}{2}(\sum_i X_i^2f(e)+2\sum{i<j}X_iX_jf(e))+o(t^3)
+    \end{align}
+\end{lemma}
+\begin{proof}
+    对于$\forall f \in C^\infty(G)$，$X \in g$有:
+    \begin{align}
+        (Xf)(a)=X(a)f=(L_a)_*X(e)(f)=X(e)((L_a)^*f)=\dfrac{d}{dt}|_{t=0}f(a\exp{tX})
+    \end{align}
+    于是对于任意的$t \in \R$，有:
+    \begin{align}
+        (Xf)(a\exp tX)=\frac{d}{ds}f(\exp(t+s)X)=\frac{d}{ds}|_{s=t}f(a\exp sX)
+    \end{align}
+    对于$X_1,\dots,X_k \in \g$，有:
+    \begin{align}
+        (X_1X_2f)(a)=\frac{d}{dt_1}|_{t_1=0}(X_2f)(a\exp t_1X_1)=\frac{d}{dt_1}\frac{d}{dt_2}f(a\exp(t_1X_1)\exp(t_2X_2))
+    \end{align}
+    以此可以类推，从而可知$(X_1X_2\dots X_k f)a$的情况。取$a=e$可得上述引理。
+\end{proof}
+\begin{proof}[命题\ref{pro:extension}]
+    由于足够小的邻域内$\exp$是同胚，因此构造其逆映射$\log$。这里我们要求$\|t\|$足够的小。由于$\exp(0)=e$，则$\log(e)=0$。且对于任意的$X \in \g$，有:
+    \begin{align}
+        Xf(e)=\frac{d}{dt}|_{t=0}f(\exp tX)=\frac{d}{dt}|_{t=0} tX=X
+    \end{align}
+    对于任意$n>1$，$X^n f(e)=\dfrac{d}{dt^n}|_{t=0}(tX)=0$.
+
+    注意到$\sum X_i^2 +\sum 2X_iX_j= (X_1+\dots+X_n)^2+\sum_{i<j}[X_i,X_j]$。
+    
+    对$\exp(tX_1)\dots \exp(tX_n)$作用$\log$。只要$t$足够小，那么就有右边式子结论。
+\end{proof}
+\begin{proposition}
+    设$G$是李群，李代数$\g$。$H$是$G$的闭子群，则$\mathfrak{h}:=\{X \in \g|\exp tX\in H,\forall t \in \R\}$是$\g$的子代数。
+\end{proposition}
+\begin{proof}
+    首先我们说明$\mathfrak{h}$是子空间。由定义$\forall X \in \mathfrak{h}，s \in \R$有$sX \in \mathfrak{h}$。
+
+    由上述命题可知：
+    \begin{align}
+        \exp(t/n X)\exp(t/n Y)=\exp(t/n(X+Y)+t^2/2n^2[X,Y]+o(1/n^3))
+    \end{align}
+    上式$n$次方，即可得到：
+    \begin{align}
+        (\exp(t/n X)\exp(t/n Y))^n=\exp(t(X+Y)+t^2/2n[X,Y]+o(1/n^2))
+    \end{align}
+    对$n$取极限$n \to \infty$，则右式自然有为$\exp(t(X+Y))$为左式的极限。而$H$是闭子群，从而极限也属于$H$。这就说明$X+Y \in \mathfrak{h}$.
+
+    再证明$[X,Y]\in \mathfrak{h}$。根据上式的估计:
+    \begin{align}
+        (\exp(-t/n X)\exp(-t/n Y)\exp(t/n X)\exp(t/n Y))^{n^2}=\exp(t^2[X,Y]+o(1/n))
+    \end{align}
+    同样给极限，从而$[X,Y] \in \mathfrak{h}$.
+\end{proof}
+我们可以看到，在进行指数映射的计算性质前，我们常常会使用关于乘积的估计。
+
+\begin{proposition}
+    设$\|\cdot\|$是$\g$上的范数，$\{X_i\}$是$\g$中的序列满足：
+    \begin{enumerate}
+        \item $X_i \to 0, i \to \infty$.
+        \item $\exp X_i \in H,\forall i$.
+        \item $\lim_{i \to \infty}\dfrac{X_i}{\|X_i\|}=X \in g$
+    \end{enumerate}
+    则$X \in \mathfrak{h}$如上面性质的定义。
+\end{proposition}
+\begin{proof}
+    给定$t\neq 0$,取$n_i:=\max\{n \in \Z,n\leq \dfrac{t}{\|X_i\|}\}$
+    \begin{align}
+        \exp tX=\exp(\lim_{i \to \infty}\dfrac{tX_i}{\|X_i\|})=\lim_{i \to \infty}\exp(n_iX_i)=\lim_{i \to \infty}(\exp X_i)^{n_i}\in H
+    \end{align}
+    于是根据上述性质得到$X \in \mathfrak{h}$。
+\end{proof}
+\begin{proposition}
+    $\mathfrak{h},H$的定义如上。$(\mathfrak{h},+)$存在单位元邻域$U(0)$和$(H,\cdot)$的单位元邻域$V(e)$使得:
+    \begin{align}
+        \exp_{G}|_{U(0)}:U(0)\to V(e)
+    \end{align}
+    是微分同胚。
+\end{proposition}
+\begin{proof}
+    设$\mathfrak{h}'$是$\g$的子空间，使得$g=\mathfrak{h}\oplus \mathfrak{h}'
+    $。令$\Phi:\g \to G$，使得$\Phi(X+Y)=\exp_G X\exp_G Y$。显然$\Phi_{*0}(X+Y)=X+Y$,则$\Phi$是局部的微分同胚。
+
+    注意到$\exp|_h=\Phi|_h$,只需要证明$\Phi$将$\mathfrak{h}$中的单位邻域微分同胚的映射到$H$中的单位邻域。
+
+    假设对于$U(0)\subset \mathfrak{h}$，$\Phi$都无法将其微分同胚的映射到$V(e)\subset H$。即需依赖$h'$中分量$Y_i \neq 0$的元素，才能通过$\Phi$得到$V(e)$。
+    \begin{align}
+        \exp X_i \exp Y_i \in H \Rightarrow \exp(Y_i)\in H
+    \end{align}
+    又因为$Y_i \to 0$,所以$Y_i/\|Y_i\|$的极限$Y \in \mathfrak{h}\cap \mathfrak{h'}$。这产生了矛盾，因为$\| Y\|=1$。
+
+\end{proof}
+
+最后我们给出闭子群定理。
+\begin{theorem}[Cartan]
+    李群$G$的闭子群$H$是$G$的嵌入李子群。
+\end{theorem}
+\begin{proof}
+    对$G$的单位元邻域$U(e)$,存在$(g,+)$的单位元邻域$V(0)$使得:$\log:U(e) \to V(0)$是微分同胚。
+
+    根据上述命题，自然有:$\log(U(e)\cap H)=V(0)\cap \mathfrak{h}$。于是$U(e)$的坐标使得$H$中$e$的邻域是嵌入子流形。
+
+    对于$\forall g \in G$，由于$L_g$是微分同胚，故给定$h \in H$:
+    \begin{align}
+        U(h)\to U(e) \to V(0)
+    \end{align}
+    是$h$邻域$U(h):=(L_h)(U(e))$的坐标。
+
+    这意味着每个点$h \in H$，都有邻域$U(h)$使得$U(h)\cap H \to L_h^{-1}(U(h)\cap H) \to \log(L_h^{-1}(U(h)\cap H))=V(0)\cap \mathfrak{h}$。于是这意味着$H$是嵌入子流形。
+\end{proof}
+\chapter{2023.03.09}
+\section{闭子群定理应用}
+\begin{proposition}
+    $\varphi: G \to H$是李群同态，则$\ker \varphi$是嵌入（正规）李子群。
+\end{proposition}
+
+\begin{proof}
+$\varphi$是李群同态，则$\ker \varphi=\varphi^{-1}(e)$是闭子群。根据闭子群定理，$\ker \varphi$是嵌入李子群。
+
+法2：常秩定理。引理:李群同态$\varphi: G \to H$是常秩映射。这是因为$\mathrm{rank}\varphi_{*e}=\mathrm{rank}\varphi_{*g}$。
+
+引理证明:$\phi \circ L_g=L_{\varphi(g)}\circ \varphi$得到$\varphi_{*g}\circ(L_g)_{*e}=(L_{\phi(g)})_{*e}\phi_{*e}$。由于$L_g$是微分同胚，所以$\forall g \in G$，有$\mathrm{rank}\phi_{*g}=\mathrm{rank}\phi_{*e}$。
+
+\end{proof}
+\begin{theorem}[秩的整体性定理(Global rank theorem)]
+    $\phi$是$M$到$N$的光滑映射，则$\phi$是常秩的。则有:
+
+    (1)$\phi$是单射意味着$\phi$是浸入。
+
+    (2)$\phi$是满射意味着$\phi$是淹没。
+
+    (3)$\phi$是双射意味着$\phi$是微分同胚。
+\end{theorem}
+\begin{theorem}
+    两个李群的连续同态是李群同态。
+\end{theorem}
+\begin{proof}
+    设$\varphi:G \to H$是连续同态。则$\Gamma_\varphi:=\{(g,\varphi(g))|g \in G\}$是$G \times H$的闭子群。
+
+    由闭子群定理知$\Gamma_\varphi$是李子群。
+
+    故$P:\Gamma_\varphi \to G \times H \to G, \quad (g,\varphi(g)) \mapsto (g,\varphi(g))\mapsto g$是一个光滑映射，并且作为抽象群的同构，并且是李群的同态。
+
+    现在只用说明$\Gamma_\varphi$到$G$的映射$P$的逆是光滑的。由于$P$是常秩的映射，从而根据Global rank theorem知这是微分同胚。则$\varphi:P_2 \circ P^{-1}$是李群同态。
+\end{proof}
+\begin{proposition}
+    任何拓扑群都有唯一的光滑结构使之成为李群。但群上的拓扑结构不一定是唯一的。
+\end{proposition}
+我们考虑闭子群定理的逆命题:
+\begin{proposition}
+    设$G$是李群，$H$是$G$的嵌入李子群，则$H$是闭子群。
+\end{proposition}
+\begin{proof}
+设$H$是嵌入李子群，对于$\forall g \in G$，存在邻域$U(g)$使得$U(g) \cap H=U(g)\cap \overline{H}$。（嵌入李子群的局部性质）。
+
+令$g=e$，则$U(e)\cap H=U(e)\cap \overline{H}$。下证$\overline{H}\subset H$。
+
+对于$ h\in \overline{H}$，$hU(e)\cap H \neq \emptyset$.取$h'\in hU(e)\cap H$，则$h'h \in U(e)$，又$h \in \overline{H}$，存在序列$\{h_n\} \subset H$使得$h_n \to h$。于是$\{h_n^{-1}h'\}$收敛于$h^{-1}h'$。于是$h{-1}h' \in U(e)\cap \overline{H}=U(e)\cap H$。故$h \in H$
+\end{proof}
+\section{李群同态和李代数同态}
+\begin{proposition}
+    设$\varphi: H \to G$是李群同态，则$\varphi_{*e} h \cong T_eH \to g \cong T_e G$是李代数同态。
+\end{proposition}
+\begin{lemma}
+    $f:M \to N$的光滑映射。若$M$上的向量场$X_1,X_2$与$N$上的向量场$Y_1,Y_2$是$f$相关的(即$f_{*m}X_i(m)=Y_i(f(m))$)，则$[X_1,X_2]$和$[Y_1,Y_2]$是$f$相关的。
+\end{lemma}
+\begin{proof}[命题3.4]
+    只需要证明由$v \in T_eH$所诱导的左不变向量场$X$与$\varphi_{*e}(v) \in T_e G$诱导的左不变向量场$Y$是$\varphi$相关的。
+    $$
+    \varphi_{*g}(X(g))=\varphi_{*g}(Lg)_{*e}v=(L_{\varphi(g)})_* \circ \varphi_{*e}v=Y(\varphi(g))
+    $$
+\end{proof}
+\begin{proposition}
+    设$\phi$是李群同态$H \to G$。则图标可换:
+\[\begin{tikzcd}
+	H && G \\
+	\\
+	h && g
+	\arrow["\phi", from=1-1, to=1-3]
+	\arrow["{\mathrm{exp}}", from=3-1, to=1-1]
+	\arrow["{\mathrm{exp}}"', from=3-3, to=1-3]
+	\arrow["{\phi_*}"', from=3-1, to=3-3]
+\end{tikzcd}\]
+\end{proposition}
+\begin{proof}
+    考虑$\psi(t)=\phi(\mathrm{exp}tX)$。由于$\phi$是李群同态，则$\psi$是单参数变换群$R \to G$使得$\dfrac{d}{dt}|_{t=0} \psi(t)=\phi_{*e}\circ \mathrm{exp}_{*0}(X(e))$。从而:
+    $$
+    \mathrm{exp}_G(t\phi_{*e}(X))=\mathrm{exp}^{(H)}_{*0}(X(e))
+    $$
+    根据单参数变换群的唯一性。
+
+    令$t=1$,就得到$\mathrm{exp}_G(\phi_*(X))=\phi(\mathrm{exp}_H(X))$。
+\end{proof}
+\section{李子群与李子代数}
+\begin{proposition}
+    $H$是$G$的李子群，则$\mathrm{Lie}(H):=h$是$g$的李子代数。
+\end{proposition}
+\begin{proof}
+    设$i :H \to G$是包含映射。则$i_{*e}:h \to g$的李代数单同态。从而$i_{*(e)}h \cong h \subset g$是李子代数。
+\end{proof}
+\begin{proposition}
+    设$G$是李群且$h$是$\mathrm{Lie}G=g$的子代数。则存在唯一的连通李群$H\subset G$使得:$\mathrm{Lie}H =h$。
+\end{proposition}
+\begin{proof}
+    设$X_1,\dots,X_k$是$h \subset g$的基底，由于$X_i$是左不变的且$X_i(e)$的值确定了$X_i$，并且$\{X_i(e)\}$是线性无关的，则$\{X_i(g)\}$对于任意的$g$都是线性无关的。
+
+    故$D_g=\mathrm{Span}\{X_1(g),\dots,X_k(g)\}$是$G$上的$k$维-分布。
+
+    由于$[X_i,X_j] \in h=\mathrm{Span}\{X_1,\dots,X_k\}$。根据Frobenius定理，存在唯一的$D_g$的极大连通积分子流形$H \subset G$。
+
+    下证$H$具有群结构。由于$X_i$左不变，$(L_h)_*(S_g)=S_g$。
+
+    故$L_h H=H,\forall h \in H$。
+
+    最后证明唯一性。设$K$亦是$V_g$的连通积分子流形。则$K\subset H$。由于$T_e K=T_eH$。由反函数定理，存在$U(e)\subset K,V(e)\subset H$使得$U(e)$和$V(e)$是微分同胚。由$H,K$群乘法相同且$H,K$连通，则$H$与$K$相同。
+\end{proof}
+\section{李的基本定理}
+\begin{definition}
+    设$G,H$是李群，$U(e) \subset G$，$V(e) \subset H$是邻域。
+
+    (1)$f:U(e)\subset G \to V(e) \subset H$若满足$\forall g_1,g_2 \in U(e)$，使得$g_1g_2\in U(e)$且$f(g_1g_2)=f(g_1)f(g_2)$。则称$f$是$G,H$是局部同态。
+
+    (2)若$f$还是（局部）微分同胚，称$f$是局部同构。 
+\end{definition}
+\begin{theorem}[李的第一基本定理]
+    设$G$和$H$是局部同构的李群，则$\mathrm{Lie}G:=g$，$h$是同构的李代数。$(f: G \to H)$。
+\end{theorem}
+\begin{proof}
+    局部同构能得到$f_{*e}$是双射且为李代数的同态。
+\end{proof}
+\begin{theorem}[李的第二定理]
+    $g,h$是$G,H$的李代数。$\varphi:g \to h$同构推到出$G,H$的局部同构。
+\end{theorem}
+\begin{proof}
+    令$a=\mathrm{Graph}(\rho)=\{(x,\rho(x))|x\in g\}$。
+    $$
+    [(x_1,\rho(x_1)),(x_2,\rho(x_2))]=([x_1,x_2],[\rho(x_1),\rho(x_2)])=([x_1,x_2],\rho[x_1,x_2])
+    $$
+    从而$a$是$g \oplus h$上的子代数。存在唯一连通的李子群$A \subset G\times H$使得$\mathrm{Lie}(A)=a$。
+
+    设$i: A \to G \times H$是包含映射，则$\varphi:A \to G\times H \to G$是李群同态且$\varphi_{*e}$是$\mathrm{id}$。
+
+    根据反函数定理及$\varphi$是同态，则$\varphi:A \to G$是局部同构。
+
+    同理$\psi: A \to G\times H \to H$是李群同态，由于$\psi_{*e}:(x,\rho(x))\mapsto \rho(x)$是李代数同构，从而$\psi:A \to H$是局部同构。
+
+    令$w(e)=\varphi^{-1}(l)\cap \psi^{-1}(v)$.则$\psi \circ \varphi^{-1}:\varphi(w(e)) \to \psi(w(e))$是局部同构。
+    \end{proof}
+    \begin{theorem}[李的第三定理]
+        设$g$是有限维李代数，则存在唯一的单连通李群$\tilde{G}$使得$\mathrm{Lie}(\tilde{G})=g$。
+
+        从而李代数和单连通有着一一对应的关系。
+    \end{theorem}
+    \begin{proof}
+        根据Ado引理，$g$是$\mathrm{gl}(n,\C)$的子代数。则存在唯一连通的李子群$G \subset \mathrm{gl}(n,\C)$使得$\mathrm{Lie}(G)=g$。
+
+
+    \end{proof}
+    \chapter{2023.03.16}
+    \section{覆盖群及其应用}
+    \begin{definition}
+        $G$是连通李群，$G$的覆叠空间$\tilde{G}$且$\tilde{G} \to G$是李群同态，则称$\tilde{G}$是$G$的一个覆盖群。
+    \end{definition}
+    \begin{proposition}\label{pro:cover}
+        连通李群$G$的覆叠空间$\tilde{G}$自然蕴含李群结构且使得$\tilde{\pi}:\tilde{G}\to G$是李群同态。
+    \end{proposition}
+    \begin{lemma}
+        设$\pi:X \to M$是连通流形上的覆盖。$Z$是连通流形且满足对于任何光滑映射$\alpha,\pi$，有$\alpha_* (\pi(Z))\subset \pi_*(\pi_1(X))$且$\alpha(z_0)=m_0$。对于$\forall x_0 \in$ 
+    \end{lemma}
+    \begin{proof}[命题\ref{pro:cover}]
+        我们说明$\tilde{G}$有群结构。考虑图表:\begin{tikzcd}
+	&& {\tilde{G}} \\
+	\\
+	{\tilde{G}\times\tilde{G}} && G
+	\arrow["\pi", from=1-3, to=3-3]
+	\arrow["{\tilde{\alpha}}", from=3-1, to=1-3]
+	\arrow["\alpha"', from=3-1, to=3-3]
+\end{tikzcd}
+
+    其中$\alpha(\tilde{g_1},\tilde{g_2})=\pi(\tilde{g_1})\pi(\tilde{g_2})^{-1}$。由$\alpha$定义得到:
+    \begin{align}
+        \alpha_*(\pi_1(\tilde{G}\times \tilde{G}))\subset \pi_*(\pi_1(\tilde{G}))
+    \end{align}
+    任取$\tilde{e}\in \pi^{-1}(e)$，则存在唯一的$\tilde{\alpha}:\tilde{G} \times \tilde{G} \to \tilde{G}$使得其为提升且$\tilde{\alpha}(\tilde{e},\tilde{e})=\tilde{e}$。
+
+    我们定义$\tilde{G}$中元素的逆元。对于任意的$\til{g},\til{g_1},\til{g_2}$，定义$\til{g}$的逆元为$\til{\alpha}(\til{e},\til{g})$,$\til{g_1}\til{g_2}=\til{\alpha}(\til{g_1},\til{g_2}^{-1})$.
+\end{proof}
+\begin{example}
+    $\mathrm{Sp}(1) \times \mathrm{Sp}(1)$是$\mathrm{SO}(4,\R)$的覆盖群。
+
+    对于$a,b \in \mathbb{H}$，考虑$T_{ab}:\mathbb{H} \to \mathbb{H} \cong \R^4,v \mapsto avb$.可以验证$T_{a,b}\in \mathrm{SO}(4,\R)$。
+\end{example}
+\begin{example}
+
+\end{example}
+\begin{theorem}
+    $G,H$连通子群，$\Phi: G \to H$是李群同态，则$\Phi$是李群覆盖等价于$\Phi_{*e}:g \to h$是李代数同构。
+\end{theorem}
+\begin{theorem}
+    $G,H$是李群，$G$是单连通的。若$\varphi:g  \to h$是李代数同态，则存在唯一的李群同态$\Phi:G \to H$满足$\Phi_{*e}=\varphi$。
+\end{theorem}
+\begin{proof}[证法2:BCH公式]
+    \textbf{BCH公式是指:}
+    
+    设$G$是李群，设$X,Y\in g$，$\|X\|$和$\|Y\|$足够小，则定义:
+    \begin{align}
+        X *Y:=\mathrm{log}(\mathrm{exp}X \mathrm{exp} Y)=X+Y=\sum_{m\geq 2}P_m(X,Y)
+    \end{align}
+    其中$P_m(X,Y)$是由$m-1$层$X,Y$李括号的线性求和:
+    \begin{align}
+        P_2(X,Y)=1/2[X,Y] \quad P_3=1/12([X,[X,Y]]-[Y,[X,Y]])\quad P_4=1/24 [X,[Y,[Y,X]]]
+    \end{align}
+     
+    接下里阐述证明:
+
+    首先构造局部的同态:令$\Phi:=\mathrm{exp}\varphi \mathrm{log}:U \to H$,$U$是满足BCH公式的足够小邻域。
+
+    对于$A,B \in U$,令$X=\log A,Y=\log B$，则:
+    \begin{align}
+        \Phi(AB)=\Phi(\mathrm{exp})
+    \end{align}
+\end{proof}
+\begin{definition}[李群中心]
+    $Z(G)$定义为$G$的交换李子群。$Z(g)=\{Z \in g|[Z,X]=0,\forall X \in g\}$是李代数的中心。
+\end{definition}
+\begin{theorem}
+    设$G,\til{G}$是连通李群:
+    \begin{enumerate}
+        \item 若$\Phi:\til{G}\to G$是李群覆叠，则$\ker \Phi$是$Z(G)$的离散子群。
+        \item 若$\Gamma$是$Z(G)$的离散子群，则$G/\Gamma$是李群且$\Phi$是李群覆盖。
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    令$\Gamma$是$\ker \Phi$。由于$\Phi$是局部微分同胚，则存在$U(e)$是$\til{G}$的开子集，满足$U(e)\cap \Gamma=\{e\}$。对于$\forall r\in \Gamma$,$rU\cap \Gamma=\{r\}$。则$\Gamma$是离散子群。
+
+    对$\forall g \in \til{G}$，$\gamma \in \Gamma$
+\end{proof}
+\begin{corollary}
+    $G$是连通李群，$\mathrm{Lie}G=g$，则$G \cong \til{G}/\Gamma$，$\Gamma$是$Z(G)$中的离散子群。
+
+
+\end{corollary}
+\begin{example}
+    设$G$是$\mathrm{Sl}(n,\R)$的覆盖群。则其不是矩阵李群。换言之，不存在单的李群同态:$\varphi:G \to \mathrm{GL}(n,\R)$。 
+
+    为了说明这一事实，我们采取反证法。即假设存在$\varphi$。考虑图表:
+    
+\end{example}
+\chapter{2023.03.23}
+\section{李群的基本群求法}
+以$\mathrm{SL}(n,\R)$为例。考虑$n \geq 3$的情况。
+
+第一步使用极分解。即$\mathrm{SL}(n,\R)=\cong \mathrm{SO}(n,\R)\times \R^m$。从而:
+\begin{align}
+    \pi_1(\mathrm{SL}(n,\R))=\pi_1(\mathrm{SO}(n,\R))
+\end{align}
+在已知同伦群的作用下构造可迁群作用。（轨道唯一，纤维从）：
+\begin{align}
+    \mathrm{SO}(n+1,\R)\times S^n \to S^n: A \times (e_1,\dots,e_{n+1})^T=A(e_1,\dots,e_{n+1})^T
+\end{align}
+考虑稳定化子:$\mathrm{Stab}(e_1,0,0,\dots,0)=\begin{pmatrix}
+    1& \quad \\ \quad &\mathrm{SO}(n,\R)
+\end{pmatrix}$
+从而$S^n\cong \mathrm{SO}(n+1,\R)/\mathrm{SO}(n,\R)$得到正合列:$\mathrm{SO}(n) \to \mathrm{SO}(n+1) \to S^n$。从而诱导长正合列:
+\begin{align}
+    \to \pi_{i+1}(C) \to \pi_i(A)\to \pi_1(B) \to \pi_1(C) \to \pi_{i-1}(C) \to
+\end{align}
+已知$\pi_i(S^n)=0,i=1,2,\dots,i-1$.上式带入$n=3$，有:
+\begin{align}
+    0=\pi_2(S^3) \to \pi_1(\mathrm{SO}(3)) \to \pi_1(\mathrm{SO}(4)) \to \pi_1(S^3)=0
+\end{align}
+从而$\pi_1(\mathrm{SO}(3))\cong \pi_1(\mathrm{SO}(4))$。同理$\pi_1(\mathrm{SO}(3)) \cong \pi_1(\mathrm{SO}(n))$。
+
+\section{李代数的复化和实形式}
+复李代数$\C$向量空间，有李括号$[,]$。
+
+\begin{proposition}
+    一个复李代数$(\mathfrak{g},[,])$可以看为实李代数$(\mathfrak{g},[,],I)$。$I$是$R$线性变换.且$I^2=-\mathrm{id}$。且$[Iu,v]=[u,Iv]=I[u,v]$。
+\end{proposition}
+\begin{proof}
+    先给定$(\mathfrak{g},[,])$作为复李代数。定义$I:\mathfrak{g}^{\R}\to \mathfrak{g}^{\R}$为$X \to iX$。
+
+    给定$(\mathfrak{g}^{\R},[,])$，定义数乘:
+    $$
+    \C \times \mathfrak{g}^{\R} \to \mathfrak{g}^{\R},(a+bi)(u):=au+bIu
+    $$
+\end{proof}
+李代数的复化。设$\mathfrak{g}$是实李代数，$\mathfrak{g}_{\C}=\mathfrak{g}\oplus i \mathfrak{g}$是向量空间的复化。定义:
+\begin{align}
+    [u+iv,x+iy]=[u,x]-[v,y]+i[u,y]+i[v,x]
+\end{align}
+则称$(\mathfrak{g}_{\C},[,])$称为$(\mathfrak{g},[,])$的复化。
+
+\begin{proposition}
+    $\mathfrak{g}_{\C}\cong ({\mathfrak{g}_{\C}}{\R},I)$。其中$I(u+vi)=-v+ui \in {\mathfrak{g}_{\C}}^{\R}$.
+\end{proposition}
+\begin{definition}[实形式]
+    设$h$是实李代数$\mathfrak{h}_{\C}\cong \mathfrak{g}$，则是实形式。
+\end{definition}
+\begin{proposition}
+    实形式等价于$\tau$是$\mathfrak{g} \to \mathfrak{g}$的共轭线性对合自同构。
+\end{proposition}
+\begin{remark}
+    \begin{enumerate}
+        \item 并非所有复李代数都有实形式。若实形式存在，则$(\g,I)\cong (\g,-I)$。
+        \item 实形式不一定唯一。比如$\mathrm{SL}(n,\C)$:
+        \begin{align}
+            \tau(x)=\overline{x} \Rightarrow \g^{\tau}=\mathrm{SL}(n,\R)
+        \end{align}
+        分裂实形式。
+        \begin{align}
+            \tau(x)=-x^* \Rightarrow \g^\tau=\mathrm{SU}(n)
+        \end{align}
+        紧实形式。
+    \end{enumerate}
+\end{remark}
+\section{复流形}
+复流形是具有复结构的实流形。即$M$上有开覆盖$\{U_\alpha\}$，其中$\{U_\alpha\}$与$\C$中的开子集微分同胚。使得$U_\alpha$具有复坐标$(z_1,\dots,z_n)$，满足任意坐标变换的转移函数全体光滑。
+
+然而复结构的流形很难做实际的验证。我们考虑$(M,J)$，$J$是一个$(1,1)$型张量，$J :TM \to TM$满足$J^2=-\mathrm{id}$。$J$称为近复结构。
+
+当$M$是偶数维，$J_x:T_x M \to T_x M$，$J_x^2=-\mathrm{id}$意味着$\mathrm{det}(J_x)^2=(-1)^n>0$
+
+近复结构是复结构等价$\forall X,Y \in \Gamma(TM)$，
+\begin{align}
+    [JX,JY]-J[JX,Y]-J[X,JY]-[X,Y]=0
+\end{align}
+\begin{definition}[复李群]
+    复流形且是个群。群乘法和逆都是全纯的。
+\end{definition}
+\begin{theorem}
+    一个连通李群$G$是复李群等价于$G$的李代数是复的李代数。
+\end{theorem}
+\begin{proof}
+    $(G,J)$
+\end{proof}
+
+\section{泛包络代数}
+对于域$\F$的李代数$\mathfrak{g}$，存在唯一的结合代数$U(\mathfrak{g})$以及双线性映射$i:\mathfrak{g}\to U(\mathfrak{g})$使得:
+\begin{enumerate}
+    \item $i[X,Y]=i(X)i(Y)-i(Y)i(X)$
+    \item $U(g)$由$i(g)$生成。
+    \item 
+\end{enumerate}
+\chapter{2023.3.30}
+\section{$U(g)$}
+
+定义$T(g)$为:
+\begin{align}
+    T(g)=\bigoplus_{k=0}^\infty g^{\oplus k}
+\end{align}
+其中加法是形式的加法，乘法我们只考虑基:单纯做张量积即可。于是上述结构其实是一个分次环。
+
+定义$U(g)=T(g)/(e_i \otimes e_j-e_j \otimes e_i-[e_i,e_j])$。
+
+\begin{theorem}[PBW]
+    设$\{a_1,\dots,a_m\}$是$\g$的基底，则
+\end{theorem}
+\begin{remark}
+    \begin{enumerate}
+        \item PBW基形式上与$k[x_1,\dots,x_n]$保持一致。但是不交换。
+        \item $U(g)$上有滤子$F_0 \subset F_1 \subset F_2 \dots$，其中:
+        $$
+        F_k=\mathrm{Span}_{\F}(a_1^{k_1}\dots a_n^{k_n},k_1+\dots+k_n \leq k)
+        $$
+        得到交换的$k$代数：
+        $$
+        F_0 \oplus F_1/F_0 \oplus \dots \cong S(g)\cong k[x_1,\dots,x_n] 
+        $$
+        其中$S(g)$是对称的张量集。
+        \item 考虑单射$i:\g \to U(\g)$,则$i(a_1),\dots,i(a_n)$是线性无关的。
+    \end{enumerate}
+\end{remark}
+\begin{definition}[$U(\g)$的上乘法]
+    定义$\Delta:U(\g)\to U(\g)\otimes U(\g)$。我们给出基底的定义即可:
+    设$e_i$是$\g$的基底，由:
+    $$
+    \Delta(e_i)=e_i \otimes 1+1 \otimes e_i
+    $$
+    并且直接同态的定义乘法:
+    $$
+    \Delta(e_i\otimes e_j)=\Delta(e_i)\Delta(e_j)
+    $$
+
+\end{definition}
+\begin{definition}
+    对于$r \in U(\g)$，若$\Delta(r)=r \otimes 1+1 \otimes r$，则称其为本原元(primitive)。若$\Delta(r)=r \otimes r$，则称其为类群元(grouplike)。 
+\end{definition}
+\begin{proposition}
+    \begin{enumerate}
+        \item 若$r,s$本原，则$[r,s]$是本原的。即本原元构成李代数。
+        \item 若$r,s$是类群元，则$rs$是类群元。从而所有的类群元构成一个$\g$的形式李群。
+        \item 若$r$是本原的，则$\exp r$是$\hat{U(\g)}$(定义为PBW基生成的形式幂级数)的类群元。
+        \item 若$r$是类群元，且常数项是$1$，则$\log r$是$\hat{U(\g)}$的本原元。
+    \end{enumerate}
+\end{proposition}
+\begin{theorem}
+    设$\g$是特征为$0$域上的李代数，则$\g$是$U(\g)$中所有的本原元。
+\end{theorem}
+\begin{proof}
+    先设$\g$是交换的基底。此时$U(\g)=k[x_1,\dots,x_n]$。考虑:
+    $$
+    \Delta(f)=1\otimes f+f \otimes 1 \Leftrightarrow f(x)+f(y)=f(x+y),\forall x,y \in k^n
+    $$
+    对于$f^{(k)}$中的$k$次齐次多项式:
+    $$
+    2^k f^{(k)}(x)=f^{(k)}(2x)=2f^{(k)}(x) \Rightarrow (2^k-2)f^{(k)}=0
+    $$
+    于是$\mathrm{deg}(f)=1$。
+
+    接着考虑非交换。$U(\g):F_0 \subset F_1 \subset F_2$。接着考虑:
+    $$
+    \mathrm{Span}_k\{a_1^{k_1}\dots a_n^{k_n}:k_1\dots k_n \leq k\}
+    $$
+\end{proof}
+\begin{example}
+    反例:$\g$是一维的，$\mathrm{char}k=p>0$.基底$X \in \g$，则$X^p$也是本原元。
+\end{example}
+\begin{theorem}[BCH公式]
+    $\exp X \exp Y=\exp(X+Y+1/2[X,Y]+[X,[X,Y]],\dots)$
+\end{theorem}
+\begin{proof}
+    不妨假设$X,Y$线性无关。
+\end{proof}
+\begin{remark}
+    BCH对特征为$p$的李代数不成立。
+\end{remark}
+\section{代数群和李群}
+\begin{definition}
+    代数群:$G$.$k$上的仿射态射簇(多项式零点集)且是个群。满足群乘法是态射(多项式函数)
+\end{definition}
+\begin{proposition}
+    当$k=\R$，任何$k$上的代数群都是李群且是$\mathrm{Gl}(n,\C)$的闭子群。即矩阵李群。则非矩阵李群不是代数群。
+\end{proposition}
+代数群$G$的李代数是$k[G]$上的满足$\delta \circ L_g=L_g \circ \delta$的导子$\delta$。李括号受到$\mathrm{Char}k$的影响。若$k$的特征是$0$，则$[\delta_1,\delta_2]=\delta_1\circ \delta_2-\delta_2 \circ \delta_1$。
+\section{李群李代数的表示}
+$V$是复的向量空间。$\mathrm{GL}(V)$是$V$上的线性同构构成的集合,自然根据维数有:$\mathrm{GL}(V)=\cong \mathrm{GL}(n,\C)$。$\mathrm{gl}(V)$是$V$上线性变换。$\mathrm{gl}(V)\cong \mathrm{gl}(n,\C)$。
+
+\begin{definition}
+    设$G$是李群，光滑的李群同态:$\rho:G \to \mathrm{GL}(V)$称为$G$的复表示。
+
+    设$\g$是李代数，则李代数同态:$\g \to \mathrm{gl}(V)$称为$\g$的表示。
+\end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item 李群表示等价于线性群作用
+        \item 李代数表示等价于$\g$模。
+        \item 对于任何的李代数表示$\pi:\g \to \mathrm{gl}(V)$都存在唯一的$U(\g)$上的同态是的交换图成立（泛性质）:\begin{tikzcd}
+            {U(\mathfrak{g})} \\
+            \\
+            {\mathfrak{g}} && {\mathrm{gl}(V)}
+            \arrow[from=3-1, to=1-1]
+            \arrow["\pi"', from=3-1, to=3-3]
+            \arrow["{\tilde{\pi}}", from=1-1, to=3-3]
+        \end{tikzcd}
+    \end{enumerate}
+\end{remark}
+\begin{definition}[伴随表示]
+    李代数:$\mathfrak{g} \to \mathrm{gl}(\g):X \to \mathrm{ad}_X \in \mathrm{gl}(\g)$称为$\g$的伴随表示。$\mathrm{ad}_X(Y)=[X,Y]$。
+\end{definition}
+Jacobbi恒等式:
+
+\chapter{2023.04.06}
+\subsection{李代数的表示和李代数模}
+\begin{proposition}
+    李代数$\g$的自同构群是$\mathrm{GL}(\g)$的嵌入李子群，李代数为$\mathrm{Der}(\g)$。其中$\mathrm{Der}(g)$是导子李代数。
+\end{proposition}
+\begin{proof}
+    这是因为$\mathrm{Aut}(\g)$是由方程$A[x,y]=[Ax,Ay]$定义的。因此$\mathrm{Aut}(g)$是$\mathrm{GL}(\g)$的闭子群，从而是嵌入李子群。
+
+    考虑$\mathrm{Aut}(\g)$的李代数:
+    \begin{align}
+        \mathrm{Lie}(\mathrm{Aut}(\g))=\{D \in \mathrm{gl}(\g)|e^{tD}\in \mathrm{Aut}(\g),\forall t\}
+     \end{align}
+    即$e^{tD}[X,Y]=[e^{tD}X,e^{tD}Y]$
+    
+    下面证明导子满足上述要求。
+
+    考虑$\g$值函数$y_1(t)=e^{tD}[X,Y],y_2=[e^{tD}X,e^{tD}Y]$.当$t=0$，$y_1=y_2$。为了证明$y_1=y_2$，验证发现$y_1'=y_2'$。根据ODE解的存在唯一性，$y_1=y_2$。
+    \end{proof}
+    
+\begin{proposition}
+    设$G$是连通李群，则:(a)$\ker \mathrm{Ad}=Z(G)$ (b)$\mathrm{Int}(\g)= \mathrm{Im}(\mathrm{Ad}) \cong G/Z(G)$。
+\end{proposition}
+
+\begin{definition}
+    \begin{enumerate}
+        \item 如果表示是单射，则称为忠实表示。
+        \item $V$的子空间$W$满足$g \cdot W=\{\pi(g)w, \forall w \in W\} \subset W$,$\forall g \in G$。
+        \item 若表示$(G,\pi,V)$的不变子空间只有$0$,$V$，则称表示$\pi$是不可约的。
+    \end{enumerate}
+\end{definition}
+\begin{example}[非矩阵李群]
+    设$G=\R \times \R \times S^1$。定义乘法为$(x_1,y_1,u_1)(x_2,y_2,u_2)=(x_1+x_2,y_1+y_2,e^{ix_1y_2}u_1u_2)$.
+
+    对于$G$的任意表示(有限维)，$\pi_G:G \to \mathrm{GL}(V)$，$\pi_G$都不是忠实的。
+
+    考虑海森堡群$$
+    H=\{\begin{pmatrix}
+        1&a&b\\0&1&c\\0&0&1
+    \end{pmatrix}|a,b,c\in \R\}$$
+    以及李群同态:$\Phi:H \to G$.$G \to \mathrm{GL}(V)$。
+
+    其中
+    $$
+    \begin{pmatrix}
+        1&a&b\\0&1&c\\0&0&1
+    \end{pmatrix} \mapsto (a,c,e^{ib}) \mapsto \pi_G(a,c,e^{ib})
+    $$
+
+    $\varphi$的核是$\ker \Phi=\{\begin{pmatrix}
+        1&0&2n \pi\\0&1&0\\0&0&1
+    \end{pmatrix}|n \in  \Z\}$。是$Z(H)$的离散正规子群。
+
+    于是$H$是$G$的覆盖群。李代数相同。为
+    $$
+    \mathfrak{h}=\{\begin{pmatrix}
+        0&a&b\\0&0&c\\0&0&0
+    \end{pmatrix}|a,b,c \in \R\}
+    $$
+    基底为$A=\begin{pmatrix}
+        0&1&0\\0&0&0\\0&0&0
+    \end{pmatrix},B=\begin{pmatrix}
+        0&0&1\\0&0&0\\0&0&0
+    \end{pmatrix},C=\begin{pmatrix}
+        0&0&0\\0&0&1\\0&0&0
+    \end{pmatrix}$.且$[A,C]=B,[A,B]=[C,B]=0$。
+\end{example}
+\begin{proposition}
+    设$\pi$是$H$的表示。若$\ker \Phi \subset \ker \pi$,则$Z(H)\subset \ker \pi$.
+\end{proposition}
+若上述性质成立，假设存在忠实表示$\pi_G$,则$\ker \pi_H=\ker \Phi \subset Z(H) \subset \pi_H$矛盾！从而前面我们的$G$没有忠实表示。
+
+\begin{proof}
+    考虑两个引理:$\pi(B)$是幂零矩阵。$X$是非零幂零矩阵，则$e^{tX}=I$等价于$t=0$。
+
+    我们说明根据两个引理可以得到上述命题。
+
+    由于$e^{tB}=\begin{pmatrix}
+        1&0&t\\0&1&0\\0&0&1
+    \end{pmatrix}$,$e^{kn\pi(B)}=\pi(e^{knB})=I(\ker \Phi \subset \ker \pi)$。对所有的$n \in \Z$成立，则由引理1,2知$\pi(B)=0$。因此对于$t \in \R$，$\pi(e^{tB})=e^{t\pi(B)}=I(Z(H)\subset \ker \pi)$。
+
+    对于两个引理的证明，我们放在下面。
+\end{proof}
+\begin{lemma}
+    $\pi(B)$是幂零矩阵。
+\end{lemma}
+\begin{proof}
+    
+\end{proof}
+\begin{lemma}
+    $X$是非零幂零矩阵，则$e^{tX}=I$等价于$t=0$。
+\end{lemma}
+\begin{proof}
+    由于$X$幂零,$e^{tX}$是关于$t$的多项式，因此存在$P_{jk}(t)$使得$(e^{tX})
+    _{jk}=P_{jk}(t)$.
+
+    假设$\exists t \neq 0$，使得$e^{tX}=I$。则$e^{ntX}=(e^{tX})^n=I$。从而$P_{jk}(nt)=\delta_{jk}$。于是$e^{tX}\equiv I$.这说明$e^{tX}$不显含$t$。对$e^{tX}$求导，则$Xe^{tX}=X=0$。因此$X=0$与题设矛盾！
+\end{proof}
+\chapter{2023.04.13}
+\subsection{不变内积的存在性}
+\begin{theorem}
+    交换李群的表示都是1维的。
+\end{theorem}
+\begin{proof}
+    设表示为$(G,\pi,V)$。对于$\forall g \in G$,$\pi(g): V \to V$是$G$可换的。则$\pi(g)=\lambda \mathrm{id}$。从而$V$的任何子空间一定是不变子空间，因此$V$是1维的。
+\end{proof}
+Haar测度:紧李群存在左右不变的积分（等价于测度）
+
+即$\forall f \in C^{\infty}(G)$:
+$$
+\int_G f(g)\omega =\int_G f(hg)\omega= \int_G f(gh)\omega =\int_G f(g^{-1})\omega
+$$
+其中$\omega$是体积形式，即$\int 1\omega=1$。
+
+第一步，在一般的李群上定义左不变形式。在$e \in G$,取定$\omega_e \in \wedge^n T_e^* G$,$n =\mathrm{dim}G$。在$G$上定义体积形式:
+\begin{align*}
+    \omega \in \Omega^n(G) \Leftrightarrow (L_h^*\omega)(g)=\omega(hg), \forall g,h \in G
+\end{align*}
+从而
+\begin{align*}
+    \int_G f(g)\omega(g)\text{是左不变的，即}\int_G f(hg)\omega(hg)=\int_G f(g)\omega(g)
+\end{align*}
+我们对$\omega$做正规化，即定义:
+\begin{align*}
+    \int_G 1\omega=1
+\end{align*}
+我们称正规的左不变测度为左Haar测度。
+
+第二步，我们说明紧李群上模函数恒为$1$,这等价于左不变测度是右不变的。
+
+由于对于$\forall g \in G$，$R_g^* \omega$仍然是左不变的，左不变$n$形式是$1$维向量空间。故存在$\Delta:G \to R_{>0}$（称为模函数）使得$\omega=\Delta(g)R_g^*(\omega)$。
+
+下证:紧李群左Haar测度是右不变的等价于$\Delta \equiv 1$。
+
+思路:证明$\Delta$是李群（反）同态。
+
+考虑$\omega(hg_1g_2)=\Delta(g_1g_2)(R_{g_1g_2}^*)h=\Delta(g_1g_2)R_{g_1}^*(R_{g_2}^*\omega)h$。
+
+又$R_{g_2}^*\omega$是左不变的，则$(R_{g_2}^*)(hg_1)=\Delta(g_1)(R_{g_1}^*)(R_{g_2}^*\omega)h$。
+
+于是$\omega(hg_1g_2)=\Delta(g_2)R_{g_2}^*(hg_1)=\Delta(g_2)\Delta(g_1)R_{g_1}^*(R_{g_2}^*\omega)h$.
+
+因此可以看出来$\Delta$是反同态。但是$R$是交换的，从而这也是同态。
+
+由于$(R_{+},\times)$紧子群只有$\{1\}$，因此$\Delta(g)\equiv 1$.因此紧李群是右不变的。
+
+\begin{theorem}
+    紧李群表示$G \to \mathrm{GL}(V)$表示空间上有不变内积。
+\end{theorem}
+\begin{proof}
+    取$V$的一个内积$\langle,\rangle$。在$V$上定义新的内积:\begin{align*}
+        \langle v,u \rangle:=\int_G \langle g\cdot v,g\cdot u\rangle dg, g\text{是Haar不变测度}
+    \end{align*}
+    根据积分的左右不变性:
+    $$
+    \langle hv,hu\rangle_G =\langle u,v\rangle
+    $$
+\end{proof}
+\begin{corollary}
+    紧李群李代数$\g$上存在Ad不变的内积。
+\end{corollary}
+\begin{theorem}
+    紧李群的表示完全可约。
+\end{theorem}
+\subsection{一个例子:$\mathrm{SU}(2)$}
+首先考虑一个例子。这个例子本身很重要.
+\begin{example}[$\mathrm{SU}(2)$的表示]
+    \textbf{1.李代数方法:}
+
+    目标给出了$\mathrm{SU}(2)$的不可约表示的分类和构造。
+    $\mathrm{SU}(2)=\{M \in \mathrm{GL}(2,\C):M^*M=I,\mathrm{det}M=1\}\cong S^3$单连通。
+\end{example}
+考虑$\mathrm{SU}(2)$的
+
+\chapter{2023.04.20}
+令$W_{kl}=\{v \in V:D(\theta_1,\theta_2)v=e^{i(k\theta_1+l\theta_2)},k,l \in \Z\}$权为$(k,l)$的权空间。则$V=\oplus_{k,l \in \Z} W_{kl}$。
+
+$\mathrm{SU}(3)$的李代数的复化为$\mathrm{sl}(3,\C)$。考察$\mathrm{sl}(3,\C)$基底在$W_{kl}$的作用。
+
+李代数$\mathrm{sl}(3,\C)$的基底:
+\begin{align*}
+    H_1=\begin{pmatrix}
+        1&0&0\\0&-1&0\\0&0&0
+    \end{pmatrix},H_2=\begin{pmatrix}
+        0&0&0\\0&1&0\\0&0&-1
+    \end{pmatrix}
+\end{align*}
+
+\begin{remark}
+    当$k,l$固定的时候，$\lambda:=k\theta_1+l\theta_2$可以看为线性函数:$\mathfrak{h} \to \C$,$\begin{pmatrix}
+        \theta_1&0&0\\0&\theta_2&0\\0&0&-\theta_1\theta_2
+    \end{pmatrix}\mapsto k\theta_1+l\theta_2$
+
+    即$\lambda\in \mathfrak{h}^*$。
+
+    此时，权空间$W_{kl}$记为:
+    $$
+    W_\lambda=\{v:H(\theta_1,\theta_2)v=\lambda(H(\theta_1,\theta_2))v,\text{所有}H(\theta_1,\theta_2)\in \mathfrak{h}\}
+    $$
+\end{remark}
+\begin{example}[标准表示]
+    设$\C^3=\mathrm{span}\{e_1,e_2,e_3\}$。
+\end{example}
+\begin{example}[$\mathrm{Sym}^2\C^3$]
+    考虑$e_1^2=e_1\otimes e_1$
+\end{example}
+\begin{example}[伴随表示]
+    设$H(\theta_1,\theta_2)$如上。设$\theta_3=\theta_1+\theta_2$。
+
+    (a)$i=j$
+\end{example}
+\chapter{李群的表示}
+\begin{definition}[基本权]
+    1.设$\{H_i\}$为$(h_i,\langle \rangle)$的标准正交基，定义:
+    \begin{align*}
+        \lambda_i(H_j)=\delta_{ij},\lambda_i \in h^*
+    \end{align*}
+    $\lambda_i$称为基本权，$\lambda$是整支配权 等价于$\lambda=\sum k_i\lambda_i,k_i \in \N$.
+
+    2.素根系的基本权:
+
+    (a)当选定$h$和素根系$\Phi$，基本权$\lambda_i:=\dfrac{2\langle \lambda_i,\alpha_j\rangle}{\langle \alpha_j,\alpha_j\rangle}=\delta_{ij},\forall \alpha_i \in \Phi$
+\end{definition}
+\begin{example}
+    $\mathrm{SU}(2)=\mathrm{sl}(2,\C)$。素根系$\Phi=\{L_1\}$。
+
+    Cartan矩阵$A=(2)$。则$\alpha_1=2\lambda_1$,$\lambda_1=1/2\alpha_1$。
+\end{example}
+\textbf{基本权空间构造}
+Type $A_n$:$\mathrm{SU}(n+1)$与$\mathrm{sl}(n+1,\C)$。
+
+基本权:$\lambda_i=L_1+L_2+\dots+L_i$,$1 \leq i \leq n$.权系:$\Gamma_w=\{\sum c_i\lambda_i|c_i \in \Z\}=\{\sum k_i L_i|k_i \in \Z\}$。
+
+整支配权：$\Gamma_w^d=\{\sum c_i \lambda_i|c_i \in \N\}=\{\sum k_i L_i|k_1 \geq k_2 \dots k_n\}$。
+
+设$R_n$是$\mathrm{SU}(n+1)$的基本表示。
+\section{Schur正交化定理}
+\begin{theorem}
+    设$(\pi_1,V_1)$和$(\pi_2,V_2)$是紧李群$G$的不可约表示。$\langle,\rangle_i$是$V_i$上的$G$不变内积，$i=1,2$。则有:
+    \begin{align*}
+        \int_G \langle \pi_1(x)u_1,v_1\rangle_1\langle \pi_2(x)u_2,v_2\rangle_2 dx=0
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    设$l:V_2 \to V_1$是线性映射，定义新的线性映射:$L_2$
+    \begin{align*}
+        L_2:V_2 \to V_1,\quad L=\int_G \pi_1(x)\circ l \circ \pi_2(x^{-1})dx
+    \end{align*}
+    下面验证$L$是$G$可换的。这等价于:
+    \begin{align*}
+        \forall y\in G,\pi_1(y)\circ L \circ \pi_2(y^{-1})=L
+    \end{align*}
+    对于$v_2 \in V_2$，有:
+    \begin{align*}
+        \pi_1(y) \circ L \circ \pi_2(y^{-1})v=\pi_1(y)\int_G \pi_1(x) \circ l \circ \pi_2((yx)^{-1})v_2 dx=\int_G \pi_1(x) \circ l\circ \pi_2(x^{-1})v_2dx=Lv_2
+    \end{align*}
+    由于$\pi_1,\pi_2$是不等价的，根据Schur引理，这说明$L=0$。故$\langle Lv_2,v_1\rangle_1=0$。
+
+    接下来我们令$l:V_2 \to V_1, \omega_2 \mapsto \langle \omega_2,u_2\rangle_2 u_1$。对于$\forall \omega_2 \in V_2$:
+    \begin{align*}
+        0=\langle Lv_2,v_1\rangle_1=\int_G \langle \pi_1(x)\circ l\circ \pi_2(x^{-1})v_2,v_1 \rangle_1 dx \text{带入}l,\text{根据内积不变得到结果。} vr
+    \end{align*}
+\end{proof}
+\begin{definition}
+    对于任意给定$v,L \in V^*$，$\phi:G \to \C$.$\phi(g)=L(\pi(g)v)$，称为$G$的矩阵系数。
+\end{definition}
+\begin{remark}
+    当$(\pi,V,\langle,\rangle_G)$是酉表示(eg.$G$是紧李群):
+    \begin{align*}
+        \phi(g):=\langle \pi(g)v,u\rangle_{G'},\text{给定}u,v \in V
+    \end{align*}
+\end{remark}
+\begin{theorem}
+    $\phi$是矩阵系数当且仅当$\mathrm{Span}(R_g^*\phi:g \in G)$是有限维向量空间,其中$R_g: G \to G \forall g,h  \mapsto hg$。
+\end{theorem}
+\begin{theorem}[Schur正交化定理]
+    $G$是紧李群。$\pi_1,\pi_2$是不等价的表示。设$\phi_1,\phi_2$分别是对应的矩阵系数，则有:
+    \begin{align*}
+        \int_G \phi_1(g)\phi_2(g)dg=0
+    \end{align*}
+\end{theorem}
+\begin{corollary}
+    \begin{align*}
+    \int_G \chi_1(g)\overline{\chi_2(g)}dg=0
+    \end{align*}
+\end{corollary}
+下面两个判别法可以判定是否有等价表示:
+\begin{theorem}
+    1.$(\pi_1,V_1)$不可约等价于:
+    \begin{align*}
+        \int_G |\chi_{\pi_1}(g)|^2dg=1
+    \end{align*}
+    
+    2.两个表示等价等价于$\chi_{\pi_1}=\chi_{\pi_2}$。
+\end{theorem}
+\begin{remark}
+    设$\pi=\bigoplus_{i=1}^n \pi_i$是紧李群$G$上的表示且$\tau$是$G$的不可约表示，则:
+    \begin{align*}
+        \int_G \chi_{\tau}(g)\chi_{\pi}(g)dg
+    \end{align*}
+    是与$\tau$等价的不可约表示的个数，即在$\pi$中的重数。
+\end{remark}
+\subsection*{类函数}
+\begin{definition}
+    类函数定义为$\phi: G \to \C$使得$\phi(ghg^{-1})=\phi(h)$,$\forall g,h \in G$.
+\end{definition}
+因而特征标是连续的类函数。我们用特征标来对表示进行分类。
+\begin{example}[$T^n=(S^1)^n$]
+    $T^n=(S^1)^2$的不可约分类。
+
+    注意到有用的事实:$T^n$是交换李群，所以其不可约表示只可能是$1$维。考虑不可约表示族:
+    \begin{align*}
+        (e^{i\theta_1},\dots,e^{i\theta_n})\cdot v=e^{i(\sum_{k=1}^n m_i\theta_i)}\cdot v,m_i \in \Z
+    \end{align*}
+    我们证明$T^n$的不可约表示与$\Z^n$中的格点有一一对应。
+
+    首先说明对于不同的对$n$元整数对，上面的表示都是不等价的。
+
+    注意到这是1维表示，则特征标是明显的。因此特征标显然不同。
+
+    由于$L^2((S^1)^n)$的基恰为:
+    \begin{align*}
+        \{e^{i(m_1\theta_1+\dots+m_n\theta_n)}:m_1,\dots,m_n \in \Z\}
+    \end{align*}
+   故不存在不可约表示的特征标$\chi$与上面所有的$\chi_{\pi}$都正交，则不存在其他不可约表示。
+\end{example}
+\begin{example}[$\mathrm{SU}(2)$]
+    $\mathrm{Sym}^n \C^2$。
+
+    基底$\{e_1^k,e_2^{n-k}\}=\mathrm{Span}\{z_1^kz+2^{n-k}:0\leq k\leq n\}$.
+
+    表示可以由标准表示诱导的线性作用:
+    \begin{align*}
+        (g:p)(v):=p(g^{-1}v)
+    \end{align*}
+
+    \begin{proof}
+        先证明不可约推导不等价。
+
+        $\forall g \in \mathrm{SU}(2)$，特征根$e^{i\theta},e^{-i\theta}$，因此$g \sim \begin{pmatrix}
+            e^{i\theta}&0\\0&e^{-i\theta}
+        \end{pmatrix}:=t(\theta)$
+       对于$\forall 0\leq k \leq n$，令$p_k:=z_1^{k}z_2^{n-k}$。由定义:$\pi_n(t(\theta))p_k$，所以算得$\chi_{\pi_n}(g)=\chi_{\pi_n}(t(\theta))=\sum_{k=0}^n e^{i(2k-n)\theta}=\dfrac{\sin (n+1) \theta}{\sin \theta}$。所以计算有:
+     \begin{align*}
+        \int_{\mathrm{SU}(2)}|\chi_{\pi_n}(g)|^2dg=\frac{1}{2\pi^2}\int_0^\pi \int_0^\pi \int_0^{2\pi} \dfrac{\sin (n+1) \theta}{\sin \theta}^2\sin^2 \varphi \sin \psi d\psi d\varphi d\theta=1
+     \end{align*}
+    
+    下证$(\pi_n,V_n)$是所有不可约表示。等价于说明$\{\chi_{\pi_n}:n \in \N\}$在所有$\mathrm{SU}(2)$的连续类函数中稠密($L^2$-范数下).这等价于说明$\{t(\theta)\}\cong S^1$中的类函数。由于$t(\theta)\sim t(-\theta)$，则$S^1$上的所有偶函数。
+
+    根据Fourier分析，$\{\cos(n\theta)\}$是$S^1$上的偶函数空间上的稠密子集，且$\chi_{\pi_n}(t(\theta))-\chi_{\pi_{n-2}}(t(\theta))=2\cos(n\theta)$。则$\{\chi_{\pi_n}\}$是$\mathrm{SU}(2)$类函数空间上的稠密子集。于是是所有的不可约表示。
+    \end{proof}
+\end{example}
+\subsection*{Peter-Weyl定理}
+\begin{theorem}
+    分析:矩阵系数空间是$(C(G),\|\cdot\|_\infty)$的稠密子集。
+
+    代数:紧李群是矩阵李群。
+\end{theorem}
+\begin{corollary}
+    特征标空间是类函数空间的稠密子集。
+\end{corollary}
+\begin{proof}
+    代数到分析(Stone-Weiseestrass定理)
+
+    设$X$是紧拓扑空间，$C(X)$是连续复值函数构成的代数。若$A \subset C(X)$是子代数。满足1.$A$可分类，即$\forall x_1 \neq x_2$,$\exists f:f(x_1)\neq f(x_2)$。2.$A$中有常函数。3.若$f \in A$，则$\overline{f}\in A$。则$A$是$C(X)$的稠密子集。
+
+    我们验证矩阵系数构成子代数。略。
+
+    由于存在单同态$i:G \to \mathrm{GL}(n,\C)$的闭子群。对于$\forall g\in G$，$g \mapsto g_{ij}$,$g \mapsto overline{g_{ij}}$,$g \mapsto 1$都是矩阵系数。因此1,2,3成立，这意蕴着矩阵系数空间是稠密的。
+
+    分析到代数:一个引理:
+    \begin{lemma}
+        设$G$是紧李群，对于$\forall g \neq e$,存在不可约表示$(\pi,v)$使得$\pi(g)$不是$\mathrm{id}$。
+    \end{lemma}
+    事实上，取$f \in C(G)$，使得$f(e)=0,f(g)=1$。则存在$\pi$以及矩阵系数$\phi$使得$\|f-\phi\|_{\infty}<\epsilon$.于是$\phi(e)\neq \phi(g)$推的$\pi(g)\neq \pi(e)=\mathrm{id}$。
+
+    下面构造$G$的忠实表示。
+
+    对于$\forall g \in G^0$(单位连通分支),$g_1 \neq e$。于是存在表示$\pi(g_1)\neq \mathrm{id}$从而$G^0$不是$\ker \pi_1$的子集。于是$\ker \pi_1$的维数小于$G$的维数。
+
+    若$\ker$的维度不是$0$，则取$g_2 \neq e$使其在$(\ker \pi_1)^0$中。则表示的直和$\pi_1\oplus \pi_2$的$\ker$维度进一步降低。
+
+    最终把$\ker$降为$0$维。设$\ker=\{c_1,\dots,c_n\}$是有限集合。取$\{\varphi_i\}$:$\varphi_i(c_i)\neq \mathrm{id}$。于是进一步减少$ker$的个数。
+    \end{proof}
+    \section{紧李群的分类}
+    先考虑紧李代数。紧李代数的分类为:
+    \begin{align*}
+        \g=Z(\g)\oplus S_1 \oplus S_2 \oplus \dots S_m
+    \end{align*}
+    $S_i$是单李代数。
+
+    但是以$\g$为李代数的李群$G$不一定是紧李群。问题出在交换的部分。
+
+    然而$[G,G]:=\{ghg^{-1}h:g,h \in G\}$是以$\g$的交换子$[\g:\g]=S_1\oplus S_m$为李代数的连通紧半单李群。
+
+    从而由Dynkin分类得到紧李代数的分类，然后得到紧李代数对应的连通李群$G$的分类:$G=\tilde{G}/\Gamma$。$\Gamma$是$Z(\tilde{G})$离散的正规子群。
+
+    从而在得到连通紧半单李群的分类$[G:G]$。而连通紧李群的分类为$[G \times G] \times T^n$
+    \begin{align*}
+        S_1 \otimes S_2 \dots \otimes S_m/\Gamma \times T^n
+    \end{align*}
+    其中$\Gamma$是$Z(S_1\times \dots \times S_m)$的有限子群。
+
+    从而Peter-Weyl定理对连通成立。如果不连通，则对每个连通分支:$G/G_0$是有限群。从而$\forall g \notin G_0$，存在表示$\rho$使得$\rho(g)$不是$\mathrm{id}$。
+
+\ifx\allfiles\undefined
+	
+	% 如果有这一部分的参考文献的话，在这里加上
+	% 没有的话不需要
+	% 因此各个部分的参考文献可以分开放置
+	% 也可以统一放在主文件末尾。
+	
+	%  bibfile.bib是放置参考文献的文件，可以用zotero导出。
+	% \bibliography{bibfile}
+	
+	\end{document}
+	\else
+	\fi

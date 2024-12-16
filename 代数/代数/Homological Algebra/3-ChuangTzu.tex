@@ -1,0 +1,242 @@
+\ifx\allfiles\undefined
+
+	% 如果有这一部分另外的package，在这里加上
+	% 没有的话不需要
+	
+	\begin{document}
+\else
+\fi
+\chapter{Tor函子和Ext函子}
+本章的目的是介绍Tor函子和Ext函子的诸多性质。他们是同调代数初等应用中的常客。
+\section{Abel群的Tor函子}
+我们首先观察一个经典的PID上的模——Abel群的Tor函子。其实，Tor函子的名字就来源于其对Abel群的研究。
+
+\begin{example}{}
+    对于Abel群$B$而言，$\mathrm{Tor}_0^{\Z}(\Z/p,B)=B/pB$,$\mathrm{Tor}_1^\Z(\Z/p,B)={}_pB=\{b \in B:pB=0\}$.对于$n\geq 2$,$\mathrm{Tor}_2^\Z(\Z/p,B)=0$.
+
+    上述结果可以这么看。取$\Z/p$的投射解消
+    \begin{align}
+        0 \to \Z \stackrel{p}{\rightarrow}\Z \to \Z/p \to 0
+    \end{align}
+    从而我们计算的是:
+    \begin{align}
+        0 \to B \stackrel{p}{\rightarrow} B \to 0
+    \end{align}
+    的同调群。
+\end{example}
+ 特殊情况下，Tor函子表现出$1$阶挠子群,高阶为$0$的特点。实际上，我们有下面的命题:
+ \begin{proposition}{}
+    对于两个Abel群$A$,$B$,我们有:
+    
+    (a)$\mathrm{Tor}_1^\Z(A,B)$是一个挠群。
+
+    (b)$\mathrm{Tor}_n^\Z(A,B)$在$n \geq 2$的情况下为$0$.
+ \end{proposition}
+ \begin{proof}
+    证明依赖Tor函子与滤过余极限交换性。$A$是其有限生成子群的滤过余极限,所以$\mathrm{Tor}_n(A,B)$是$\mathrm{Tor}_n(A_\alpha,B)$的滤过余极限。
+
+    Abel群的余极限总是他们直和的商子群。所以我们只需要证明对于有限生成子群上述命题成立即可。
+
+    设$A=\Z^m \oplus \Z/p_1 \oplus \Z/p_2 \dots \Z/p_r$。因为$\Z^m$是投射的，所以只用考虑:
+    \begin{align}
+        \mathrm{Tor}_n(A,B)=\mathrm{Tor}_n(\Z/p_1,B)\oplus \mathrm{Tor}_n(\Z/p_2,B) \oplus \dots \mathrm{Tor}_n(\Z_r,B)
+    \end{align}
+    于是根据之前的例子我们知道结论成立。
+ \end{proof}
+ \begin{proposition}{}
+    $\mathrm{Tor}_1^\Z(\Q/\Z,B)$是$B$的挠子群。
+ \end{proposition}
+ \begin{proof}
+    可以想见，$\Z/p$提取出$B$中挠性为$p$的元素。$\Q/\Z$是其有限子群的滤过极限，并且每个优先子群都同构于某个$\Z/p$($p$不一定是素数。)
+    \begin{align}
+        \mathrm{Tor}_*^\Z(\Q/\Z,B)\cong \Colim \mathrm{Tor}_1^\Z(\Z/p,B)\cong \Colim({}_pB)=\cup_p\{b\in B:pb=0\}
+    \end{align}
+
+ \end{proof}
+ \begin{proposition}
+    如果$A$是一个无挠交换群，则$\mathrm{Tor}_n(A,B)$对于$n \neq 0$和Abel群$B$总是$0$。
+ \end{proposition}
+ \begin{proof}
+    $A$是有限生成子群的滤过余极限。然而$A$无挠意味着这些有限生成子群都是自由群。用Tor保滤过余极限即可。
+ \end{proof}
+ 如果$R$是交换环，则张量积有典范的同构，因此$\mathrm{Tor}_*(A,B)\cong \mathrm{Tor}_*(B,A)$.
+
+ \begin{corollary}{}
+    $\mathrm{Tor}_1^\Z(A,-)=0$等价于$A$无挠等价于$\mathrm{Tor}_1^\Z(-,A)=0$.
+ \end{corollary}
+ 但是Tor函子并非对于所有环都有这么好的性质。比如下面的例子就说明在$R=\Z/m$的情况下可能失败:
+ \begin{example}{}
+   设$R=\Z/m$,$A=\Z/d$。其中$d|m$。从而$A$是$R$模。
+
+   我们考虑$A$周期性的自由解消:
+   \begin{align}
+      \dots \to \Z/m \to Z/m \to \Z/m \to \Z/d
+   \end{align}
+   其中从$\Z/m$到$\Z/d$的映射是商映射，而$\Z/m$各自之间交替出现$d$和$m/d$。所以对于任何一个$\Z/m$模$B$，我们都有:
+   \begin{align}
+      \mathrm{Tor}_n^{\Z/m}(\Z/d,B)=\begin{cases}
+      B/dB,n=0\\ \{b\in B:db=0\}/(m/d)B,n \text{是奇数}\\ \{b \in B:(m/d)b=0\}/dB,n \text{是偶数且}>0
+      \end{cases}
+   \end{align}
+ \end{example}
+ 然而我们可以尝试对下面特殊的情况进行一些讨论。
+ \begin{example}{}
+   设$r$是$R$的一个左非零除子。即${}_rR=\{s \in R|rs=0\}$是$0$。对于每个$R$模$B$，记${}_rB=\{b \in B:rb=0\}$。用$R/rR$代替上述$\Z/p\Z$，用相同的计算办法可以算的:
+   \begin{align}
+      \mathrm{Tor}_0(R/rR,B)=B/rB;\quad \mathrm{Tor}_1^R(R/rR,B)={}_r B; \quad \mathrm{Tor}_n^R(R/rR,B)=0, n\geq 0
+   \end{align}
+ \end{example}
+ \begin{proposition}{}
+   若${}_r R\neq 0$,我们只能得到一个并非投射的解消:
+   \begin{align}
+      0 \to {}_r R \to R \stackrel{r}{\rightarrow} R \to R/rR \to 0
+   \end{align}
+   然而第二章我们介绍了dimension shelfting办法\ref{dim-Shifting}。所以我们对于$n \geq 3$,存在:
+   \begin{align}
+      \mathrm{Tor}_n^R(R/rR,B) \cong \mathrm{Tor}_{n-2}^R({}_r R,B)
+   \end{align}
+
+   其次，还有正合列:
+   \begin{align}
+      0 \to \mathrm{Tor}_2^R(R/rR,B) \to {}_rR \otimes B \to {}_rB \to \mathrm{Tor}_1^R(R/rR,B) \to 0
+   \end{align}
+   因为$\mathrm{Tor}_2^R(R/rR,B)$是$0 \to {}_rR\otimes B \to R\otimes B=B$的核。而该映射的像就在${}_r B$中，所以上述正合列中第一个和第二个已经确实成立。
+
+   考虑$\mathrm{Tor}_1(R/rR,B)$。根据导引长正合列：
+   \begin{align}
+      0 \to \mathrm{Tor}_1(R/rR,B) \to rR\otimes B \to B \to B/rB
+   \end{align}
+   为了定义${}_r B \to \mathrm{Tor}_1(R/rR,B)$.我们定义${}_r B \to rR\otimes B$.即$b \mapsto r \otimes b$。则该映射实际上打进$\mathrm{Tor}_1(R/rR,B)$.
+
+   若$\sum (rr_i)\otimes b_i \in \mathrm{Tor}_1(R/rR,B)$且在$B$中像为$\sum r(1\otimes r_ib_i)=0$,则${}_r B$中$\sum r_ib_i$的像是$\sum (rr_i)\otimes b_i$。于是我们定义了满射。
+
+   最后需要说明${}_r B$处的正合。若$r \otimes b=0$,则存在$r_i$和$b_i$使得$rr_i=0$,$b=\sum r_ib_i$.
+ \end{proposition}
+ \begin{proposition}{}
+   设$R$是交换整环，分式域$F$。则$\mathrm{Tor}_1^R(F/R,B)$是$B$的挠子群:$\{b \in B:(\exists r\neq 0)rb=0\}$
+ \end{proposition}
+ \begin{proposition}{}
+   $\mathrm{Tor}_1^R(R/I,R/J) \cong \dfrac{I\cap J}{IJ}$对于任何右理想$I$和左理想$J$都成立。特别的,对于双边理想$I$:
+   \begin{align}
+      \mathrm{Tor}_1(R/I,R/I)\cong I/I^2
+   \end{align}
+ \end{proposition}
+ \begin{proof}
+   % https://q.uiver.app/#q=WzAsMTYsWzAsMSwiMCJdLFsxLDEsIklKIl0sWzIsMSwiSSJdLFszLDEsIklcXG90aW1lcyBSL0oiXSxbNCwxLCIwIl0sWzEsMiwiSiJdLFsyLDIsIlIiXSxbMywyLCJSXFxvdGltZXMgUi9KIl0sWzAsMiwiMCJdLFs0LDIsIjAiXSxbMSwwLCIwIl0sWzEsMywiSi8oSUopIl0sWzIsMCwiMCJdLFsyLDMsIlIvSSJdLFszLDAsIlxca2VyIGkiXSxbMywzLCJSL0kgXFxvdGltZXMgUi9KIl0sWzAsMV0sWzEsMl0sWzIsM10sWzMsNF0sWzEsNV0sWzIsNl0sWzMsNywiaVxcb3RpbWVzXFxtYXRocm17aWR9Il0sWzgsNV0sWzUsNl0sWzYsN10sWzcsOV0sWzEwLDFdLFs1LDExXSxbMTIsMl0sWzYsMTNdLFsxNCwzXSxbNywxNV0sWzEwLDEyXSxbMTIsMTRdLFsxNCwxMSwiIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzExLDEzXSxbMTMsMTVdXQ==
+\[\begin{tikzcd}
+	& 0 & 0 & {\ker i} \\
+	0 & IJ & I & {I\otimes R/J} & 0 \\
+	0 & J & R & {R\otimes R/J} & 0 \\
+	& {J/(IJ)} & {R/I} & {R/I \otimes R/J}
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-4, to=2-5]
+	\arrow[from=2-2, to=3-2]
+	\arrow[from=2-3, to=3-3]
+	\arrow["{i\otimes\mathrm{id}}", from=2-4, to=3-4]
+	\arrow[from=3-1, to=3-2]
+	\arrow[from=3-2, to=3-3]
+	\arrow[from=3-3, to=3-4]
+	\arrow[from=3-4, to=3-5]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=3-2, to=4-2]
+	\arrow[from=1-3, to=2-3]
+	\arrow[from=3-3, to=4-3]
+	\arrow[from=1-4, to=2-4]
+	\arrow[from=3-4, to=4-4]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[dashed, from=1-4, to=4-2]
+	\arrow[from=4-2, to=4-3]
+	\arrow[from=4-3, to=4-4]
+\end{tikzcd}\]
+上图是蛇形引理\ref{snake}.验证$I/(IJ)$和$I \otimes R/J$有典范同构可以得出第一行正合。第二行则典范正合。
+
+ 最右边的列是计算$\mathrm{Tor}_1(R/I,R/J)$的定义式。感觉Dimesion Shifting,$\ker i$是$\mathrm{Tor}_1(R/I,R/J)$。根据snake引理，$\ker i$是$J/(IJ)  \to R/I$的核:$\dfrac{I\cap J}{IJ}$。
+ \end{proof}
+\section{Tor函子与平坦性}
+我们在这一节着重研究Tor函子的ayclic对象——平坦对象。
+\begin{definition}[平坦模]{flat-module}
+   称一个左$R$模是平坦模，若函子$\otimes_R B$是正合函子。同样,对于右$R$模,也可以定义类似的平坦性。
+\end{definition}
+如果$A$是投射的,则$\mathrm{Tor}_n(A,B)=0$。不难说明$A$此时是平坦的。因为投射模一定是平坦模。然而平坦模不一定是投射模。例如$\Q$作为交换群而言是平坦的,但不是投射的。（为什么？）
+\begin{theorem}{}
+   若$S$是$R$中的乘法封闭集,则$S^{-1}R$是一个平坦模。
+\end{theorem}
+这个定理当然很交换代数，不过影响不大，我们可以尝试证明:
+\begin{proof}
+   构造一个滤过范畴$I$。对象是$S$中的元素,态射$\Hom_I(s_1,s_2)=\{s \in S:s_1s=s_2\}$。定义函子$F:I \to R$。$F(s)=R$,$F(s_1 \to s_2)$则定义为$R$上该态射自然给出的右乘法。
+
+  
+我们断言$F$的余极限$\Colim F(s) \cong S^{-1}R$。从而因为$S^{-1}R$是平坦模的滤过余极限，所以其是平坦的。
+
+   下面计算$\Colim F$。首先定义$F(s) \to S^{-1}R$的映射为$r \mapsto r/s$.这样交换图显然成立：
+   % https://q.uiver.app/#q=WzAsMyxbMCwwLCJGKHNfMSk9UjpyIl0sWzEsMCwiRihzXzIpPVI6cnMiXSxbMCwxLCJTXnstMX1SOnIvc18xPXJzLyhzXzFzKT1ycy9zXzIiXSxbMCwxLCJzIl0sWzAsMl0sWzEsMl1d
+\[\begin{tikzcd}
+	{F(s_1)=R:r} & {F(s_2)=R:rs} \\
+	{S^{-1}R:r/s_1=rs/(s_1s)=rs/s_2}
+	\arrow["s", from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-1]
+\end{tikzcd}\]
+
+如果存在一个新的$B$使得余极限中关系成立，我们直接定义$S^{-1}R$中的元素$r/s$到$B$的态射为$F(s)=R$中$r$在$B$中的像即可。这是唯一的定义方式！
+\end{proof}
+\begin{proposition}[Tor和平坦]
+   下面三个命题等价:
+
+   (1)$B$是平坦模。
+
+   (2)$\mathrm{Tor}_n^R(A,B)=0,\forall n\neq 0$
+
+   (3)$\mathrm{Tor}_1^R(A,B)=0$
+\end{proposition}
+\begin{corollary}
+   若$0 \to A \to B \to C \to 0$是正合列且$B,C$是平坦模，则$A$平坦。
+\end{corollary}
+\begin{proposition}
+   设$R$是主理想整环，则$B$平坦等价于$B$无挠。
+\end{proposition}
+对于上述命题，我们给出一个反例。首先平坦显然无挠。但是无挠不一定平坦。设$k$是域且$R=k[x,y]$。$R$是经典的非主理想整环。设$I=(x,y)R$。考虑$k=R/I$有投射解消:
+\begin{align}
+   0 \to R \to R^2 \to R \to k
+\end{align}
+其中第一个$R$到$R^2$为$[-y,x]$.而$R^2$到$R$为$(x,y)$.从而$\mathrm{Tor}_1^R(I,k)\cong \mathrm{Tor}_2^R(k,k)\cong k$。于是$I$不是平坦模。
+
+我们深入的研究一下平坦模。
+\begin{definition}[Pontrjagin对偶]{Pontrjagi}
+   左模$B$的Pontrjagin对偶模$B^*$是一个右模:
+   \begin{align}
+      B^*:=\Hom_{\mathrm{Ab}}(B,\Q/\Z); (fr)(b)=f(rb)
+   \end{align}
+\end{definition}
+\begin{proposition}{}
+   下面的命题等价。
+
+   (1)$B$平坦。
+
+   (2)$B^*$内射。
+
+   (3)$I\otimes_R B\cong IB=\{x_1b_1+\dots+x_nb_n\in B:x_i\in I,b_i\in B\}$对于任何右理想$I$都成立。
+
+   (4)$\mathrm{Tor}_I^R(R/I,B)=0$对于任何右理想$I$都成立。
+\end{proposition}
+、
+\section{性质较好的环的Ext函子}
+\section{Ext函子与扩展性质}
+\section{逆向极限的导出函子}
+\section{泛系数定理}
+ \ifx\allfiles\undefined
+	
+	% 如果有这一部分的参考文献的话，在这里加上
+	% 没有的话不需要
+	% 因此各个部分的参考文献可以分开放置
+	% 也可以统一放在主文件末尾。
+	
+	%  bibfile.bib是放置参考文献的文件，可以用zotero导出。
+	% \bibliography{bibfile}
+	
+	end{document}
+	\else
+	\fi

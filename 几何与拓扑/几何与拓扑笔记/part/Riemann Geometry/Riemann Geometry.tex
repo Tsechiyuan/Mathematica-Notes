@@ -1,0 +1,1294 @@
+\ifx\allfiles\undefined
+
+	% 如果有这一部分另外的package，在这里加上
+	% 没有的话不需要
+	
+	\begin{document}
+\else
+\fi
+\part{黎曼几何}
+\chapter{黎曼流形与张量基础操作}
+\section{黎曼流形定义}
+
+\begin{definition}
+    $M$，$g \in \Gamma(\otimes^{(0,2)}TM)$。若$g$满足对称性，$g(X,Y)=g(Y,X)$，正定性$g(X,X)\geq 0$且只在$X=0$时取得等号。
+
+    我们常常记为$g=g_{ij}dx^idx^j$。
+\end{definition}
+\begin{theorem}
+任一微分流形上总存在Riemann度量。
+\end{theorem}
+\begin{proof}
+    找一个局部有限的可数坐标覆盖$(U_\alpha,\varphi_\alpha)$，由单位分解，存在$\{f_\alpha\}$使得$\mathrm{supp}f_\alpha \subset U_\alpha$且$\{\mathrm{supp}f_\alpha\}$局部有限。并且$\sum_{\alpha \in \N}f_\alpha=1$。
+
+    在$U_\alpha$上取$\tilde{g_\alpha}=\sum_{i=1}^n dx_\alpha^i \otimes dx_\alpha^i$。
+
+    定义:
+    $$
+    g_\alpha(p)=f_\alpha(p)\tilde{g_\alpha(p)}, p \in U_\alpha.
+    $$
+
+    定义$g=\sum_{\alpha \in \N}g_\alpha$。则$g$显然良定且满足对称性和光滑性。下面验证正定性。
+
+    $\forall  p \in M$,$1=\sum f_\alpha(p)$。存在$i \in \N$,使得$g_p(X_p,X_p)\geq f_\alpha(p)\tilde{g_\alpha}(X_p,X_p)$且$f_\alpha(p)>0$。从而左式等于$0$意味着右边为0，因此$X_p=0$.
+\end{proof}
+黎曼流形的构造办法有很多，比如:
+\begin{enumerate}
+    \item $(M,g)\times (N,h) :=(M\times N,g+h)$
+    \item $f:M\to (N,h)$是浸入，即$f_*$是单射。则$(M,f^*h)$是Riemann流形。
+\end{enumerate}
+\begin{example}[$\R^{n+1}$中的超曲面]
+    $f:M^n \to (\R^n,g_E)$，局部坐标系为$(U,u^i)$。设:
+    $$
+    f(u^1,\dots,u^n)=(f^1(u^1,\dots,u^n),\dots,f^{n+1}(u^1,\dots,u^n))
+    $$
+    则:
+    $$
+    f^*(g_E)|_U=f^*(\sum_{i=1}^{n+1} (dx^i)^2)=\sum_{i=1}^{n+1}df^i \otimes df^i=\sum_{i=1}^{n+1} (\frac{\partial f^i}{\partial u^s}du^s)(\frac{\partial f^i}{\partial u^t}du^t)=\sum_{i=1}^{n+1}(\frac{\partial f^i}{\partial u^s}\frac{\partial f^i}{\partial u^s})du^sdu^t    
+    $$
+\end{example}
+\begin{example}[球面]
+    设球面为$S^n(a)=\{x\in \R^{n+1}||x|=a\}$。$N=(0,0,\dots,a)$,$S=(0,0,\dots,-a)$。局部坐标取球极投影:
+    $$
+    U_{+} =S^n(a) \setminus S                \quad U_{-}=S^n(a)\setminus N
+    $$
+
+\end{example}
+\begin{example}[Minkowski空间]
+    $\R^{n+1}$，$L=\sum_{i=1}^n(dx^i)^2-(dx^{n+1})^2$.
+
+    这个度量下的球面为:
+    $$
+    \{x \in \R^{n+1}|\langle x,x \rangle _L=-a^2,x^{n+1}>0\}
+    $$
+    即可得到:
+    $$
+    (x^1)^2+\dots+(x^n)^2+a^2=(x^{n+1})^2
+    $$
+    这是一个双曲的一支。
+\end{example}
+\begin{definition}[等距]
+设$f:(M,g) \to (N,h)$是微分同胚。若$g=f^*h$，则称$f$是等距映射。若$f$为嵌入，则称$f$为等距映射。
+\end{definition}
+浸入的条件是不需要的。因为$f_*(X)=0$，则$g(X,X)=h(f_*(X),f_*(X))=0$。则$\mathrm{Iso}(M,g)$是其对称群。对称群越大的黎曼流形性质越好。
+
+\begin{definition}[共形变换]
+    $(M,g)$是黎曼流形。若微分同胚$f$满足$f^* g=\lambda g,\lambda \in C^{\infty}(M,\R)$，则称其为共形变换。若$\lambda$是常数，称之为相似变换。
+\end{definition}
+\begin{example}
+    例如$S^n$的共形变换集合$\mathrm{Conf}(S^n)$由平移，旋转，相似，反演组成。
+    
+    反演可查阅wiki相关词条。
+\end{example}
+\begin{example}
+    例如双曲空间的共形变换。我们考虑上半平面$\mathbb{H}$,就有:
+    $$
+    f(z)=\frac{z-i}{z+i}:\mathbb{H} \to D^2
+    $$
+\end{example}
+\section{体积形式}
+回忆欧氏空间$\R^n$。若存在$n$个向量$v_1,\dots,v_n$，其平行的移动到$0$处后包裹形成了一个多面体。多面体的体积为:
+\begin{align*}
+    \mathrm{vol}(v_1,\dots,v_n)=\mathrm{det}(g(v_i,e_j))=\mathrm{det}([v_1,\dots,v_n][e_1,\dots,e_n]')=\mathrm{det}(v_1,\dots,v_n)
+\end{align*}
+在黎曼流形上，我们可以如法炮制的定义$n$体积形式:
+\begin{align*}
+    \mathrm{vol}_g(v_1,\dots,v_n)=\mathrm{det}[g(v_i,e_j)]
+\end{align*}
+其中，$e_1,\dots,e_n$是$p$处的正定向的标准正交基。于是这要求黎曼流形$M$是可定向的。
+
+在可定向的黎曼流形上我们可以对体积形式积分。因为此时可以定义局部的正交正规基,从而对于向量场$X_1,\dots,X_n$，在局部上有:
+\begin{align*}
+    \mathrm{vol}_p(X_1,\dots,X_n)=\mathrm{vol}(X_{1p},\dots,X_{np})
+\end{align*}
+定义积分:
+\begin{align*}
+    \int_M f \cdot \mathrm{vol}\text{即可}
+\end{align*}
+
+因为体积形式在行列式为$1$的矩阵变换下保持不变。而可定向允诺我们可以在全局上用若干相容的局部覆盖定义不变的体积形式。
+
+对于不可定向的黎曼流形，我们介绍引理:
+\begin{lemma}
+    任何流形$M$都包含一个稠密的开子集$O \subset M$使得$TO=O \times \R^n$是平凡切丛。从而$O$是可定向的流形。
+\end{lemma}
+\begin{proof}
+    参见\href{https://math.stackexchange.com/questions/18083/is-every-compact-n-manifold-a-compactification-of-mathbbrn}{Mse链接}
+
+    证明的过程需要用到测地线和指数映射。以及紧流形的exp是满射。总之并非现在可以掌握的。我们略去说明。
+\end{proof}
+从而我们可以选择$O$上的正交正规基。从而对于$f \in C^\infty(M)$，我们仅需要计算积分:
+\begin{align*}
+    \int_M f \mathrm{vol}=\int_O f|_O \mathrm{vol}
+\end{align*}
+\section{群与黎曼流形}
+对于$(M,g)$定义$\mathrm{Iso}(M)$为$M$的等距同胚群。定义$\mathrm{Iso}_p$是$M$中保持$p$不动的等距同胚群。称$M$是齐次的（均匀的），若其等距群作用传递：$\forall p,q \in M, \exists f\in \mathrm{Iso}(M),f(q)=p$。
+
+我们给出三个黎曼流形的等距群。正如之前说的，等距群大的黎曼流形是很少的。大多数等距群都是平凡的。
+\begin{example}[$\R^n$]
+    我们断言:
+    \begin{align*}
+        \mathrm{Iso}(\R^n)=\R^n \ltimes O(n)=\{F:F(x)=v+Ox\}
+    \end{align*}
+    显然右边的元素都是等距同胚。考虑任何一个等价同胚$G$，我们不妨假设$G(0)=0$（平移），则$G(x)$在$0$点处的$DG_0 \in O(n)$。
+
+    根据黎曼等距的唯一性定理，$DG_0$和$G(x)$在$0$处取值相同，且切映射相同，则$G(x)=DG_0$。
+
+    如果保持$p$不变，自然$\mathrm{Iso}$退化为$\mathrm{Iso}_p=O(n)$。
+\end{example}
+\begin{proposition}
+    任何齐次的流形都可以被写为$M=\mathrm{Iso}/\mathrm{Iso}_p$.
+\end{proposition}
+
+\begin{example}[$S^n$]
+    接下来我们说明$S^n$的等距群。
+    \begin{align*}
+        \mathrm{Iso}(S^n)=O(n+1)=\mathrm{Iso}_0(\R^{n+1})
+    \end{align*}
+    显然$O(n+1) \subset \mathrm{Iso}(S^n)$。对于$F \in \mathrm{Iso}(S^n)$，考虑线性映射:
+    \begin{align*}
+        O=[ F(e_1),DF|_{e_1}(e_2),\dots,DF|_{e_1}(e_{n+1})]
+    \end{align*}
+    矩阵$O$的第一列与后面所有列都垂直。这是因为$DF|_{e_1}(e_i) \in T_{F(e_1)}S^n=F(e_1)^{\bot}$。同时，由于$F$是等距，所以$\langle DF|_{e_1}(e_i),DF|_{e_1}(e_j)\rangle=\delta_{ij}$。
+
+    因此$O$是正交矩阵。并且$O$与$F$，$DF$在$e_1$处都相同，于是$O=F$。
+
+    同样，我们有经典的结论$S^n=O(n+1)/O(n)$。
+\end{example}
+\begin{example}[双曲空间]
+    双曲空间的等距群构造方式与欧氏相同，均为线性的矩阵。
+\end{example}
+\section{张量简介}
+张量的基础操作:缩并 升标降标 向量与余向量的关系。
+\chapter{微分}
+\section{Lie微分}
+\subsection{Lie微分的定义}
+我们首先定义函数$f \in C^\infty(M)$的直接微分:
+\begin{align*}
+    \nabla_Y f=D_Y f=df(Y)=Y(f)
+\end{align*}
+
+如果给定函数$f$,则有切映射$df:TM \to R$。局部上，有:
+\begin{align*}
+    df=\partial_i (f)dx^i
+\end{align*}
+如果此时存在度量$g$,则可以定义梯度余向量场（注意，没有度量的情况下，直接定义只能写出向量，因此定义不出梯度）：
+\begin{align*}
+    g(v,\nabla f)=df(v),\forall v \in TM \Rightarrow g(\partial_i,\nabla f)=g_{ij}f^j=df(\partial_i)=\partial_i(f) \Rightarrow \nabla f=g^{ij}\partial_i(f)\partial_j
+\end{align*}
+
+Lie微分一般看作沿着某个向量场对张量进行求导运算。因此我们常常把Lie微分记为:$L_X$。具体的，对于不同形式的张量，我们有不同的定义。但是其都来源于以$X$为流的一阶泰勒展开。
+
+考虑$F^t:I \times M \to M$是流，其满足$F(0,p)=p$并且$F'(0,p)=X_p$。$X$是$F$诱导的$M$上的向量场。
+
+设$f$是数值函数。此时我们令下面的等式成立，从而根据泰勒展开解出$L_X$
+\begin{align*}
+    f(F^t(p))=f(p)+tL_X f+o(t) \Rightarrow L_X f=\lim_{t \to 0}\frac{f(F^t(p))-f(p)}{t}=X_p f=(Xf)_p
+\end{align*}
+\begin{definition}
+    数值函数$f$对向量场$X$的Lie微分定义为数值函数$L_X f=D_X f=df(X)=Xf$
+\end{definition}
+设$Y$是向量场。$Y|_{F^t}$并非是$p$处的向量，因此难以做加减。为此，我们把打过去的向量场再用$F^{-t}$射回来。定义在$T_p M$中的道路:
+\begin{align*}
+    t \mapsto DF^{-t}(Y|_{F^t(p)})=Y_p+t(L_X Y)_p+o(t) \Rightarrow L_X Y=\lim_{t \to 0}\frac{DF^{-t}(Y|_{F^t(p)})-Y_p}{t}
+\end{align*}
+计算：
+\begin{align*}
+    DF^{-t}(Y|_{F^t(p)})&=Y_p+t(L_X Y)_p+o(t)\\
+    Y|_{F^t(p)}-DF^t(Y_p)&=tDF^t[(L_X Y)_p]+o(t)\\
+    D_{Y|_{F^t}-DF^t(Y)}f&=D_{Y|_{F^t}}f-D_{DF^t(Y)}f=Y(f) \circ F^t-Y(f \circ F^t)\\&=D_Yf+tD_X D_Y f+o(t)-D_Y(f+tD_X f+o(t))=tD_{[X,Y]}f+o(t)
+\end{align*}
+\begin{definition}
+    向量场$Y$对向量场$X$的Lie微分定义为向量场$L_X Y=[X,Y]$
+\end{definition}
+
+对于$(0,k)$型张量，Lie微分的定义是:
+\begin{align*}
+    (F^t)^* T=T+t L_X T+o(t)
+\end{align*}
+计算$k=1$的情况:
+\begin{align*}
+    T(DF^t(Y))=T(Y|_{F^t}-tDF^t(L_X Y))+o(t)&=T(Y|_{F^t})-tT(DF^t(L_X Y))+o(t)\\&=T(Y) \circ F^t-tT(DF^t(L_X Y))+o(t)\\&=T(Y)+t[D_X T(Y)-T(DF^t(L_X Y))]+o(t)
+\end{align*}
+求极限，自然有:
+\begin{align*}
+    (L_X T)Y=D_X(T(Y))-T(L_X Y)
+\end{align*}
+\begin{definition}
+    $(0,k)$型张量$T$对向量场$X$的Lie微分定义为$(0,k)$型张量$L_X T$:
+    \begin{align*}
+        L_X T(Y_1,\dots,Y_n)=D_X(T(Y_1,\dots,Y_n))-\sum_{k=1}^n T(Y_1,\dots,L_X Y_i,\dots,Y_n)
+    \end{align*}
+\end{definition}
+
+自然存在问题:对于$X$而言，$L_{fX}$与$L_X$的联系是什么？
+\begin{proposition}
+    设$T$是$(0,k)$张量。$X$是向量场。则:
+    \begin{align*}
+        L_{fX}T(Y_1,\dots,Y_n)=fL_X T(Y_1,\dots,Y_n)+\sum_{k=1}^n (L_{Y_i}f) T(Y_1,\dots,X,\dots,Y_n)
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+         L_{fX}T(Y_1,\dots,Y_n)&=D_{fX}T(Y_1,\dots,Y_n)-\sum_{k=1}^n T(X_1,\dots,[fX,Y_i],\dots,Y_n)\\&=fD_XT(Y_1,\dots,Y_n)-f\sum_{k=1}^n T(Y_1,\dots,L_X Y_i,\dots,Y_n)+\sum_{k=1}^n (L_{Y_i}f) T(Y_1,\dots,X,\dots,Y_n)
+    \end{align*}
+    证毕。
+\end{proof}
+
+\begin{lemma}
+    若$X$在$p$处为$0$,则$L_X T$在$p$处的值仅与$T$本身有关。
+\end{lemma}
+\begin{proof}
+    显然。
+\end{proof}
+我们还可以对于任何张量定义Lie微分。
+\begin{definition}
+     $(p,q)$型张量$T$对向量场$X$的Lie微分定义为$(p,q)$型张量$L_X T$:
+     \begin{align*}
+        L_X T(\alpha_1,\dots,\alpha_p,Y_1,\dots,Y_q)=D_X T(\alpha_1,\dots,\alpha_p,Y_1,\dots,Y_q)-\sum_{i=1}^p L_{T(\alpha_1,\dots,\hat{\alpha_i},\dots,\alpha_p,Y_1,\dots,Y_q)}\alpha_i(X)-\\ \sum_{j=1}^q T(Y_1,\dots,L_X Y_i,\dots,Y_q)
+     \end{align*}
+\end{definition}
+
+\begin{theorem}[广义雅可比恒等式]
+    记符号$(L_X L)_Y T=L_X L_Y T-L_YL_X T-L_{L_X Y}T$.我们断言，$(L_X L)_Y T=0$对于任何向量场$X$和$Y$都成立。
+\end{theorem}
+\begin{proof}
+    $(L_X L)_Y T==L_X L_Y T-L_YL_X T-L_{L_X Y}T=[L_X,L_Y]T-L_{[X,Y]}T$.
+
+    我们只需要验证$T$为函数，向量场，余向量场时成立。这一点我们不再赘述。
+    
+    其余我们有如下引理.
+\end{proof}
+\begin{lemma}
+    Lie导数的对张量的张量积运算保持莱布尼兹公式。即:
+    \begin{align*}
+        L_X(T_1\otimes T_2)=(L_X T_1)\otimes T_2+T_1\otimes L_X T_2
+    \end{align*}
+\end{lemma}
+\begin{proof}
+    仅仅只是数量函数莱布尼兹公式的推广。
+\end{proof}
+\subsection{李导数与度量}
+我们在这里引入Hession的概念。
+\begin{definition}
+    对于函数$f$,黎曼流形$(M,g)$。定义一个$(0,2)$阶张量场:
+    \begin{align*}
+        \mathrm{Hess}f(X,Y)=\frac{1}{2}L_{\nabla f g}(X,Y)
+    \end{align*}
+    注意这里我们对$(0,2)$阶度量$g$做Lie导数，得到$(0,2)$阶张量场。
+\end{definition}
+
+我们在欧氏空间中也有对Hession矩阵。那是对函数$f$定义的矩阵。令$g_{ij}=\delta_{ij}$。我们计算:
+\begin{align*}
+    \mathrm{Hess}f(\partial_i,\partial_j)&=\frac{1}{2}L_{\nabla f g}(\partial_i,\partial_j)\\&=\frac{1}{2}(D_{\nabla f}\delta_{ij}-g([\nabla f,\partial_i],\partial_j)-g(\partial_i,[\nabla f,\partial_j]))\\&=-1/2[\nabla f,\partial_i](dx^j)-1/2[\nabla f,\partial_j](dx^i)\\&=\partial_{ij}f
+\end{align*}
+\section{联络}
+为了对向量场做求导，首先需要在$T_p M$和$T_q M$上建立同构的结构。$\R^n$自然有这样的结果，然而对于一般的流形$M$，这是不自然的。这样的结构来自于所谓的“联络”。
+
+切丛上的联络叫做“放射联络”。
+
+\begin{definition}[放射联络]
+    设$\Delta: \Gamma(TM) \times \Gamma(TM) \to \Gamma(TM)$满足:
+
+    (1)$\Delta_{Y+fZ}X =\Delta_Y X+f\Delta_Z X$
+
+    (2)$\Delta_Y (X+\lambda Z)=\Delta_Y X+\lambda \Delta_Y Z,\lambda \in \R$
+
+    (3)$\Delta_Y (fX)=Y(f)X+f\Delta_Y X, f \in C^{\infty}(M)$
+\end{definition}
+\begin{proposition}[基本性质]
+    \begin{enumerate}
+        \item 1.$\lambda \Delta^1 +\mu \Delta^2,\lambda+\mu=1$仍是联络。
+        \item 2.联络不是张量场，但两个联络的差是张量场。只需要验证其对第二个分量有函数线性。
+        $$
+        (\Delta^1 -\Delta^2)(X,fY)=\Delta_X^1(fY)-\Delta_Y^1(fY)=f(\Delta_X^1 Y-\Delta_X^2 Y)
+        $$
+    \end{enumerate}
+    \end{proposition}
+    \begin{definition}
+        称$\Delta_X Y$为光滑向量场$X$沿着$Y$的协变导数。
+    \end{definition}
+
+    协变导数是局部性的。$(M,D)$是仿射联络，$X,Y,\tilde{X},\tilde{Y} \in \Gamma(TM)$,$U$是$M$的非空子集，且$X|_U=\tilde{X}|_U$，$Y|_U=\tilde{Y}|_U$，则:
+    $$
+    (D_X Y)|_U=(D_{\tilde{X}})\tilde{Y}|_U
+    $$
+    
+    现在设$(U,x^i)$是局部坐标系，给出记号:
+    $$
+    D_{\frac{\partial}{\partial x^i}}\frac{\partial }{\partial x^j}=\Gamma_{ij}^k \frac{\partial}{\partial x^k}
+    $$
+
+    计算$D_X Y$如下:
+    $$
+    D_X Y=Y^j (\frac{\partial X^i}{\partial x^j}+X^k \Gamma_{kj}^i)\frac{\partial}{\partial x^i}
+    $$
+    
+    $D_X Y$仅仅要知道$X$沿着$\sigma(t)$的取值。
+    \begin{proposition}[联络系数的变换规律]
+         设另一个局部坐标为$(\tilde{U},\tilde{x^i})$.则:
+         $$
+         \Gamma_{ij}^k \frac{\partial \tilde{x}^r}{\partial x^k }=\tilde{\Gamma_{pq}^r} \frac{\partial \tilde{x}^p}{\partial x^i}\frac{\partial \tilde{x}^q}{\partial x^j}+\frac{\partial^2 \tilde{x}^r}{\partial x^i\partial x^j}
+         $$
+    \end{proposition}
+
+    现在我们定义Hessian:
+    $$
+    \Delta^2_{X,Y}f=YXf-\Delta_Y X f
+    $$
+    这是一个$(0,2)$张量场，但可以知道这不是一个对称的表达式。
+    
+    计算:
+    $$
+    \Delta_{X,Y}^2 f-\Delta_{Y,X}^2 f=(\Delta_X Y-\Delta_Y X)-[X,Y]
+    $$
+    此谓之挠率，即定义：
+    $$
+    T(X,Y)=\Delta_X Y-\Delta_Y X-[X,Y]
+    $$
+    可以验证这是一个$(1,2)$张量。一般我们默认$T\equiv 0$。
+
+    我们还想要对张量场求导。我们要求求导的时候起码满足保持类型和leibiniz法则。
+
+    设$\alpha$是一个1形式即$\alpha \in \Gamma(T^*M)$,我们还希望对余切向量场求导，并且希望其和“配合”交换:
+    $$
+    (\Delta_X \alpha)(Y)=X \alpha(Y)=(\Delta_X \alpha)Y+\alpha(\Delta_X Y)
+    $$
+
+    \begin{definition}
+        设$T: T^*M \times \dots T^*M \times TM \times \dots TM \to \R$是一个张量场。固定$X$是一个向量场。
+    \end{definition}
+    
+    子流形上可以诱导联络。定义$M \to (\overline{M},\overline{\Delta})$是浸入。因为$T_p M$是$T_p\overline{M}$的线性子空间，所以可以直接延拓:
+    $$
+    \Delta_X Y=(\overline{\Delta_{\overline{X}}}\overline{Y})^T
+    $$
+    \section{黎曼流形基本定理}
+    \begin{theorem}
+       设$(M,g)$是黎曼流形，$M$存在唯一一个与$g$相容的无挠联络。
+    \end{theorem}
+    
+    \section{平行移动}
+    \begin{definition}
+        设$(M,g)$是一个$m$维仿射联络空间，$\gamma:[a,b]\to M$是光滑曲线。$X \in \Gamma(M)$。若沿着曲线$\gamma$有$D_{\gamma'}X=0$，则称$X$沿着曲线$\gamma$是平行的。
+    \end{definition}
+    由于联络具有局部性，所以$D_{\gamma'}X$只与$X$在$\gamma$上的值有关。
+
+    \chapter{曲率}
+    $f \in C^{\infty}(M)$.
+    \chapter{测地线}
+
+    
+    \section{指数映射}
+    \begin{proposition}[指数映射的性质]
+        \begin{enumerate}
+            \item 指数映射诱导的映射在$0$处是微分同胚。
+            \item 取紧集合$K \subset M$，存在$\epsilon$使得紧集:
+            $$
+            \forall p ,\exp_p:B_p(\epsilon) \to M
+            $$
+            是嵌入。
+        \end{enumerate}
+    \end{proposition}
+    \begin{proposition}
+        设$v \in B_p(\epsilon)$，$\xi(t)$是
+    \end{proposition}
+    \begin{proposition}
+        设$M$是黎曼流形。$(M,g)$。则
+        \begin{enumerate}
+            \item 设$\exp_p:B_p(\delta)\subset T_pM\to B_{\delta}(p):=\exp(B_p(\delta))\subset M$为微分同胚，$P,Q\in B_{\delta}(p)$。$\sigma$是连接$P,Q$的光滑分段曲线，则:
+            $$
+            L(\sigma)\geq ||\exp_p^{-1}(P)|- |\exp_p^{-1}(Q)||
+            $$
+            \item 任给$q \in B_{\delta}(p)$，成立$|\exp_p^{-1}q|=d(p,q)$。即连接$p,q$的经向测地线为最短线。
+        \end{enumerate}
+    \end{proposition}
+    \begin{proof}
+        设$\sigma$是连接$P,Q$的分段光滑曲线。不妨设其是光滑的。记$\xi(s)=\exp_p^{-1}\sigma(s)$。则$\xi(s)$是$B(\delta)$中的连接$\exp_p^{-1}(P)$,$\exp_p^{-1}(Q)$的曲线。定义:
+        $$
+        \gamma:[0,1]\times [a,b] \to M \quad (t,s) \mapsto \exp_p[t\xi(s)]
+        $$
+        记$L(s)=L(\gamma_s)$。则:
+        $$
+        \gamma_s:[0,1] \to M \quad t \mapsto \exp_p(t\xi(s))
+        $$
+
+        根据弧长第一变分公式:
+        \begin{align*}
+            L'(s)=
+        \end{align*}
+    \end{proof}
+    \begin{remark}
+        由于指数映射是光滑的，以及$T_pM$的范数$\|\cdot\|$在$T_pM-\{0\}$上的光滑性，距离函数:
+        $$
+        d_p: B_{\delta}(p) \to \R \quad q \to d(p,q)=|\exp_p^{-1} q| 
+        $$
+        不一定在大范围光滑，只能在局部光滑。
+    \end{remark}
+    现在考虑等值面$d(p,q)=\delta$。在$\delta$比较小的时候，其面上的法向量与$f$梯度有什么关系呢？
+
+    考虑$f:M \to \R$，若$|\triangledown f|\neq 0$,$f^{-1}(c)$是$m-1$维的子流形。现在考虑$n_p$是$N$的法向量。于是任意$X \in T_p N$，有:
+    $$
+    \langle X,n_p\rangle =0=\langle X ,\triangledown f\rangle=Xf=Xc=0
+    $$
+    从而梯度$\triangledown f$就是法向量。
+
+    于是$d_p(\sigma(s))=L(\gamma_s)$，$\gamma_s$是$p$到$\sigma(s)$的经向测地线。
+
+    \begin{lemma}[Gauss]
+        经向测地线与小半径的测地球面正交。
+    \end{lemma}
+    \section{完备性:度量完备与测地线完备}
+    我们想要知道，测地线真的找的到吗？
+    \begin{definition}
+        设$(M,g)$为黎曼流形，$d$为诱导度量。若$(M,d)$是完备的，即Cauthy列收敛，则称$(M,g)$是完备黎曼流形。
+    \end{definition}
+    \begin{lemma}
+        设$(M,g)$为完备的黎曼流形，则:
+        \begin{enumerate}
+            \item $M$中的测地线均可向两端无限延长，即测地线方程的解可延拓至整个$\R$。
+            \item 任给$p,q \in M$，均存在最短线连接它们。即测地线完备。
+        \end{enumerate}
+    \end{lemma}
+    \begin{proof}
+        (1)设$\sigma$是以弧长为参数的测地线。$(a,b)$为最大存在区间。我们要证明$(a,b)$是$(-\infty,+\infty)$。
+
+        利用反证法。假设$b<+\infty$。由于$d(\sigma(s),\sigma(t))\leq |s-t|$。再利用$(M,g)$的完备性，则$t \to b$,$\sigma(t) \to q \in M$。根据前面的引理，存在$\epsilon>0$以及$q$的开邻域$U$使得$ p\in U$时，指数映射$\exp_p:B_p(\epsilon)\to M$是嵌入。取$|t_0 -b|<\epsilon/2$，$\gamma(t_0)\subset U$，于是存在测地线$\tau:[0,\epsilon] \to M$使得$\tau(0)=\gamma(t_0)$,$\tau(0)=\gamma'(t_0)$。这样测地线就延长了。矛盾！
+
+        (2)固定$p$，令$R=\{\sup r| \mathrm{if}\ d(p,q)<r, \mathrm{then\ exists\ geodesic\ connecting}\ p\ \mathrm{and}\ q\}$。我们自然想要证明$R=+\infty$。
+
+        当$p,q$距离较近时，$p,q$之间存在最短线。因此$R>0$。利用反证法，我们假定$R<+\infty$。
+
+        先证明当$d(p,q)=R$时，存在最短线连接$p,q$。事实上，由距离的定义,存在连接$p,q$的分段光滑曲线（弧长参数）使得当$i \to \infty$,$L(\gamma_i) \to R$。当$i$充分大的时候，记$q_i=\gamma_i(R-1/i)$,则$d(q_i,q)\leq L(\check{\gamma_i})=L(\gamma_i)-L(\hat{\gamma_i})=L(\gamma_i)-R+1/i \to 0$.
+
+        同时，由于$d(p,q_i)<R$，则根据$R$定义知存在连接$p,q_i$的最短线$\sigma_i$。$\sigma_i'(0)$是$T_pM$的单位向量。由于$T_pM$中单位球的紧性，不妨设$\sigma_i'(0)\to v \in T_pM$。
+
+        根据(i)的结论，存在从$p$出发的测地线$\sigma:[0,R] \to M$使得$\sigma'(0)=v$。根据测地线关于初值的光滑依赖性，$\sigma_i \to \sigma$。特别的，$\sigma(R)=\lim_{i \to \infty}\sigma_i(R)=q$。
+
+        这样意味着$S_R(p):=\{q\in M,d(p,q)=R\}\subset \exp_p(B_p(R))$,$B_p(R)$是所有长度小于$R$的切向量的集合。显然$S_R(p)$是紧集，根据引理，存在$\epsilon$使得当$x \in S_R(q)$时，对于$\forall y \in B_{\epsilon}(x)$时，有最短线连接$x,y$。
+
+        设$q \in M$，$d(p,q)\leq R+\epsilon$。我们说明存在最短线连接$p,q$。
+
+        因为$S_R(p)$是紧集，存在$q' \in S_R(p)$使得$d(q,q')=d(q,S_R(p))$。断言：
+        $$
+        d(p,q)=d(p,q')+d(q',q)
+        $$
+        事实上，任取$p,q$的分段光滑曲线。设$\gamma(t_0) \in S_R(p)$是，则:
+        $$
+        L(\gamma)\geq d(p,\gamma(t_0))+d(\gamma(t_0),q)\geq R+d(q,S_R(p))=R+d(q,q')
+        $$
+    \end{proof}
+    \begin{theorem}[Holf-Rinow]
+        设$(M,g)$是黎曼流形，则下面几条论述等价。
+        \begin{enumerate}
+            \item $(M,g)$是度量完备的。
+            \item 任给$p \in M$，$\exp_p$定义在整个$T_pM$上。
+            \item 存在$p \in M$，使得$\exp_p$定义在整个$T_pM$上。
+            \item $M$中有界闭集都是紧集。
+        \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+        (1)推导(2)已经证明。(2)推导(3)显然。
+        
+        (3)推导(4):由上一个引理，对于任意$q \in M$,均存在连接$p,q$的最短线。因此若$A$是有界闭集，则存在$K>0$使得:
+        $$
+        A\subset \{q \in M|d(p,q)\leq K\} \subset \exp_p(\{w\in T_p M|\|\omega\|\leq K\})
+        $$
+        这说明$A$是紧集合的闭子集，从而也使紧集合。
+
+        (4)推导(1)：设$\{q_i\}$是Cauthy列，$\overline{\{q_i\}}$是$M$中的有界闭集。$\overline{\{q_i\}}$是紧集，从而是列紧的，从而$(M,g)$完备。
+    \end{proof}
+    \begin{corollary}
+        设$M$上存在一个逆紧的Lipschiztz函数$f:M \to \R$，则$M$是完备的。
+    \end{corollary}
+    \begin{corollary}
+        $G$是紧的Lie群，则$\exp: \mathfrak{g}\to G$是满射。在$G$上取双不变度量$g$，则$\exp_e^g=\exp$。
+    \end{corollary}
+    \begin{example}
+        欧氏空间的测地线是直线。双曲空间中的测地线一直延申都是最短线。但球面就不是如此。这与变分中其他线与测地线的距离相关。
+    \end{example}
+\section{}
+\begin{definition}
+    $(M,g)$是黎曼流形，$p \in M$，$v,w \in T_pM$。$\xi(s)=v+sw$是$T_pM$中从$v$出发的曲线。$\xi(s)=w$。由切映射定义:
+    $$
+    (\exp_p)_{*v}(w)=\dfrac{d}{ds}|_{s=0}\exp(\xi(s))=\dfrac{d}{ds}|_{s=0}\exp(v+sw)
+    $$
+    若$w=\lambda v$，则$\gamma(t)=\exp_p(tv)$。则:
+    $$
+    \exp_p(v+sw)=\exp_p(1+\lambda s )v=\gamma(1+\lambda s)
+    $$
+\end{definition}
+\section{Jacobbi场}
+\section{常曲率空间Jacobi场方程的解}
+设$(M,g)$截面曲率为$k$($k$为常数)。即
+\begin{align*}
+    \frac{R(X,Y,Y,X)}{|X|^2|Y|^2-\langle X,Y \rangle^2}=K(X\wedge Y)=k\\
+    R(X,Y)Z=k(\langle Y,Z\rangle X-\langle X,Z\rangle Y)\\
+    R(X,Y,Z,W)=k(\langle X,W \rangle\langle Y,Z \rangle-\langle X,Z\rangle \langle X,Z\rangle \langle Y,W\rangle)
+\end{align*}
+
+设$\gamma$是$M$中的正规测地线，$U$为沿着$\gamma$的正常Jacobi场，且$U(0)=0$。
+
+于是Jacobi方程写为：
+\begin{align}
+    \ddot{U}=R(\dot{r},U)\ddot{r}=-kU 
+\end{align}
+设$e(t)$是沿着$\gamma$平行的向量场，$e(0)=\ddot{U}(0)$。设$f(t)$满足:
+\begin{align}
+    \ddot{f}(t)+kf(t)=0, f(0)=0,f'(0)=1
+\end{align}
+则$f(t)e(t)$是上述方程的唯一解。方程的解称为广义正弦函数，表达式为:
+\begin{align*}
+    \mathrm{sn}_k(t)=\frac{1}{\sqrt{k}}\sin(\sqrt{k}t),k>0;t,k=0;\frac{1}{\sqrt{-k}}\sinh (\sqrt{-k}t),k<0
+\end{align*}
+
+\begin{definition}[空间形式]
+    连通完备的常曲率黎曼流形，且$K_{\lambda g}=\frac{1}{\lambda}K_g$。
+\end{definition}
+\begin{theorem}
+    设$(M,g)$和$(\overline{M},\overline{g})$为相同维数的单连通空间形式，截面曲率为相同的常数，则存在等距同构$\varphi:M \to \overline{M}$。
+\end{theorem}
+\section{二次变分公式及其应用}
+\subsection{第二变分公式的推导}
+之所以考虑二阶变分，是因为测地线是长度泛函的临界点。然而局部上最短是容易实现的，在较长的情况下难以实现。我们对长度求导的时候令其导函数为$0$还不够。不妨对其求二次导函数。
+
+同样还是设$(M,g)$是黎曼流形,考虑$\gamma:[a,b]\times (-\epsilon,\epsilon) \to M$。$\gamma_s(t)=\gamma(t,s)$。其中$\gamma_0$称为基曲线。记$L(s)=L(\gamma_s)$。令$T(t,s)=\pa{r}{t}(t,s)$，$U(t,s)=\pa{r}{s}(t,s)$。则$[T,U]=0$。这是因为$\gamma$本身是光滑的，自然对求导是可以交换次序的。
+
+我们先求一阶变分:
+\begin{align*}
+    L'(s)&=\frac{d}{ds}\int_a^b |T(t,s)|dt \\&=\int_a^b \frac{1}{2|T|}\frac{\partial}{\partial s}\langle T,T\rangle dt\\&=\int_a^b \frac{1}{|T|}\langle T,\nabla_U T\rangle dt\\&=\int_a^b \frac{1}{|T|}\langle T ,\nabla_T U\rangle dt \text{，最后一步是因为}:\langle T,\nabla_U T\rangle=\langle T,\nabla_T U-[U,T] \rangle
+\end{align*}
+
+
+为了简便，考虑$\gamma_0$是正规测地线，求二阶导:
+\begin{align*}
+    L''(s)&=\frac{d}{ds}\int_a^b \frac{1}{|T|}\langle T,\nabla_T U \rangle dt\\&=\int_a^b [-\frac{1}{|T|^3}\langle T,\nabla_T U\rangle^2+\frac{1}{|T|}|\nabla_T U|^2+\frac{1}{T}\langle T,\nabla_U \nabla_T U\rangle]dt\\&=\int_a^b [-\frac{1}{|T|^3}(T\langle T,U\rangle-\langle U,\nabla_T T\rangle)^2+\frac{1}{|T|}|\nabla_T U|^2+\frac{1}{|T|}\langle T,R(U,T)U\rangle+\frac{1}{|T|}\langle T,\nabla_T \nabla_U U\rangle]dt\\&=\int_a^b [-\frac{1}{|T|^3}(T\langle T,U\rangle-\langle U,\nabla_T T\rangle)^2+\frac{1}{|T|}|\nabla_T U|^2+\frac{1}{|T|}\langle T,R(U,T)U\rangle+\frac{1}{|T|}T\langle T, \nabla_U U\rangle-\frac{1}{|T|}\langle \nabla_T T,\nabla_U U \rangle]dt
+\end{align*}
+上述过程中我们做了许多展开。
+
+$s=0$时，显然$|T|=|\dot{\gamma_0}|=1$，以及$\nabla_{\dot{\gamma_0}}\dot{\gamma_0}=0$（这一点来源于测地线方程）
+\begin{align*}
+    L''(0)=\langle \dot{\gamma_0},\nabla_U U\rangle|_a^b +\int_a^b [|\dot{U}|^2-(\langle \dot{\gamma_0},U\rangle')^2+R(\dot{\gamma_0},U,\dot{\gamma_0},U)]dt
+\end{align*}
+上述公式被称为第二变分公式。
+
+\textbf{说明:}$\langle \dot{\gamma_0}, \nabla_U U\rangle|_a^b$被称为边界项。若$\gamma_s$为定端变分，则变分项为$0$。若变分两端在两测地线上，即$\gamma(a,s)$和$\gamma(b,s)$为测地线，则边界项为$0$.
+
+$U(t)=\pa{\gamma}{s}(t,s)|_{s=0}$称为$\gamma_0$上的变分场或横截向量场。一般来说，$U(t)$沿着$\dot{\gamma_0}(t)$方向的分量仅起重新参数化的作用，不影响弧长。因此只用考虑$U(t)$的垂直分量。记:
+\begin{align*}
+    U(t)=U^{\perp}(t)+f(t)\dot{\gamma_0}(t)
+\end{align*}
+由于$\ddot{\gamma_0}=0$，可得$\langle \dot{U^{\bot}},\dot{\gamma_0}\rangle =T\langle U^{\bot},\dot{\gamma_0}\rangle-\langle U^{\bot},\ddot{\gamma_0}\rangle=0$（莱布尼兹求导法则）.
+
+于是
+\begin{align*}
+(\dot{U})^2=(\dot{U}^{\bot}+f'(t)\dot{\gamma(t)})^2=(\dot{U}^{\bot})^2+(f'(t)\dot{\gamma(t)})^2=(\dot{U}^{\bot})^2+(\langle U,\dot{\gamma_0}\rangle)^2
+\end{align*}
+
+注意到$R(\dot{\gamma_0},U,\dot{\gamma_0},U)=R(\dot{\gamma_0},U^{\bot},\dot{\gamma_0},U^{\bot})$,于是我们可以改写第二变分公式:
+\begin{align*}
+     L''(0)=\langle \dot{\gamma_0},\nabla_U U\rangle|_a^b +\int_a^b [|\dot{U}^{\bot}|^2+R(\dot{\gamma_0},U^{\bot},\dot{\gamma_0},U^{\bot})]dt
+\end{align*}
+当然此时我们还没有把$\nabla_U U$拆开。但已经很合适了。
+
+利用等式$\langle \dot{U}^{\bot},\dot{U}^{\bot}\rangle=\langle \dot{U}^{\bot},U^{\bot}\rangle'-\langle \ddot{U}^{\bot},U^{\bot}\rangle$，我们可以继续把第二变分公式进行改写:
+\begin{align*}
+    L''(0)=(\langle \dot{\gamma_0},\nabla_U U\rangle+\langle \dot{U}^{\bot},U^{\bot}\rangle|_a^b -\int_a^b \langle \ddot{U}^{\bot}-R(\dot{\gamma_0},U^{\bot},\dot{\gamma_0}),U^{\bot}\rangle dt
+\end{align*}
+
+此时表达式中出现了我们熟悉的Jacobi方程。于是我们令$U^{\bot}(t)$是沿着$\gamma_0$的正常Jacobi场。则有:
+\begin{align*}
+    L''(0)=(\langle \dot{\gamma_0},\nabla_U U\rangle+\langle \dot{U}^{\bot},U^{\bot})|_a^b
+\end{align*}
+\subsection{应用}
+\begin{definition}[直径]
+    设$(M,g)$是黎曼流形，记:
+    $$
+    d(M)=\sup\{d(p,q)|p,q \in M\}
+    $$
+    若$M$完备，我们有$d(M)<\infty \Leftrightarrow M$紧致。
+\end{definition}
+\begin{theorem}[Bonnet-Mgers]
+    设$(M,g)$完备的黎曼流形。若Ricci曲率$\geq (n-1)k$，$k$是正常数，则$M$是紧流形，且直径$d(M)\leq \dfrac{\pi}{\sqrt{k}}$。
+\end{theorem}
+若$d(M)=\dfrac{\pi}{\sqrt{k}}$，$M$要实现何种条件？等号成立等价于$(M,g)$等距同构为$S^n(\frac{1}{\sqrt{k}})$。即不等式实际上具有刚性。
+\begin{proof}
+    在$M$上任取两点$p\neq q$。我们的目的是证明$d(p,q)\leq \dfrac{\pi}{\sqrt{k}}$。
+
+    因为$M$是完备的，自然有最短正规测地线$\sigma:[0,l] \to M$.$l$是$p,q$之间的距离。
+
+    沿着$\sigma$取平行的标准正交基向量场$\{e_i(t)\}_{i=1}^n$。使得$e_n(t)=\dot{\sigma}(t)$。 能做到是因为测地线方程。
+
+    考虑沿着$\sigma(t)$的向量场$E_i(t)=f(t)e_i(t)$。其中$i$的取值是$1,\dots,n-1$。$f(t)$是待定函数，满足$f(0)=f(l)=0$。以$E_i(t)$做$\sigma$的变分如下:
+    \begin{align*}
+        \gamma_i(t,s)=\exp_{\sigma(t)}[sf(t)e_i(t)]
+    \end{align*}
+注意到$t=0$和$t=l$时$\exp_p(0)=p$,$\exp_q(0)=q$。所以这是定端变分，因此第二变分可以写作:($\exp_{\sigma(t)}(sE_i(t)$对$s$求偏导，$s=0$时为$E_i(t)$)
+\begin{align*}
+L_i''(0)=\int_0^l(f')^2+f^2R(\dot{\sigma},e_i,\dot{\sigma},e_i)dt
+\end{align*}
+条件中的Ricci促使我们把所有$L_i''(0)$相加:
+\begin{align*}
+    \sum_{k=1}^{n-1}L_i''(0)&=\int_0^l (n-1)(f')^2-f^2\mathrm{Ric}(\dot{\sigma},\dot{\sigma})dt\\&\leq (n-1)\int_0^l((f')^2-kf^2)dt\\&=(n-1)\int_0^l(f''-kf)fdt
+\end{align*}
+不得不承认，这里我们想当然取$f=\sin \dfrac{\pi}{l}t$。代入:
+\begin{align*}
+    \sum_{k=1}^{n-1}L_i''(0)\leq -(n-1)\int_0^l[k-(\frac{\pi^2}{l^2})]\sin^2(\frac{\pi }{l}t)dt=\frac{n-1}{2}[(\pi/l)^2-k]l
+\end{align*}
+由于这些都是测地线，因此$L_i''(0)\geq 0$总成立。上述不等式旋即说明:
+\begin{align*}
+    \pi/l \geq k \Rightarrow l \leq \pi/\sqrt{k}
+\end{align*}
+\end{proof}
+
+
+\begin{corollary}
+    设$(M,g)$是完备黎曼流形。若$\mathrm{Ric}\geq (n-1)k$，则$M$的基本群是有限的。
+\end{corollary}
+\begin{proof}
+    我们考虑的都是足够好的空间，所以自然有万有覆叠$\tilde{M}$。考虑$\phi$是覆叠映射，从而在$\tilde{M}$有拉回度量$\tilde{g}$。注意到测地线在提升后仍然是测地线，则$(\tilde{M},\tilde{g})$仍然是完备的黎曼流形。
+
+    此时$\phi$是两个空间之间的局部等距映射，因此$\tilde{M}$的Ric曲率有正下界。根据Bonet-Myers定理，$\tilde{M}$是紧致流形。从而$\phi$为有限覆盖。根据代数拓扑的结论，$M$的基本群是有限群。
+\end{proof}
+\begin{theorem}[Synge]
+    设$(M,g)$完备且Riemann流形。截面曲率有正下界，即$K \geq a>0$.
+    若$M$偶数维，则$M$可定向可推出$M$是单连通。$M$不可定向推出$M$的基本群是$\Z_2$。
+
+    若$M$是奇数维的，则$M$是可定向的。
+\end{theorem}
+\chapter{比较定理}
+比较定理的目的是与标准空间$(S^n;\R^n,\mathcal{H}^n)$进行比较。通过曲率比较，进行积分后得到大范围的两个空间的几何量的比较。
+
+我们先叙述比较定理中最基本的操作，构建一些基本的量。
+
+设$(M,g)$是黎曼流形，$\gamma:[0,l] \to M$是正规的测地线。取$T_{\gamma(0)}M$上的一组标准正交基，其中$e_n=\dot{\gamma}(0)$。进行平行移动，得到$\{e_i(t)\}$。由于是测地线，所以$e_n(t)=\dot{\gamma(t)}$。并且平行移动后仍然是标准正交基（求导可得）。
+
+设$U_i(t)$是沿着$\gamma(t)$的正常Jacobi场。满足初始条件:
+\begin{align*}
+    U_i(0)=0,\dot{U_i}(0)=e_i,i=1,\dots,n-1
+\end{align*}
+能做到上述条件是因为初值$\dot{U_i}(0)$与$\dot{\gamma}(0)$正好正交，符合正常Jabobi场的一个充分条件。
+
+于是表示:
+\begin{align*}
+    U_i(t)=\sum_{j=1}^{n-1}a_{ij}(t)e_j(t),i=1,\dots,n-1
+\end{align*}
+记$A(t)=(a_{ij}(t))$是$n-1$阶矩阵，$K(t)=(K_{ij}(t)),K_{ij}(t)=R(\dot{\gamma}(t),e_i(t),e_j(t),\dot{\gamma(t)})$。
+
+于是Jacobi方程写为:
+\begin{align*}
+    \ddot{A}(t)+A(t)K(t)=0
+\end{align*}
+\begin{proposition}
+    $A(t_0)$可逆当且仅当$\gamma(t_0)$不是$\gamma(t)$沿着$\gamma$的共轭点。
+\end{proposition}
+\begin{proof}
+    若$A(t_0)$不可逆，则存在一组不全为$0$的数$(c_1,\dots,c_{n-1})$满足$(c_1,\dots,c_{n-1})A(t_0)=0$。此时非平凡的Jacobi场$U(t)=\sum_{i=1}^{n-1}c_iU_i(t)$在$t=0$和$t=t_0$处皆为$0$。这说明$\gamma(t_0)$是$\gamma(0)$的共轭点。上述过程倒回来就说明了充分性。
+\end{proof}
+
+我们假设$\gamma$不包含$\gamma(0)$的共轭点。令II$(t)=A^{-1}(t)\dot{A}(t)$。求导:
+\begin{align*}
+    \dot{\mathrm{II}}(t)=A^{-1}(t)'\dot{A}(t)+A^{-1}(t)(-A(t)K(t))=-\II^2(t)-K(t)
+\end{align*}
+
+对这个矩阵我们有一些描述:
+\begin{lemma}
+    1.$t \to 0$时,$\II(t)=\dfrac{1}{t}I_{n-1}+O(t)$.
+
+    2.$\II(t)$对称。
+\end{lemma}
+\begin{proof}
+    $A(0)=0,\dot{A}(0)=I_{n-1}$。带入方程:$\ddot{A}(0)=0$。令$B(t)=I_{n-1},t=0;A(t)/t,t>0$。则:
+    \begin{align*}
+        \dot{B}(0)=\lim_{t \to 0}\frac{1}{t}(\frac{A(t)}{t}-I_{n-1})=\frac{1}{2}\ddot{A}(0)=0
+    \end{align*}
+    \begin{align*}
+        \II(t)=\frac{1}{t}B^{-1}(t)[B(t)+t\dot{B}(t)]=\frac{1}{t}I_{n-1}+O(t)
+    \end{align*}
+
+    对于2，我们考虑Jacobi方程，计算并根据$R(X,Y,Z,W)$的对称性:
+    \begin{align*}
+        (\langle \dot{U}_i,U_j\rangle-\langle U_i,\dot{U}_j\rangle)'=0
+    \end{align*}
+    注意到$(\langle \dot{U}_i,U_j\rangle)=\dot{A}A^T$。于是:
+    \begin{align*}
+        (\dot{A}A^T-A \dot{A}^T)'=0
+    \end{align*}
+    但显然这个矩阵初值为$0$。所以:$\dot{A}A^T=A \dot{A}^T$。于是$\II(t)=\II^T(t)$。
+\end{proof}
+
+\section{Rauch比较定理}
+我们先叙述Rauch比较定理的内容:
+\begin{theorem}[Rauch I]
+    设$(M,g),(\bar{M},\bar{g})$是黎曼流形。$\gamma,\bar{\gamma}$是$M,\bar{M}$上的正规测地线。$U(t)$和$\bar{U}(t)$分别为沿着$\gamma,\bar{\gamma}$的Jacobi场,且满足条件:
+    \begin{align*}
+        |U(0)|=|\bar{U}(0)|,\langle \dot{U}(0),\dot{\gamma}(0)\rangle=\langle \dot{\bar{U}}(0),\dot{\bar{\gamma}}(0)\rangle=0, |\dot{U}(0)|=|\dot{\bar{U}}(0)|
+    \end{align*}
+    记$k(t)=\min\{K_g(\dot{\gamma}(t),v)|v \bot \dot{\gamma}(t)\}$, $\bar{k}(t)=\max\{K_{\bar{g}}(\dot{\bar{\gamma}}(t),v)|v \bot \dot{\bar{\gamma}}(t)\}$。
+
+    假设(1)$\gamma$无共轭点,(2)$k(t) \geq \bar{k}(t)$,$\forall t \in [0,t]$。
+    
+    则(a)$\bar{\gamma}$无共轭点,(b)$|U(t)| \leq \bar{U}(t)|$。
+\end{theorem}
+为了证明该定理，首先要给出一些矩阵和函数的比较定理（ode）。
+\begin{lemma}[函数]
+    设$K(t)$和$\bar{K}(t)$是连续函数.$f$和$\bar{f}$分别是微分方程:
+    \begin{align*}
+        f''(t)+f(t)K(t)&=0,f(0)=0,f'(0)=1\\
+        \bar{f}''(t)+\bar{f}(t)\bar{K}(t)&=0,\bar{f}(0)=0,\bar{f}'(0)=1
+    \end{align*}的解。
+
+    设$T_0,\bar{T_0}$是$f$和$\bar{f}$的最小正零点。若$K(t)\geq \bar{K}(t)$，则$T_0 \leq \bar{T}_0$，且$f(t) \leq \bar{f}(t),t \in [0,T_0]$.
+\end{lemma}
+
+接下来给出矩阵的，在之前回顾一个记号:
+
+设$C,D$是对称矩阵。用$C>>D$表示$C$的特征值最小值大于$D$的特征值最大值。也即$\|x\|=\|y\|=1 \Rightarrow x^T C x \geq y^T D y$。
+\begin{lemma}[矩阵]
+    设$K(t)$和$\bar{K}(t)$是$n-1$阶连续矩阵.$A$和$\bar{A}$分别是微分方程:
+    \begin{align*}
+        A''(t)+A(t)K(t)&=0,A(0)=0,A'(0)=1\\
+        \bar{A}''(t)+\bar{A}(t)\bar{K}(t)&=0,\bar{A}(0)=0,\bar{A}'(0)=1
+    \end{align*}的解。
+
+    设$(0,T_0],(0,\bar{T_0}]$分别令$A$和$\bar{A}$可逆。若$K(t)>> \bar{K}(t)$，则$\bar{A}$也在$(0,T_0]$中可逆。
+    \begin{align*}
+        \II(t)=A^{-1}(t)\dot{A}(t)<<\bar{\II}(t),\forall t \in (0,T_0]
+    \end{align*}
+\end{lemma}
+我们不准备在这里证明两个引理。但是可以从第一个引理中略微感受到比较定理的含义。由于$K>\bar{K}$，所以$f''<\bar{f}''<0$。因此$f$会更快跌落下去。矩阵也是同理。
+\begin{proof}[Rauch I]
+    注意到$k(t)$实际上是$K(t)$的最小特征值。$\bar{k}$是$\bar{K}(t)$的最大特征值。于是$K(t)>>\bar{K}(t)$。再根据矩阵版本的引理可知$\bar{A}$可逆，从而$\gamma$不含共轭点。
+
+    对于$U$和$\bar{U}$。我们只需要写出其正交分解。因为大家都是正常Jacobi场，所以$|U|$和$|\bar{U}|$是关于$A$和$\bar{A}$的二次型。于是根据$\II$和$\bar{\II}$的关系显然可得结论。
+\end{proof}
+
+\begin{theorem}[Rauch I']
+    在Rauch I的条件下，记$\gamma(t)=\exp_p(tv)$,$\bar{\gamma}(t)=\exp_{\bar{p}}(t\bar{v})$。设$X \in T_pM$,$\bar{X}\in T_{\bar{p}}\bar{M}$。若:
+    \begin{align*}
+        \langle X,v\rangle=\langle \bar{X},\bar{v}\rangle,|X|=|\bar{X}|
+    \end{align*}
+    则$|(\exp_p)_{*lv}(X)|\leq |(\exp_{\bar{p}})_{*l\bar{v}}(\bar{X})|$
+\end{theorem}
+\begin{proof}
+    根据指数映射与Jacobi场的关系，存在沿着$\gamma$的Jacobi场$U(t)$使得$U(0)=0$,$\dot{U}(0)=X$,$U(l)=\exp_{*lv}(X)$。同理有$\bar{\gamma}$版本的这些量。根据比较定理即得。（压力马斯内）
+\end{proof}
+
+\textbf{最后给出2个应用:}
+\begin{corollary}
+    设$M$是曲率非正的单连通完备黎曼流形（Cartan-Hadamard流形）。ABC是其中的测地三角形，其内角分别为$\alpha,\beta,\gamma$。对应边为$a,b,c$。则有余弦定理:
+    \begin{align*}
+        c^2 \geq a^2+b^2-2ab\cos \alpha,且 \alpha+\beta+\gamma \leq \pi
+    \end{align*}
+\end{corollary}
+\begin{proof}
+    指数映射为微分同胚。我们记:
+    \begin{align*}
+        v=\exp^{-1}_C A,w=\exp^{-1}_C B,\xi(t)=\exp_C^{-1}\sigma(t),\sigma(t)\text{是AB间测地线}
+    \end{align*}
+    于是欧氏空间的余弦定理:
+    \begin{align*}
+        |v-w|^2=a^2+b^2-2ab\cos \alpha
+    \end{align*}
+    接下来我们只需要说明$\sigma$的长度大于$|v-w|$。实际上:
+    \begin{align*}
+        L(\sigma)&=\int_{0}^{L(\sigma)}|\frac{d}{dt}\exp_C^g\xi(t)|dt\\&=\int_0^{L(\sigma)}|(\exp_C^g)_{\xi(t)}(\xi'(t))|dt\\&\geq \int_0^{L(\sigma)}|(\exp_0^{g_E})_{\xi(t)}(\xi'(t))|dt\\&\geq |\xi'(t)|dt=L(\xi)\geq |v-w|
+    \end{align*}
+    至于$\alpha+\gamma+\beta<\pi$则很明显了。
+\end{proof}
+\begin{corollary}
+    设$k>0$，$M$是截面曲率$k_M \leq k$的完备黎曼流形。则对于任何$p \in M$，$\gamma<\pi/\sqrt{k}$时，$\exp_p:B(r)\to M$时浸入。
+\end{corollary}
+\begin{proof}
+    和$S^n(1/\sqrt{k})$比较。此时$\exp_p$在$B(r)$上非退化。
+\end{proof}
+\section{Hessian比较定理}
+Hessian比较定理讨论的是空间上的距离函数$d(p,q)$。对于标准空间$\R^n,S^n,\mathbb{H}^n$而言,有:
+\begin{align*}
+    d(x,0)=\|x\|,x \in \R^n; d(X,N)=\arccos x^{n+1},N\text{是北极点};d(x,0)=\int_0^{\|x\|} \frac{2}{1-s^2}=\ln \frac{1+\|x\|}{1-\|x\|},x \in \mathbb{H}^n
+\end{align*}
+
+我们先略微对距离函数做一些分析。
+\begin{proposition}
+    设$(M,g)$是完备黎曼流形。$p \in M$。若$q$是距离函数$d_p$的可微点，则存在唯一的测地线连接$p,q$。
+\end{proposition}
+\begin{proof}
+    显然$p$和$q$不同。设$\sigma(s)$是从$q$出发的正规测地线，由三角不等式可得：
+    \begin{align*}
+        d_p(\sigma(s))\leq d_p(\sigma(0))+d(\sigma(0),\sigma(s))\leq d_p(\sigma(0))+s
+    \end{align*}
+    这说明$\langle \nabla d_p,\dot{\sigma}(0)\rangle =\dfrac{d}{ds}|_{s=0}d_p(\sigma(s))\leq 1$。（这是因为梯度的定义:$g(\nabla f,X)=df(X)=Xf$）根据$\sigma(s)$的任意性可知$|\nabla d_p|\leq 1$。
+
+    另一方面，以最短的测地线$\gamma$连接$p,q$，其中$l=d(p,q)$。则:
+    \begin{align*}
+        d_p(\gamma(t))=d(\gamma(0),\gamma(t))=t,\forall t \in [0,l]
+    \end{align*}
+    这说明$\langle \nabla d_p(q),\dot{\gamma}(l)\rangle =1$。因此$\nabla d_p(q)=\dot{\gamma}(l)$.若$\bar{\gamma}:[0,l]\to M$是连接$p,q$的另一条最短测地线，则$\bar{\dot{\gamma}}(l)=\nabla d_p(q)=\dot{\gamma}(l)$。由测地线关于初值的唯一性（来自于ode）知$\gamma=\bar{\gamma}$。
+\end{proof}
+\begin{proposition}
+    设$(M,g)$是完备黎曼流形，$\gamma:[0,l] \to M$是正规测地线。记$p$是起点，$q$是$\gamma(l)$。若$\gamma$是连接$p,q$的唯一最短正规测地线，且$q$不是$p$沿着$\gamma$的共轭点。则距离函数$d_p$在$q$附近时光滑的。
+\end{proposition}
+这个命题反过来说明了存在唯一的最短测地线可以导出局部的光滑性。
+\begin{proof}
+    反证法。记$v=\dot{\gamma}(0) \in T_p M$。因为$q$不是$\exp_p$沿着$\gamma$的共轭点，所以$d\exp_p$在$lv$处非退化。根据反函数定理，自然存在$lv$的在$T_pM$中的开邻域$O$使得$\exp_p:O \to M$是嵌入。
+
+    断言:存在$\epsilon>0$，使得$d_p(\bar{q})=\|\exp_p|_{O}^{-1}\bar{q}\|,\forall \bar{q} \in B_{\epsilon}(q)$.假设存在一列$q_i \to q$使得上述不成立，则有:$d(p,q_i)<|\exp_p|_{O}^{-1}q_i|$。
+
+    用最短线$\sigma_i:[0,l_i]\to M$连接$p,q_i$。则$l_i \to l$(函数是连续的)。由于单位球面是紧的，所以不妨设$\{\dot{\sigma}_i(0)\}$收敛到$w \in T_pM$。记$\sigma(t)=\exp_p(tw)$。由于测地线关于初值有光滑依赖性，知$\sigma$也是连接$p,q$的最短测地线。
+
+    所以$\sigma=\gamma$。即$w=v$。因此当$i$充分大时候，$l_i\dot{\sigma}_i(0) \in O$。然而这与$O$是嵌入矛盾！所以$\epsilon$存在。
+\end{proof}
+\begin{proposition}
+    设$(M,g)$是完备黎曼流形。$\gamma$是最短正规测地线，长度$l$。记$p=\gamma(0)$。当$t_0 \in (0,l)$，距离函数$d_p$在$\gamma(t_0)$附近是光滑的。
+\end{proposition}
+\begin{proof}
+    从略。
+\end{proof}
+
+接下来我们叙述Hessian比较定理以及其证明。
+\begin{theorem}[Hessian比较定理]
+设$(M,g),(\bar{M},\bar{g})$是完备的黎曼流形。$\gamma,\bar{\gamma}$是正规测地线。
+
+$k(t)=\min \{K(\dot{\gamma}(t),e)|e \bot \dot{\gamma}(t)\}$,$\bar{k}(t)=\max \{K(\dot{\bar{\gamma}}(t),e)|e \bot \dot{ \bar{\gamma}}(t)\}$。记$p=\gamma(0)$,$\bar{p}=\bar{\gamma}(0)$。假设：
+
+(1)$\gamma,\bar{\gamma}$均为最短测地线
+
+(2)$k(t) \geq \bar{k}(t), \forall t \in [0,l]$。
+
+则当$t_0 \in (0,l)$时，有:$\nabla^2 d_p|_{\gamma(t)}<<\nabla^2d_{\bar{p}}|_{\dot{\bar{\gamma(t)}}}$。
+
+即当$X \in T_{\gamma(t_0)}M$，$\bar{X} \in T_{\bar{\gamma}(t_0)}\bar{M}$,$|X|=|\bar{X}|$,$\langle X,\dot{\gamma}(t_0)\rangle=\langle X',\dot{\bar{\gamma}}(t_0)\rangle$，有:
+\begin{align*}
+    \nabla^2d_p(X,X)\leq \nabla^2 d_{\bar{p}}(\bar{X},\bar{X})
+\end{align*}
+\end{theorem}
+\begin{proof}
+    根据上述命题，可知$d_p$在$\gamma(t_0)$附近光滑。（另外一个同理）。设$X \in T_{\gamma(t_0)}$,$\bar{X}$同理。则:
+    \begin{align*}
+        \nabla^2 d_p(\dot{\gamma(t_0)},X)=\langle  \nabla_{\dot{\gamma}(t_0)} \nabla d_p,X\rangle=0
+    \end{align*}
+    另外一组同理。于是对$X$和$\bar{X}$做正交分解。
+    \begin{align*}
+        X=Y+a\dot{\gamma}(t_0),\bar{X}=\bar{Y}+a\bar{\dot{\gamma}}(t_0) \Rightarrow |Y|=|\bar{Y}|
+    \end{align*}
+    根据测地线，$\nabla^2d_p(X,X)=\nabla^2d_p(Y,Y)$。
+
+    注意到在欧氏空间的条件下，$\nabla^2$本身就是一个矩阵。我们尝试把其与$\II$联系起来，从而使用Rauch比较定理。
+
+    我们断言:
+    \begin{align*}
+        Y_q=\sum_{i=1}^{n-1}a_i e_i(t_0) \Rightarrow a^T \II(t_0) a=\nabla^2 d_p(Y,Y)
+    \end{align*}
+    则根据Rauch I，显然成立。
+
+    事实上，不妨假设$Y$延拓为$\gamma$上的正常Jacobi场。则$Y$可以写为$U^i$的线性组合。我们考虑:
+    \begin{align*}
+        \nabla^2 d_p(U_i,U_j)=\nabla_{U_i} g(\nabla d_p,U_j)-g(\nabla d_p,\nabla_{U_i} U_j)=g(\nabla_{U_i}\dot{\gamma}(t),U_j)=g(\nabla_{\dot{\gamma}(t)}U_i,U_j)=(\dot{A}A^T)_{ij}
+    \end{align*}
+    从而:
+    \begin{align*}
+        \nabla^2 d_p(Y,Y)=b\dot{A}A^Tb^{T},b(q)A=a \Rightarrow \nabla^2 d_p(Y,Y)(q)=aA^{-1}\dot{A}A^T (A^{T})^{-1}a^T=a\II(q)a^T
+    \end{align*}
+    于是定理得证。
+\end{proof}
+\subsection*{超曲面的第二基本形式}
+
+考虑$M$是$\bar{M}$的超曲面。设$M$的度量是$\bar{M}$度量的拉回。我们给出一般超曲面的第二基本形式。
+
+设$X,Y \in \Gamma(TM)$，则$\nabla_X Y=(\bar{\nabla}_X Y)^T$。我们记:
+\begin{align*}
+    \II(X,Y)=(\bar{\nabla}_X Y)^{\bot}
+\end{align*}
+显然第二基本形式是对称的。这是因为相减后得到李括号。而李括号总处于$M$的切空间，所以自然在法方向上为$0$。同时，也可以得到第二基本形式是张量性的。
+
+若$n$是法向量场，记:
+\begin{align*}
+    \II_n(X,Y)=g(bar{\nabla_X Y},n)=-g(Y,\bar{\nabla_X} n)
+\end{align*}
+第二基本形式可以用于计算曲率张量.注意到:
+\begin{align*}
+    \bar{\nabla}_Y Z=\nabla_Y Z+\II(Y,Z) \Rightarrow R(X,Y,Z,W)=\bar{R}(X,Y,Z,W)-g(\II(X,Y),\II(Z,W))+g(\II(Y,Z),\II(X,W))
+\end{align*}
+\subsection*{等值面的第二基本形式。}
+
+
+设$(\bar{M},\bar{g})$是光滑的黎曼流形，$f \in C^\infty(\bar{M})$。令$M=f^{-1}(c)$,设$\nabla f|_M$处处非零($c$是$f$的正则值).由正则值原像定理，$M$是$\bar{M}$的正则子流形。$M$的维度是$\bar{M}$的维度减一。我们计算$M$的第二基本形式。
+
+注意到$n=\dfrac{\nabla f}{|\nabla f|}$。于是第二基本形式为:
+\begin{align*}
+    \II_n(X,Y)=\langle \overline{\nabla_X}Y,n\rangle=\frac{1}{|\nabla f|}\langle \overline{\nabla}_X Y,\nabla f\rangle=-\frac{1}{|\nabla f|}\nabla^2 f(X,Y)
+\end{align*}
+
+之后我们介绍一些Hessian比较定理的应用。首先给一个记号:
+\begin{definition}
+    设$k$为常数，曲率为$k$的单连通空间形式记为$M_k$。设$\gamma$是正规测地线，$l<\dfrac{\pi}{\sqrt{k}}$。此时公式:
+    \begin{align*}
+        R(\dot{\gamma}(t),e_i(t),e_j(t),\dot{\gamma}(t))=k[|\dot{\gamma}(t)|^2g(e_i,e_j)-g(\dot{\gamma}(t),e_i)g(\dot{\gamma}(t),e_j)]=k\delta_{ij}
+    \end{align*}
+    于是根据前文所述:
+    \begin{align*}
+\ddot{A}+kA=0 \Rightarrow A=fI_{n-1},f''+kf=0,f(0)=0,f'(0)=1
+    \end{align*}
+    我们把这个ode方程的解记为$\mathrm{sn}_k(t)$。其表达式为:
+    \begin{equation*}
+        \mathrm{sn}_k(t)=\left \{
+        \begin{aligned}
+        \frac{1}{\sqrt{k}}\sin \sqrt{k}t,&k>0\\ 
+        t,&k=0\\ 
+        \frac{1}{\sqrt{-k}}\sinh\sqrt{-k}t ,&k<0
+        \end{aligned} \right.
+\end{equation*}
+\end{definition}
+\begin{corollary}
+    设$(M,g)$是完备黎曼流形，截面曲率$K_M \geq k$。若$\gamma:[0,l] \to M$是最短测地线，则$l \leq \dfrac{\pi}{\sqrt{k}}$。且当$t \in (0,l)$时:
+    \begin{align*}
+        \nabla^2 d_{\gamma(t)}(X,X)\leq ct_k(t)|X|^2
+    \end{align*}
+\end{corollary}
+\begin{proof}
+    $\forall t_0 \in (0,l)$，$\gamma|_{[0,t_0]}$是不含共轭点的最短测地线。根据Rauch比较定理，$M_k$中长度为$t_0$的正规测地线也不含共轭点。于是$t_0<\pi/\sqrt{k}$.于是$l\leq \pi/\sqrt{k}$。余下使用Hessian.
+\end{proof}
+\begin{corollary}
+    设$M^n$是Cartan-Hadamand流形。$p\in M$，则$M\setminus\{p\}$上成立
+    \begin{align*}
+        \Delta d_p \geq \frac{n-1}{d_p}
+    \end{align*}
+    若$k_M\leq -k^2$，则$\Delta d_p \geq (n-1)k \coth(kd_p)$。
+\end{corollary}
+\begin{proof}
+    与$k=0$空间比和$K=-k^2$的空间比，并且取迹。
+\end{proof}
+\begin{theorem}[Toponogov三角形比较定理]
+    设$(M,g)$是完备黎曼流形，其截面曲率$K_M \geq k$。给定互不相同的三点$P,P_0,P_1 \in M$，$\gamma:[0,1] \to M$s是连接$P_0,P_1$的正规测地线。若$0<l<\min\{d(P,P_0)+d(P,P_1),\dfrac{\pi}{\sqrt{K}}\}$,则在$M_k^2$中存在:$\bar{P},\bar{P_0},\bar{P_1}$以及连接$\bar{P_0},\bar{P_1}$的最短测地线$\bar{\gamma}$使得$d(\bar{P},\bar{P_0})=d(P,P_0)$,$d(\bar{P},\bar{P_1})=d(P,P_1)$,$L(\bar{\gamma})=L(\gamma)=l$。则:
+    \begin{align*}
+        d(P,\gamma(t))\geq d(\bar{P},\bar{\gamma}(t))
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    略。
+\end{proof}
+\section{Laplacian比较定理}
+\begin{definition}[割点]
+    设$(M,g)$完备。若$\gamma:[0,\infty] \to M$是从$p$出发的正规测地线，且$\gamma|_{[0,t_0]}$是最短线，但$t>t_0$后，不再为最短线。则$\gamma(t_0)$是$p$沿着$\gamma$的割点。$p$的所有割点组成的集合称为$p$的割迹，记为$C(p)$
+\end{definition}
+\begin{proposition}
+    设$\gamma(t_0)$是$p$的割点。则下面两个事实必成其一:
+    \begin{enumerate}
+        \item $\gamma(t_0)$是$p$沿着$\gamma$的共轭点。
+        \item 存在另一条连接$p$和$\gamma(t_0)$的测地线$\sigma$使得$L(\sigma)=L(\gamma)$。
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    设$\gamma(t)=\exp_p(tv)$且假设第一条不成立。则$d\exp_p$在$\gamma(t_0)$非退化。
+
+    自然考虑逆映射定理。存在$t_0v$在$T_pM$中的开邻域$O$使得$\exp_p:O \to M$是嵌入。记$t_i=t_0+1/i$。则$O$是开集合就断言$t_iv$终在$O$中。我们用最短测地线连接$\sigma_i:[0,l_i]\to M$连接$p$和$\gamma(t_i)$。则至少有$l_i=L(\sigma_i)< t_i$。因为$\gamma(t_0)$是割点。
+
+    考虑把$\sigma_i$写为指数映射的形式:$\sigma_i=\exp_p(tv_i)$。则$\exp_p(l_iv_i)=\exp_p(t_iv)$。注意到$l_i<t_i$,则不可能有$l_iv_i \neq t_iv$。于是$l_iv_i \notin O$。
+
+    不妨设$v_i$收敛到$w \in T_pM$。则$l_iv_i \to t_0w \notin O$($O$是开集)。于是$\sigma(t)=\exp_p(tw)$是连接$p$和$\gamma(t_0)$的另一条最短测地线。
+\end{proof}
+短评:上述命题很神秘。整个逆映射的存在似乎只保证了单射性。
+\begin{proposition}
+    完备黎曼流形$(M,g)$中$p$的割迹是闭的零测集。
+\end{proposition}
+设$p \in M$，记$\Sigma_p=\{v\in T_p M|d(p,\exp_p v)=|v|\}$。
+\begin{proposition}
+    若$(M,g)$是完备黎曼流形，$p \in M$则有:
+    \begin{enumerate}
+        \item $\exp_p:(\Sigma_p)^o \to M$ 是嵌入.
+        \item $M= \exp_p(\Sigma_p)=\exp((\Sigma_p)^0)\cup C(p)$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    (1)设$v$是内部的向量。则$\gamma(t)=\exp_p(tv)$是连接$p$和$\exp_p v$的唯一最短测地线。且$\exp_p v$不是$p$沿着$\gamma$的共轭点。因此$d\exp_p$在$v$处非退化，且$\exp_p$在内部中一一映射，这说明$\exp_p:(\Sigma_p)^0$是嵌入。
+
+    (2)因为完备$M$，所以对于$\forall q\neq p$，都存在$p,q$的最短线$\gamma:[0,l] \to M$。其中$l=d(p,q)$。这说明$l \dot{\gamma}(0)\in \Sigma_p$。且$q \in \exp_p(l\dot{\gamma(0)})\in \exp_p \Sigma_p$。
+\end{proof}
+
+\begin{remark}
+    从拓扑上来讲，$\Sigma_p^o$微分同胚于单位球体。因此，完备Riemann流形的复杂度主要体现在$\Sigma_p^o$的与$C(p)$的连接上。
+\end{remark}
+再考虑一些例子，如对于球面$S^n$，北极点$N$的割迹为$S$南极点。对于$\R^n$和双曲空间$\H^n$,$C(p)$都是空集。对于圆柱面(截面是$S^{n-1}$,即$S^{n-1}\times \R$),$p$点的割迹为对径线$l$。
+\begin{definition}[单射半径]
+    设$(M,g)$是完备黎曼流形，定义$p$处单射半径:
+    \begin{equation*}
+        i(p)=\left \{\begin{aligned}
+            &+\infty ,C(p)=\emptyset\\
+            &\inf\{d(p,q)|q \in C(p)\},C(p)\neq \emptyset
+        \end{aligned}\right.
+    \end{equation*}
+    定义$i(M)$是$\inf i(p)$。
+    若$C(p)$为空集，定义单射半径是无穷大。若$C(p)$非空，则定义为$\inf \{d(p,q)|q\in C(p)\}$。
+\end{definition}
+
+Hessian比较定理有一个重要的推论。即$\nabla^2 d_p(X,X)\leq \mathrm{ct}_k(d_p(q))|X|^2$，若截面曲率$K_M \geq k$。如果对上式做缩并，注意到$\nabla^2$取trace是$\Delta$，即Laplacian算子。这是比较重要的算子:
+\begin{align*}
+    \Delta d_p \leq (n-1)\mathrm{ct}_k(d_p(q))
+\end{align*}
+令人惊讶的事实是，上述推论并不需要截面曲率的条件。我们只需要有Ricci曲率的条件即可。
+\begin{theorem}[Laplacian比较定理]
+    设$(M,g)$是完备的黎曼流形，其Ricci曲率满足:$\mathrm{Ric}_M\geq (n-1)k$。设$p \in M$,$q \in \exp_p \Sigma_p^0$且$q \neq p$。则:
+    \begin{align*}
+        \Delta d_p(q) \leq (n-1)\mathrm{ct}_k(d_p(q))
+    \end{align*}
+    等号成立时，沿着连接$p,q$的最短测地线$\gamma:[0,l]\to M$，$T_{\gamma(t)}M$中包含$\dot{\gamma(t)}$的平面的截面曲率为$k$。
+\end{theorem}
+\begin{proof}
+    取连接$p$和$q$的唯一最短正规测地线$\gamma:[0,l]\to M$，其中$l=d(p,q)$沿着$\gamma$有如下的Ricci曲率方程:
+    \begin{align*}
+        \dot{\II}(t)+\II^2(t)+K(t)=0
+    \end{align*}
+    其中$\II(t)$是$\gamma(t)$处测地球面的第二基本形式。
+    
+    对上述方程取迹，则:
+    \begin{align*}
+        (\mathrm{tr})(\II)'+\mathrm{tr}(\II^2)+\mathrm{Ric}(\dot{\gamma},\dot{\gamma})=0
+    \end{align*}
+
+    利用Cauthy-Schwarz不等式:
+    \begin{align*}
+        \mathrm{tr}(\II^2)\geq \frac{1}{n-1}(\mathrm{tr}\II)^2
+    \end{align*}
+    代入上述方程，并且设$H(t)=\mathrm{tr}(\II(t))=\Delta d_p(\gamma(t))$。考虑Ricci的不等式，则:
+    \begin{align*}
+        \dot{H}(t)+\frac{1}{n-1}H^2(t)+(n-1)k \leq 0
+    \end{align*}
+    我们与$M_k^2$中对应的方程比较:
+    \begin{align*}
+        \mathrm{ct}_k'(t)+\mathrm{ct}_k^2(t)+k=0, 0<t<\min\{l,\frac{\pi}{\sqrt{k}}\}
+    \end{align*}
+    这两个方程已经很接近。我们设$h(t)=\dfrac{H(t)}{n-1}-\mathrm{ct}_k(t)$。
+    于是:
+    \begin{align*}
+        h'(t)+p(t)h(t)\leq 0
+    \end{align*}
+    其中$p(t)=\dfrac{H(t)}{n-1}+\mathrm{ct}_k(t)$
+
+    上述不等式可以说非常熟悉。我们可以如法炮制的给出,存在足够小的$\delta>0$:
+    \begin{align*}
+        (h(t)e^{\int_\delta^t p(s)ds})'\leq 0 \Rightarrow (h(t)e^{\int_\delta^t p(s)ds})\leq h(\delta)
+    \end{align*}
+    不给$0$的原因是$\II(t)$在趋近于$0$的时候存在一个无穷大，难以描述。
+
+    由于$\II(t)=\dfrac{1}{t}I_{n-1}+o(t)$，$\mathrm{ct}_k(t)=1/t+o(t)$。所以:
+    \begin{align*}
+        h(t)=o(t),p(s)=\dfrac{2}{s}+o(s)
+    \end{align*}
+    从而:
+    \begin{align*}
+        h(t)\leq \lim_{\delta \to 0^+}e^{-\int_{\delta}^t p(s)ds}h(\delta)=0
+    \end{align*}
+    于是$H(t)\leq (n-1)\mathrm{ct}_k(t)$。证毕。
+
+    接下来考虑等号成立的情况。此时，$H(t)=(n-1)\mathrm{ct}_k(t)$，即$\II=\mathrm{ct}_k I_{n-1}$。带入Ricci方程解出$k(t)=kI_{n-1}$。
+\end{proof}
+\section{体积比较定理}
+体积比较定理具有很强的直观性，从而也具有比较强的应用性。
+
+首先回顾黎曼流形上体积公式:设$(M,g)$是定向黎曼流形，$\mathrm{dvol}=\sqrt{\mathrm{det}g}dx^1 \wedge \dots \wedge dx^n$。$\Omega \subset M$.则我们做流形上对$n$形式的积分:
+\begin{align*}
+    \mathrm{Vol}(\Omega)=\int_\Omega d\mathrm{vol}
+\end{align*}
+\begin{theorem}[Bishop-Gromov,1980]
+    设$n$维完备黎曼流形$(M,g)$,$p \in M$。若$\mathrm{Ric}_M \geq (n-1)k$,$k \in \R$。则表达式:
+    \begin{align*}
+        \frac{\mathrm{B_k(p)}}{\mathrm{Vol}(B_R^k)}
+    \end{align*}
+    关于$R$是单调减的。其中$B_R^k$表示曲率为$k$的单连通空间形式中半径为$R$的测地球。特别的，$\mathrm{vol}(B_R(p))\leq \mathrm{vol}(B_R^k)$。
+\end{theorem}
+\begin{proof}
+    我们要计算的是测地球的体积。然而测地球可能与$C(p)$相交。这是不好的，对年轻人的坏影响不可估量。所以Gromov先生敏锐的察觉到，$C(p)$是零测集这个事实。让我们感谢Gromov先生对年轻人的帮助。
+
+    思路:找个好的坐标系，利用指数映射。
+
+    考虑:
+    \begin{align*}
+        \mathrm{Vol}(B_R(p))=\mathrm{Vol}(B_R(p)\cap \exp(\Sigma_p^o))=\mathrm{Vol}(\exp(\Sigma_p^o\cap B_r(0)))
+    \end{align*}
+
+    上述$T_pM$中的点可以表示为$(t,\theta)$。其中$t$表示长度，$0 \leq t \leq f(\theta) \leq R$。若$y=\exp_p(t,\theta)$,$\theta$的长度是1.设$\gamma$是连接$p$,$y$的最短测地线，则:$\dot{\gamma}(0)=\theta$,$\gamma(t)=y$。
+
+    取$T_pM$的标准正交基$\{e_i\}$。其中$e_n=\theta$。如法炮制。最终我们设:
+    \begin{align*}
+        \phi(t,v)=\exp_p(tv),v \in S^{n-1}\subset T_p M
+    \end{align*}
+    此时我们建立了$M$与等距同构，由$\phi$给出。自然把$M$的体积形式$d\mathrm{vol}$拉回到$\R \times S^{n-1}$上计算。先考虑
+    \begin{align*}
+        \phi_*(\frac{\partial}{\partial t})=\dot{\gamma}(t)=e_n(t),\phi_*(e_i)=U_i(t)
+    \end{align*}
+
+    备注:这里其实与法坐标系以及测地球坐标系有很大的关系。$\theta$对应的是$\rho$曲线的切向量，而$\dfrac{\partial}{\partial \varphi_i}$,$\varphi_i$是$n-1$个角变元则对应了Jacobi场$U_i$.换言之，给定$(t_0,v_0)$，$\phi_*$把$\dfrac{\partial}{\partial t}$映射到曲线$\exp_p(tv_0)$在该处的切向量上。而其他$n-1$个角变元对应的单位正交切向量被对应到Jacobi场上。
+
+    从而根据拉回定义:
+    \begin{align*}
+        \phi^*(d\mathrm{vol})(\frac{\partial }{\partial t},e_1(t),\dots,e_{n-1}(t))=d\mathrm{vol}(U_1,\dots,U_{n-1},e_n(t))=\mathrm{det}A(t) \Rightarrow  \phi^*(d\mathrm{vol})=\mathrm{det}A(t)dt \wedge \mathrm{vol}(S^{n-1})
+    \end{align*}
+    我们着手开始积分:
+    \begin{align*}
+        \mathrm{Vol}(B_r(p))=\int_{\theta \in S^{n-1},0\leq t\leq f(\theta)}\mathrm{det}A(t,\theta)dt d(\mathrm{vol}S^{n-1})
+    \end{align*}
+    令$J_{\theta,t}=\mathrm{det}A(t,\theta)$。则$\dot{J}_{t,\theta}=A_{ij}(t,\theta)\dot{a_{ij}}(t,\theta)=\mathrm{det}A a^{ij} \dot{a_{ij}}=\mathrm{det}A \times \mathrm{tr}(A^{-1}\dot{A})=J_{t,\theta}\mathrm{tr}(\II)$
+
+    这正是我们想要的结果。因为$\II$可以使用Laplacian比较定理，即:
+    \begin{align*}
+        \frac{\dot{J}}{J}=\mathrm{tr}(\II)\leq \mathrm{tr}(\bar{\II})=\frac{\bar{\dot{J}}}{\bar{J}}
+    \end{align*}
+    从而$J/\bar{J}$随着$t>0$而单减。注意到当$t \to 0$，由$J=\mathrm{det}A=1$.于是$J\leq \bar{J}$恒成立。
+
+    最终,在被积分的函数$f,g$满足$f/g$单减时，容易知道其积分后相除也单减。于是命题自然成立。
+\end{proof}
+命题的核心就是使用Laplacian比较定理。这里面比较大的作用是第二基本形式$\II(t,\theta)$。Laplacian描述了其迹的大小关系，而体积正好出现其表达式。
+
+\begin{corollary}
+    完备的黎曼流形$(M^n,g)$.设Ricci曲率大于$(n-1)k\geq 0$。则$M$的体积小于$\mathrm{Vol}(S^n(\frac{1}{\sqrt{k}}))$。等号成立等价于$(M,g)$等距同构$S^n(\frac{1}{\sqrt{k}})$.
+\end{corollary}
+\begin{theorem}[最大直径定理]
+    Ricci曲率有下界$(n-1)k$的流形直径小于$\pi/\sqrt{k}$。若等号成立，$M$与半径为$1/\sqrt{k}$的球面等距同构。
+\end{theorem}
+\begin{proof}
+    使用二次变分公式，有技巧的可以证明不等号成立。我们只用说明刚性。
+    
+    不妨设$k=1$。设$d(p,q)=\pi$，则$B_r(p)\cap B_{\pi-r}(q)=\emptyset$,$\forall r \in (0,\pi)$。
+
+    记$V(p,r)$是对应$r$半径开球的体积。同理$V(q,s)$。则:
+    \begin{align*}
+        V(p,r)+V(q,\pi-r)\leq \mathrm{Vol}(M)
+    \end{align*}
+
+    注意到$d(M)=\pi$。则$d(p,\pi)=d(q,\pi)=\mathrm{Vol}(M)$。
+
+    记$S^n$中半径为$r$的测地球的体积为$V(r)$。则根据体积比较定理:
+    \begin{align*}
+        \mathrm{Vol}M & \geq V(p,r)+V(q,\pi-r) \\&=\frac{V(p,r)}{V(r)}+\frac{V(q,\pi-r)}{V(\pi-r)}V(\pi-r)\\ &\geq \frac{V(p,\pi)}{V(\pi)}V(r)+\frac{V(q,\pi)}{V(\pi)}V(\pi-r)\\&=\frac{\mathrm{Vol}(M)}{\mathrm{Vol}(S^n)}[V(r)+V(\pi-r)]=\mathrm{Vol}(M)
+    \end{align*}
+    从而上述大于号全部必须取得等号。注意到第二个等号的条件是体积比较定理推论的取等条件:$(M,g)\cong S^n(\dfrac{1}{\sqrt{k}})$。
+\end{proof}
+\chapter{Hodge理论简介}
+\section{流形上同调}
+记$\Omega^s(M)$是$M$所有的$s$ 
+阶微分形式。外微分的定义可查看微分流形相关的教材，则有:
+\begin{align*}
+    d:\Omega^s(M)\to \Omega^{s+1}(M),\text{且}d \circ d=0
+\end{align*}
+
+定义$\omega$若满足$d\eta=\omega$，称其为恰当形式；若$d\omega=0$，则称其为闭形式。记$s$次闭形式全体为$Z^s(M,\R)$，$s$次恰当形式全体为$B^s(M,\R)$。则令:
+\begin{align*}
+    H_{\mathrm{dR}}^s=Z^s/B^s
+\end{align*}
+既然称其为上同调，其自然是同伦不变量。称为$M$的$s$次de Rham上同调群。
+
+接下来考虑楔积:$\wedge$。
+\begin{align*}
+    Z^p(M,\R) \times B^q(M,\R) \text{的像}\subset B^{p+q}(M,\R)
+\end{align*}
+这是因为若$\omega:d\omega=0$,则$\omega \wedge d\eta=d((-1)^n\omega \wedge \eta)$
+
+于是诱导出:
+\begin{align*}
+    H^p(M,\R) \times H^q(M,\R) \to H^{p+q}(M,\R)
+\end{align*}
+这称为de Rham上同调环。
+
+\begin{theorem}[de Rham定理]
+    若$M$是紧流形，则de Rham上同调与一般的同调同构。
+\end{theorem}
+考虑$[\omega]\in H_{dR}^s(M,\R)$。我们想要选一个好的代表元。
+
+对于黎曼流形$(M,g)$，$X,Y \in T_p M$。选取标准正交基和对偶基，规定$\langle e_i^*,e_j^*\rangle =\delta_{ij}$。则给出了$T_p^*M$上的一个内积。可以定义在整个切丛上.若$X,Y \in \bigotimes^n T_p M$,即:
+\begin{align*}
+    X=\sum a_{i_1,\dots,i_p}e_{i_1}^*\otimes \dots \otimes e_{i_p}^*&,Y=\sum b_{i_1,\dots,i_p}e_{i_1}^*\otimes \dots \otimes e_{i_p}^* \\
+    \langle X,Y \rangle &=\sum a_{i_1,\dots,i_p}b_{i_1,\dots,i_p}
+\end{align*}
+也可以定义在反称张量上。
+
+当$M$是可定向闭流形的时候，对于$\varphi,\psi \in \Omega^r(M)$，定义:
+\begin{align*}
+    (\varphi,\psi)=\int_M \langle \varphi,\psi \rangle d\mathrm{vol}
+\end{align*}
+可以验证这是一个内积。
+
+回到微分算子$d:\Omega^r(M)\to \Omega^{r+1}(M)$。这是内积空间中的线性算子。其共轭算子记为$d^*:\Omega^{r+1}(M) \to \Omega^{r}(M)$。满足:
+\begin{align*}
+    (d\varphi,\psi)=(\varphi,d^*\psi),\varphi \in \Omega^r(M),\psi \in \Omega^{r+1}(M)
+\end{align*}
+
+为了求出$d^*$的具体表达式，我们先引入Hodge*算子:$*:\Omega^r(M) \to \Omega^{n-r}(M)$。我们定义$*$是线性的算子，从而对基进行定义:
+\begin{align*}
+    *(e_{i_1}^*\wedge \dots \wedge e_{i_r}^*)=\delta_{i_1,\dots,i_r}^{1,\dots,r}e_{i_{r+1}}^* \wedge \dots \wedge e_{i_n}^*
+\end{align*}
+
+Hodge*算子满足性质:$\forall \varphi,\psi \in \Omega^{r}(M)$:
+
+1.$\varphi \wedge (*\psi)=\langle \varphi,\psi \rangle d\mathrm{vol}$
+
+2.$*d \mathrm{vol}=1$,$*1=d\mathrm{vol}$.
+
+3.$**(\varphi)=(-1)^{r(n-r)}\varphi$。
+
+定义$\delta:\Omega^{r+1}\to \Omega^r$:$r+1 \stackrel{*}{\rightarrow} n-r-1 \stackrel{d}{\rightarrow} n-r \stackrel{*}{\rightarrow} r$
+\begin{align*}
+    \delta:=(-1)^{nr+1}\circ * \circ d \circ *
+\end{align*}
+
+结论为$\delta=d^*$。称为余微分算子，依赖于度量。$\delta \circ \delta=0$
+
+定义Hodge-Laplace算子:$\Delta^H=d \circ \delta+\delta \circ d$.和Laplace-Beltrami算子:$\mathrm{tr}(\nabla^2)=\Delta$
+
+若$\Delta^H \omega=0$，称$\omega$是调和微分形式。
+
+若$\Delta^H \omega=0$，则$d\omega=0$且$\delta \omega=0$。
+\begin{proposition}
+    $[\omega]$中调和形式（若存在）是唯一的且具有最小范数。
+\end{proposition}
+该命题是比较容易的。问题是调和形式是否存在?
+
+\begin{theorem}[Hodge-Weyl-Kodira]
+    $\Omega^p(M)=H^p(M)\oplus d(\Omega^{p-1}(M)) \oplus \delta( \Omega^{p+1}(M))$,$H^p(M)$是$M$上$p$次调和的微分形式全体。
+\end{theorem}
+该命题可以说明调和形式的存在性。在此不赘述。
+
+\section{Hodge定理应用}
+\subsection{调和形式}
+1.调和1形式：
+\begin{align*}
+    \omega \in \Omega^1(M), \omega^{\sharp} \in \Gamma(TM),\text{记为}X
+\end{align*}
+\begin{align*}
+    d\omega(Y,Z)&=Y(\omega(Z))-Z\omega(Y)-\omega([Y,Z])\\
+    &=Y\langle Z,X\rangle-Z \langle Y,X \rangle
+\end{align*}
+\subsection{黎曼流形上的向量分析（场论）}
+见pdf
+
+\section{Bochner技巧}
+\subsection{第一特征值估计}
+设$(M,g)$是闭的黎曼流形。考虑方程:
+\begin{align*}
+    \Delta f=-cf,c>0
+\end{align*}
+这称为特征值方程。其中$\min\{c\}=\lambda_1$称为第一特征值。
+
+若$\mathrm{Ric}_M \geq (n-1)g$，则根据Bochner分解:
+\begin{align*}
+    \frac{1}{2}|\nabla f|^2=|
+\end{align*}
+
+于是$\lambda_1 \geq n$。并且不等式具有刚性，即等号成立意味着$(M,g)$与$(S^n,g_{can})$等距同构。
+
+\subsection{Bochner Vanish}
+\begin{theorem}[Bochner,1948]
+    设$(M,g)$是闭黎曼流形，若$\mathrm{Ricci}_M \geq 0$，则$M$上调和的1-形式是平行的。若$\mathrm{Ricci}$拟正（非负且在某点为正），则不存在调和1-形式。这等价于说$H^1(M)=0$，即$H^1_{dR}(M)=H^1(M,\R)=\mathrm{Hom}(\pi_1(M),\R)$等于$0$。其基本群是有限的。
+\end{theorem}
+\ifx\allfiles\undefined
+	
+	% 如果有这一部分的参考文献的话，在这里加上
+	% 没有的话不需要
+	% 因此各个部分的参考文献可以分开放置
+	% 也可以统一放在主文件末尾。
+	
+	%  bibfile.bib是放置参考文献的文件，可以用zotero导出。
+	% \bibliography{bibfile}
+	
+	\end{document}
+	\else
+	\fi
